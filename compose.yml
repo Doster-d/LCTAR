@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://app:app@db:5432/app
+      JWT_SECRET: devsecretchange
+      JWT_ALG: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      ENABLE_INFERENCE: "false"
+      POINTS_PER_VIDEO: 10
+      FIRST_UPLOAD_BONUS: 50
+      MAX_VIDEO_MB: 50
+      DEFAULT_LOCALE: en
+    volumes:
+      - ./backend:/app
+      - ./backend/media:/app/media
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+volumes:
+  db_data:

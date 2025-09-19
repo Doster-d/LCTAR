@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lctar-backend"
+version = "0.1.0"
+description = "AR gamification backend"
+readme = "README.md"
+authors = [{name="Team"}]
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "fastapi==0.111.0",
+  "uvicorn[standard]==0.30.1",
+  "sqlalchemy>=2.0.30,<2.1",
+  "psycopg[binary,pool]==3.1.19",
+  "alembic==1.13.1",
+  "PyJWT==2.9.0",
+  "passlib[bcrypt]==1.7.4",
+  "pydantic==2.7.4",
+  "pydantic-settings==2.3.4",
+  "python-multipart==0.0.9",
+  "babel==2.15.0",
+  "pyyaml==6.0.2",
+  "httpx==0.27.0",
+  "pytest==8.2.2",
+  "pytest-asyncio==0.23.7",
+  "anyio==4.4.0"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["app"]
+
+[tool.setuptools]
+packages = ["app"]
+
+[tool.setuptools.package-data]
+app = ["i18n/locales/en/messages.yml", "i18n/locales/ru/messages.yml"]
+

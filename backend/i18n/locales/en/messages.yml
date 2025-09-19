@@ -1,0 +1,14 @@
+errors:
+  internal: "Internal server error"
+  auth: "Invalid credentials"
+  file_too_large: "File is too large"
+  bad_mime: "Unsupported media type"
+  inference_disabled: "Inference is disabled"
+  focal_missing: "Focal length is required"
+logs:
+  received: "Log received"
+video:
+  uploaded: "Video uploaded"
+  points_awarded: "Points awarded"
+inference:
+  success: "Inference complete"
