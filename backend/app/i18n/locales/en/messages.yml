@@ -19,3 +19,5 @@ inference:
   success: "Inference complete"
 characters:
   not_found: "Character not found"
+admin:
+  not_implemented: "Admin promotion not implemented yet"

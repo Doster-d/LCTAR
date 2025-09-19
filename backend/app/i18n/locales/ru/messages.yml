@@ -19,3 +19,5 @@ inference:
   success: "Инференс завершен"
 characters:
   not_found: "Персонаж не найден"
+admin:
+  not_implemented: "Повышение до администратора еще не реализовано"

@@ -34,3 +34,14 @@ def login(request: Request, data: UserCreate, db: Session = Depends(get_db)):
 @router.get('/me', response_model=UserOut)
 def me(user=Depends(get_current_user)):
     return user
+
+@router.post('/promote/{user_id}')
+def promote_user(user_id: int, request: Request, user=Depends(get_current_user)):
+    """Stub endpoint for manual admin promotion (not yet implemented).
+
+    Returns 501 to signal future implementation phase.
+    """
+    locale = getattr(request.state, 'locale', settings.DEFAULT_LOCALE)
+    # Intentionally not performing any privilege checks beyond authentication yet;
+    # full admin-only enforcement and business logic will be added in a later iteration.
+    raise HTTPException(status_code=501, detail=translator.t('admin.not_implemented', locale=locale))
