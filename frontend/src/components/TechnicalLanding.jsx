@@ -1,181 +1,344 @@
 import React from 'react'
 
 function TechnicalLanding({ onBackToAR }) {
-  return (
-    <div style={{
-      width: '100vw',
-      height: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: '#fff',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      {/* Header */}
-      <header style={{
-        textAlign: 'center',
-        marginBottom: '40px'
-      }}>
-        <h1 style={{
-          fontSize: '3rem',
-          margin: '0 0 20px 0',
-          textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-        }}>
-          🛠️ Техническая информация
-        </h1>
-        <p style={{
-          fontSize: '1.2rem',
-          margin: '0',
-          opacity: '0.9'
-        }}>
-          Система дополненной реальности для технических специалистов
-        </p>
-      </header>
-
-      {/* Main Content */}
-      <main style={{
-        maxWidth: '800px',
-        background: 'rgba(255,255,255,0.1)',
-        padding: '30px',
-        borderRadius: '15px',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255,255,255,0.2)'
-      }}>
-        {/* System Architecture */}
-        <section style={{ marginBottom: '30px' }}>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }}>🏗️ Архитектура системы</h2>
-          <div style={{ display: 'grid', gap: '15px' }}>
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              borderLeft: '4px solid #4CAF50'
-            }}>
-              <h3 style={{ margin: '0 0 10px 0', color: '#4CAF50' }}>Frontend</h3>
-              <p style={{ margin: '0' }}>React + Three.js для AR визуализации</p>
-              <p style={{ margin: '5px 0 0 0', opacity: '0.8' }}>Использует @react-three/fiber и @zappar/zappar-react-three-fiber</p>
-            </div>
-
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              borderLeft: '4px solid #2196F3'
-            }}>
-              <h3 style={{ margin: '0 0 10px 0', color: '#2196F3' }}>Backend</h3>
-              <p style={{ margin: '0' }}>FastAPI + Python для обработки данных и ИИ</p>
-              <p style={{ margin: '5px 0 0 0', opacity: '0.8' }}>Инференс моделей, обработка видео, аутентификация</p>
-            </div>
-
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              borderLeft: '4px solid #FF9800'
-            }}>
-              <h3 style={{ margin: '0 0 10px 0', color: '#FF9800' }}>AI Pipeline</h3>
-              <p style={{ margin: '0' }}>Машинное обучение для анализа объектов</p>
-              <p style={{ margin: '5px 0 0 0', opacity: '0.8' }}>Детекция объектов, измерение высоты, анализ характеристик</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Technical Features */}
-        <section style={{ marginBottom: '30px' }}>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }}>⚙️ Технические возможности</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '15px'
-          }}>
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '10px' }}>📐</div>
-              <h3>Измерение высоты</h3>
-              <p>Автоматический расчет высоты объектов в реальном времени</p>
-            </div>
-
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '10px' }}>🎯</div>
-              <h3>Детекция объектов</h3>
-              <p>Распознавание и классификация объектов в AR пространстве</p>
-            </div>
-
-            <div style={{
-              background: 'rgba(255,255,255,0.1)',
-              padding: '15px',
-              borderRadius: '8px',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '10px' }}>📍</div>
-              <h3>Трекинг позиции</h3>
-              <p>Отслеживание положения объектов в 3D пространстве</p>
-            </div>
-          </div>
-        </section>
-
-        {/* API Endpoints */}
-        <section>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '15px' }}>🔌 API Endpoints</h2>
-          <div style={{
-            background: 'rgba(0,0,0,0.3)',
+    return (
+        <div style={{
+            width: '100vw',
+            minHeight: '100vh',
+            color: '#fff',
+            background: `
+                radial-gradient(ellipse at top, #1a0033 0%, #0d0019 50%, #000000 100%),
+                radial-gradient(ellipse at bottom, #2d0038 0%, #1a0024 50%, #000000 100%),
+                linear-gradient(135deg, #000000 0%, #1a0033 25%, #2d0044 50%, #1a0033 75%, #000000 100%)
+            `,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
             padding: '20px',
-            borderRadius: '8px',
-            fontFamily: 'monospace'
-          }}>
-            <div style={{ marginBottom: '10px' }}>
-              <span style={{ color: '#4CAF50' }}>POST</span> /api/inference - Запуск ИИ анализа
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <span style={{ color: '#2196F3' }}>POST</span> /api/videos - Загрузка видео
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <span style={{ color: '#FF9800' }}>GET</span> /api/logs - Получение логов
-            </div>
-            <div>
-              <span style={{ color: '#9C27B0' }}>POST</span> /api/auth/login - Аутентификация
-            </div>
-          </div>
-        </section>
-      </main>
+            fontFamily: 'Arial, sans-serif',
+            position: 'relative',
+            overflow: 'hidden'
+        }}>
+            {/* Optimized Animated Grid Background */}
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundImage: `
+            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+        `,
+                backgroundSize: '80px 80px',
+                animation: 'gridMove 20s linear infinite',
+                zIndex: 0,
+                opacity: 0.3
+            }} />
 
-      {/* Back Button */}
-      <button
-        onClick={onBackToAR}
-        style={{
-          marginTop: '30px',
-          padding: '12px 24px',
-          background: '#4CAF50',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          transition: 'background 0.3s',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}
-        onMouseOver={(e) => e.target.style.background = '#45a049'}
-        onMouseOut={(e) => e.target.style.background = '#4CAF50'}
-      >
-        ← Вернуться в AR
-      </button>
-    </div>
-  )
+            {/* Simple energy waves */}
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: `
+            radial-gradient(circle at 25% 25%, rgba(147, 51, 234, 0.08) 0%, transparent 60%),
+            radial-gradient(circle at 75% 75%, rgba(219, 39, 119, 0.08) 0%, transparent 60%)
+        `,
+                animation: 'energyPulse 15s ease-in-out infinite',
+                zIndex: 1
+            }} />
+
+            <style jsx>{`
+        @keyframes gridMove {
+            0% {
+                background-position: 0 0, 0 0;
+            }
+            100% {
+                background-position: 80px 80px, 80px 80px;
+            }
+        }
+
+        @keyframes energyPulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes glowLine {
+            0% {
+                opacity: 0.3;
+                box-shadow: 0 0 5px rgba(147, 51, 234, 0.5);
+            }
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(147, 51, 234, 1);
+            }
+        }
+        `}
+            </style>
+            <div style={{
+                position: 'relative',
+                zIndex: 3,
+                maxWidth: '1000px',
+                width: '90%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '30px',
+                marginTop: '50px',
+                paddingBottom: '50px'
+            }}>
+                <div style={{
+                    background: 'rgba(20, 15, 30, 0.8)',
+                    backdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    boxShadow: '0 8px 40px rgba(147, 51, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent 0%, #9333ea 50%, transparent 100%)',
+                        animation: 'glowLine 3s ease-in-out infinite alternate'
+                    }} />
+                    <h1 style={{ margin: '0 0 25px 0', fontSize: '2.2rem', textAlign: 'center', color: '#9333ea' }}>Техническая информация</h1>
+                    <h2 style={{ margin: '25px 0 15px 0', color: '#a855f7'}}>Архитектура системы</h2>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Клиентская часть</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>React + Three.js для AR визуализации с использованием @react-three/fiber</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Серверная часть</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>FastAPI + Python для обработки данных и ИИ с использованием современных ML фреймворков</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Инфраструктура</h3>
+                    <p style={{ margin: '0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Docker контейнеризация с балансировкой нагрузки и облачным деплоем</p>
+                </div>
+
+                <div style={{
+                    background: 'rgba(20, 15, 30, 0.8)',
+                    backdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    boxShadow: '0 8px 40px rgba(147, 51, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent 0%, #9333ea 50%, transparent 100%)',
+                        animation: 'glowLine 3s ease-in-out infinite alternate'
+                    }} />
+                    <h2 style={{ margin: '0 0 25px 0', color: '#a855f7'}}>Возможности системы</h2>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Возможность 1</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Автоматический расчет высоты объектов в реальном времени</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Возможность 2</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Распознавание и классификация объектов в AR пространстве</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Возможность 3</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Отслеживание положения объектов в 3D пространстве</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Возможность 4</h3>
+                    <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Анализ характеристик объектов с помощью машинного обучения</p>
+                    <h3 style={{ margin: '20px 0 10px 0', color: '#c084fc' }}>Возможность 5</h3>
+                    <p style={{ margin: '0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Визуализация данных в интерактивном AR интерфейсе</p>
+                </div>
+
+                <div style={{
+                    background: 'rgba(20, 15, 30, 0.8)',
+                    backdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    boxShadow: '0 8px 40px rgba(147, 51, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent 0%, #9333ea 50%, transparent 100%)',
+                        animation: 'glowLine 3s ease-in-out infinite alternate'
+                    }} />
+                    <h2 style={{ margin: '0 0 25px 0', color: '#a855f7' }}>Команда разработки</h2>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #9333ea, #a855f7)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                👨‍💻
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Вагулич Александр</h3>
+                            <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Lead, UX/UI</p>
+                            <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>Interface, Graphics</p>
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #a855f7, #c084fc)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                👩‍💼
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Алексеев Дмитрий</h3>
+                            <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Full-stack</p>
+                            <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>React, Three.js, AR</p>
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #c084fc, #d8b4fe)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                👨‍🎨
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Горбунов Андрей</h3>
+                            <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>3D-designer, animator</p>
+                            <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>Blender</p>
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #d8b4fe, #e9d5ff)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                👨‍🔬
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Ахмедов Ринат</h3>
+                            <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Backend</p>
+                            <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>FastAPI</p>
+                        </div>
+
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #e9d5ff, #f3e8ff)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                👩‍💻
+                            </div>
+                            <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Пашкова Арина</h3>
+                            <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>DevOps Engineer</p>
+                            <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>Docker, CI/CD</p>
+                        </div>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid rgba(147, 51, 234, 0.2)', paddingTop: '20px', textAlign: 'center' }}>
+                        <h3 style={{ margin: '0 0 15px 0', color: '#a855f7' }}>Основные технологии</h3>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                            {['React', 'Three.js', 'Zappar','FastAPI', 'Python', 'Docker', 'PostgreSQL', 'AR'].map(tech => (
+                                <span key={tech} style={{
+                                    background: 'rgba(147, 51, 234, 0.2)',
+                                    color: '#c084fc',
+                                    padding: '5px 12px',
+                                    borderRadius: '15px',
+                                    fontSize: '0.8rem',
+                                    border: '1px solid rgba(147, 51, 234, 0.3)'
+                                }}>{tech}</span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{
+                    background: 'rgba(20, 15, 30, 0.8)',
+                    backdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    boxShadow: '0 8px 40px rgba(147, 51, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent 0%, #9333ea 50%, transparent 100%)',
+                        animation: 'glowLine 3s ease-in-out infinite alternate'
+                    }} />
+                    <h2 style={{ margin: '0 0 25px 0', color: '#a855f7' }}>Дальнейшее развитие</h2>
+
+                    <div style={{ marginBottom: '25px' }}>
+                        <h3 style={{ margin: '0 0 15px 0', color: '#c084fc' }}>📊 Планируемые графики и аналитика</h3>
+                        <p style={{ margin: '0 0 15px 0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Интерактивные графики производительности, статистика использования системы, анализ данных в реальном времени.</p>
+
+                        <h3 style={{ margin: '20px 0 15px 0', color: '#c084fc' }}>🚀 Будущие улучшения</h3>
+                        <ul style={{ margin: '0', paddingLeft: '20px', color: '#e5e7eb', opacity: '0.9' }}>
+                            <li style={{ marginBottom: '8px' }}>Интеграция с облачными AI сервисами</li>
+                            <li style={{ marginBottom: '8px' }}>Поддержка мобильных платформ</li>
+                            <li style={{ marginBottom: '8px' }}>Расширенная аналитика и отчетность</li>
+                            <li style={{ marginBottom: '8px' }}>API для внешних интеграций</li>
+                        </ul>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid rgba(147, 51, 234, 0.2)', paddingTop: '20px' }}>
+                        <h3 style={{ margin: '0 0 15px 0', color: '#a855f7' }}>📚 Документация</h3>
+                        <p style={{ margin: '0', lineHeight: '1.6', opacity: '0.9', color: '#e5e7eb' }}>Подробная техническая документация доступна в GitHub репозитории проекта с примерами использования API и руководствами по развертыванию.</p>
+                    </div>
+                </div>
+
+                <div style={{
+                    background: 'rgba(20, 15, 30, 0.8)',
+                    backdropFilter: 'blur(15px)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '20px',
+                    padding: '30px',
+                    boxShadow: '0 8px 40px rgba(147, 51, 234, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent 0%, #9333ea 50%, transparent 100%)',
+                        animation: 'glowLine 3s ease-in-out infinite alternate'
+                    }} />
+                    {/* Back Button */}
+                    <button
+                        onClick={onBackToAR}
+                        style={{
+                            marginTop: '10px',
+                            padding: '15px 30px',
+                            background: 'linear-gradient(135deg, #9333ea 0%, #a855f7 100%)',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '12px',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            transition: 'all 0.3s',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                        onMouseOver={(e) => {
+                            e.target.style.background = 'linear-gradient(135deg, #a855f7 0%, #c084fc 100%)'
+                            e.target.style.transform = 'translateY(-3px) scale(1.05)'
+                            e.target.style.boxShadow = '0 8px 30px rgba(147, 51, 234, 0.6)'
+                        }}
+                        onMouseOut={(e) => {
+                            e.target.style.background = 'linear-gradient(135deg, #9333ea 0%, #a855f7 100%)'
+                            e.target.style.transform = 'translateY(0px) scale(1)'
+                        }}
+                    >
+                        <span style={{ fontSize: '18px' }}>←</span>
+                        Вернуться в AR
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default TechnicalLanding
