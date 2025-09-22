@@ -4,74 +4,75 @@ import { Canvas } from '@react-three/fiber'
 import { XR, createXRStore } from '@react-three/xr'
 import { OrbitControls, Environment } from '@react-three/drei'
 import { Model } from './components/Model.jsx'
-import { ZapparCamera, InstantTracker, AnchorGroup } from '@zappar/zappar-react-three-fiber'
+// import { ZapparCamera, InstantTracker, AnchorGroup } from '@zappar/zappar-react-three-fiber'
 import { inferenceService } from './services/inferenceService.js'
+import ToTechnicalButton from './components/ToTechnicalButton.jsx'
 
 const xrStore = createXRStore()
 
 function SceneContents({ anchors, planeFound }) {
-  const handlePlaneFound = () => {
-    setPlaneFound(true)
-  }
+//   const handlePlaneFound = () => {
+//     setPlaneFound(true)
+//   }
 
-  const handleAnchorCreated = (anchor) => {
-    setAnchors(prev => [...prev, anchor])
-  }
+//   const handleAnchorCreated = (anchor) => {
+//     setAnchors(prev => [...prev, anchor])
+//   }
 
-  return (
-    <>
-      {/* Zapper Camera */}
-      <ZapparCamera />
+//   return (
+//     <>
+//       {/* Zapper Camera */}
+//       <ZapparCamera />
 
-      {/* Instant World Tracker for plane detection */}
-      <InstantTracker
-        onPlaneFound={handlePlaneFound}
-        placementMode="best"
-        placementCameraOffset={[0, 0, -5]}
-      >
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[1, 3, 2]} intensity={1.2} castShadow />
+//       {/* Instant World Tracker for plane detection */}
+//       <InstantTracker
+//         onPlaneFound={handlePlaneFound}
+//         placementMode="best"
+//         placementCameraOffset={[0, 0, -5]}
+//       >
+//         <ambientLight intensity={0.8} />
+//         <directionalLight position={[1, 3, 2]} intensity={1.2} castShadow />
 
-        {/* Render all anchors */}
-        {anchors.map((anchor) => (
-          <AnchorGroup key={anchor.id}>
-            <Suspense fallback={null}>
-              <Model position={anchor.position} scale={0.8} />
-            </Suspense>
-          </AnchorGroup>
-        ))}
+//         {/* Render all anchors */}
+//         {anchors.map((anchor) => (
+//           <AnchorGroup key={anchor.id}>
+//             <Suspense fallback={null}>
+//               <Model position={anchor.position} scale={0.8} />
+//             </Suspense>
+//           </AnchorGroup>
+//         ))}
 
-        {/* Default placement if no anchors */}
-        {anchors.length === 0 && (
-          <AnchorGroup>
-            <Suspense fallback={null}>
-              <Model position={[0, 0, -0.8]} scale={0.8} />
-            </Suspense>
-          </AnchorGroup>
-        )}
+//         {/* Default placement if no anchors */}
+//         {anchors.length === 0 && (
+//           <AnchorGroup>
+//             <Suspense fallback={null}>
+//               <Model position={[0, 0, -0.8]} scale={0.8} />
+//             </Suspense>
+//           </AnchorGroup>
+//         )}
 
-        {/* OrbitControls useful outside AR session; XR will override head pose in AR */}
-        <OrbitControls enablePan={false} />
-        <Environment preset="city" />
-      </InstantTracker>
+//         {/* OrbitControls useful outside AR session; XR will override head pose in AR */}
+//         <OrbitControls enablePan={false} />
+//         <Environment preset="city" />
+//       </InstantTracker>
 
-      {/* UI for plane detection and placement */}
-      {planeFound && (
-        <div style={{
-          position: 'absolute',
-          top: '60px',
-          left: '16px',
-          background: '#333',
-          color: '#fff',
-          padding: '8px 12px',
-          borderRadius: '4px',
-          fontSize: '14px'
-        }}>
-          ✅ Плоскость обнаружена! Коснитесь экрана для размещения объекта
-        </div>
-      )}
-    </>
-  )
+//       {/* UI for plane detection and placement */}
+//       {planeFound && (
+//         <div style={{
+//           position: 'absolute',
+//           top: '60px',
+//           left: '16px',
+//           background: '#333',
+//           color: '#fff',
+//           padding: '8px 12px',
+//           borderRadius: '4px',
+//           fontSize: '14px'
+//         }}>
+//           ✅ Плоскость обнаружена! Коснитесь экрана для размещения объекта
+//         </div>
+//       )}
+//     </>
+//   )
 }
 
 function EnterARButton({ enabled }) {
@@ -152,7 +153,7 @@ function PlacementControls({ planeFound, onPlaceObject, onClearAnchors, onRunInf
     )
 }
 
-export default function ARScene() {
+export default function ARScene({ onSwitchToTechnical }) {
     const [arSupport, setArSupport] = useState('checking')
     const [ready, setReady] = useState(false)
     const [showXR, setShowXR] = useState(false)
@@ -229,15 +230,16 @@ export default function ARScene() {
     }
 
     return (
-        <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', background: '#000' }}>
-            <EnterARButton enabled={arSupport === 'supported'} />
-            <PlacementControls
-                planeFound={planeFound}
-                onPlaceObject={handlePlaceObject}
-                onClearAnchors={handleClearAnchors}
-                onRunInference={handleRunInference}
-                inferenceLoading={inferenceLoading}
-            />
+          <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', background: '#000' }}>
+              <EnterARButton enabled={arSupport === 'supported'} />
+              <ToTechnicalButton onSwitchToTechnical={onSwitchToTechnical} />
+              <PlacementControls
+                  planeFound={planeFound}
+                  onPlaceObject={handlePlaceObject}
+                  onClearAnchors={handleClearAnchors}
+                  onRunInference={handleRunInference}
+                  inferenceLoading={inferenceLoading}
+              />
 
             {/* Inference Results */}
             {inferenceResult && (
