@@ -2,14 +2,14 @@ import uuid
 from pathlib import Path
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, Request, Form
 from sqlalchemy.orm import Session
-from ...core.database import get_db
-from ...core.config import settings
-from ...api.deps import get_current_user
-from ...models.video import Video
-from ...models.character import Character
-from ...schemas.video import UploadResult, VideoOut
-from ...i18n import translator
-from ...services.gamification import award_for_video
+from app.core.database import get_db
+from app.core.config import settings
+from app.api.deps import get_current_user
+from app.models.video import Video
+from app.models.character import Character
+from app.schemas.video import UploadResult, VideoOut
+from app.i18n import translator
+from app.services.gamification import award_for_video
 
 MEDIA_DIR = Path('media/videos')
 MEDIA_DIR.mkdir(parents=True, exist_ok=True)

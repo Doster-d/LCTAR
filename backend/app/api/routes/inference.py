@@ -1,8 +1,8 @@
 from fastapi import APIRouter, File, UploadFile, Depends, Request, HTTPException
 from pydantic import BaseModel
-from ...core.config import settings
-from ...i18n import translator
-from ...services.inference.pipeline import run_inference
+from app.core.config import settings
+from app.i18n import translator
+from app.services.inference.pipeline import run_inference
 
 router = APIRouter()
 

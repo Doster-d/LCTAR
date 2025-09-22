@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from .core.config import settings
-from .api.routes import auth, logs, videos, inference
-from .i18n import translator
+from app.core.config import settings
+from app.api.routes import auth, logs, videos, inference
+from app.i18n import translator
 
 @asynccontextmanager
 def lifespan(app: FastAPI):

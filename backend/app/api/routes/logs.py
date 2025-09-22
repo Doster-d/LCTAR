@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
-from ...core.database import get_db
-from ...models.log import ClientLog
-from ...schemas.logs import ClientLogIn, ClientLogOut
-from ...api.deps import get_current_user, get_current_admin
-from ...i18n import translator
-from ...core.config import settings
+from app.core.database import get_db
+from app.models.log import ClientLog
+from app.schemas.logs import ClientLogIn, ClientLogOut
+from app.api.deps import get_current_user, get_current_admin
+from app.i18n import translator
+from app.core.config import settings
 
 router = APIRouter()
 
