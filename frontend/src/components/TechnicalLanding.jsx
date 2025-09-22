@@ -16,7 +16,7 @@ function TechnicalLanding({ onBackToAR }) {
             alignItems: 'center',
             justifyContent: 'flex-start',
             padding: '20px',
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: '"Cygre", "Inter", "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
             position: 'relative',
             overflow: 'hidden'
         }}>
@@ -81,6 +81,15 @@ function TechnicalLanding({ onBackToAR }) {
             100% {
                 opacity: 1;
                 box-shadow: 0 0 20px rgba(147, 51, 234, 1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-row-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .team-row-3 {
+                grid-template-columns: 1fr !important;
             }
         }
         `}
@@ -177,10 +186,19 @@ function TechnicalLanding({ onBackToAR }) {
                         animation: 'glowLine 3s ease-in-out infinite alternate'
                     }} />
                     <h2 style={{ margin: '0 0 25px 0', color: '#a855f7' }}>Команда разработки</h2>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+                    {/* First row container - 2 developers */}
+                    <div className="team-row-2" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(2, 1fr)',
+                        gap: '20px',
+                        marginBottom: '30px',
+                        maxWidth: '400px',
+                        marginLeft: 'auto',
+                        marginRight: 'auto'
+                    }}>
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #9333ea, #a855f7)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
-                                👨‍💻
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#9333ea', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                ВА
                             </div>
                             <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Вагулич Александр</h3>
                             <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Lead, UX/UI</p>
@@ -188,17 +206,28 @@ function TechnicalLanding({ onBackToAR }) {
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #a855f7, #c084fc)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
-                                👩‍💼
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#9333ea', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                АД
                             </div>
                             <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Алексеев Дмитрий</h3>
                             <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Full-stack</p>
                             <p style={{ margin: '10px 0 0 0', fontSize: '0.9rem', opacity: '0.7', color: '#d1d5db' }}>React, Three.js, AR</p>
                         </div>
+                    </div>
 
+                    {/* Second row container - 3 developers */}
+                    <div className="team-row-3" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: '20px',
+                        marginBottom: '30px',
+                        maxWidth: '600px',
+                        marginLeft: 'auto',
+                        marginRight: 'auto'
+                    }}>
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #c084fc, #d8b4fe)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
-                                👨‍🎨
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#9333ea', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                ГА
                             </div>
                             <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Горбунов Андрей</h3>
                             <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>3D-designer, animator</p>
@@ -206,8 +235,8 @@ function TechnicalLanding({ onBackToAR }) {
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #d8b4fe, #e9d5ff)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
-                                👨‍🔬
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#9333ea', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                АР
                             </div>
                             <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Ахмедов Ринат</h3>
                             <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>Backend</p>
@@ -215,8 +244,8 @@ function TechnicalLanding({ onBackToAR }) {
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
-                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, #e9d5ff, #f3e8ff)', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
-                                👩‍💻
+                            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#9333ea', margin: '0 auto 15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#fff' }}>
+                                ПА
                             </div>
                             <h3 style={{ margin: '0 0 10px 0', color: '#c084fc' }}>Пашкова Арина</h3>
                             <p style={{ margin: '0', opacity: '0.8', color: '#e5e7eb' }}>DevOps Engineer</p>
