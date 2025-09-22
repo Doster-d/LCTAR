@@ -1,12 +1,13 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from .core.config import settings
 from .api.routes import auth, logs, videos, inference
 from .i18n import translator
 
 @asynccontextmanager
-def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI):
     # Lazy load ML models if enabled
     if settings.ENABLE_INFERENCE:
         from .services.inference.pipeline import load_models_global
@@ -14,6 +15,15 @@ def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="LCT AR Backend", lifespan=lifespan)
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Frontend origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Routers
 app.include_router(auth.router, prefix="/auth", tags=["auth"])

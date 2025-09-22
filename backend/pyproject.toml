@@ -30,7 +30,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-pythonpath = ["app"]
+pythonpath = ["."]
 
 [tool.setuptools]
 packages = ["app"]

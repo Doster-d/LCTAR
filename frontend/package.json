@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,6 +16,8 @@
     "@react-three/fiber": "9.3.0",
     "@react-three/xr": "6.6.26",
     "@types/three": "0.180.0",
+    "@zappar/video-recorder": "^1.0.1",
+    "@zappar/zappar-react-three-fiber": "^3.1.0-beta.7",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "three": "0.180.0"
@@ -27,9 +31,13 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "prettier": "^3.3.3",
     "vite": "^7.1.6"
   },
   "overrides": {
-    "zustand": "4.5.7"
+    "zustand": "4.5.7",
+    "@zappar/zappar-threejs": {
+      "three": "0.180.0"
+    }
   }
 }

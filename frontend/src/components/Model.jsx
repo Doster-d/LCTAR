@@ -6,7 +6,7 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
 
-export function Model(props) {
+export function Model({ anchorId, onAnchorClick, ...props }) {
   const group = React.useRef()
   const { scene, animations } = useGLTF('/testmodel.glb')
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
@@ -19,8 +19,14 @@ export function Model(props) {
     setWeaponsVisible(v => !v)
   }, [])
 
+  const handleClick = useCallback((e) => {
+    e.stopPropagation()
+    onAnchorClick?.(anchorId)
+    toggleWeapons(e)
+  }, [onAnchorClick, anchorId, toggleWeapons])
+
   return (
-    <group ref={group} {...props} dispose={null} onClick={toggleWeapons}>
+    <group ref={group} {...props} dispose={null} onClick={handleClick}>
       <group name="Sketchfab_Scene">
         <primitive object={nodes._rootJoint} />
         <skinnedMesh name="Object_92" geometry={nodes.Object_92.geometry} material={materials.ArmsMat} skeleton={nodes.Object_92.skeleton} rotation={[-Math.PI / 2, 0, 0]} scale={0.011} />

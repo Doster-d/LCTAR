@@ -17,7 +17,7 @@ services:
       JWT_SECRET: devsecretchange
       JWT_ALG: HS256
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
-      ENABLE_INFERENCE: "false"
+      ENABLE_INFERENCE: "true"
       POINTS_PER_VIDEO: 10
       FIRST_UPLOAD_BONUS: 50
       MAX_VIDEO_MB: 50
@@ -28,6 +28,15 @@ services:
     depends_on:
       - db
     ports:
-      - "8000:8000"
+      - "8040:8000"
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
 volumes:
   db_data:
