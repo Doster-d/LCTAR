@@ -1,10 +1,10 @@
 errors:
-  internal: "Internal server error"
-  auth: "Invalid credentials"
-  file_too_large: "File is too large"
-  bad_mime: "Unsupported media type"
-  inference_disabled: "Inference is disabled"
-  focal_missing: "Focal length is required"
+  internal: "Internal server error. {error}"
+  auth: "Invalid credentials. {error}"
+  file_too_large: "File is too large. {error}"
+  bad_mime: "Unsupported media type. {error}"
+  inference_disabled: "Inference is disabled. {error}"
+  focal_missing: "Focal length is required. {error}"
 logs:
   received: "Log received"
 video:

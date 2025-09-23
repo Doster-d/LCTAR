@@ -1,10 +1,11 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+
 
 class ClientLogIn(BaseModel):
     level: str
     message: str
-    context: Optional[str] = None
+    context: str | None = None
+
 
 class ClientLogOut(BaseModel):
     id: int
