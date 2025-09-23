@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LandingPageTemplate.css'; // Assuming we create a CSS file for styles
+import './LandingPageTemplate.css';
 
 const LandingPageTemplate = () => {
   const [theme, setTheme] = useState('light');
@@ -15,6 +15,7 @@ const LandingPageTemplate = () => {
       techStack: "Tech Stack",
       advantages: "Advantages",
       developmentTeam: "Development Team",
+      developmentTeamRoster: ["Vagulich Alexander", "Alexeev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
       ctaButton: "Back to AR"
     },
     ru: {
@@ -23,6 +24,7 @@ const LandingPageTemplate = () => {
       techStack: "Технологический стек",
       advantages: "Преимущества",
       developmentTeam: "Команда разработчиков",
+      developmentTeamRoster: ["Вагулич Александр", "Алексеев Дмитрий", "Горбунов Андрей", "Ахмедов Ринат", "Пашкова Арина"],
       ctaButton: "Вернуться к AR"
     }
   };
@@ -38,7 +40,7 @@ const LandingPageTemplate = () => {
       {/* 1. General Information - Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <img src="/k1.png" alt="Logo" className="logo"/>
+          <img src="./img/k1.png" alt="Logo" className="logo"/>
           <h1>{t.title}</h1>
           <p>{t.description}</p>
         </div>
@@ -87,15 +89,17 @@ const LandingPageTemplate = () => {
         <h2>{t.developmentTeam}</h2>
         <div className="team-grid">
           {[
-            { photo: 'path/to/photo1.jpg', name: 'Name 1', role: 'Role 1', techStack: 'Tech Stack 1' },
-            { photo: 'path/to/photo2.jpg', name: 'Name 2', role: 'Role 2', techStack: 'Tech Stack 2' },
-            { photo: 'path/to/photo3.jpg', name: 'Name 3', role: 'Role 3', techStack: 'Tech Stack 3' },
-            { photo: 'path/to/photo4.jpg', name: 'Name 4', role: 'Role 4', techStack: 'Tech Stack 4' },
-            { photo: 'path/to/photo5.jpg', name: 'Name 5', role: 'Role 5', techStack: 'Tech Stack 5' }
+            { photo: './img/ch1ll.jpg', name: t.developmentTeamRoster[0], role: 'Role 1', techStack: 'Tech Stack 1' },
+            { photo: './img/doster.jpg', name: t.developmentTeamRoster[1], role: 'Role 2', techStack: 'Tech Stack 2' },
+            { photo: './img/cookie.jpg', name: t.developmentTeamRoster[2], role: 'Role 3', techStack: 'Tech Stack 3' },
+            { photo: './img/rina.jpg', name: t.developmentTeamRoster[3], role: 'Role 4', techStack: 'Tech Stack 4' },
+            { photo: './img/arina.jpg', name: t.developmentTeamRoster[4], role: 'Role 5', techStack: 'Tech Stack 5' }
           ].map((member, index) => (
             <div key={index} className="team-member">
               <img src={member.photo} alt={member.name} />
-              <h3>{member.name}</h3>
+              <h3>{member.name.split(' ').map((part, i) => (
+                <div key={i}>{part}</div>
+              ))}</h3>
               <p>{member.role}</p>
               <p>{member.techStack}</p>
             </div>
