@@ -3,6 +3,7 @@ import { ZapparCamera, InstantTracker, ZapparCanvas, Loader, BrowserCompatibilit
 import pipeline from './zapparPipeline';
 import GLContextBinder from './GLContextBinder';
 import ConsolePanel from './ConsolePanel';
+import WavyGridBackground from './WavyGridBackground';
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const cameraRef = useRef();
   return (
     <>
+      <WavyGridBackground />
       <ConsolePanel />
       <BrowserCompatibility />
       <ZapparCanvas>
