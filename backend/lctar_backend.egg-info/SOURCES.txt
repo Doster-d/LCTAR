@@ -8,6 +8,7 @@ lctar_backend.egg-info/SOURCES.txt
 lctar_backend.egg-info/dependency_links.txt
 lctar_backend.egg-info/requires.txt
 lctar_backend.egg-info/top_level.txt
+tests/test_admin_promote_stub.py
 tests/test_auth_flow.py
 tests/test_height_formula.py
 tests/test_inference_stub.py
