@@ -1,2 +1,0 @@
-This top-level i18n directory is deprecated. Locales have been moved into app/i18n.
-It can be removed once version control history is established.

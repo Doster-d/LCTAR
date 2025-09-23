@@ -1,4 +1,5 @@
 import pytest
+
 from app.utils.height_calc import compute_height
 
 

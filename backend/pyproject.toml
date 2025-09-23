@@ -1,7 +1,3 @@
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "lctar-backend"
 version = "0.1.0"
@@ -22,19 +18,114 @@ dependencies = [
   "python-multipart==0.0.9",
   "babel==2.15.0",
   "pyyaml==6.0.2",
-  "httpx==0.27.0",
-  "pytest==8.2.2",
-  "pytest-asyncio==0.23.7",
   "anyio==4.4.0"
+]
+
+[dependency-groups]
+dev = [
+    "sphinx>=8.2.3",
+    "sphinx-autoapi>=3.6.0",
+    "ruff>=0.11.13",
+    "wemake-python-styleguide>=1.1.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+include = [
+  "src/app/i18n/locales/en/messages.yml",
+  "src/app/i18n/locales/ru/messages.yml",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/app/i18n/locales/en/messages.yml",
+  "src/app/i18n/locales/ru/messages.yml",
 ]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = ["app"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration (deselect with '-m \"not integration\"')",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py", "*_tests.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "--tb=short",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=90"
+]
 
-[tool.setuptools]
-packages = ["app"]
 
-[tool.setuptools.package-data]
-app = ["i18n/locales/en/messages.yml", "i18n/locales/ru/messages.yml"]
+[tool.ruff]
+line-length = 79
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F",    # pycodestyle + pyflakes
+    "I",              # isort
+    "N",              # pep8-naming
+    "UP",             # pyupgrade
+    "B",              # flake8-bugbear
+    "A",              # flake8-builtins
+    "C4",             # flake8-comprehensions
+    "SIM",            # flake8-simplify
+    "RET",            # flake8-return
+    "ARG",            # flake8-unused-arguments
+    "PL",             # pylint
+    "RUF",            # ruff-specific
+    "S",              # bandit (security)
+]
+
+ignore = [
+    "W191",     # indentation contains tabs
+    "E501",     # line too long (handled by formatter)
+    "S101",     # assert usage (ok in tests)
+    "PLR0913",  # too many arguments
+    "PLR0915",  # too many statements
+    "PLR2004",  # magic values
+    "S311",     # pseudorandom generators (ok for demo data)
+    "UP032",    # use f-string
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ARG001", "PLR2004"]
+"*/__init__.py" = ["F401"]
+"docs/source/conf.py" = ["ALL"]
+"src/event_execution_verification_analytics/api.py" = ["B008", "RUF006"]  # FastAPI File/Form defaults, background tasks
+"src/models.py" = ["ARG002"]  # Pydantic serializable_dict kwargs
+"src/main.py" = ["ARG001", "S104"]  # FastAPI lifespan app param, dev server binding
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.params.Depends", "fastapi.Query", "fastapi.params.Query", "fastapi.File"]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-statements = 40
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
 
