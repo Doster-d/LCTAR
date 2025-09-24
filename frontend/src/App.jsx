@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState, Suspense } from 'react';
 import ConsolePanel from './ConsolePanel';
 import { loadAlva, poseToMatrix4 } from './alvaBridge';
 const SceneComponent = React.lazy(() => import('./SceneComponent'));
+import WavyGridBackground from './WavyGridBackground';
 
 
 function App() {
@@ -182,6 +183,7 @@ function App() {
 
   return (
     <>
+      <WavyGridBackground />
       <ConsolePanel />
       <video
         ref={videoRef}
