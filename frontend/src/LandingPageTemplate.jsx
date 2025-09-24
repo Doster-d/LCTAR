@@ -116,7 +116,7 @@ const LandingPageTemplate = () => {
             { icon: './img/stack/react.png', name: 'React', description: t.techStack.items.react },
             { icon: './img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
             { icon: './img/stack/fastapi.png', name: 'FastAPI', description: t.techStack.items.fastapi },
-            { icon: 'path/to/tech-icon4.jpg', name: 'AprilTags', description: t.techStack.items.apriltags },
+            { icon: './img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
             { icon: './img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
             { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
           ].map((tech, index) => (
