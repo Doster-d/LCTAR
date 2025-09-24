@@ -3,10 +3,9 @@ import React, { useRef, useEffect, useState, Suspense } from 'react';
 import ConsolePanel from './ConsolePanel';
 import { loadAlva, poseToMatrix4 } from './alvaBridge';
 const SceneComponent = React.lazy(() => import('./SceneComponent'));
-import WavyGridBackground from './WavyGridBackground';
 
 
-function App() {
+function App({ onSwitchToLanding }) {
   console.log('[DEBUG] App.jsx: App function started');
 
   const [transforms, setTransforms] = useState([]);
@@ -19,6 +18,8 @@ function App() {
   const frameCountRef = useRef(0);
   const alvaRef = useRef(null);
   const anchorLockedRef = useRef(false);
+  const isActiveRef = useRef(false);
+  const streamRef = useRef(null);
 
   console.log('[DEBUG] App.jsx: First useEffect starting');
   useEffect(() => {
@@ -33,7 +34,9 @@ function App() {
   console.log('[DEBUG] App.jsx: Second useEffect starting');
   useEffect(() => {
     console.log('[DEBUG] App.jsx: Second useEffect executed, PipelineClass:', PipelineClass);
-    if (!PipelineClass) return;
+      if (!PipelineClass) return;
+ 
+      isActiveRef.current = true;
 
     const init = async () => {
       try {
@@ -52,6 +55,7 @@ function App() {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: { ideal: 'environment' } }
         });
+        streamRef.current = stream;
 
         const v = videoRef.current;
         v.srcObject = stream;
@@ -94,6 +98,8 @@ function App() {
 
         const processFrame = () => {
           frameCountRef.current++;
+
+          if (!isActiveRef.current) return;
 
           if (!videoRef.current || !canvasRef.current) {
             requestAnimationFrame(processFrame);
@@ -179,11 +185,28 @@ function App() {
 
     console.log('Инициализация приложения...');
     init();
+
+    return () => {
+      isActiveRef.current = false;
+      if (videoRef.current) {
+        videoRef.current.pause();
+        if (videoRef.current.srcObject) {
+          videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+          videoRef.current.srcObject = null;
+        }
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      pipelineRef.current = null;
+      alvaRef.current = null;
+    };
   }, [PipelineClass]);
 
   return (
     <>
-      <WavyGridBackground />
+      <button onClick={onSwitchToLanding} style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>Back to Landing</button>
       <ConsolePanel />
       <video
         ref={videoRef}

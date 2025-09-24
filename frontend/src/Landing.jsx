@@ -2,11 +2,11 @@ import React from 'react';
 import WavyGridBackground from './WavyGridBackground';
 import LandingPageTemplate from './LandingPageTemplate';
 
-const Landing = () => {
+const Landing = ({ onSwitchToApp }) => {
   return (
     <>
       <WavyGridBackground />
-      <LandingPageTemplate />
+      <LandingPageTemplate onSwitchToApp={onSwitchToApp} />
     </>
   );
 };

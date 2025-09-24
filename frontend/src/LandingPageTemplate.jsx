@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LandingPageTemplate.css';
 
-const LandingPageTemplate = () => {
+const LandingPageTemplate = ({ onSwitchToApp }) => {
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('en');
 
@@ -168,7 +168,7 @@ const LandingPageTemplate = () => {
 
       {/* 5. Call-to-Action Button */}
       <section className="cta">
-        <button className="cta-button">
+        <button className="cta-button" onClick={onSwitchToApp}>
           {t.cta.buttonText}
         </button>
       </section>
