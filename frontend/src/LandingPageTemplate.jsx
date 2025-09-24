@@ -10,24 +10,82 @@ const LandingPageTemplate = () => {
 
   const translations = {
     en: {
-      title: "AR-case solution",
-      description: "Enter your description here. This is a placeholder for the description text.",
-      techStack: "Tech Stack",
-      advantages: "Advantages",
-      developmentTeam: "Development Team",
-      developmentTeamRoster: ["Vagulich Alexander", "Alexeev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
-      stakeholderText: ["Stakeholders", "Customer focus is based on a sincere desire to make you happy and purr with pleasure"],
-      ctaButton: "Back to AR"
+      hero: {
+        title: "AR-case solution",
+        description: "Enter your description here. This is a placeholder for the description text."
+      },
+      techStack: {
+        title: "Tech Stack",
+        items: {
+          react: "Frontend framework for building user interfaces",
+          threejs: "3D graphics library for web applications",
+          fastapi: "Modern web framework for building APIs",
+          apriltags: "Computer vision library for AR markers",
+          blender: "3D modeling and animation software",
+          postgresql: "Advanced open source relational database"
+        }
+      },
+      advantages: {
+        title: "Advantages",
+        items: [
+          { title: "Innovative Technologies", description: "Cutting-edge AR solutions with advanced computer vision and 3D graphics capabilities." },
+          { title: "High Performance", description: "Optimized for real-time processing with minimal latency for seamless user experience." },
+          { title: "User-Friendly Interface", description: "Intuitive design that makes complex AR technology accessible to all users." },
+          { title: "Reliable Support", description: "Comprehensive technical support and regular updates to ensure optimal performance." }
+        ]
+      },
+      team: {
+        title: "Development Team",
+        roster: ["Vagulich Alexander", "Alexeev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
+        roles: ["Frontend Developer", "Full Stack Developer", "3D Designer", "Backend Developer", "DevOps Engineer"],
+        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D Modeling", "FastAPI, Python", "Docker, Kubernetes"]
+      },
+      stakeholders: {
+        title: "Stakeholders",
+        description: "Customer focus is based on a sincere desire to make you happy and purr with pleasure"
+      },
+      cta: {
+        buttonText: "Back to AR"
+      }
     },
     ru: {
-      title: "Решение AR-кейса",
-      description: "Введите ваше описание здесь. Это плейсхолдер для текста описания.",
-      techStack: "Технологический стек",
-      advantages: "Преимущества",
-      developmentTeam: "Команда разработчиков",
-      developmentTeamRoster: ["Вагулич Александр", "Алексеев Дмитрий", "Горбунов Андрей", "Ахмедов Ринат", "Пашкова Арина"],
-      stakeholderText: ["Стейкхолдеры", "Клиентоориентированность строится на искреннем желании сделать вас счастливыми и мурчащими от удовольствия"],
-      ctaButton: "Вернуться к AR"
+      hero: {
+        title: "Решение AR-кейса",
+        description: "Введите ваше описание здесь. Это плейсхолдер для текста описания."
+      },
+      techStack: {
+        title: "Технологический стек",
+        items: {
+          react: "Фреймворк для создания пользовательских интерфейсов",
+          threejs: "Библиотека 3D графики для веб-приложений",
+          fastapi: "Современный веб-фреймворк для создания API",
+          apriltags: "Библиотека компьютерного зрения для AR-маркеров",
+          blender: "Программное обеспечение для 3D-моделирования и анимации",
+          postgresql: "Продвинутая реляционная база данных с открытым исходным кодом"
+        }
+      },
+      advantages: {
+        title: "Преимущества",
+        items: [
+          { title: "Инновационные технологии", description: "Современные AR-решения с передовыми возможностями компьютерного зрения и 3D-графики." },
+          { title: "Высокая производительность", description: "Оптимизировано для обработки в реальном времени с минимальной задержкой для бесперебойной работы." },
+          { title: "Удобный интерфейс", description: "Интуитивный дизайн, делающий сложную AR-технологию доступной для всех пользователей." },
+          { title: "Надежная поддержка", description: "Комплексная техническая поддержка и регулярные обновления для обеспечения оптимальной работы." }
+        ]
+      },
+      team: {
+        title: "Команда разработчиков",
+        roster: ["Вагулич Александр", "Алексеев Дмитрий", "Горбунов Андрей", "Ахмедов Ринат", "Пашкова Арина"],
+        roles: ["Frontend-разработчик", "Full Stack-разработчик", "3D-дизайнер", "Backend-разработчик", "DevOps-инженер"],
+        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D-моделирование", "FastAPI, Python", "Docker, Kubernetes"]
+      },
+      stakeholders: {
+        title: "Стейкхолдеры",
+        description: "Клиентоориентированность строится на искреннем желании сделать вас счастливыми и мурчащими от удовольствия"
+      },
+      cta: {
+        buttonText: "Вернуться к AR"
+      }
     }
   };
 
@@ -36,7 +94,7 @@ const LandingPageTemplate = () => {
   return (
     <div className={`landing-page ${theme === 'dark' ? 'dark-theme' : ''}`}>
       <div className="controls">
-        <button onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'}</button>
+        {/* <button onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'}</button> */}
         <button onClick={toggleLang} className="language-button">
           {lang === 'en' ? 'EN' : 'RU'}
         </button>
@@ -45,22 +103,22 @@ const LandingPageTemplate = () => {
       <section className="hero">
         <div className="hero-content">
           <img src="./img/k1.png" alt="Logo" className="logo"/>
-          <h1>{t.title}</h1>
-          <p>{t.description}</p>
+          <h1>{t.hero.title}</h1>
+          <p>{t.hero.description}</p>
         </div>
       </section>
 
       {/* 2. Tech Stack - Grid of tech icons/logos */}
       <section className="tech-stack">
-        <h2>{t.techStack}</h2>
+        <h2>{t.techStack.title}</h2>
         <div className="tech-grid">
           {[
-            { icon: './img/stack/react.png', name: 'React', description: 'Frontend framework for building user interfaces' },
-            { icon: './img/stack/three-js.png', name: 'Three.js', description: '3D graphics library for web applications' },
-            { icon: './img/stack/fastapi.png', name: 'FastAPI', description: 'Modern web framework for building APIs' },
-            { icon: 'path/to/tech-icon4.jpg', name: 'AprilTags', description: 'Computer vision library for AR markers' },
-            { icon: './img/stack/blender.png', name: 'Blender', description: '3D modeling and animation software' },
-            { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: 'Advanced open source relational database' }
+            { icon: './img/stack/react.png', name: 'React', description: t.techStack.items.react },
+            { icon: './img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
+            { icon: './img/stack/fastapi.png', name: 'FastAPI', description: t.techStack.items.fastapi },
+            { icon: 'path/to/tech-icon4.jpg', name: 'AprilTags', description: t.techStack.items.apriltags },
+            { icon: './img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
+            { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
           ].map((tech, index) => (
             <div key={index} className="tech-item">
               <img src={tech.icon} alt={tech.name} />
@@ -73,14 +131,9 @@ const LandingPageTemplate = () => {
 
       {/* 3. Advantages - List or cards of key benefits */}
       <section className="advantages">
-        <h2>{t.advantages}</h2>
+        <h2>{t.advantages.title}</h2>
         <div className="advantages-grid">
-          {[
-            { title: 'Benefit Title 1', description: 'Description of the benefit 1.' },
-            { title: 'Benefit Title 2', description: 'Description of the benefit 2.' },
-            { title: 'Benefit Title 3', description: 'Description of the benefit 3.' },
-            { title: 'Benefit Title 4', description: 'Description of the benefit 4.' }
-          ].map((advantage, index) => (
+          {t.advantages.items.map((advantage, index) => (
             <div key={index} className="advantage-card">
               <h3>{advantage.title}</h3>
               <p>{advantage.description}</p>
@@ -91,15 +144,15 @@ const LandingPageTemplate = () => {
 
       {/* 4. Development Team - Grid of 5 team member cards */}
       <section className="team">
-        <h2>{t.developmentTeam}</h2>
+        <h2>{t.team.title}</h2>
         <div className="team-grid">
           {[
-            { photo: './img/team/ch1ll.jpg', name: t.developmentTeamRoster[0], role: 'Role 1', techStack: 'Tech Stack 1' },
-            { photo: './img/team/doster.jpg', name: t.developmentTeamRoster[1], role: 'Fullstack', techStack: 'Tech Stack 2' },
-            { photo: './img/team/cookie.jpg', name: t.developmentTeamRoster[2], role: '3D-Design', techStack: 'Blender' },
-            { photo: './img/team/rina.jpg', name: t.developmentTeamRoster[3], role: 'Backend', techStack: 'FastAPI' },
-            { photo: './img/team/arina.jpg', name: t.developmentTeamRoster[4], role: 'DevOps', techStack: 'Dockeer' },
-            { photo: './img/team/ppl.jpg', name: t.stakeholderText[0], role: t.stakeholderText[1] }
+            { photo: './img/team/ch1ll.jpg', name: t.team.roster[0], role: t.team.roles[0], techStack: t.team.techStacks[0] },
+            { photo: './img/team/doster.jpg', name: t.team.roster[1], role: t.team.roles[1], techStack: t.team.techStacks[1] },
+            { photo: './img/team/cookie.jpg', name: t.team.roster[2], role: t.team.roles[2], techStack: t.team.techStacks[2] },
+            { photo: './img/team/rina.jpg', name: t.team.roster[3], role: t.team.roles[3], techStack: t.team.techStacks[3] },
+            { photo: './img/team/arina.jpg', name: t.team.roster[4], role: t.team.roles[4], techStack: t.team.techStacks[4] },
+            { photo: './img/team/ppl.jpg', name: t.stakeholders.title, role: t.stakeholders.description }
           ].map((member, index) => (
             <div key={index} className="team-member">
               <img src={member.photo} alt={member.name} />
@@ -116,7 +169,7 @@ const LandingPageTemplate = () => {
       {/* 5. Call-to-Action Button */}
       <section className="cta">
         <button className="cta-button">
-          {t.ctaButton}
+          {t.cta.buttonText}
         </button>
       </section>
     </div>
