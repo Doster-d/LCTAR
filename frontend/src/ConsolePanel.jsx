@@ -1,3 +1,4 @@
+/* @refresh reset */
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { subscribe, getBuffer, clearLogs } from './consoleCapture';
 
@@ -45,8 +46,8 @@ export default function ConsolePanel() {
         </div>
       </div>
       <div className="console-panel__body">
-        {logs.map(l => (
-          <div key={l.id} className={`console-line level-${l.level}`}> 
+        {logs.filter(l => l.level === 'warn' || l.level === 'error').map(l => (
+          <div key={l.id} className={`console-line level-${l.level}`}>
             <span className="time">{new Date(l.time).toLocaleTimeString()}</span>
             <span className="tag" style={{ background: levelColor(l.level) }}>{l.level}</span>
             {l.args.map((a,i) => <span key={i} className="arg">{formatArg(a)}</span>)}
