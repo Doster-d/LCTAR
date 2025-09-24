@@ -2,7 +2,7 @@ import React from 'react';
 import WavyGridBackground from './WavyGridBackground';
 import LandingPageTemplate from './LandingPageTemplate';
 
-const WavyGridPage = () => {
+const Landing = () => {
   return (
     <>
       <WavyGridBackground />
@@ -11,4 +11,4 @@ const WavyGridPage = () => {
   );
 };
 
-export default WavyGridPage;
+export default Landing;

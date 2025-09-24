@@ -16,6 +16,7 @@ const LandingPageTemplate = () => {
       advantages: "Advantages",
       developmentTeam: "Development Team",
       developmentTeamRoster: ["Vagulich Alexander", "Alexeev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
+      stakeholderText: ["Stakeholders", "Customer focus is based on a sincere desire to make you happy and purr with pleasure"],
       ctaButton: "Back to AR"
     },
     ru: {
@@ -25,6 +26,7 @@ const LandingPageTemplate = () => {
       advantages: "Преимущества",
       developmentTeam: "Команда разработчиков",
       developmentTeamRoster: ["Вагулич Александр", "Алексеев Дмитрий", "Горбунов Андрей", "Ахмедов Ринат", "Пашкова Арина"],
+      stakeholderText: ["Стейкхолдеры", "Клиентоориентированность строится на искреннем желании сделать вас счастливыми и мурчащими от удовольствия"],
       ctaButton: "Вернуться к AR"
     }
   };
@@ -35,7 +37,9 @@ const LandingPageTemplate = () => {
     <div className={`landing-page ${theme === 'dark' ? 'dark-theme' : ''}`}>
       <div className="controls">
         <button onClick={toggleTheme}>{theme === 'light' ? 'Dark' : 'Light'}</button>
-        <button onClick={toggleLang}>{lang === 'en' ? 'EN' : 'РУС'}</button>
+        <button onClick={toggleLang} className="language-button">
+          {lang === 'en' ? 'EN' : 'RU'}
+        </button>
       </div>
       {/* 1. General Information - Hero Section */}
       <section className="hero">
@@ -51,16 +55,17 @@ const LandingPageTemplate = () => {
         <h2>{t.techStack}</h2>
         <div className="tech-grid">
           {[
-            { icon: 'path/to/tech-icon1.jpg', name: 'React' },
-            { icon: 'path/to/tech-icon2.jpg', name: 'Three.js' },
-            { icon: 'path/to/tech-icon3.jpg', name: 'FastAPI' },
-            { icon: 'path/to/tech-icon4.jpg', name: 'AprilTags' },
-            { icon: 'path/to/tech-icon5.jpg', name: 'Blender' },
-            { icon: 'path/to/tech-icon6.jpg', name: 'PostgreSQL' }
+            { icon: './img/stack/react.png', name: 'React', description: 'Frontend framework for building user interfaces' },
+            { icon: './img/stack/three-js.png', name: 'Three.js', description: '3D graphics library for web applications' },
+            { icon: './img/stack/fastapi.png', name: 'FastAPI', description: 'Modern web framework for building APIs' },
+            { icon: 'path/to/tech-icon4.jpg', name: 'AprilTags', description: 'Computer vision library for AR markers' },
+            { icon: './img/stack/blender.png', name: 'Blender', description: '3D modeling and animation software' },
+            { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: 'Advanced open source relational database' }
           ].map((tech, index) => (
             <div key={index} className="tech-item">
               <img src={tech.icon} alt={tech.name} />
-              <p>{tech.name}</p>
+              <h4>{tech.name}</h4>
+              <p className="tech-description">{tech.description}</p>
             </div>
           ))}
         </div>
@@ -89,11 +94,12 @@ const LandingPageTemplate = () => {
         <h2>{t.developmentTeam}</h2>
         <div className="team-grid">
           {[
-            { photo: './img/ch1ll.jpg', name: t.developmentTeamRoster[0], role: 'Role 1', techStack: 'Tech Stack 1' },
-            { photo: './img/doster.jpg', name: t.developmentTeamRoster[1], role: 'Role 2', techStack: 'Tech Stack 2' },
-            { photo: './img/cookie.jpg', name: t.developmentTeamRoster[2], role: 'Role 3', techStack: 'Tech Stack 3' },
-            { photo: './img/rina.jpg', name: t.developmentTeamRoster[3], role: 'Role 4', techStack: 'Tech Stack 4' },
-            { photo: './img/arina.jpg', name: t.developmentTeamRoster[4], role: 'Role 5', techStack: 'Tech Stack 5' }
+            { photo: './img/team/ch1ll.jpg', name: t.developmentTeamRoster[0], role: 'Role 1', techStack: 'Tech Stack 1' },
+            { photo: './img/team/doster.jpg', name: t.developmentTeamRoster[1], role: 'Fullstack', techStack: 'Tech Stack 2' },
+            { photo: './img/team/cookie.jpg', name: t.developmentTeamRoster[2], role: '3D-Design', techStack: 'Blender' },
+            { photo: './img/team/rina.jpg', name: t.developmentTeamRoster[3], role: 'Backend', techStack: 'FastAPI' },
+            { photo: './img/team/arina.jpg', name: t.developmentTeamRoster[4], role: 'DevOps', techStack: 'Dockeer' },
+            { photo: './img/team/ppl.jpg', name: t.stakeholderText[0], role: t.stakeholderText[1] }
           ].map((member, index) => (
             <div key={index} className="team-member">
               <img src={member.photo} alt={member.name} />

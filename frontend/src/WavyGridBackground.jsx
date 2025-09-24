@@ -61,7 +61,7 @@ const WavyGridBackground = () => {
       <path
         key={`h-${y}`}
         d={generateHorizontalPath(y)}
-        stroke="#ccc"
+        stroke="#2b2b2b"
         strokeWidth="2"
         fill="none"
       />
@@ -74,7 +74,7 @@ const WavyGridBackground = () => {
       <path
         key={`v-${x}`}
         d={generateVerticalPath(x)}
-        stroke="#ccc"
+        stroke="#2b2b2b"
         strokeWidth="2"
         fill="none"
       />
@@ -96,6 +96,11 @@ const WavyGridBackground = () => {
       viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
       xmlns="http://www.w3.org/2000/svg"
     >
+      <rect
+        width={dimensions.width}
+        height={dimensions.height}
+        fill="#0b0b0b"
+      />
       {horizontalLines}
       {verticalLines}
     </svg>

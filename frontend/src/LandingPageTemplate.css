@@ -1,26 +1,54 @@
 /* Landing Page Template Styles */
 
 .landing-page {
-  font-family: Arial, sans-serif;
-  color: #333;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: transparent;
+   font-family: Arial, sans-serif;
+   color: #fff;
+   max-width: 800px;
+   width: 100%;
+   margin: 0 auto;
+   padding: 20px;
+   background-color: transparent;
+   box-sizing: border-box;
+   min-height: 100vh;
+ }
+
+/* Typography rules for proper sentence wrapping */
+.landing-page * {
+  orphans: 2;
+  widows: 2;
+  hyphens: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.6;
+}
+
+.landing-page p,
+.landing-page h1,
+.landing-page h2,
+.landing-page h3,
+.landing-page h4,
+.landing-page h5,
+.landing-page h6,
+.landing-page li,
+.landing-page blockquote {
+  orphans: 3;
+  widows: 3;
+  text-wrap: pretty;
+  hyphens: auto;
 }
 
 /* Hero Section */
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 50px 20px;
-  background-color: #fff;
-  margin-bottom: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   padding: 50px 20px;
+   background-color: #5514db;
+   margin-bottom: 40px;
+   border-radius: 8px;
+   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+ }
 
 .logo {
   max-width: 100px;
@@ -30,15 +58,16 @@
 }
 
 .hero h1 {
-  font-size: 2.5em;
-  margin-bottom: 15px;
-  color: #007bff;
-}
+   font-size: 2.5em;
+   margin-bottom: 15px;
+   color: #fff;
+ }
 
 .hero p {
-  font-size: 1.2em;
-  max-width: 600px;
-}
+   font-size: 1.2em;
+   max-width: 800px;
+   color: #fff;
+ }
 
 /* Tech Stack */
 .tech-stack {
@@ -46,33 +75,51 @@
 }
 
 .tech-stack h2 {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 30px;
-}
+   text-align: center;
+   font-size: 2em;
+   margin-bottom: 30px;
+   color: #fff;
+ }
 
 .tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-  justify-items: center;
-}
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+   gap: 20px;
+   justify-items: center;
+ }
 
 .tech-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   background-color: #5514db;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+   width: 200px;
+   min-height: 180px;
+ }
 
 .tech-item img {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-}
+   width: 50px;
+   height: 50px;
+   margin-bottom: 10px;
+ }
+
+.tech-item h4 {
+   color: #fff;
+   margin-bottom: 8px;
+   font-size: 1.1em;
+   text-align: center;
+ }
+
+.tech-description {
+   color: #d2d2d2;
+   font-size: 0.9em;
+   text-align: center;
+   line-height: 1.4;
+   margin: 0;
+ }
 
 /* Advantages */
 .advantages {
@@ -80,10 +127,11 @@
 }
 
 .advantages h2 {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 30px;
-}
+   text-align: center;
+   font-size: 2em;
+   margin-bottom: 30px;
+   color: #fff;
+ }
 
 .advantages-grid {
   display: grid;
@@ -92,16 +140,21 @@
 }
 
 .advantage-card {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-}
+   padding: 20px;
+   background-color: #5514db;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+   text-align: center;
+ }
 
 .advantage-card h3 {
   margin-bottom: 10px;
-  color: #007bff;
+  color: #fff;
+}
+
+.advantage-card p {
+  margin-bottom: 10px;
+  color: #d2d2d2;
 }
 
 /* Team */
@@ -110,10 +163,11 @@
 }
 
 .team h2 {
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 30px;
-}
+   text-align: center;
+   font-size: 2em;
+   margin-bottom: 30px;
+   color: #fff;
+ }
 
 .team-grid {
   display: grid;
@@ -122,15 +176,15 @@
 }
 
 .team-member {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-}
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   background-color: #5514db;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+   text-align: center;
+ }
 
 .team-member img {
   width: 100px;
@@ -144,9 +198,9 @@
 }
 
 .team-member p {
-  margin-bottom: 5px;
-  color: #666;
-}
+   margin-bottom: 5px;
+   color: #d2d2d2;
+ }
 
 /* CTA */
 .cta {
@@ -157,7 +211,7 @@
 .cta-button {
   padding: 15px 30px;
   font-size: 1.2em;
-  background-color: #007bff;
+  background-color: #5514db;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -166,7 +220,7 @@
 }
 
 .cta-button:hover {
-  background-color: #0056b3;
+  background-color: #4e08d8;
 }
 .controls {
   display: flex;
@@ -177,7 +231,7 @@
 
 .controls button {
   padding: 8px 16px;
-  background-color: #007bff;
+  background-color: #5514db;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -186,22 +240,163 @@
 }
 
 .controls button:hover {
-  background-color: #0056b3;
-}
+   background-color: #4e08d8;
+ }
+
+.language-button {
+   padding: 8px 16px;
+   background-color: #5514db;
+   color: #fff;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+   min-width: 40px;
+ }
+
+.language-button:hover {
+   background-color: #4e08d8;
+ }
 
 .dark-theme .controls button {
-  background-color: #00d4ff;
-  color: #000000;
-}
+   background-color: #00d4ff;
+   color: #000000;
+ }
 
 .dark-theme .controls button:hover {
-  background-color: #00b3cc;
+   background-color: #00b3cc;
+ }
+
+.dark-theme .language-button {
+   background-color: #00d4ff;
+   color: #000000;
+ }
+
+.dark-theme .language-button:hover {
+   background-color: #00b3cc;
+ }
+
+/* Language Toggle */
+.language-toggle {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 12px;
+  width: 120px;
+  justify-content: center;
+}
+
+.language-toggle:hover .lang-text {
+  opacity: 0.8;
+}
+
+.lang-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #007bff;
+  transition: all 0.3s ease;
+  min-width: 30px;
+  text-align: center;
+  flex: 1;
+}
+
+.language-toggle.active-en .lang-text:first-child {
+  color: #666;
+}
+
+.language-toggle.active-en .lang-text:last-child {
+  color: #007bff;
+}
+
+.language-toggle.active-ru .lang-text:first-child {
+  color: #007bff;
+}
+
+.language-toggle.active-ru .lang-text:last-child {
+  color: #666;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background-color: #0b0b0b;
+  border: 2px solid #2b2b2b;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.toggle-switch.active-ru {
+  background-color: #007bff;
+  border-color: #2b2b2b;
+}
+
+.toggle-switch.active-en {
+  background-color: #007bff;
+  border-color: #2b2b2b;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.language-toggle.active-ru .toggle-slider {
+  transform: translateX(26px);
+}
+
+.language-toggle.active-en .toggle-slider {
+  transform: translateX(0px);
+}
+
+/* Dark theme language toggle */
+.dark-theme .lang-text {
+  color: #00d4ff;
+}
+
+.dark-theme .language-toggle.active-en .lang-text:first-child {
+  color: #666;
+}
+
+.dark-theme .language-toggle.active-en .lang-text:last-child {
+  color: #00d4ff;
+}
+
+.dark-theme .language-toggle.active-ru .lang-text:first-child {
+  color: #00d4ff;
+}
+
+.dark-theme .language-toggle.active-ru .lang-text:last-child {
+  color: #666;
+}
+
+.dark-theme .toggle-switch {
+  background-color: #0b0b0b;
+  border-color: #2b2b2b;
+}
+
+.dark-theme .toggle-switch.active-ru,
+.dark-theme .toggle-switch.active-en {
+  background-color: #00d4ff;
+  border-color: #2b2b2b;
 }
 /* Dark Theme */
 .dark-theme .landing-page {
-  background-color: #000000;
-  color: #ffffff;
-}
+   background-color: #000000;
+   color: #fff;
+ }
 
 .dark-theme .hero {
   background-color: #1a1a1a;
@@ -222,24 +417,28 @@
 }
 
 .dark-theme .tech-item {
-  background-color: #1a1a1a;
-  color: #ffffff;
-  box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-}
+   background-color: #5514db;
+   color: #ffffff;
+   box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+ }
 
-.dark-theme .tech-item p {
-  color: #ffffff;
-}
+.dark-theme .tech-item h4 {
+   color: #fff;
+ }
+
+.dark-theme .tech-description {
+   color: #d2d2d2;
+ }
 
 .dark-theme .advantages h2 {
   color: #ffffff;
 }
 
 .dark-theme .advantage-card {
-  background-color: #1a1a1a;
-  color: #ffffff;
-  box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-}
+   background-color: #5514db;
+   color: #ffffff;
+   box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+ }
 
 .dark-theme .advantage-card h3 {
   color: #00d4ff;
@@ -254,10 +453,10 @@
 }
 
 .dark-theme .team-member {
-  background-color: #1a1a1a;
-  color: #ffffff;
-  box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-}
+   background-color: #5514db;
+   color: #ffffff;
+   box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+ }
 
 .dark-theme .team-member h3 {
   color: #ffffff;
@@ -280,10 +479,22 @@
   background-color: #00b3cc;
 }
 
-/* Mobile Responsiveness */
+/* Additional responsive breakpoints for stable layout */
+@media (max-width: 768px) {
+  .landing-page {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .language-toggle {
+    width: 100px;
+  }
+}
+
 @media (max-width: 480px) {
   .landing-page {
     padding: 10px;
+    width: 100%;
   }
 
   .hero {
@@ -315,4 +526,28 @@
     padding: 12px 25px;
     font-size: 1em;
   }
+
+  .language-toggle {
+    width: 90px;
+    padding: 6px 12px;
+  }
+
+  .lang-text {
+    font-size: 14px;
+    min-width: 24px;
+  }
+}
+
+/* Ensure stable layout during language switching */
+.landing-page {
+  transition: none;
+}
+
+.language-toggle {
+  transition: color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Prevent layout shifts from content changes */
+* {
+  box-sizing: border-box;
 }
