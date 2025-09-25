@@ -252,6 +252,9 @@ class ApriltagPipeline {
       }
 
       const detections = JSON.parse(detectionsJson);
+      if (detections.length > 0) {
+        console.error('[DEBUG apriltag] Parsed detections:', detections);
+      }
 
       const transforms = [];
 

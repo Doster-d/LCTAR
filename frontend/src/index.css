@@ -24,7 +24,8 @@ html, body, #root {
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   border-bottom: 1px solid #222;
-  transition: transform 0.25s ease;
+  /* transition: transform 0.25s ease; */
+  transition: none;
 }
 .console-panel__header {
   display: flex;
@@ -62,3 +63,25 @@ html, body, #root {
 @media (max-width: 600px) {
   .console-panel { font-size: 11px; max-height: 50vh; }
 }
+
+/* Свернутый режим: только хедер, панель в правом верхнем углу */
+.console-panel.collapsed {
+  top: 16px;
+  right: 16px;
+  left: auto;          /* отключаем растяжение на всю ширину */
+  max-height: none;    /* ограничение не нужно, ведь тело скрыто */
+  width: auto;         /* компактная ширина по содержимому хедера */
+  border-radius: 8px;
+  transform: none;     /* на всякий случай, если был inline-transform */
+}
+
+/* Прячем контент консоли полностью */
+.console-panel.collapsed .console-panel__body {
+  display: none;
+}
+
+/* Можно сделать хедер чуть компактнее в свернутом состоянии */
+.console-panel.collapsed .console-panel__header {
+  padding: 4px 8px;
+}
+
