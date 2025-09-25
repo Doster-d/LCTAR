@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import sys
 from pathlib import Path
 
 from decouple import Csv, config
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "arb",
 ]
 
@@ -88,6 +90,14 @@ DATABASES = {
         "PORT": config("DB_PORT", default="3306"),
     }
 }
+
+if any(arg in sys.argv for arg in ["test", "pytest", "py.test"]):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
+    }
 
 
 # Password validation
