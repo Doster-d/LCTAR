@@ -174,3 +174,42 @@ def progress(request):
             "total_score": user.total_score,
         }
     )
+
+
+@api_view(["GET"])
+def promo(request):
+    session_id = request.query_params.get("session_id")
+    user_id = request.query_params.get("user_id")
+    email = request.query_params.get("email")
+
+    if not any([session_id, user_id, email]):
+        return Response(
+            {"detail": "session_id or user_id or email is required"}, status=400
+        )
+
+    user = None
+    session = None
+
+    if session_id:
+        session = get_object_or_404(Session, id=session_id)
+        user = session.user
+    elif user_id:
+        user = get_object_or_404(User, id=user_id)
+    elif email:
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return Response({"detail": "not_found"}, status=404)
+
+    existing_promo = PromoCode.objects.filter(user=user, used_at__isnull=True).first()
+    if existing_promo:
+        return Response({"promo_code": existing_promo.code})
+
+    if not session:
+        session = Session.objects.filter(user=user).order_by("-last_seen").first()
+
+    if session:
+        code = _issue_promocode_if_completed(session, return_existing=True)
+        if code:
+            return Response({"promo_code": code})
+
+    return Response({"detail": "not_completed"}, status=404)

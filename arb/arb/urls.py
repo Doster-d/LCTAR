@@ -27,4 +27,5 @@ urlpatterns = [
     path("view/", views.view_event, name="view_event"),
     path("user/email/", views.user_email, name="user_email"),
     path("progress/", views.progress, name="progress"),
+    path("promo/", views.promo, name="promo"),
 ]

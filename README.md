@@ -5,3 +5,7 @@ pip install poetry
 poetry install
 
 arb/manage.py runserver
+
+
+TESTS
+./test.py

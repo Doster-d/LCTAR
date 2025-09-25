@@ -168,6 +168,27 @@ class TestMvpApi(TestCase):
         pc = PromoCode.objects.get(code=code)
         assert pc.email == "bind@example.com"
 
+    def test_promo_endpoint_by_session_and_user(self):
+        session_id = self._start_session()
+        r = self.client.get(f"/promo/?session_id={session_id}")
+        assert r.status_code == 404
+        self._view(session_id, "a1")
+        self._view(session_id, "a2")
+        self._view(session_id, "a3")
+        r2 = self.client.get(f"/promo/?session_id={session_id}")
+        assert r2.status_code == 200
+        assert "promo_code" in r2.data
+        code = r2.data["promo_code"]
+        self.client.post(
+            "/user/email/",
+            {"session_id": session_id, "email": "pp@example.com"},
+            format="json",
+        )
+        user = User.objects.get(email="pp@example.com")
+        r3 = self.client.get(f"/promo/?user_id={user.id}")
+        assert r3.status_code == 200
+        assert r3.data["promo_code"] == code
+
     def test_user_unique_scoring_across_sessions(self):
         session1 = self._start_session()
         session2 = self._start_session()
