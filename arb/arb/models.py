@@ -133,22 +133,3 @@ class PromoCode(models.Model):
             models.Index(fields=["issued_at"], name="promocode_issued_idx"),
             models.Index(fields=["used_at"], name="promocode_used_idx"),
         ]
-
-
-class EmailVerificationToken(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="email_tokens"
-    )
-    token = models.CharField(max_length=255)
-    created_at = models.DateTimeField(default=timezone.now)
-    expires_at = models.DateTimeField()
-    used = models.BooleanField(default=False)
-
-    class Meta:
-        indexes = [
-            models.Index(fields=["user"], name="evt_user_idx"),
-            models.Index(fields=["token"], name="evt_token_idx"),
-            models.Index(fields=["created_at"], name="evt_created_idx"),
-            models.Index(fields=["expires_at"], name="evt_expires_idx"),
-        ]
