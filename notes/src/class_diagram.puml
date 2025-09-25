@@ -1,0 +1,60 @@
+@startuml
+title LCTAR - Class Diagram
+
+package "Frontend" {
+  class App {
+    - videoRef
+    - canvasRef
+    - pipelineRef
+    + init()
+    + processFrame()
+  }
+
+  class ApriltagPipeline {
+    - detector
+    + init()
+    + detect(imageData): list
+    + getCameraInfo()
+  }
+
+  class SceneComponent {
+    + render()
+  }
+}
+
+package "Backend" {
+  class User {
+    - id
+    - email
+    - is_admin
+  }
+
+  class Video {
+    - id
+    - path
+  }
+
+  class QuestSession {
+    - id
+    - status
+  }
+
+  class GamificationService {
+    + awardTokens(user, amount)
+  }
+
+  class InferencePipeline {
+    + run_inference(bytes)
+  }
+}
+
+' Relationships
+App --> ApriltagPipeline
+App --> SceneComponent
+GamificationService --> User
+GamificationService --> QuestSession
+InferencePipeline ..> Video
+
+skinparam backgroundColor #F8F9FA
+skinparam DefaultFontName "DejaVu Sans"
+@enduml
