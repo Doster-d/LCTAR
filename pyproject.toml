@@ -71,7 +71,6 @@ select = [
     "AIR",    # airflow
     "PERF",   # perflint
     "FURB",   # refurb
-    "RUF",    # ruff-specific rules
 ]
 ignore = [
     "E501",   # line too long (handled by formatter)
