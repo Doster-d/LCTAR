@@ -334,48 +334,434 @@ export default function ARRecorder() {
   }, [stopCamera, stopRecording]);
 
   return (
-    <div style={{ height: "100vh", background: "#000" }}>
+    <div style={{
+      height: "100vh",
+      background: "#1a1a1a",
+      position: "relative",
+      overflow: "hidden"
+    }}>
+
+      {/* Enhanced UI Container - Bottom positioned */}
       <div id="ui" style={{
-        position: "fixed", inset: "0 0 auto 0", display: "flex", gap: 8, alignItems: "center",
-        flexWrap: "wrap", padding: 10, zIndex: 10, backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)", background: "color-mix(in srgb, Canvas, transparent 70%)"
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+        background: "rgba(0, 0, 0, 0.9)",
+        borderTop: "1px solid #333",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px"
       }}>
-        <button onClick={startCamera} disabled={running}>Старт</button>
-        <button onClick={stopCamera} disabled={!running}>Стоп</button>
+        {/* Status Bar */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          color: "#e0e0e0",
+          fontSize: "12px",
+          fontWeight: "500"
+        }}>
+          <div style={{
+            display: "flex",
+            gap: "20px",
+            alignItems: "center"
+          }}>
+            {/* Timer */}
+            <div style={{
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              fontSize: "12px",
+              fontWeight: "600",
+              color: "#fff",
+              fontFamily: "monospace"
+            }}>
+              {time}
+            </div>
 
-        <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <input type="checkbox" checked={withMic} onChange={(e) => setWithMic(e.target.checked)} />
-          микрофон
-        </label>
+            {/* AprilTag Counter */}
+            <div style={{
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: aprilTagTransforms.length > 0
+                ? "rgba(0, 255, 136, 0.2)"
+                : "rgba(255, 255, 255, 0.1)",
+              border: aprilTagTransforms.length > 0
+                ? "1px solid rgba(0, 255, 136, 0.4)"
+                : "1px solid rgba(255, 255, 255, 0.2)",
+              fontSize: "11px",
+              fontWeight: "600",
+              color: aprilTagTransforms.length > 0 ? "#00ff88" : "#e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px"
+            }}>
+              <div style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: aprilTagTransforms.length > 0 ? "#00ff88" : "#666",
+                animation: aprilTagTransforms.length > 0 ? "blink 2s ease-in-out infinite" : "none"
+              }} />
+              AprilTags: {aprilTagTransforms.length}
+            </div>
 
-        <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          FPS:
-          <select value={fps} onChange={(e) => setFps(Number(e.target.value))}>
-            <option value={30}>30</option>
-            <option value={60}>60</option>
-          </select>
-        </label>
+            {/* Download Link */}
+            {dl && (
+              <a href={dl.url} download={dl.name} style={{
+                padding: "6px 12px",
+                borderRadius: "8px",
+                background: "#5514db",
+                color: "#fff",
+                textDecoration: "none",
+                fontSize: "11px",
+                fontWeight: "600",
+                border: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = "translateY(-2px)";
+                e.target.style.boxShadow = "0 8px 25px rgba(102, 126, 234, 0.6)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = "0 6px 20px rgba(102, 126, 234, 0.4)";
+              }}
+              >
+                Download {dl.name} ({dl.size} MB)
+              </a>
+            )}
+          </div>
 
-        <button onClick={startRecording} disabled={!running || recOn}>Запись</button>
-        <button onClick={stopRecording} disabled={!recOn}>Стоп запись</button>
+          {/* Status */}
+          <div style={{
+            padding: "4px 8px",
+            borderRadius: "8px",
+            background: "rgba(85, 20, 219, 0.2)",
+            border: "1px solid rgba(85, 20, 219, 0.3)",
+            color: "#b794f6",
+            fontSize: "11px",
+            fontWeight: "500"
+          }}>
+            {status}
+          </div>
+        </div>
 
-        <span style={{ padding: "2px 8px", borderRadius: 999, background: "#00000030", fontSize: 12 }}>{time}</span>
+        {/* Control Groups */}
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap"
+        }}>
+          {/* Camera Controls Group */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <h4 style={{
+              color: "#e0e0e0",
+              fontSize: "12px",
+              fontWeight: "600",
+              margin: 0,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              opacity: 0.8
+            }}>
+              Камера
+            </h4>
+            <div style={{
+              display: "flex",
+              gap: "12px"
+            }}>
+              <button onClick={startCamera} disabled={running} style={{
+                padding: "8px 16px",
+                borderRadius: "8px",
+                border: "1px solid #333",
+                background: running ? "#666" : "#4ecdc4",
+                color: "#fff",
+                fontSize: "12px",
+                fontWeight: "600",
+                cursor: running ? "not-allowed" : "pointer",
+                opacity: running ? 0.6 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (!running) {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 8px 25px rgba(78, 205, 196, 0.6)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = running
+                  ? "0 4px 15px rgba(255, 107, 107, 0.3)"
+                  : "0 6px 20px rgba(78, 205, 196, 0.4)";
+              }}
+              >
+                Start
+              </button>
+              <button onClick={stopCamera} disabled={!running} style={{
+                padding: "8px 16px",
+                borderRadius: "8px",
+                border: "1px solid #333",
+                background: !running ? "#666" : "#ff6b6b",
+                color: "#fff",
+                fontSize: "12px",
+                fontWeight: "600",
+                cursor: !running ? "not-allowed" : "pointer",
+                opacity: !running ? 0.6 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (running) {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 8px 25px rgba(255, 236, 210, 0.6)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = !running
+                  ? "0 4px 15px rgba(255, 107, 107, 0.3)"
+                  : "0 6px 20px rgba(255, 236, 210, 0.4)";
+              }}
+              >
+                Stop
+              </button>
+            </div>
+          </div>
 
-        <span style={{ padding: "2px 8px", borderRadius: 999, background: aprilTagTransforms.length > 0 ? "#00ff0030" : "#00000030", fontSize: 12 }}>
-          AprilTags: {aprilTagTransforms.length}
-        </span>
+          {/* Audio Controls Group */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <h4 style={{
+              color: "#e0e0e0",
+              fontSize: "12px",
+              fontWeight: "600",
+              margin: 0,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              opacity: 0.8
+            }}>
+              Аудио
+            </h4>
+            <label style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              cursor: "pointer",
+              padding: "6px 12px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = "rgba(255, 255, 255, 0.1)";
+              e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = "rgba(255, 255, 255, 0.05)";
+              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+            }}
+            >
+              <input
+                type="checkbox"
+                checked={withMic}
+                onChange={(e) => setWithMic(e.target.checked)}
+                style={{
+                  accentColor: "#5514db",
+                  transform: "scale(1.2)"
+                }}
+              />
+              <span style={{
+                color: "#e0e0e0",
+                fontSize: "14px",
+                fontWeight: "500"
+              }}>
+                Microphone
+              </span>
+            </label>
+          </div>
 
-        {dl ? (
-          <a href={dl.url} download={dl.name} style={{ marginLeft: 8 }}>
-            Скачать {dl.name} ({dl.size} MB)
-          </a>
-        ) : null}
+          {/* Quality Controls Group */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <h4 style={{
+              color: "#e0e0e0",
+              fontSize: "12px",
+              fontWeight: "600",
+              margin: 0,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              opacity: 0.8
+            }}>
+              Качество
+            </h4>
+            <label style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "6px 12px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid rgba(255, 255, 255, 0.1)"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = "rgba(255, 255, 255, 0.1)";
+              e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = "rgba(255, 255, 255, 0.05)";
+              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
+            }}
+            >
+              <span style={{
+                color: "#e0e0e0",
+                fontSize: "14px",
+                fontWeight: "500"
+              }}>
+                FPS:
+              </span>
+              <select
+                value={fps}
+                onChange={(e) => setFps(Number(e.target.value))}
+                style={{
+                  background: "rgba(85, 20, 219, 0.2)",
+                  border: "1px solid rgba(85, 20, 219, 0.4)",
+                  borderRadius: "6px",
+                  color: "#e0e0e0",
+                  padding: "2px 8px",
+                  fontSize: "11px",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  outline: "none"
+                }}
+              >
+                <option value={30}>30</option>
+                <option value={60}>60</option>
+              </select>
+            </label>
+          </div>
 
-        <span style={{ marginLeft: "auto", opacity: 0.8, fontSize: 12 }}>{status}</span>
+          {/* Recording Controls Group */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
+          }}>
+            <h4 style={{
+              color: "#e0e0e0",
+              fontSize: "12px",
+              fontWeight: "600",
+              margin: 0,
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              opacity: 0.8
+            }}>
+              Запись
+            </h4>
+            <div style={{
+              display: "flex",
+              gap: "12px"
+            }}>
+              <button onClick={startRecording} disabled={!running || recOn} style={{
+                padding: "8px 16px",
+                borderRadius: "8px",
+                border: "1px solid #333",
+                background: (!running || recOn) ? "#666" : "#ff0080",
+                color: "#fff",
+                fontSize: "12px",
+                fontWeight: "600",
+                cursor: (!running || recOn) ? "not-allowed" : "pointer",
+                opacity: (!running || recOn) ? 0.6 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (running && !recOn) {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 8px 25px rgba(255, 0, 128, 0.6)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = (!running || recOn)
+                  ? "0 4px 15px rgba(255, 107, 107, 0.3)"
+                  : "0 6px 20px rgba(255, 0, 128, 0.4)";
+              }}
+              >
+                Record
+              </button>
+              <button onClick={stopRecording} disabled={!recOn} style={{
+                padding: "8px 16px",
+                borderRadius: "8px",
+                border: "1px solid #333",
+                background: !recOn ? "#666" : "#ff6b6b",
+                color: "#fff",
+                fontSize: "12px",
+                fontWeight: "600",
+                cursor: !recOn ? "not-allowed" : "pointer",
+                opacity: !recOn ? 0.6 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (recOn) {
+                  e.target.style.transform = "translateY(-2px)";
+                  e.target.style.boxShadow = "0 8px 25px rgba(255, 236, 210, 0.6)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "translateY(0)";
+                e.target.style.boxShadow = !recOn
+                  ? "0 4px 15px rgba(255, 107, 107, 0.3)"
+                  : "0 6px 20px rgba(255, 236, 210, 0.4)";
+              }}
+              >
+                Stop
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <canvas id="mix" ref={mixRef} style={{ width: "100%", height: "100%", display: "block" }} />
-      <video id="cam" ref={camRef} playsInline muted style={{ display: "none" }} />
+      {/* Enhanced Canvas */}
+      <canvas
+        id="mix"
+        ref={mixRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "block",
+          position: "relative",
+          zIndex: 1
+        }}
+      />
+      <video
+        id="cam"
+        ref={camRef}
+        playsInline
+        muted
+        style={{ display: "none" }}
+      />
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        select:focus {
+          border-color: #5514db !important;
+        }
+      `}</style>
     </div>
   );
 }
