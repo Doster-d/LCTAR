@@ -35,6 +35,8 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
       DB_NAME: lctar
       DB_USER: lctar
@@ -45,6 +47,25 @@ services:
       RABBITMQ_URL: amqp://lctar:lctarpassword@rabbitmq:5672/
       MYSQLCLIENT_CFLAGS: "-I/usr/include/mysql"
       MYSQLCLIENT_LDFLAGS: "-L/usr/lib/x86_64-linux-gnu -lmysqlclient"
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+
+  celery:
+    build: .
+    working_dir: /app/arb
+    command: celery -A arb worker -l info
+    env_file:
+      - .env
+    environment:
+      DB_NAME: lctar
+      DB_USER: lctar
+      DB_PASSWORD: lctarpassword
+      DB_HOST: mysql
+      DB_PORT: 3306
+      REDIS_URL: redis://redis:6379/0
+      RABBITMQ_URL: amqp://lctar:lctarpassword@rabbitmq:5672/
     depends_on:
       - mysql
       - redis

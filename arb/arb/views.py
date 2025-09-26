@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -14,6 +16,9 @@ from .models import (
     User,
     ViewEvent,
 )
+from .tasks import send_promocode_email
+
+logger = logging.getLogger(__name__)
 
 FIRST_VIEW_POINTS = 10
 
@@ -126,6 +131,10 @@ def user_email(request):
     promo_code = _issue_promocode_if_completed(session)
     if promo_code:
         PromoCode.objects.filter(code=promo_code).update(user=user, email=email)
+        try:
+            send_promocode_email.delay(promo_code)
+        except Exception:  # noqa: BLE001
+            logger.exception("Как оно вообще тут упало? Увольте бэкэндера")
     return Response(
         {
             "session_id": str(session.id),

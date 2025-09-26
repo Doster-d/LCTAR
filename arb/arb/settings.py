@@ -142,3 +142,28 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 HEALTH_MESSAGE = config("HEALTH_MESSAGE", default="yesmomimalive")
+
+CELERY_BROKER_URL = config(
+    "CELERY_BROKER_URL",
+    default=config("RABBITMQ_URL", default="amqp://guest:guest@localhost:5672//"),
+)
+CELERY_RESULT_BACKEND = config(
+    "CELERY_RESULT_BACKEND",
+    default=config("REDIS_URL", default="redis://localhost:6379/0"),
+)
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_SYNC = config("CELERY_SYNC", default=DEBUG, cast=bool)
+CELERY_TASK_ALWAYS_EAGER = CELERY_SYNC
+CELERY_TASK_EAGER_PROPAGATES = CELERY_SYNC
+
+EMAIL_BACKEND = config(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.console.EmailBackend",
+)
+DEFAULT_FROM_EMAIL = config("EMAIL_HOST_USER", default="no-reply@example.com")
+EMAIL_HOST = config("EMAIL_HOST", default="localhost")
+EMAIL_PORT = config("EMAIL_PORT", default=25, cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
