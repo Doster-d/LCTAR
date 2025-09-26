@@ -1,6 +1,7 @@
 // src/App.jsx
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ApriltagPipeline from "./apriltagPipeline";
 
 function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
@@ -12,11 +13,11 @@ function fmt(ms) {
 }
 function pickMime() {
   const list = [
+    "video/mp4;codecs=h264,aac",
+    "video/mp4",
     "video/webm;codecs=vp9,opus",
     "video/webm;codecs=vp8,opus",
-    "video/webm",
-    "video/mp4;codecs=h264,aac",
-    "video/mp4"
+    "video/webm"
   ];
   if (typeof MediaRecorder === "undefined") return "";
   for (const t of list) if (MediaRecorder.isTypeSupported?.(t)) return t;
@@ -25,6 +26,8 @@ function pickMime() {
 
 export default function ARRecorder() {
   const mixRef = useRef(null);     // конечный 2D-canvas
+  const procRef = useRef(null);    // hidden processing canvas (fixed 640x480 for OpenCV)
+  const pctxRef = useRef(null);    // cached 2D context for processing canvas
   const camRef = useRef(null);     // <video> с камерой
   const glCanvasRef = useRef(null);// offscreen WebGL canvas
   const ctxRef = useRef(null);
@@ -34,6 +37,11 @@ export default function ARRecorder() {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const cubeRef = useRef(null);
+  const pyramidMapRef = useRef(new Map());
+  const pyramidGeoRef = useRef(null);
+  const pyramidMatRef = useRef(null);
+  const trainPrefabRef = useRef(null);
+  const trainMapRef = useRef(new Map());
 
   // Streams / recorder
   const camStreamRef = useRef(null);
@@ -74,19 +82,75 @@ export default function ARRecorder() {
     cube.position.set(0, 0, -0.6);
     scene.add(cube);
 
+    // Pyramid debug geometry (a 4-sided cone) and material
+    const pyramidGeo = new THREE.ConeGeometry(0.08, 0.12, 4);
+    // rotate so flat base aligns with tag plane if needed (adjust by -Math.PI/4 to align square)
+    pyramidGeo.rotateY(-Math.PI / 4);
+    const pyramidMat = new THREE.MeshStandardMaterial({ color: 0xffcc00, metalness: 0.2, roughness: 0.6, transparent: true, opacity: 0.95 });
+    pyramidGeoRef.current = pyramidGeo;
+    pyramidMatRef.current = pyramidMat;
+
+    // Load Train GLB to use as a debug model (cloned per-detection)
+    try {
+      const loader = new GLTFLoader();
+      loader.load(
+        'models/Train-transformed.glb',
+        (gltf) => {
+          const obj = gltf.scene || gltf.scenes?.[0];
+          if (!obj) return;
+          // Normalize scale and orientation for AR placement
+          obj.scale.set(0.6, 0.6, 0.6);
+          obj.traverse((n) => {
+            if (n.isMesh) {
+              n.castShadow = false;
+              n.receiveShadow = false;
+            }
+          });
+          obj.visible = false; // keep prefab hidden
+          trainPrefabRef.current = obj;
+        },
+        undefined,
+        (err) => { console.warn('Failed to load Train model:', err); }
+      );
+    } catch (e) {
+      console.warn('GLTFLoader not available or failed to load model', e);
+    }
+
     rendererRef.current = gl;
     sceneRef.current = scene;
     cameraRef.current = cam;
     cubeRef.current = cube;
 
     const mix = mixRef.current;
-    ctxRef.current = mix.getContext("2d");
+    // request a context optimized for frequent readbacks
+    ctxRef.current = mix.getContext("2d", { willReadFrequently: true });
+    try {
+      ctxRef.current.imageSmoothingEnabled = true;
+      ctxRef.current.imageSmoothingQuality = "high";
+    } catch (e) {
+      /* ignore if not supported */
+    }
+
+    // create a hidden processing canvas fixed at 640x480 for OpenCV/AprilTag
+    const proc = document.createElement("canvas");
+    proc.width = 640; proc.height = 480;
+    proc.style.display = "none";
+    document.body.appendChild(proc);
+    // enable high-quality scaling on processing canvas and cache its 2D context
+    try {
+      const pctxInit = proc.getContext("2d", { willReadFrequently: true });
+      pctxInit.imageSmoothingEnabled = true;
+      pctxInit.imageSmoothingQuality = "high";
+      pctxRef.current = pctxInit;
+    } catch (e) { /* ignore */ }
+    procRef.current = proc;
 
     setStatus((location.protocol === "https:" || location.hostname === "localhost") ? "Готово" : "Нужен HTTPS или localhost");
 
     return () => {
       try { gl.dispose(); } catch {}
       try { gl.domElement.remove(); } catch {}
+      try { procRef.current?.remove(); } catch {}
     };
   }, []);
 
@@ -119,11 +183,16 @@ export default function ARRecorder() {
     const gl = rendererRef.current;
     const cam = cameraRef.current;
     if (!video || !video.videoWidth || !gl || !cam) return;
-
-    const w = video.videoWidth, h = video.videoHeight;
-    mix.width = w; mix.height = h;
-    gl.setSize(w, h, false);
-    cam.aspect = w / h;
+    // Keep processing canvas at fixed 640x480 for OpenCV contract
+    const pw = 640, ph = 480;
+    // For display we want to fill the viewport with a higher internal resolution
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const displayW = Math.max(video.videoWidth, Math.floor(window.innerWidth * dpr));
+    const displayH = Math.max(video.videoHeight, Math.floor(window.innerHeight * dpr));
+    // Set visible canvas internal size larger for crisp display while keeping CSS 100%
+    mix.width = displayW; mix.height = displayH;
+    gl.setSize(displayW, displayH, false);
+    cam.aspect = displayW / displayH;
     cam.updateProjectionMatrix();
 
     mix.style.width = "100%";
@@ -145,15 +214,104 @@ export default function ARRecorder() {
     // 1) фон: камера
     ctx.drawImage(video, 0, 0, mixRef.current.width, mixRef.current.height);
 
+    // Also draw into fixed-size processing canvas (640x480) for OpenCV/AprilTag
+    try {
+      const proc = procRef.current;
+      const pctx = pctxRef.current || (proc && proc.getContext && proc.getContext("2d"));
+      if (proc && pctx && video.videoWidth && video.videoHeight) {
+        // Prefer createImageBitmap with high-quality resize when available
+        if (typeof createImageBitmap === "function") {
+          try {
+            // createImageBitmap can accept a video element and resize it with high quality
+            // note: this is async and may reduce max FPS, but gives better downscale quality
+            (async () => {
+              try {
+                const bitmap = await createImageBitmap(video, { resizeWidth: proc.width, resizeHeight: proc.height, resizeQuality: 'high' });
+                pctx.clearRect(0, 0, proc.width, proc.height);
+                pctx.drawImage(bitmap, 0, 0);
+                bitmap.close?.();
+              } catch (e) {
+                // fallback
+                pctx.drawImage(video, 0, 0, proc.width, proc.height);
+              }
+            })();
+          } catch (e) {
+            pctx.drawImage(video, 0, 0, proc.width, proc.height);
+          }
+        } else {
+          pctx.drawImage(video, 0, 0, proc.width, proc.height);
+        }
+      }
+    } catch (err) {
+      console.warn("proc draw failed", err);
+    }
+
     // 2) AprilTag detection
     try {
       if (pipeline && video.videoWidth > 0 && video.videoHeight > 0) {
-        // Create ImageData from the video frame
-        const imageData = ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
-        const transforms = pipeline.detect(imageData);
+        // Create ImageData from the fixed processing canvas (640x480) so OpenCV sees expected size
+        const proc = procRef.current;
+        const pctx = pctxRef.current || (proc && proc.getContext && proc.getContext("2d"));
+        if (pctx) {
+          try { pctx.imageSmoothingEnabled = true; pctx.imageSmoothingQuality = 'high'; } catch (e) {}
+        }
+        try {
+          const imageData = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
+          const transforms = pipeline.detect(imageData);
+          // Update state with detected transforms
+          setAprilTagTransforms(transforms);
 
-        // Update state with detected transforms
-        setAprilTagTransforms(transforms);
+          // Update pyramid debug objects in the scene immediately
+            try {
+              const scene = sceneRef.current;
+              const modelMap = trainMapRef.current;
+              const prefab = trainPrefabRef.current;
+              const seenIds = new Set();
+
+              transforms.forEach(t => {
+                const id = t.id;
+                seenIds.add(id);
+                let obj = modelMap.get(id);
+                if (!obj) {
+                  if (prefab) {
+                    obj = prefab.clone(true);
+                    obj.matrixAutoUpdate = false;
+                    scene.add(obj);
+                    modelMap.set(id, obj);
+                  } else {
+                    // If prefab missing, fallback to a small box so we still see something
+                    obj = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshStandardMaterial({ color: 0xffcc00 }));
+                    obj.matrixAutoUpdate = false;
+                    scene.add(obj);
+                    modelMap.set(id, obj);
+                  }
+                }
+
+                const m = new THREE.Matrix4();
+                try {
+                  m.fromArray(t.matrix);
+                } catch (e) {
+                  return;
+                }
+                // lift model slightly above tag plane so it doesn't Z-fight
+                const up = new THREE.Matrix4().makeTranslation(0, 0.06, 0);
+                m.multiply(up);
+                obj.matrix.copy(m);
+              });
+
+              // Remove models for tags not present
+              for (const [key, obj] of Array.from(modelMap.entries())) {
+                if (!seenIds.has(key)) {
+                  obj.removeFromParent();
+                  modelMap.delete(key);
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to update Train models', e);
+            }
+        } catch (err) {
+          console.error('Error reading imageData for detection', err);
+        }
       }
     } catch (error) {
       console.error("AprilTag detection error:", error);
@@ -177,9 +335,19 @@ export default function ARRecorder() {
       if (camStreamRef.current) { camStreamRef.current.getTracks().forEach(t => t.stop()); camStreamRef.current = null; }
       if (micStreamRef.current) { micStreamRef.current.getTracks().forEach(t => t.stop()); micStreamRef.current = null; }
 
-      const camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+      let camStream = null;
+      // Try exact 640x480 first to avoid browser up/down-scaling artifacts
+      try {
+        camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { exact: 640 }, height: { exact: 480 }, frameRate: 30 }, audio: false });
+        console.log('Acquired exact 640x480 stream');
+      } catch (err) {
+        console.warn('Exact 640x480 failed, falling back to ideal 1280x720:', err);
+        camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } }, audio: false });
+      }
       camStreamRef.current = camStream;
       camRef.current.srcObject = camStream;
+      try { camRef.current.setAttribute('playsinline', 'true'); } catch (e) {}
+      try { camRef.current.style.objectFit = 'cover'; } catch (e) {}
       await camRef.current.play();
       sizeAll();
 
@@ -189,6 +357,16 @@ export default function ARRecorder() {
         const settings = videoTrack.getSettings();
         const width = settings.width || 640;
         const height = settings.height || 480;
+
+        // Try to request the camera deliver 640x480 directly to avoid heavy resizing artifacts.
+        try {
+          await videoTrack.applyConstraints({ width: 640, height: 480, frameRate: 30 });
+          const newSettings = videoTrack.getSettings();
+             console.log('Applied track constraints, new settings:', newSettings);
+        } catch (e) {
+          // not all browsers/devices allow changing track resolution; ignore
+          console.warn('Could not apply 640x480 constraints to video track:', e);
+        }
 
         // Set camera intrinsics for AprilTag detection
         // Using reasonable default values for focal length (can be adjusted based on camera specs)
@@ -757,7 +935,7 @@ export default function ARRecorder() {
       />
 
       {/* CSS Animations */}
-      <style jsx>{`
+      <style jsx>{` 
         select:focus {
           border-color: #5514db !important;
         }
