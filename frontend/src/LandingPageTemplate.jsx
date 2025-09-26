@@ -168,7 +168,28 @@ const LandingPageTemplate = ({ onSwitchToApp }) => {
 
       {/* 5. Call-to-Action Button */}
       <section className="cta">
-        <button className="cta-button" onClick={onSwitchToApp}>
+        <button
+          type="button"
+          aria-label={t.cta.buttonText}
+          className="cta-button"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onSwitchToApp && onSwitchToApp();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onSwitchToApp && onSwitchToApp();
+            }
+          }}
+          style={{
+            position: 'relative',
+            bottom: 24,
+            zIndex: 2,
+            pointerEvents: 'auto'
+          }}
+        >
           {t.cta.buttonText}
         </button>
       </section>
