@@ -1,8 +1,11 @@
 // src/App.jsx
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import ApriltagPipeline from "./apriltagPipeline";
+import { Canvas } from '@react-three/fiber';
+import { Model as TestModel } from './models/Testmodel';
+import { Model as TrainModel } from './models/Train';
+import { SkeletonUtils } from 'three-stdlib'
 
 function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
 function fmt(ms) {
@@ -31,17 +34,19 @@ export default function ARRecorder() {
   const camRef = useRef(null);     // <video> с камерой
   const glCanvasRef = useRef(null);// offscreen WebGL canvas
   const ctxRef = useRef(null);
+  const drawRectRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
 
   // Three.js
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
-  const cubeRef = useRef(null);
+  const cubeRef = useRef(null); // now points to always-visible TestModel instance
   const pyramidMapRef = useRef(new Map());
   const pyramidGeoRef = useRef(null);
   const pyramidMatRef = useRef(null);
-  const trainPrefabRef = useRef(null);
+  const trainPrefabRef = useRef(null); // Train model prefab for AprilTag spawning
   const trainMapRef = useRef(new Map());
+  const mainModelPrefabRef = useRef(null); // TestModel prefab for initial always-visible instance
 
   // Streams / recorder
   const camStreamRef = useRef(null);
@@ -75,12 +80,12 @@ export default function ARRecorder() {
     const cam = new THREE.PerspectiveCamera(60, 1, 0.01, 100);
     scene.add(new THREE.HemisphereLight(0xffffff, 0x222233, 1.2));
 
-    const cube = new THREE.Mesh(
-      new THREE.BoxGeometry(0.15, 0.15, 0.15),
-      new THREE.MeshStandardMaterial({ color: 0x55a8ff, roughness: 0.5, metalness: 0.1 })
-    );
-    cube.position.set(0, 0, -0.6);
-    scene.add(cube);
+    // Always-visible main model (TestModel) will be attached once its prefab ref becomes available.
+    // For now create a temporary placeholder group to avoid null checks in interaction logic.
+    const placeholder = new THREE.Group();
+    placeholder.position.set(0, 0, -0.6);
+    scene.add(placeholder);
+    cubeRef.current = placeholder;
 
     // Pyramid debug geometry (a 4-sided cone) and material
     const pyramidGeo = new THREE.ConeGeometry(0.08, 0.12, 4);
@@ -90,36 +95,9 @@ export default function ARRecorder() {
     pyramidGeoRef.current = pyramidGeo;
     pyramidMatRef.current = pyramidMat;
 
-    // Load Train GLB to use as a debug model (cloned per-detection)
-    try {
-      const loader = new GLTFLoader();
-      loader.load(
-        'models/Train-transformed.glb',
-        (gltf) => {
-          const obj = gltf.scene || gltf.scenes?.[0];
-          if (!obj) return;
-          // Normalize scale and orientation for AR placement
-          obj.scale.set(0.6, 0.6, 0.6);
-          obj.traverse((n) => {
-            if (n.isMesh) {
-              n.castShadow = false;
-              n.receiveShadow = false;
-            }
-          });
-          obj.visible = false; // keep prefab hidden
-          trainPrefabRef.current = obj;
-        },
-        undefined,
-        (err) => { console.warn('Failed to load Train model:', err); }
-      );
-    } catch (e) {
-      console.warn('GLTFLoader not available or failed to load model', e);
-    }
-
     rendererRef.current = gl;
     sceneRef.current = scene;
     cameraRef.current = cam;
-    cubeRef.current = cube;
 
     const mix = mixRef.current;
     // request a context optimized for frequent readbacks
@@ -154,6 +132,21 @@ export default function ARRecorder() {
     };
   }, []);
 
+  const attachTestModel = (node) => {
+    if (!node || !sceneRef.current) return;
+    node.position.set(0, 0, -0.6);
+    sceneRef.current.add(node);
+    cubeRef.current = node;
+    mainModelPrefabRef.current = node;
+    console.log('✅ TestModel attached as main visible model');
+  };
+
+  const captureTrainPrefab = (node) => {
+    if (!node) return;
+    trainPrefabRef.current = node;
+    console.log('✅ Train prefab captured');
+  };
+
   // Initialize AprilTag pipeline
   useEffect(() => {
     const initAprilTag = async () => {
@@ -182,22 +175,39 @@ export default function ARRecorder() {
     const mix = mixRef.current;
     const gl = rendererRef.current;
     const cam = cameraRef.current;
-    if (!video || !video.videoWidth || !gl || !cam) return;
-    // Keep processing canvas at fixed 640x480 for OpenCV contract
-    const pw = 640, ph = 480;
-    // For display we want to fill the viewport with a higher internal resolution
-    const dpr = Math.max(1, window.devicePixelRatio || 1);
-    const displayW = Math.max(video.videoWidth, Math.floor(window.innerWidth * dpr));
-    const displayH = Math.max(video.videoHeight, Math.floor(window.innerHeight * dpr));
-    // Set visible canvas internal size larger for crisp display while keeping CSS 100%
-    mix.width = displayW; mix.height = displayH;
-    gl.setSize(displayW, displayH, false);
-    cam.aspect = displayW / displayH;
-    cam.updateProjectionMatrix();
+    if (!video || !video.videoWidth || !gl || !cam || !mix) return;
 
+    // контейнер = окно * DPR
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const contW = Math.floor(window.innerWidth * dpr);
+    const contH = Math.floor(window.innerHeight * dpr);
+
+    // внутренний буфер канваса = размер контейнера
+    mix.width = contW;
+    mix.height = contH;
     mix.style.width = "100%";
     mix.style.height = "100%";
+
+    // исходное видео
+    const srcW = video.videoWidth;
+    const srcH = video.videoHeight;
+
+    // масштаб "contain" без апскейла (<=1), чтобы не портить качество
+    const scale = Math.min(contW / srcW, contH / srcH);
+    const drawW = Math.round(srcW * scale);
+    const drawH = Math.round(srcH * scale);
+    const drawX = Math.floor((contW - drawW) / 2);
+    const drawY = Math.floor((contH - drawH) / 2);
+
+    // сохраним прямоугольник вывода
+    drawRectRef.current = { x: drawX, y: drawY, w: drawW, h: drawH };
+
+    // WebGL-канвас рендерим в том же размере, что и видимая область видео
+    gl.setSize(drawW, drawH, false);
+    cam.aspect = srcW / srcH; // аспект видео
+    cam.updateProjectionMatrix();
   }, []);
+
 
   // main render loop
   const renderLoop = useCallback(() => {
@@ -211,8 +221,19 @@ export default function ARRecorder() {
     const pipeline = aprilTagPipelineRef.current;
     if (!ctx || !video || !gl || !scene || !cam || !glCanvas) return;
 
-    // 1) фон: камера
-    ctx.drawImage(video, 0, 0, mixRef.current.width, mixRef.current.height);
+    // 1) фон: видео без растяжения (letterbox)
+    const mix = mixRef.current;
+    const r = drawRectRef.current;
+    ctx.clearRect(0, 0, mix.width, mix.height);
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, mix.width, mix.height);
+    if (r.w > 0 && r.h > 0) {
+      ctx.drawImage(
+        video,
+        0, 0, video.videoWidth, video.videoHeight,
+        r.x, r.y, r.w, r.h
+      );
+    }
 
     // Also draw into fixed-size processing canvas (640x480) for OpenCV/AprilTag
     try {
@@ -274,7 +295,8 @@ export default function ARRecorder() {
                 let obj = modelMap.get(id);
                 if (!obj) {
                   if (prefab) {
-                    obj = prefab.clone(true);
+                    // clone skinned model safely
+                    obj = SkeletonUtils.clone(prefab);
                     obj.matrixAutoUpdate = false;
                     scene.add(obj);
                     modelMap.set(id, obj);
@@ -318,11 +340,15 @@ export default function ARRecorder() {
     }
 
     // 3) three.js
-    cube.rotation.y += 0.01;
-    cube.rotation.x += 0.005;
     gl.render(scene, cam);
     // 4) композит
-    ctx.drawImage(glCanvas, 0, 0, mixRef.current.width, mixRef.current.height);
+    if (r.w > 0 && r.h > 0) {
+      ctx.drawImage(
+        glCanvas,
+        0, 0, glCanvas.width, glCanvas.height,
+        r.x, r.y, r.w, r.h
+      );
+    }
 
     rafIdRef.current = requestAnimationFrame(renderLoop);
   }, []);
@@ -347,7 +373,6 @@ export default function ARRecorder() {
       camStreamRef.current = camStream;
       camRef.current.srcObject = camStream;
       try { camRef.current.setAttribute('playsinline', 'true'); } catch (e) {}
-      try { camRef.current.style.objectFit = 'cover'; } catch (e) {}
       await camRef.current.play();
       sizeAll();
 
@@ -503,6 +528,13 @@ export default function ARRecorder() {
     v.addEventListener("loadedmetadata", onMeta);
     return () => v.removeEventListener("loadedmetadata", onMeta);
   }, [sizeAll]);
+
+  useEffect(() => {
+    const onResize = () => sizeAll();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [sizeAll]);
+
 
   // cleanup on unmount
   useEffect(() => () => {
@@ -915,6 +947,13 @@ export default function ARRecorder() {
       </div>
 
       {/* Enhanced Canvas */}
+      {/* Hidden R3F Canvas: mounts TestModel (instanced) and TrainModel (prefab for tags) */}
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }} aria-hidden>
+        <Canvas>
+          <TestModel ref={attachTestModel} />
+          <TrainModel ref={captureTrainPrefab} />
+        </Canvas>
+      </div>
       <canvas
         id="mix"
         ref={mixRef}
@@ -935,10 +974,8 @@ export default function ARRecorder() {
       />
 
       {/* CSS Animations */}
-      <style jsx>{` 
-        select:focus {
-          border-color: #5514db !important;
-        }
+      <style>{`
+        select:focus { border-color: #5514db !important; }
       `}</style>
     </div>
   );

@@ -11,7 +11,7 @@ export async function loadAlva(width, height) {
 export function poseToMatrix4(pose) {
   console.log('[DEBUG poseToMatrix4] Input pose:', pose);
   if (!pose) {
-    console.error('[DEBUG poseToMatrix4] Pose is null or undefined');
+    console.log('[DEBUG poseToMatrix4] Pose is null or undefined');
     return null;
   }
   const { R, t } = pose;
@@ -19,7 +19,7 @@ export function poseToMatrix4(pose) {
   const rf = Array.isArray(R?.[0]) ? R.flat() : R;
   console.log('[DEBUG poseToMatrix4] rf:', rf);
   if (!rf || rf.length !== 9 || !t || t.length !== 3) {
-    console.error('[DEBUG poseToMatrix4] Invalid R or t: rf.length=' + (rf ? rf.length : 'null') + ', t.length=' + (t ? t.length : 'null'));
+    console.log('[DEBUG poseToMatrix4] Invalid R or t: rf.length=' + (rf ? rf.length : 'null') + ', t.length=' + (t ? t.length : 'null'));
     return null;
   }
   const M = new Matrix4().set(

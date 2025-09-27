@@ -253,7 +253,7 @@ class ApriltagPipeline {
 
       const detections = JSON.parse(detectionsJson);
       if (detections.length > 0) {
-        console.error('[DEBUG apriltag] Parsed detections:', detections);
+        console.debug('[DEBUG apriltag] Parsed detections:', detections);
       }
 
       const transforms = [];
@@ -325,11 +325,11 @@ class ApriltagPipeline {
         // Mtag_gl.invert();
 
         // Отладка: проверка офсета и конвертации координат
-        console.error(`❌ [detect] После офсета и конвертации для ID=${detection.id}: offset=${offset}, Mtag_gl=`, Mtag_gl.toArray());
+        console.debug(`❌ [detect] После офсета и конвертации для ID=${detection.id}: offset=${offset}, Mtag_gl=`, Mtag_gl.toArray());
 
         // Проверяем, что матрица создана корректно
         if (!Mtag_gl || !Mtag_gl.isMatrix4) {
-          console.error(`❌ [detect] Не удалось создать корректную матрицу для ID=${detection.id}`);
+          console.debug(`❌ [detect] Не удалось создать корректную матрицу для ID=${detection.id}`);
           return;
         }
 
@@ -339,7 +339,7 @@ class ApriltagPipeline {
         const matrixArray = matrix.toArray();
 
         // Отладка: проверка расчета матриц
-        console.error(`❌ [detect] Матрица рассчитана для ID=${detection.id}:`, matrixArray);
+        console.log(`❌ [detect] Матрица рассчитана для ID=${detection.id}:`, matrixArray);
 
         transforms.push({
           id: detection.id,
@@ -350,7 +350,7 @@ class ApriltagPipeline {
       if (transforms.length > 0) {
         this.lastDetectionTime = now;
         // Отладка: проверка получения трансформаций из pipeline
-        console.error(`❌ [detect] Получены трансформации из pipeline:`, transforms);
+        console.log(`❌ [detect] Получены трансформации из pipeline:`, transforms);
       }
 
       return transforms;
