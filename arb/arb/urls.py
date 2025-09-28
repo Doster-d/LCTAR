@@ -28,4 +28,5 @@ urlpatterns = [
     path("user/email/", views.user_email, name="user_email"),
     path("progress/", views.progress, name="progress"),
     path("promo/", views.promo, name="promo"),
+    path("stats/", views.stats, name="stats"),
 ]

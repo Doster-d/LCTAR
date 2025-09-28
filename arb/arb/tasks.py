@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from .models import PromoCode
+from .models import PromoCode, Session, ViewEvent
 
 
 @shared_task(
@@ -36,4 +36,12 @@ def send_promocode_email(promo_code: str) -> bool:
 
     promo.sent_at = timezone.now()
     promo.save(update_fields=["sent_at"])
+    if promo.session_id:
+        session = Session.objects.get(id=promo.session_id)
+        ViewEvent.objects.create(
+            session=session,
+            asset=None,
+            event_type="promo_sent",
+            raw_payload={"code": promo.code, "email": promo.email},
+        )
     return True

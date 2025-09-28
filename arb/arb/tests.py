@@ -1,9 +1,10 @@
 from uuid import UUID
 
 from django.test import TestCase, override_settings
+from django.utils import timezone
 from rest_framework.test import APIClient
 
-from .models import Asset, PromoCode, Session, SessionItemProgress, User
+from .models import Asset, PromoCode, Session, SessionItemProgress, User, ViewEvent
 
 
 @override_settings(
@@ -36,6 +37,10 @@ class TestMvpApi(TestCase):
     def test_session_start(self):
         session_id = self._start_session()
         assert Session.objects.filter(id=session_id).exists()
+        ev = ViewEvent.objects.filter(
+            event_type="session_started", session_id=session_id
+        )
+        assert ev.count() == 1
 
     def test_view_awards_points_and_promocode(self):
         session_id = self._start_session()
@@ -52,6 +57,24 @@ class TestMvpApi(TestCase):
         assert PromoCode.objects.filter(
             session_id=session_id, code=r3.data["promo_code"]
         ).exists()
+        assert (
+            ViewEvent.objects.filter(
+                event_type="viewed_asset", session_id=session_id
+            ).count()
+            == 3
+        )
+        assert (
+            ViewEvent.objects.filter(
+                event_type="first_view_awarded", session_id=session_id
+            ).count()
+            == 3
+        )
+        assert (
+            ViewEvent.objects.filter(
+                event_type="promo_issued", session_id=session_id
+            ).count()
+            == 1
+        )
 
     def test_user_email_links_and_updates_score(self):
         session_id = self._start_session()
@@ -66,6 +89,12 @@ class TestMvpApi(TestCase):
         user = User.objects.get(id=user_id)
         assert user.email == "test@example.com"
         assert user.total_score == 10
+        assert (
+            ViewEvent.objects.filter(
+                event_type="email_submitted", session_id=session_id
+            ).count()
+            == 1
+        )
 
     def test_progress_endpoints(self):
         session_id = self._start_session()
@@ -76,6 +105,12 @@ class TestMvpApi(TestCase):
         assert pr.data["viewed_assets"] == 1
         assert pr.data["remaining_assets"] == 2
         assert pr.data["total_score"] == 10
+        assert (
+            ViewEvent.objects.filter(
+                event_type="progress_viewed", session_id=session_id
+            ).count()
+            == 1
+        )
 
         self.client.post(
             "/user/email/",
@@ -179,6 +214,14 @@ class TestMvpApi(TestCase):
         assert r2.status_code == 200
         assert "promo_code" in r2.data
         code = r2.data["promo_code"]
+        assert (
+            ViewEvent.objects.filter(
+                event_type="promo_checked",
+                session_id=session_id,
+                raw_payload__result="issued",
+            ).count()
+            == 1
+        )
         self.client.post(
             "/user/email/",
             {"session_id": session_id, "email": "pp@example.com"},
@@ -206,3 +249,40 @@ class TestMvpApi(TestCase):
         self._view(session2, "a1")
         user = User.objects.get(email="u2@example.com")
         assert user.total_score == 10
+
+    def test_stats_empty(self):
+        r = self.client.get("/stats/")
+        assert r.status_code == 200
+        assert r.data["views_today"] == 0
+        assert r.data["views_all_time"] == 0
+        assert r.data["best_asset"] is None
+
+    def test_stats_best_asset_heuristic(self):
+        s1 = self._start_session()
+        s2 = self._start_session()
+        self._view(s1, "a1")
+        self._view(s1, "a1")
+        self._view(s2, "a2")
+        s3 = self._start_session()
+        self._view(s3, "a2")
+        r = self.client.get("/stats/")
+        assert r.status_code == 200
+        assert r.data["views_today"] == 4
+        assert r.data["views_all_time"] == 4
+        assert r.data["best_asset"]["slug"] in ("a1", "a2")
+
+    def test_stats_respects_today_not_24h(self):
+        s = self._start_session()
+        a1 = Asset.objects.get(slug="a1")
+        yesterday = timezone.now() - timezone.timedelta(days=1)
+        ViewEvent.objects.create(
+            session=Session.objects.get(id=s),
+            asset=a1,
+            raw_payload={},
+            timestamp=yesterday,
+        )
+        self._view(s, "a1")
+        r = self.client.get("/stats/")
+        assert r.status_code == 200
+        assert r.data["views_today"] == 1
+        assert r.data["views_all_time"] == 2
