@@ -13,6 +13,12 @@ import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
 
+/**
+ * @brief Анимированная GLTF-модель демонстрируемого персонажа.
+ * @param props Пропсы компонента, передаваемые в корневую группу.
+ * @param ref Ref, принимающий созданную группу.
+ * @returns {JSX.Element} Иерархия скелетных мешей.
+ */
 export const Model = forwardRef((props, ref) => {
   const group = useRef()
   const { scene, animations } = useGLTF('models/testmodel-transformed.glb')
@@ -43,4 +49,7 @@ export const Model = forwardRef((props, ref) => {
   )
 })
 
+/**
+ * @brief Предварительно загружает GLTF-ресурс для ускорения последующих рендеров.
+ */
 useGLTF.preload('models/testmodel-transformed.glb')

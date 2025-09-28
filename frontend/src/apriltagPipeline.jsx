@@ -1,7 +1,10 @@
-import { Matrix4 } from 'three';
+import { Matrix4, Vector3 } from 'three';
 import cv from '@techstark/opencv-js';
 
-// Загружаем конфигурацию AprilTag
+/**
+ * @brief Загружает конфигурацию пайплайна AprilTag с диска.
+ * @returns {Promise<object>} Объект с описанием сцен и тегов.
+ */
 const loadConfig = async () => {
   try {
     const response = await fetch('./apriltag-config.json');
@@ -15,33 +18,35 @@ const loadConfig = async () => {
   } catch (error) {
     console.error('❌ Ошибка загрузки конфигурации AprilTag:', error);
     // Fallback к встроенной конфигурации
-    return [
-      {
-        "id": 0,
-        "size": 0.15,
-        "position": [0, 0, 0],
-        "rotation": [0, 0, 0],
-        "sphereOffset": [0, 0, 0.1]
+    return {
+      scenes: {
+        cheburashka_company: {
+          diameter: 0.5
+        }
       },
-      {
-        "id": 1,
-        "size": 0.15,
-        "position": [1, 0, 0],
-        "rotation": [0, 0, 0],
-        "sphereOffset": [0, 0, 0.1]
-      },
-      {
-        "id": 2,
-        "size": 0.15,
-        "position": [2, 0, 0],
-        "rotation": [0, 0, 0],
-        "sphereOffset": [0, 0, 0.1]
-      }
-    ];
+      tags: [
+        {
+          id: 0,
+          sceneId: 'cheburashka_company',
+          size: 0.15,
+          normalOffsetMm: 120,
+          position: [0, 0, 0],
+          rotation: [0, 0, 0],
+          sphereOffset: [0, 0, 0.1],
+          fallbackCenter: [0, 0, -0.6]
+        }
+      ]
+    };
   }
 };
 
+/**
+ * @brief Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.
+ */
 class ApriltagPipeline {
+  /**
+   * @brief Создаёт новый экземпляр пайплайна с контейнерами состояния по умолчанию.
+   */
   constructor() {
     this.config = null;
     this.detector = null;
@@ -59,12 +64,20 @@ class ApriltagPipeline {
     this._set_img_buffer = null;
     this._set_tag_size = null;
     this._detect = null;
+    this.tagConfigById = new Map();
+    this.scenesById = new Map();
+    this.tagSizeById = new Map();
   }
 
+  /**
+   * @brief Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM.
+   * @returns {Promise<void>}
+   */
   async init() {
     try {
       // Загружаем конфигурацию
       this.config = await loadConfig();
+      this.applyConfig(this.config);
 
       // Проверяем доступность OpenCV
       if (typeof cv === 'undefined') {
@@ -82,6 +95,42 @@ class ApriltagPipeline {
     }
   }
 
+  /**
+   * @brief Кэширует метаданные сцен и тегов для быстрого доступа при детекции.
+   * @param config Загруженный объект конфигурации.
+   * @returns {void}
+   */
+  applyConfig(config) {
+    const scenes = config?.scenes ?? {};
+    this.scenesById = new Map(Object.entries(scenes));
+
+    this.tagConfigById = new Map();
+    this.tagSizeById = new Map();
+    const tags = Array.isArray(config?.tags) ? config.tags : [];
+    tags.forEach(tag => {
+      if (typeof tag?.id !== 'number') {
+        return;
+      }
+      const prepared = {
+        id: tag.id,
+        sceneId: tag.sceneId || null,
+        size: typeof tag.size === 'number' ? tag.size : null,
+        normalOffsetMm: typeof tag.normalOffsetMm === 'number' ? tag.normalOffsetMm : null,
+        sphereOffset: Array.isArray(tag.sphereOffset) ? tag.sphereOffset.slice(0, 3) : [0, 0, 0],
+        position: Array.isArray(tag.position) ? tag.position.slice(0, 3) : [0, 0, 0],
+        rotation: Array.isArray(tag.rotation) ? tag.rotation.slice(0, 3) : [0, 0, 0]
+      };
+      this.tagConfigById.set(tag.id, prepared);
+      if (prepared.size) {
+        this.tagSizeById.set(tag.id, prepared.size);
+      }
+    });
+  }
+
+  /**
+   * @brief Загружает WASM-ресурсы AprilTag и подготавливает детектор.
+   * @returns {Promise<void>}
+   */
   async initAprilTag() {
     try {
       // Load AprilTag WASM script
@@ -99,6 +148,37 @@ class ApriltagPipeline {
     }
   }
 
+  /**
+   * @brief Возвращает закэшированную конфигурацию конкретной сцены.
+   * @param sceneId Идентификатор сцены из конфигурационного файла.
+   * @returns {object|null} Конфигурация сцены либо null.
+   */
+  getSceneConfig(sceneId) {
+    if (!sceneId) return null;
+    return this.scenesById.get(sceneId) || null;
+  }
+
+  /**
+   * @brief Предоставляет отображение идентификаторов тегов на их физический размер.
+   * @returns {Map<number, number>} Карта с размерами тегов в метрах.
+   */
+  getTagSizeById() {
+    return this.tagSizeById;
+  }
+
+  /**
+   * @brief Получает подготовленную запись конфигурации тега.
+   * @param id Идентификатор AprilTag.
+   * @returns {object|null} Конфигурация тега либо null при отсутствии.
+   */
+  getTagConfig(id) {
+    return this.tagConfigById.get(id) || null;
+  }
+
+  /**
+   * @brief Встраивает скрипт загрузчика AprilTag WASM в документ.
+   * @returns {Promise<void>} Завершается после готовности глобального модуля.
+   */
   async loadAprilTagScript() {
     return new Promise((resolve, reject) => {
       try {
@@ -146,6 +226,10 @@ class ApriltagPipeline {
     });
   }
 
+  /**
+   * @brief Настраивает привязки WASM и инициализирует параметры детектора.
+   * @returns {Promise<void>}
+   */
   async initializeAprilTagDetector() {
    try {
      if (typeof window.AprilTagWasm !== 'function') {
@@ -185,9 +269,11 @@ class ApriltagPipeline {
       this.set_camera_info(800, 800, 320, 240);
 
       // Устанавливаем размеры тегов
-      for (const tag of this.config) {
-        this.set_tag_size(tag.id, tag.size);
-      }
+      this.tagSizeById.forEach((size, tagId) => {
+        if (typeof size === 'number' && !Number.isNaN(size)) {
+          this.set_tag_size(tagId, size);
+        }
+      });
 
     } catch (error) {
       console.error('❌ Ошибка при инициализации AprilTag детектора:', error);
@@ -195,6 +281,11 @@ class ApriltagPipeline {
     }
   }
 
+  /**
+   * @brief Выполняет детекцию тегов по переданному RGBA-буферу изображения.
+   * @param imageData Объект ImageData, подготовленный для анализа AprilTag.
+   * @returns {Array<object>} Обработанные детекции с данными о позе.
+   */
   detect(imageData) {
     this.frameCount++;
     const now = Date.now();
@@ -258,8 +349,8 @@ class ApriltagPipeline {
 
       const transforms = [];
 
-      detections.forEach((detection, index) => {
-        const tagConfig = this.config.find(tag => tag.id === detection.id);
+      detections.forEach((detection) => {
+        const tagConfig = this.tagConfigById.get(detection.id);
         if (!tagConfig || !detection.pose) {
           console.warn(`⚠️ [detect] Конфигурация или поза не найдена для ID=${detection.id}`);
           return;
@@ -267,44 +358,30 @@ class ApriltagPipeline {
 
         const { R, t } = detection.pose;
 
-        // Проверяем валидность данных R и t
         if (!R || !t || !Array.isArray(R) || !Array.isArray(t)) {
           console.error(`❌ [detect] Неверные данные позы для ID=${detection.id}: R=${R}, t=${t}`);
           return;
         }
 
-        // Обрабатываем R как 2D массив (3x3 матрица)
         let R_flat;
         if (Array.isArray(R[0])) {
-          // R - 2D массив, преобразуем в плоский
           R_flat = R.flat();
         } else {
-          // R уже плоский массив
           R_flat = R;
         }
 
-        // Проверяем, что R содержит 9 элементов
-        if (R_flat.length !== 9) {
-          console.error(`❌ [detect] Неверная длина массива R для ID=${detection.id}: ${R_flat.length} элементов вместо 9`);
+        if (R_flat.length !== 9 || t.length !== 3) {
+          console.error(`❌ [detect] Неверная длина позы для ID=${detection.id}`);
           return;
         }
 
-        // Проверяем t на 3 элемента
-        if (t.length !== 3) {
-          console.error(`❌ [detect] Неверная длина массива t для ID=${detection.id}: ${t.length} элементов вместо 3`);
-          return;
-        }
-
-        // Проверяем на null/undefined значения
-        const hasInvalidR = R_flat.some(val => val === null || val === undefined || isNaN(val));
-        const hasInvalidT = t.some(val => val === null || val === undefined || isNaN(val));
-
+        const hasInvalidR = R_flat.some(val => val === null || val === undefined || Number.isNaN(val));
+        const hasInvalidT = t.some(val => val === null || val === undefined || Number.isNaN(val));
         if (hasInvalidR || hasInvalidT) {
-          console.error(`❌ [detect] Обнаружены null/undefined/NaN значения для ID=${detection.id}: R=${R_flat}, t=${t}`);
+          console.error(`❌ [detect] Обнаружены некорректные значения для ID=${detection.id}: R=${R_flat}, t=${t}`);
           return;
         }
 
-        // Правильная сборка в row-major порядке
         const Mcv = new Matrix4().set(
           R_flat[0], R_flat[1], R_flat[2], t[0],
           R_flat[3], R_flat[4], R_flat[5], t[1],
@@ -312,45 +389,74 @@ class ApriltagPipeline {
           0,         0,         0,         1
         );
 
-        // Офсет над центром тега
-        const offset = tagConfig.sphereOffset;
-        const Moffset = new Matrix4().makeTranslation(offset[0], offset[1], offset[2]);
-        const Mtag_cv = Mcv.clone().multiply(Moffset);
-
-        // Конвертация OpenCV → WebGL
         const Cv2Gl = new Matrix4().makeScale(1, -1, -1);
-        const Mtag_gl = Cv2Gl.clone().multiply(Mtag_cv);
+        const matrixBase = Cv2Gl.clone().multiply(Mcv);
 
-        // Инвертируем матрицу для корректной AR трансформации
-        // Mtag_gl.invert();
+        const sphereOffset = Array.isArray(tagConfig.sphereOffset) ? tagConfig.sphereOffset : [0, 0, 0];
+        const matrixWithSphereOffset = matrixBase.clone().multiply(new Matrix4().makeTranslation(
+          sphereOffset[0] || 0,
+          sphereOffset[1] || 0,
+          sphereOffset[2] || 0
+        ));
 
-        // Отладка: проверка офсета и конвертации координат
-        console.debug(`❌ [detect] После офсета и конвертации для ID=${detection.id}: offset=${offset}, Mtag_gl=`, Mtag_gl.toArray());
+        const orientationMatrix = matrixBase.clone();
+        orientationMatrix.setPosition(0, 0, 0);
 
-        // Проверяем, что матрица создана корректно
-        if (!Mtag_gl || !Mtag_gl.isMatrix4) {
-          console.debug(`❌ [detect] Не удалось создать корректную матрицу для ID=${detection.id}`);
-          return;
+        const originVec = new Vector3().setFromMatrixPosition(matrixBase);
+        const normalVec = new Vector3(0, 0, 1).applyMatrix4(orientationMatrix).normalize();
+
+        const offsetMeters = typeof tagConfig.normalOffsetMm === 'number'
+          ? tagConfig.normalOffsetMm / 1000
+          : (sphereOffset[2] || 0);
+        const anchorVec = originVec.clone().addScaledVector(normalVec, offsetMeters);
+
+        const normalCamVec = new Vector3(R_flat[2], R_flat[5], R_flat[8]).normalize();
+        if (normalCamVec.z < 0) {
+          normalCamVec.multiplyScalar(-1);
         }
+        const originCamVec = new Vector3(t[0], t[1], t[2]);
+        const anchorCamVec = originCamVec.clone().addScaledVector(normalCamVec, offsetMeters);
 
-        const matrix = Mtag_gl;
-
-        // Проверяем, что матрица корректна
-        const matrixArray = matrix.toArray();
-
-        // Отладка: проверка расчета матриц
-        console.log(`❌ [detect] Матрица рассчитана для ID=${detection.id}:`, matrixArray);
+        const sceneConfig = this.getSceneConfig(tagConfig.sceneId);
 
         transforms.push({
           id: detection.id,
-          matrix: matrixArray
+          sceneId: tagConfig.sceneId || null,
+          matrix: matrixWithSphereOffset.toArray(),
+          matrixBase: matrixBase.toArray(),
+          rotationMatrix: orientationMatrix.toArray(),
+          position: originVec.toArray(),
+          normal: normalVec.toArray(),
+          anchorPoint: anchorVec.toArray(),
+          normalLength: offsetMeters,
+          ray: {
+            origin: originVec.toArray(),
+            direction: normalVec.toArray(),
+            end: anchorVec.toArray(),
+            length: offsetMeters
+          },
+          config: {
+            size: tagConfig.size ?? null,
+            normalOffsetMm: tagConfig.normalOffsetMm ?? null,
+            sphereOffset: sphereOffset.slice(0, 3),
+            fallbackCenter: Array.isArray(tagConfig?.fallbackCenter)
+              ? tagConfig.fallbackCenter.slice(0, 3)
+              : null,
+            diameter: typeof sceneConfig?.diameter === 'number' ? sceneConfig.diameter : null
+          },
+          anchorCamera: anchorCamVec.toArray(),
+          normalCamera: normalCamVec.toArray(),
+          pose: {
+            R: R_flat.slice(),
+            t: [t[0], t[1], t[2]]
+          },
+          rawDetection: detection
         });
       });
 
       if (transforms.length > 0) {
         this.lastDetectionTime = now;
-        // Отладка: проверка получения трансформаций из pipeline
-        console.log(`❌ [detect] Получены трансформации из pipeline:`, transforms);
+        console.debug('[detect] Transforms prepared:', transforms);
       }
 
       return transforms;
@@ -360,6 +466,11 @@ class ApriltagPipeline {
     }
   }
 
+  /**
+   * @brief Преобразует RGBA-данные изображения в ожидаемый детектором градационный буфер.
+   * @param imageData Источник ImageData.
+   * @returns {Uint8Array} Буфер яркости в оттенках серого.
+   */
   convertImageDataToGrayscale(imageData) {
     const data = imageData.data;
     const grayscale = new Uint8Array(data.length / 4);
@@ -373,6 +484,14 @@ class ApriltagPipeline {
     return grayscale;
   }
 
+  /**
+   * @brief Обновляет детектор параметрами внутренней калибровки камеры.
+   * @param fx Горизонтальное фокусное расстояние в пикселях.
+   * @param fy Вертикальное фокусное расстояние в пикселях.
+   * @param cx Координата X главной точки.
+   * @param cy Координата Y главной точки.
+   * @returns {number|undefined} Код результата от WASM-обёртки.
+   */
   set_camera_info(fx, fy, cx, cy) {
     if (!this._Module || typeof this._set_pose_info !== 'function') {
       console.error('AprilTag not properly initialized');
@@ -390,10 +509,20 @@ class ApriltagPipeline {
     }
   }
 
+  /**
+   * @brief Возвращает последние параметры внутренней калибровки, переданные детектору.
+   * @returns {{fx:number, fy:number, cx:number, cy:number}} Текущие intrinsics.
+   */
   getCameraInfo() {
     return this.currentIntrinsics || { fx: 800, fy: 800, cx: 320, cy: 240 };
   }
 
+  /**
+   * @brief Сообщает детектору физический размер тега.
+   * @param tagid Идентификатор тега.
+   * @param size Длина стороны тега в метрах.
+   * @returns {number|undefined} Код результата от WASM-обёртки.
+   */
   set_tag_size(tagid, size) {
     if (!this._Module || typeof this._set_tag_size !== 'function') {
       console.error('AprilTag not properly initialized');

@@ -1,12 +1,31 @@
 import { useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Matrix4 } from 'three';
+
+/**
+ * @brief Проверяет, что массив соответствует однородной матрице 4×4.
+ * @param matrixArray Массив элементов матрицы.
+ * @returns {boolean} Истина, если матрица валидна.
+ */
 function isMatrixValid(matrixArray) {
   return Boolean(matrixArray && Array.isArray(matrixArray) &&
     matrixArray.length === 16 &&
     matrixArray.every(val => val !== null && val !== undefined && !isNaN(val)));
 }
 
+/**
+ * @brief Строит проекционную матрицу по внутренним параметрам камеры.
+ * @param camera Настраиваемая камера Three.js.
+ * @param fx Горизонтальное фокусное расстояние.
+ * @param fy Вертикальное фокусное расстояние.
+ * @param cx Координата X главной точки.
+ * @param cy Координата Y главной точки.
+ * @param w Ширина кадра в пикселях.
+ * @param h Высота кадра в пикселях.
+ * @param near Ближняя плоскость отсечения.
+ * @param far Дальняя плоскость отсечения.
+ * @returns {void}
+ */
 function setProjectionFromIntrinsics(camera, fx, fy, cx, cy, w, h, near=0.01, far=100) {
   const P = new Matrix4();
   const m00 = 2*fx/w, m11 = 2*fy/h;
@@ -22,6 +41,15 @@ function setProjectionFromIntrinsics(camera, fx, fy, cx, cy, w, h, near=0.01, fa
   // camera.projectionMatrixInverse.copy(P.clone().invert());
 }
 
+/**
+ * @brief Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag.
+ * @param props.transfers Набор трансформаций для отрисовки (опционально).
+ * @param props.pipelineRef Ссылка на пайплайн AprilTag с интринзиками.
+ * @param props.videoWidth Ширина исходного видео.
+ * @param props.videoHeight Высота исходного видео.
+ * @param props.anchorMatrix Дополнительная матрица якоря.
+ * @returns {JSX.Element} Содержимое сцены с отображением якоря.
+ */
 function Scene({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix }) {
   const { camera } = useThree();
 
@@ -70,6 +98,11 @@ function Scene({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix 
   );
 }
 
+/**
+ * @brief Адаптер, пробрасывающий пропсы во внутренний компонент Scene.
+ * @param props Параметры сцены.
+ * @returns {JSX.Element} Настроенный компонент Scene.
+ */
 export default function SceneComponent(props) {
   return <Scene {...props} />;
 }

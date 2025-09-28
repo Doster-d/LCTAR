@@ -15,18 +15,38 @@ import { action, makeObservable, observable } from "mobx";
 import { CanvasSource, Output, Mp4OutputFormat, BufferTarget, QUALITY_HIGH } from "mediabunny";
 
 const EPSILON = 1e-7;
+/**
+ * @brief Округляет число вниз с учётом эпсилона, чтобы избежать ошибок округления.
+ * @param n Входное значение.
+ * @returns {number} Целая часть после округления вниз.
+ */
 function floor(n) { return Math.floor(n + EPSILON); }
+/**
+ * @brief Округляет число до ближайшего чётного целого.
+ * @param n Входное значение.
+ * @returns {number} Приближённое чётное целое.
+ */
 function even(n) { const r = Math.round(n); return r & 1 ? r + 1 : r; }
 
 const SCALES = { "1x": 1, "2x": 2, "3x": 3, "4x": 4 };
 
 const VideoCanvasContext = createContext(null);
+/**
+ * @brief React-хук для доступа к контексту VideoCanvasManager.
+ * @returns {VideoCanvasManager} Активный менеджер видеоканваса.
+ */
 export const useVideoCanvas = () => {
   const ctx = useContext(VideoCanvasContext);
   if (!ctx) throw new Error("useVideoCanvas must be used inside <VideoCanvas>");
   return ctx;
 };
 
+/**
+ * @brief Оборачивает канвас React Three Fiber и открывает менеджер записи через ref.
+ * @param props Пропсы компонента, включая fps, onCreated и потомков.
+ * @param ref Ref, принимающий VideoCanvasInstance.
+ * @returns {JSX.Element} Управляемый элемент канваса.
+ */
 export const VideoCanvas = forwardRef(function VideoCanvas(
   { fps, onCreated, children, ...otherProps },
   ref
@@ -66,6 +86,13 @@ export const VideoCanvas = forwardRef(function VideoCanvas(
   );
 });
 
+/**
+ * @brief Внутренний слой канваса, управляющий расписанием захвата кадров.
+ * @param fps Целевая частота кадров.
+ * @param children Содержимое сцены для рендера.
+ * @param ref Ref, получающий менеджер записи.
+ * @returns {JSX.Element} Провайдер контекста для потомков.
+ */
 const VideoCanvasInner = forwardRef(function VideoCanvasInner({ fps, children }, ref) {
   const { gl, size } = require("@react-three/fiber").useThree((s) => ({
     gl: s.gl,
@@ -111,7 +138,15 @@ const VideoCanvasInner = forwardRef(function VideoCanvasInner({ fps, children },
   return <VideoCanvasContext.Provider value={videoCanvas}>{children}</VideoCanvasContext.Provider>;
 });
 
+/**
+ * @brief Координирует время воспроизведения и запись WebGL-канваса.
+ */
 export class VideoCanvasManager {
+  /**
+   * @brief Создаёт новый менеджер записи.
+   * @param gl WebGL-рендерер, используемый для захвата.
+   * @param fps Целевая частота захвата.
+   */
   constructor(gl, { fps = 60 } = {}) {
     this.gl = gl;
     this.fps = fps;
@@ -134,16 +169,53 @@ export class VideoCanvasManager {
     });
   }
 
+  /**
+   * @brief Переводит прошедшие секунды в индекс кадра.
+   * @param time Время в секундах.
+   * @returns {number} Индекс кадра.
+   */
   toFrame(time) { return floor(time * this.fps); }
+  /**
+   * @brief Преобразует индекс кадра обратно во время.
+   * @param frame Индекс кадра.
+   * @returns {number} Время в секундах.
+   */
   toTime(frame) { return frame / this.fps; }
 
+  /**
+   * @brief Текущее время воспроизведения в секундах.
+   * @returns {number}
+   */
   get time() { return this.toTime(this.frame); }
+  /**
+   * @brief Устанавливает время воспроизведения через преобразование кадров.
+   * @param time Время в секундах.
+   * @returns {void}
+   */
   setTime(time) { this.setFrame(this.toFrame(time)); }
 
+  /**
+   * @brief Текущая позиция курсора по кадрам.
+   * @returns {number}
+   */
   get frame() { return this.toFrame(this.rawTime); }
+  /**
+   * @brief Обновляет курсор кадра и внутреннее представление времени.
+   * @param frame Индекс кадра.
+   * @returns {void}
+   */
   setFrame(frame) { this.rawTime = this.toTime(floor(frame)); }
+  /**
+   * @brief Настраивает целевую частоту кадров.
+   * @param fps Новая частота.
+   * @returns {void}
+   */
   setFps(fps) { this.fps = fps; }
 
+  /**
+   * @brief Запускает продвижение таймера воспроизведения.
+   * @returns {void}
+   */
   play() {
     this.isPlaying = true;
     if (this.rafId === null) {
@@ -152,6 +224,10 @@ export class VideoCanvasManager {
     }
   }
 
+  /**
+   * @brief Останавливает продвижение таймера воспроизведения.
+   * @returns {void}
+   */
   pause() {
     this.isPlaying = false;
     if (this.rafId !== null) {
@@ -160,6 +236,9 @@ export class VideoCanvasManager {
     }
   }
 
+  /**
+   * @brief Внутренний RAF-цикл, накапливающий время кадра.
+   */
   loop = action(() => {
     if (!this.isPlaying) return;
     const ts = performance.now();
@@ -169,6 +248,16 @@ export class VideoCanvasManager {
     this.rafId = requestAnimationFrame(this.loop);
   });
 
+  /**
+   * @brief Запускает сессию записи с заданными параметрами.
+   * @param mode Режим записи (покадровый или реального времени).
+   * @param duration Целевая длительность в секундах.
+   * @param format Описание выходного формата.
+   * @param codec Идентификатор видеокодека.
+   * @param size Пресет масштабирования пикселей.
+   * @param quality Целевой битрейт или профиль качества.
+   * @returns {Promise<Blob>} Промис с готовым видеоблобом.
+   */
   record({
     mode,
     duration,
@@ -219,7 +308,20 @@ const VideoRecordingStatus = {
   Canceling: "canceling",
 };
 
+/**
+ * @brief Базовый класс, инкапсулирующий жизненный цикл записи.
+ */
 class VideoRecording {
+  /**
+   * @brief Создаёт обёртку новой сессии записи.
+   * @param canvas HTMLCanvasElement, с которого ведётся захват.
+   * @param fps Частота захвата.
+   * @param format Экземпляр выходного формата.
+   * @param codec Идентификатор видеокодека.
+   * @param quality Качество кодирования или битрейт.
+   * @param onDone Колбэк с готовым блобом.
+   * @param onError Колбэк при ошибке записи.
+   */
   constructor({ canvas, fps, format, codec, quality, onDone, onError }) {
     this.canvas = canvas;
     this.fps = fps;
@@ -248,11 +350,30 @@ class VideoRecording {
     });
   }
 
+  /**
+   * @brief Переводит секунды в номер кадра.
+   * @param time Время в секундах.
+   * @returns {number} Номер кадра.
+   */
   toFrame(time) { return floor(time * this.fps); }
+  /**
+   * @brief Возвращает индекс кадра обратно во временную отметку.
+   * @param frame Номер кадра.
+   * @returns {number} Время в секундах.
+   */
   toTime(frame) { return frame / this.fps; }
 
+  /**
+   * @brief Обновляет текущий статус записи.
+   * @param s Новое значение статуса.
+   * @returns {void}
+   */
   setStatus(s) { this.status = s; }
 
+  /**
+   * @brief Завершает запись и возвращает итоговый блоб.
+   * @returns {Promise<void>}
+   */
   stop = async () => {
     try {
       this.setStatus(VideoRecordingStatus.Finalizing);
@@ -266,6 +387,11 @@ class VideoRecording {
     }
   };
 
+  /**
+   * @brief Отменяет запись и передаёт ошибку подписчикам.
+   * @param err Ошибка, объясняющая причину отмены.
+   * @returns {Promise<void>}
+   */
   cancelWithReason = async (err = new Error("Recording canceled")) => {
     try {
       this.setStatus(VideoRecordingStatus.Canceling);
@@ -277,15 +403,27 @@ class VideoRecording {
     }
   };
 
+  /**
+   * @brief Упрощённый помощник для отмены записи с сообщением по умолчанию.
+   * @returns {Promise<void>}
+   */
   cancel = async () => this.cancelWithReason(new Error("Recording canceled"));
 }
 
+/**
+ * @brief Режим записи, снимающий дискретные кадры для детерминированного тайминга.
+ */
 class FrameAccurateVideoRecording extends VideoRecording {
   constructor(params) {
     super(params);
     this.duration = params.duration;
   }
 
+  /**
+   * @brief Захватывает кадр по точной временной отметке для последующего кодирования.
+   * @param frame Индекс кадра, который нужно сохранить.
+   * @returns {Promise<void>}
+   */
   async captureFrame(frame) {
     try {
       this.isCapturingFrame = true;
@@ -306,12 +444,20 @@ class FrameAccurateVideoRecording extends VideoRecording {
   }
 }
 
+/**
+ * @brief Режим записи, транслирующий кадры в реальном времени.
+ */
 class RealtimeVideoRecording extends VideoRecording {
   constructor(params) {
     super(params);
     this.duration = params.duration ?? null;
   }
 
+  /**
+   * @brief Захватывает кадр в процессе записи в реальном времени.
+   * @param frame Индекс кадра для сохранения.
+   * @returns {Promise<void>}
+   */
   async captureFrame(frame) {
     try {
       this.isCapturingFrame = true;

@@ -4,7 +4,11 @@ import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { Model } from './models/Train';
 
-// Video background component for React Three Fiber
+/**
+ * @brief Отрисовывает поток камеры как текстурированную плоскость позади 3D-сцены.
+ * @param videoRef Ссылка на HTMLVideoElement с видеокадрами.
+ * @returns {JSX.Element|null} Фоновая меш-плоскость либо null, пока текстура не готова.
+ */
 function VideoBackground({ videoRef }) {
   const textureRef = useRef(null);
   const { viewport } = useThree();
@@ -40,6 +44,10 @@ function VideoBackground({ videoRef }) {
   );
 }
 
+/**
+ * @brief Демонстрационный компонент, совмещающий видео камеры с наложенной моделью поезда.
+ * @returns {JSX.Element} Интерактивная сцена превью AR.
+ */
 const TestModelVideoComponent = () => {
   const videoRef = useRef(null);
   const mixCanvasRef = useRef(null);
@@ -107,6 +115,10 @@ const TestModelVideoComponent = () => {
     };
   }, [videoStream]);
 
+  /**
+   * @brief Инициализирует 2D-канвас для композитинга видеопотока камеры.
+   * @returns {void}
+   */
   const setupCompositeCanvas = useCallback(() => {
     const video = videoRef.current;
     const mixCanvas = mixCanvasRef.current;
@@ -154,7 +166,10 @@ const TestModelVideoComponent = () => {
     render();
   }, []);
 
-  // Loading fallback component
+  /**
+   * @brief Резервный интерфейс, показанный во время загрузки моделей.
+   * @returns {JSX.Element} Содержимое накладного экрана загрузки.
+   */
   const LoadingFallback = () => (
     <div style={{
       position: 'absolute',
@@ -170,7 +185,11 @@ const TestModelVideoComponent = () => {
     </div>
   );
 
-  // Error display component
+  /**
+   * @brief Оверлей, сообщающий об ошибках доступа к камере.
+   * @param error Текст ошибки для отображения пользователю.
+   * @returns {JSX.Element} Стилизованный оверлей с ошибкой.
+   */
   const ErrorDisplay = ({ error }) => (
     <div style={{
       position: 'absolute',
@@ -190,7 +209,10 @@ const TestModelVideoComponent = () => {
     </div>
   );
 
-  // 3D Scene component
+  /**
+   * @brief Инкапсулирует сцену Three.js, отображаемую в канвасе.
+   * @returns {JSX.Element} Содержимое сцены с управлением и освещением.
+   */
   const Scene3D = () => {
     return (
       <>

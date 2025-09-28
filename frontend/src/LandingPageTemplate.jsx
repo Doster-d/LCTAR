@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import './LandingPageTemplate.css';
 
-const LandingPageTemplate = ({ onSwitchToApp }) => {
+/**
+ * @brief Маркетинговый лендинг с локализацией и призывом к действию.
+ * @param onSwitchToApp Обработчик перехода в AR-приложение.
+ * @returns {JSX.Element} Разметка посадочной страницы.
+ */
+const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('en');
 
+  /**
+   * @brief Переключает светлую и тёмную тему.
+   * @returns {void}
+   */
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  /**
+   * @brief Переключает язык интерфейса между EN и RU.
+   * @returns {void}
+   */
   const toggleLang = () => setLang(lang === 'en' ? 'ru' : 'en');
 
   const translations = {
@@ -36,16 +49,17 @@ const LandingPageTemplate = ({ onSwitchToApp }) => {
       },
       team: {
         title: "Development Team",
-        roster: ["Vagulich Alexander", "Alexeev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
+        roster: ["Vagulich Alexander", "Alekseev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
         roles: ["Frontend Developer", "Full Stack Developer", "3D Designer", "Backend Developer", "DevOps Engineer"],
         techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D Modeling", "FastAPI, Python", "Docker, Kubernetes"]
       },
       stakeholders: {
-        title: "Stakeholders",
+        title: "You",
         description: "Customer focus is based on a sincere desire to make you happy and purr with pleasure"
       },
       cta: {
-        buttonText: "Back to AR"
+        buttonText: "Back to AR",
+        editorButtonText: "AprilTag layout editor"
       }
     },
     ru: {
@@ -80,11 +94,12 @@ const LandingPageTemplate = ({ onSwitchToApp }) => {
         techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D-моделирование", "FastAPI, Python", "Docker, Kubernetes"]
       },
       stakeholders: {
-        title: "Стейкхолдеры",
+        title: "Вы",
         description: "Клиентоориентированность строится на искреннем желании сделать вас счастливыми и мурчащими от удовольствия"
       },
       cta: {
-        buttonText: "Вернуться к AR"
+        buttonText: "Вернуться к AR",
+        editorButtonText: "Редактор макета AprilTag"
       }
     }
   };
@@ -166,32 +181,52 @@ const LandingPageTemplate = ({ onSwitchToApp }) => {
         </div>
       </section>
 
-      {/* 5. Call-to-Action Button */}
+      {/* 5. Call-to-Action */}
       <section className="cta">
-        <button
-          type="button"
-          aria-label={t.cta.buttonText}
-          className="cta-button"
-          onPointerDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onSwitchToApp && onSwitchToApp();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+        <div className="cta-buttons">
+          <button
+            type="button"
+            aria-label={t.cta.buttonText}
+            className="cta-button"
+            onPointerDown={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               onSwitchToApp && onSwitchToApp();
-            }
-          }}
-          style={{
-            position: 'relative',
-            bottom: 24,
-            zIndex: 2,
-            pointerEvents: 'auto'
-          }}
-        >
-          {t.cta.buttonText}
-        </button>
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSwitchToApp && onSwitchToApp();
+              }
+            }}
+            style={{
+              pointerEvents: 'auto'
+            }}
+          >
+            {t.cta.buttonText}
+          </button>
+          <button
+            type="button"
+            aria-label={t.cta.editorButtonText}
+            className="cta-button secondary"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onOpenEditor && onOpenEditor();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenEditor && onOpenEditor();
+              }
+            }}
+            style={{
+              pointerEvents: 'auto'
+            }}
+          >
+            {t.cta.editorButtonText}
+          </button>
+        </div>
       </section>
     </div>
   );

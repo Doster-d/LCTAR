@@ -7,6 +7,11 @@ Files: public/models/Train.glb [8.46KB] > E:\source\repos\LCTAR\frontend\src\mod
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
+/**
+ * @brief Статичная модель поезда для визуализации маркеров.
+ * @param props Проброшенные пропсы группы для позиционирования.
+ * @returns {JSX.Element} Набор мешей поезда.
+ */
 export function Model(props) {
   const { nodes, materials } = useGLTF('models/Train-transformed.glb')
   return (
@@ -18,4 +23,7 @@ export function Model(props) {
   )
 }
 
+/**
+ * @brief Предварительно загружает GLTF-модель поезда для рендера.
+ */
 useGLTF.preload('models/Train-transformed.glb')

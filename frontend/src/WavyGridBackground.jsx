@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+/**
+ * @brief Анимированный SVG-фон из синусоидально искажённой сетки.
+ * @returns {JSX.Element} Фоновое полноэкранное SVG.
+ */
 const WavyGridBackground = () => {
   const [dimensions, setDimensions] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 1920,
@@ -61,6 +65,11 @@ const WavyGridBackground = () => {
     return () => clearInterval(interval);
   }, []);
 
+  /**
+   * @brief Формирует волнистый горизонтальный путь SVG с заданным смещением.
+   * @param baseY Базовая координата Y.
+   * @returns {string} Команда построения пути SVG.
+   */
   const generateHorizontalPath = (baseY) => {
     let path = '';
     const extendedWidth = dimensions.width + spacing;
@@ -75,6 +84,11 @@ const WavyGridBackground = () => {
     return path;
   };
 
+  /**
+   * @brief Формирует волнистый вертикальный путь SVG с заданным смещением.
+   * @param baseX Базовая координата X.
+   * @returns {string} Команда построения пути SVG.
+   */
   const generateVerticalPath = (baseX) => {
     let path = '';
     const extendedHeight = dimensions.height + spacing;

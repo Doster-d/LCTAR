@@ -6,14 +6,34 @@ import { Canvas } from '@react-three/fiber';
 import { Model as TestModel } from './models/Testmodel';
 import { Model as TrainModel } from './models/Train';
 import { SkeletonUtils } from 'three-stdlib'
+import { averageQuaternion, bestFitPointFromRays, toVector3, clampQuaternion, softenSmallAngleQuaternion } from './lib/anchorMath';
+import { loadAlva } from './alvaBridge';
 
+/**
+ * @brief Ограничивает число указанным диапазоном.
+ * @param v Исходное значение.
+ * @param a Нижняя граница.
+ * @param b Верхняя граница.
+ * @returns {number} Значение, зажатое между a и b.
+ */
 function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+
+/**
+ * @brief Форматирует миллисекунды в строку mm:ss.
+ * @param ms Длительность в миллисекундах.
+ * @returns {string} Отформатированное время.
+ */
 function fmt(ms) {
   const s = Math.floor(ms / 1000);
   const m = String(Math.floor(s / 60)).padStart(2, "0");
   const ss = String(s % 60).padStart(2, "0");
   return `${m}:${ss}`;
 }
+
+/**
+ * @brief Подбирает поддерживаемый MIME-тип для записи видео.
+ * @returns {string} Предпочтительный MIME-тип или пустую строку при отсутствии поддержки.
+ */
 function pickMime() {
   const list = [
     "video/mp4;codecs=h264,aac",
@@ -27,6 +47,36 @@ function pickMime() {
   return "";
 }
 
+/**
+ * @brief Коэффициент интерполяции позиции якоря между кадрами.
+ */
+const ANCHOR_POSITION_LERP = 0.18;
+/**
+ * @brief Коэффициент интерполяции ориентации якоря между кадрами.
+ */
+const ANCHOR_ROTATION_SLERP = 0.18;
+/**
+ * @brief Dead zone (радианы), в пределах которой якорь считается без поворота.
+ */
+const SMALL_ANGLE_DEADZONE = 0.08;
+/**
+ * @brief Угол (радианы), при превышении которого демпфирование не применяется.
+ */
+const SMALL_ANGLE_SOFT_ZONE = 0.24;
+/**
+ * @brief Генерирует насыщенный цвет для указанного идентификатора тега.
+ * @param tagId Идентификатор AprilTag.
+ * @returns {THREE.Color} Детеминированный цвет.
+ */
+const getRayColor = (tagId) => {
+  const hue = ((tagId ?? 0) * 0.173) % 1;
+  return new THREE.Color().setHSL(hue, 0.68, 0.53);
+};
+
+/**
+ * @brief Основной AR-компонент: камера, детектор, отрисовка и запись.
+ * @returns {JSX.Element} Узел с разметкой приложения.
+ */
 export default function ARRecorder() {
   const mixRef = useRef(null);     // конечный 2D-canvas
   const procRef = useRef(null);    // hidden processing canvas (fixed 640x480 for OpenCV)
@@ -47,6 +97,15 @@ export default function ARRecorder() {
   const trainPrefabRef = useRef(null); // Train model prefab for AprilTag spawning
   const trainMapRef = useRef(new Map());
   const mainModelPrefabRef = useRef(null); // TestModel prefab for initial always-visible instance
+  const sceneAnchorsRef = useRef(new Map());
+  const anchorDebugMapRef = useRef(new Map());
+  const scenePlaneRef = useRef(new Map());
+  const activeSceneIdRef = useRef(null);
+  const [activeSceneId, setActiveSceneId] = useState(null);
+  const alvaRef = useRef(null);
+  const lastAlvaUpdateRef = useRef(0);
+  const alvaPointsRef = useRef([]);
+  const fallbackCubeRef = useRef(null);
 
   // Streams / recorder
   const camStreamRef = useRef(null);
@@ -69,6 +128,25 @@ export default function ARRecorder() {
   const [aprilTagTransforms, setAprilTagTransforms] = useState([]);
   const aprilTagPipelineRef = useRef(null);
 
+  useEffect(() => {
+    let cancelled = false;
+    const initAlva = async () => {
+      try {
+        const instance = await loadAlva(window.innerWidth || 640, window.innerHeight || 480);
+        if (!cancelled) {
+          alvaRef.current = instance;
+          console.log('✅ AlvaAR initialized');
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error('❌ Ошибка инициализации AlvaAR:', err);
+        }
+      }
+    };
+    initAlva();
+    return () => { cancelled = true; };
+  }, []);
+
   // init renderer + scene once
   useEffect(() => {
     const gl = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
@@ -84,6 +162,31 @@ export default function ARRecorder() {
     // For now create a temporary placeholder group to avoid null checks in interaction logic.
     const placeholder = new THREE.Group();
     placeholder.position.set(0, 0, -0.6);
+
+    const fallbackGeometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+    const colorArray = [];
+    const facePalette = [
+      new THREE.Color('#ff4d4f'),
+      new THREE.Color('#36cfc9'),
+      new THREE.Color('#40a9ff'),
+      new THREE.Color('#fadb14'),
+      new THREE.Color('#9254de'),
+      new THREE.Color('#73d13d')
+    ];
+    const positionCount = fallbackGeometry.getAttribute('position').count;
+    for (let i = 0; i < positionCount; i += 1) {
+      const faceColor = facePalette[Math.floor(i / 6) % facePalette.length];
+      colorArray.push(faceColor.r, faceColor.g, faceColor.b);
+    }
+    fallbackGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colorArray, 3));
+    const fallbackMaterial = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.2, roughness: 0.5, emissiveIntensity: 0.1 });
+    const fallbackCube = new THREE.Mesh(fallbackGeometry, fallbackMaterial);
+    fallbackCube.name = 'AnchorDebugCube';
+    const edgeHelper = new THREE.LineSegments(new THREE.EdgesGeometry(fallbackGeometry), new THREE.LineBasicMaterial({ color: 0x111111 }));
+    fallbackCube.add(edgeHelper);
+    placeholder.add(fallbackCube);
+    fallbackCubeRef.current = fallbackCube;
+
     scene.add(placeholder);
     cubeRef.current = placeholder;
 
@@ -132,15 +235,30 @@ export default function ARRecorder() {
     };
   }, []);
 
+  /**
+   * @brief Сохраняет основной префаб модели и добавляет его в сцену.
+   * @param node Клон модели, полученный из React Three Fiber.
+   */
   const attachTestModel = (node) => {
     if (!node || !sceneRef.current) return;
     node.position.set(0, 0, -0.6);
     sceneRef.current.add(node);
     cubeRef.current = node;
     mainModelPrefabRef.current = node;
+    if (fallbackCubeRef.current) {
+      fallbackCubeRef.current.parent?.remove(fallbackCubeRef.current);
+      fallbackCubeRef.current.scale.set(0.25, 0.25, 0.25);
+      fallbackCubeRef.current.position.set(0, 0, 0);
+      fallbackCubeRef.current.visible = true;
+      node.add(fallbackCubeRef.current);
+    }
     console.log('✅ TestModel attached as main visible model');
   };
 
+  /**
+   * @brief Сохраняет префаб поезда для последующего клонирования под каждый тег.
+   * @param node Экземпляр модели поезда.
+   */
   const captureTrainPrefab = (node) => {
     if (!node) return;
     trainPrefabRef.current = node;
@@ -170,6 +288,10 @@ export default function ARRecorder() {
     };
   }, []);
 
+  /**
+   * @brief Подгоняет размеры канвасов под текущие габариты видео и окна.
+   * @returns {void}
+   */
   const sizeAll = useCallback(() => {
     const video = camRef.current;
     const mix = mixRef.current;
@@ -208,8 +330,345 @@ export default function ARRecorder() {
     cam.updateProjectionMatrix();
   }, []);
 
+  /**
+   * @brief Объединяет детекции AprilTag в стабилизированные якоря сцены.
+   * @param detections Последний набор детекций из пайплайна AprilTag.
+   * @returns {Map<string, Array<object>>|null} Детекции, сгруппированные по сценам.
+   */
+  const updateSceneAnchors = useCallback((detections) => {
+    const grouped = new Map();
+    detections.forEach(det => {
+      if (!det || !det.sceneId) return;
+      if (!grouped.has(det.sceneId)) {
+        grouped.set(det.sceneId, []);
+      }
+      grouped.get(det.sceneId).push(det);
+    });
+
+    const anchors = sceneAnchorsRef.current;
+    const now = performance.now();
+
+    grouped.forEach((list, sceneId) => {
+      let state = anchors.get(sceneId);
+      if (!state) {
+        state = {
+          position: null,
+          rotation: null,
+          targetPosition: null,
+          targetRotation: null,
+          fallback: new THREE.Vector3(0, 0, -0.6),
+          radius: 0.25,
+          lastSeen: 0,
+          visible: false,
+          rays: [],
+          lastDetections: []
+        };
+        anchors.set(sceneId, state);
+      }
+
+      const pipeline = aprilTagPipelineRef.current;
+      const sceneConfig = pipeline?.getSceneConfig(sceneId) || null;
+      const radius = typeof sceneConfig?.diameter === 'number' ? sceneConfig.diameter / 2 : 0.25;
+
+      let fallbackVector = state.fallback ? state.fallback.clone() : new THREE.Vector3(0, 0, -0.6);
+      const rays = list.map(det => {
+        const fallback = toVector3(det?.fallbackCenter, fallbackVector);
+        fallbackVector = fallback.clone();
+        const origin = toVector3(det.position, fallback);
+        const direction = toVector3(det.normal, new THREE.Vector3(0, 0, 1));
+        if (direction.lengthSq() < 1e-6) direction.set(0, 0, 1);
+        direction.normalize();
+        const length = typeof det.normalLength === 'number' ? det.normalLength : 0;
+        const anchor = toVector3(det.anchorPoint, origin.clone().addScaledVector(direction, length));
+        return { origin, direction, anchor, length, tagId: det.id };
+      });
+
+      const anchorCenters = [];
+      list.forEach(det => {
+        if (det?.anchorCamera) {
+          anchorCenters.push(toVector3(det.anchorCamera, new THREE.Vector3(0, 0, 0)));
+        }
+      });
+      const unionCenter = anchorCenters.length
+        ? anchorCenters.reduce((acc, vec) => acc.add(vec), new THREE.Vector3()).multiplyScalar(1 / anchorCenters.length)
+        : null;
+
+      let targetPosition = null;
+      if (rays.length >= 2) {
+        const solution = bestFitPointFromRays(rays.map(ray => ({ origin: ray.origin, direction: ray.direction })));
+        if (solution) targetPosition = solution;
+      }
+      if (!targetPosition && rays.length > 0) {
+        const sum = rays.reduce((acc, ray) => acc.add(ray.anchor.clone()), new THREE.Vector3());
+        targetPosition = sum.multiplyScalar(1 / rays.length);
+      }
+      if (!targetPosition) {
+        targetPosition = unionCenter ? unionCenter.clone() : fallbackVector.clone();
+      }
+
+      const quaternions = list.map(det => {
+        const matrixArray = det.rotationMatrix || det.matrixBase || det.matrix;
+        const matrix = new THREE.Matrix4();
+        if (Array.isArray(matrixArray) && matrixArray.length === 16) {
+          matrix.fromArray(matrixArray);
+        } else {
+          matrix.identity();
+        }
+        const quat = new THREE.Quaternion().setFromRotationMatrix(matrix);
+        return clampQuaternion(quat);
+      });
+      let targetRotation = quaternions.length ? averageQuaternion(quaternions) : null;
+      if (!targetRotation) {
+        targetRotation = state.targetRotation ? state.targetRotation.clone() : new THREE.Quaternion();
+      }
+      clampQuaternion(targetRotation);
+      targetRotation = softenSmallAngleQuaternion(targetRotation, SMALL_ANGLE_DEADZONE, SMALL_ANGLE_SOFT_ZONE);
+
+      const planeInfo = scenePlaneRef.current.get(sceneId);
+      if (planeInfo) {
+        const planePosition = planeInfo.position.clone();
+        if (unionCenter && radius > 0) {
+          const distance = planePosition.distanceTo(unionCenter);
+          if (distance > radius) {
+            planePosition.copy(unionCenter);
+          }
+        }
+        targetPosition = planePosition;
+        targetRotation = planeInfo.quaternion.clone();
+      }
+
+      state.fallback = fallbackVector.clone();
+      state.radius = radius;
+      state.targetPosition = targetPosition.clone();
+      state.targetRotation = targetRotation.clone();
+      state.lastSeen = now;
+      state.visible = true;
+      state.rays = rays;
+      state.lastDetections = list;
+      state.plane = planeInfo || null;
+
+      if (!state.position) state.position = targetPosition.clone();
+      if (!state.rotation) state.rotation = targetRotation.clone();
+
+      anchors.set(sceneId, state);
+    });
+
+    anchors.forEach((state, sceneId) => {
+      if (!grouped.has(sceneId)) {
+        state.visible = false;
+        if (!state.targetPosition) {
+          state.targetPosition = state.position ? state.position.clone() : state.fallback.clone();
+        }
+        if (!state.targetRotation) {
+          state.targetRotation = state.rotation ? state.rotation.clone() : new THREE.Quaternion();
+        }
+      }
+
+      if (state.targetPosition && state.position) {
+        state.position.lerp(state.targetPosition, ANCHOR_POSITION_LERP);
+      }
+      if (state.targetRotation && state.rotation) {
+        state.rotation.slerp(state.targetRotation, ANCHOR_ROTATION_SLERP);
+        clampQuaternion(state.rotation);
+        const softenedRotation = softenSmallAngleQuaternion(state.rotation, SMALL_ANGLE_DEADZONE, SMALL_ANGLE_SOFT_ZONE);
+        state.rotation.copy(softenedRotation);
+      }
+    });
+
+    if (grouped.size > 0) {
+      const previous = activeSceneIdRef.current;
+      if (!previous || !grouped.has(previous)) {
+        const nextId = grouped.keys().next().value;
+        if (activeSceneIdRef.current !== nextId) {
+          activeSceneIdRef.current = nextId;
+          setActiveSceneId(nextId);
+        }
+      }
+    } else if (!activeSceneIdRef.current && anchors.size > 0) {
+      const fallbackId = anchors.keys().next().value;
+      activeSceneIdRef.current = fallbackId;
+      setActiveSceneId(fallbackId);
+    }
+
+    return grouped;
+  }, [setActiveSceneId]);
+
+  /**
+   * @brief Синхронизирует линии-лучи от тегов с текущими состояниями якорей.
+   * @param sceneAnchors Карта сцен и их состояниями якорей.
+   * @returns {void}
+   */
+  const updateRayHelpers = useCallback((sceneAnchors) => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    const map = anchorDebugMapRef.current;
+    const activeKeys = new Set();
+
+    sceneAnchors.forEach((state, sceneId) => {
+      const rays = state?.rays || [];
+      rays.forEach((ray, index) => {
+        const key = `${sceneId || 'default'}-${ray.tagId ?? index}`;
+        activeKeys.add(key);
+        let line = map.get(key);
+        if (!line) {
+          const geometry = new THREE.BufferGeometry();
+          const positions = new Float32Array(6);
+          geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+          const material = new THREE.LineBasicMaterial({ transparent: true, opacity: 0.8 });
+          line = new THREE.Line(geometry, material);
+          line.frustumCulled = false;
+          map.set(key, line);
+          scene.add(line);
+        }
+        const color = getRayColor(ray.tagId);
+        line.material.color.copy(color);
+        line.material.needsUpdate = true;
+        const arr = line.geometry.attributes.position.array;
+        arr[0] = ray.origin.x;
+        arr[1] = ray.origin.y;
+        arr[2] = ray.origin.z;
+        arr[3] = ray.anchor.x;
+        arr[4] = ray.anchor.y;
+        arr[5] = ray.anchor.z;
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+    });
+
+    map.forEach((line, key) => {
+      if (!activeKeys.has(key)) {
+        scene.remove(line);
+        line.geometry.dispose();
+        line.material.dispose();
+        map.delete(key);
+      }
+    });
+  }, []);
+
+  const assignAlvaPoints = useCallback((rawPoints) => {
+    const normalizedPoints = [];
+
+    const pushPoint = (p) => {
+      if (!p) return;
+      if (typeof p.x === 'number' && typeof p.y === 'number') {
+        normalizedPoints.push({ x: p.x, y: p.y });
+        return;
+      }
+      if (Array.isArray(p) && p.length >= 2) {
+        const nx = Number(p[0]);
+        const ny = Number(p[1]);
+        if (Number.isFinite(nx) && Number.isFinite(ny)) {
+          normalizedPoints.push({ x: nx, y: ny });
+        }
+        return;
+      }
+      if (typeof p === 'object' && p) {
+        const nx = Number(p.x ?? p[0]);
+        const ny = Number(p.y ?? p[1]);
+        if (Number.isFinite(nx) && Number.isFinite(ny)) {
+          normalizedPoints.push({ x: nx, y: ny });
+        }
+      }
+    };
+
+    if (rawPoints && typeof rawPoints.length === 'number') {
+      for (let i = 0; i < rawPoints.length; i += 1) {
+        pushPoint(rawPoints[i]);
+      }
+    } else if (rawPoints && typeof rawPoints[Symbol.iterator] === 'function') {
+      for (const p of rawPoints) {
+        pushPoint(p);
+      }
+    }
+
+    alvaPointsRef.current = normalizedPoints;
+    return normalizedPoints;
+  }, []);
+
+  const extractPlaneState = useCallback((matrixArray) => {
+    if (!matrixArray || matrixArray.length !== 16) return null;
+
+    const planeMatrix = new THREE.Matrix4().set(
+      matrixArray[0], matrixArray[1], matrixArray[2], matrixArray[12] ?? 0,
+      matrixArray[4], matrixArray[5], matrixArray[6], matrixArray[13] ?? 0,
+      matrixArray[8], matrixArray[9], matrixArray[10], matrixArray[14] ?? 0,
+      0, 0, 0, 1
+    );
+
+    const position = new THREE.Vector3(
+      matrixArray[12] ?? 0,
+      matrixArray[13] ?? 0,
+      matrixArray[14] ?? 0
+    );
+    const quaternion = new THREE.Quaternion().setFromRotationMatrix(planeMatrix);
+    const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(quaternion).normalize();
+
+    return { matrix: planeMatrix, position, quaternion, normal };
+  }, []);
+
+  /**
+   * @brief Передаёт подготовленные детекции в AlvaAR для поддержания трекинга плоскости.
+   * @param sceneId Активный идентификатор сцены.
+   * @param detectionList Детекции, дополненные данными о якорях.
+   * @returns {void}
+   */
+  const updateAlvaTracking = useCallback((sceneId, detectionList) => {
+    const alva = alvaRef.current;
+    const pipeline = aprilTagPipelineRef.current;
+    if (!alva || !pipeline || !Array.isArray(detectionList) || detectionList.length === 0) return;
+
+    const now = performance.now();
+    if (now - lastAlvaUpdateRef.current < 100) return;
+    lastAlvaUpdateRef.current = now;
+
+    try {
+      const tagSizePlain = {};
+      const sizeMap = pipeline.getTagSizeById();
+      if (sizeMap && typeof sizeMap.forEach === 'function') {
+        sizeMap.forEach((value, key) => {
+          if (typeof value === 'number') {
+            tagSizePlain[key] = value;
+          }
+        });
+      }
+
+      const adjustedDetections = [];
+      detectionList.forEach(det => {
+        if (!det?.rawDetection) return;
+        const clone = { ...det.rawDetection };
+        if (clone.pose && Array.isArray(clone.pose.t) && det.anchorCamera) {
+          clone.pose = { ...clone.pose, t: det.anchorCamera.slice(0, 3) };
+        }
+        adjustedDetections.push(clone);
+      });
+
+      if (adjustedDetections.length === 0) return;
+
+      alva.estimatePlaneFromTags({ detections: adjustedDetections, tagSizeById: tagSizePlain });
+
+      if (adjustedDetections.length >= 2) {
+        const tagLayout = {};
+        detectionList.forEach(det => {
+          if (det && typeof det.id === 'number' && typeof det.config?.size === 'number') {
+            tagLayout[det.id] = { size: det.config.size };
+          }
+        });
+        try {
+          alva.estimateAnchorFromMultiTags({ detections: adjustedDetections, tagLayout, K: alva.intrinsics });
+        } catch (multiErr) {
+          console.debug('Multi-tag anchor estimation skipped', multiErr);
+        }
+      }
+      assignAlvaPoints(alva.getFramePoints());
+    } catch (err) {
+      console.warn('⚠️ Ошибка обновления AlvaAR:', err);
+    }
+  }, []);
 
   // main render loop
+  /**
+   * @brief Основной цикл отрисовки: видеофон, детекции и вывод трёхмерной сцены.
+   * @returns {void}
+   */
   const renderLoop = useCallback(() => {
     const ctx = ctxRef.current;
     const video = camRef.current;
@@ -240,11 +699,8 @@ export default function ARRecorder() {
       const proc = procRef.current;
       const pctx = pctxRef.current || (proc && proc.getContext && proc.getContext("2d"));
       if (proc && pctx && video.videoWidth && video.videoHeight) {
-        // Prefer createImageBitmap with high-quality resize when available
         if (typeof createImageBitmap === "function") {
           try {
-            // createImageBitmap can accept a video element and resize it with high quality
-            // note: this is async and may reduce max FPS, but gives better downscale quality
             (async () => {
               try {
                 const bitmap = await createImageBitmap(video, { resizeWidth: proc.width, resizeHeight: proc.height, resizeQuality: 'high' });
@@ -252,7 +708,6 @@ export default function ARRecorder() {
                 pctx.drawImage(bitmap, 0, 0);
                 bitmap.close?.();
               } catch (e) {
-                // fallback
                 pctx.drawImage(video, 0, 0, proc.width, proc.height);
               }
             })();
@@ -268,75 +723,116 @@ export default function ARRecorder() {
     }
 
     // 2) AprilTag detection
+    let latestTransforms = [];
+    let imageDataForAlva = null;
     try {
       if (pipeline && video.videoWidth > 0 && video.videoHeight > 0) {
-        // Create ImageData from the fixed processing canvas (640x480) so OpenCV sees expected size
         const proc = procRef.current;
         const pctx = pctxRef.current || (proc && proc.getContext && proc.getContext("2d"));
         if (pctx) {
           try { pctx.imageSmoothingEnabled = true; pctx.imageSmoothingQuality = 'high'; } catch (e) {}
         }
         try {
-          const imageData = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
-          const transforms = pipeline.detect(imageData);
-          // Update state with detected transforms
-          setAprilTagTransforms(transforms);
+          imageDataForAlva = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
+          const detected = pipeline.detect(imageDataForAlva);
+          latestTransforms = Array.isArray(detected) ? detected : [];
+          setAprilTagTransforms(latestTransforms);
 
-          // Update pyramid debug objects in the scene immediately
-            try {
-              const scene = sceneRef.current;
-              const modelMap = trainMapRef.current;
-              const prefab = trainPrefabRef.current;
-              const seenIds = new Set();
+          try {
+            const modelMap = trainMapRef.current;
+            const prefab = trainPrefabRef.current;
+            const seenIds = new Set();
 
-              transforms.forEach(t => {
-                const id = t.id;
-                seenIds.add(id);
-                let obj = modelMap.get(id);
-                if (!obj) {
-                  if (prefab) {
-                    // clone skinned model safely
-                    obj = SkeletonUtils.clone(prefab);
-                    obj.matrixAutoUpdate = false;
-                    scene.add(obj);
-                    modelMap.set(id, obj);
-                  } else {
-                    // If prefab missing, fallback to a small box so we still see something
-                    obj = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshStandardMaterial({ color: 0xffcc00 }));
-                    obj.matrixAutoUpdate = false;
-                    scene.add(obj);
-                    modelMap.set(id, obj);
-                  }
-                }
-
-                const m = new THREE.Matrix4();
-                try {
-                  m.fromArray(t.matrix);
-                } catch (e) {
-                  return;
-                }
-                // lift model slightly above tag plane so it doesn't Z-fight
-                const up = new THREE.Matrix4().makeTranslation(0, 0.06, 0);
-                m.multiply(up);
-                obj.matrix.copy(m);
-              });
-
-              // Remove models for tags not present
-              for (const [key, obj] of Array.from(modelMap.entries())) {
-                if (!seenIds.has(key)) {
-                  obj.removeFromParent();
-                  modelMap.delete(key);
+            latestTransforms.forEach(t => {
+              const id = t.id;
+              seenIds.add(id);
+              let obj = modelMap.get(id);
+              if (!obj) {
+                if (prefab) {
+                  obj = SkeletonUtils.clone(prefab);
+                  obj.matrixAutoUpdate = false;
+                  scene.add(obj);
+                  modelMap.set(id, obj);
+                } else {
+                  obj = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshStandardMaterial({ color: 0xffcc00 }));
+                  obj.matrixAutoUpdate = false;
+                  scene.add(obj);
+                  modelMap.set(id, obj);
                 }
               }
-            } catch (e) {
-              console.warn('Failed to update Train models', e);
+
+              const m = new THREE.Matrix4();
+              try {
+                m.fromArray(t.matrix);
+              } catch (e) {
+                return;
+              }
+              const up = new THREE.Matrix4().makeTranslation(0, 0.06, 0);
+              m.multiply(up);
+              obj.matrix.copy(m);
+            });
+
+            for (const [key, obj] of Array.from(modelMap.entries())) {
+              if (!seenIds.has(key)) {
+                obj.removeFromParent();
+                modelMap.delete(key);
+              }
             }
+          } catch (e) {
+            console.warn('Failed to update Train models', e);
+          }
         } catch (err) {
           console.error('Error reading imageData for detection', err);
         }
       }
     } catch (error) {
       console.error("AprilTag detection error:", error);
+    }
+
+    const alvaInstance = alvaRef.current;
+    if (alvaInstance && imageDataForAlva) {
+      try {
+        alvaInstance.findCameraPose(imageDataForAlva);
+      } catch (err) {
+        console.debug('AlvaAR findCameraPose failed', err);
+      }
+      try {
+        assignAlvaPoints(alvaInstance.getFramePoints());
+      } catch (err) {
+        console.debug('AlvaAR getFramePoints failed', err);
+        assignAlvaPoints(null);
+      }
+      try {
+        const planeRaw = alvaInstance.findPlane(180);
+        const planeState = extractPlaneState(planeRaw);
+        const activeSceneKey = activeSceneIdRef.current ?? 'default';
+        if (planeState) {
+          scenePlaneRef.current.set(activeSceneKey, planeState);
+        }
+      } catch (err) {
+        console.debug('AlvaAR findPlane failed', err);
+      }
+    } else if (!alvaInstance) {
+      assignAlvaPoints(null);
+    }
+
+    const groupedDetections = updateSceneAnchors(latestTransforms);
+    const currentSceneId = activeSceneIdRef.current;
+    const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null;
+
+    if (cube && anchorState?.position && anchorState?.rotation) {
+      cube.matrixAutoUpdate = true;
+      cube.position.copy(anchorState.position);
+      cube.quaternion.copy(anchorState.rotation);
+    }
+
+    updateRayHelpers(sceneAnchorsRef.current);
+
+    if (groupedDetections && currentSceneId) {
+      const activeDetections = groupedDetections.get(currentSceneId) || [];
+      if (activeDetections.length) {
+        updateAlvaTracking(currentSceneId, activeDetections);
+      }
     }
 
     // 3) three.js
@@ -350,10 +846,31 @@ export default function ARRecorder() {
       );
     }
 
+    const debugPoints = alvaPointsRef.current;
+    if (Array.isArray(debugPoints) && debugPoints.length > 0 && video.videoWidth && video.videoHeight) {
+      console.debug('AlvaAR points count:', debugPoints.length);
+      const scaleX = r.w / video.videoWidth;
+      const scaleY = r.h / video.videoHeight;
+      ctx.save();
+      ctx.fillStyle = "#ff3bff";
+      debugPoints.forEach(point => {
+        if (!point) return;
+        const px = r.x + point.x * scaleX;
+        const py = r.y + point.y * scaleY;
+        if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+        ctx.fillRect(px - 2, py - 2, 4, 4);
+      });
+      ctx.restore();
+    }
+
     rafIdRef.current = requestAnimationFrame(renderLoop);
-  }, []);
+  }, [updateSceneAnchors, updateRayHelpers, updateAlvaTracking, assignAlvaPoints, extractPlaneState]);
 
   // camera control
+  /**
+   * @brief Запрашивает доступ к камере и настраивает поток для AprilTag.
+   * @returns {Promise<void>}
+   */
   const startCamera = useCallback(async () => {
     try {
       // stop previous
@@ -376,12 +893,17 @@ export default function ARRecorder() {
       await camRef.current.play();
       sizeAll();
 
+      let effectiveWidth = 640;
+      let effectiveHeight = 480;
+
       // Configure AprilTag pipeline with camera info
       if (aprilTagPipelineRef.current) {
         const videoTrack = camStream.getVideoTracks()[0];
         const settings = videoTrack.getSettings();
         const width = settings.width || 640;
         const height = settings.height || 480;
+        effectiveWidth = width;
+        effectiveHeight = height;
 
         // Try to request the camera deliver 640x480 directly to avoid heavy resizing artifacts.
         try {
@@ -408,6 +930,21 @@ export default function ARRecorder() {
         }
       }
 
+      try {
+        const currentAlva = alvaRef.current;
+        const currentWidth = currentAlva?.intrinsics?.width;
+        const currentHeight = currentAlva?.intrinsics?.height;
+        if (!currentAlva || currentWidth !== effectiveWidth || currentHeight !== effectiveHeight) {
+          console.log(`Reinitializing AlvaAR with ${effectiveWidth}x${effectiveHeight}`);
+          const newAlva = await loadAlva(effectiveWidth, effectiveHeight);
+          alvaRef.current = newAlva;
+          lastAlvaUpdateRef.current = 0;
+          assignAlvaPoints(null);
+        }
+      } catch (err) {
+        console.error('Failed to initialize AlvaAR with camera dimensions:', err);
+      }
+
       if (withMic) {
         try {
           micStreamRef.current = await navigator.mediaDevices.getUserMedia({
@@ -422,8 +959,12 @@ export default function ARRecorder() {
     } catch (e) {
       setStatus(`Ошибка камеры: ${e.name}`);
     }
-  }, [renderLoop, sizeAll, withMic]);
+  }, [renderLoop, sizeAll, withMic, assignAlvaPoints]);
 
+  /**
+   * @brief Останавливает все активные медиа-потоки и очищает состояние детекции.
+   * @returns {void}
+   */
   const stopCamera = useCallback(() => {
     cancelAnimationFrame(rafIdRef.current);
     if (camStreamRef.current) { camStreamRef.current.getTracks().forEach(t => t.stop()); camStreamRef.current = null; }
@@ -438,6 +979,10 @@ export default function ARRecorder() {
   }, []);
 
   // recording
+  /**
+   * @brief Запускает запись композитного AR-канваса через MediaRecorder.
+   * @returns {void}
+   */
   const startRecording = useCallback(() => {
     const canvas = mixRef.current;
     if (!canvas) return;
@@ -481,6 +1026,10 @@ export default function ARRecorder() {
     setStatus(`Запись: ${recorder.mimeType || "auto"}`);
   }, [fps, withMic]);
 
+  /**
+   * @brief Останавливает текущую сессию записи и формирует итоговый видео-blob.
+   * @returns {void}
+   */
   const stopRecording = useCallback(() => {
     const r = recRef.current?.recorder;
     if (r && r.state !== "inactive") {
@@ -618,6 +1167,24 @@ export default function ARRecorder() {
                 animation: aprilTagTransforms.length > 0 ? "blink 2s ease-in-out infinite" : "none"
               }} />
               AprilTags: {aprilTagTransforms.length}
+            </div>
+
+            <div style={{
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: "rgba(255, 255, 255, 0.08)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              fontSize: "11px",
+              fontWeight: "600",
+              color: "#e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              textTransform: "uppercase",
+              letterSpacing: "0.6px"
+            }}>
+              <span style={{ opacity: 0.7 }}>Scene</span>
+              <span>{activeSceneId || '—'}</span>
             </div>
 
             {/* Download Link */}
