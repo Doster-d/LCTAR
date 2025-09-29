@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Backend: Класс arb.admin.UserAdmin</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">LCTAR Backend<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация кода (Django + DRF + Celery)</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('classarb_1_1admin_1_1_user_admin.html','','classarb_1_1admin_1_1_user_admin-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Класс arb.admin.UserAdmin</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Граф наследования:arb.admin.UserAdmin:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classarb_1_1admin_1_1_user_admin.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Статические открытые данные</h2></td></tr>
+<tr class="memitem:ab6e9cdebf6de123f9d89e04eae4ca51d" id="r_ab6e9cdebf6de123f9d89e04eae4ca51d"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6e9cdebf6de123f9d89e04eae4ca51d">list_display</a> = (&quot;email&quot;, &quot;is_verified&quot;, &quot;created_at&quot;, &quot;total_score&quot;)</td></tr>
+<tr class="memitem:a74e5fce61553f52ba88e7ab1ee281e97" id="r_a74e5fce61553f52ba88e7ab1ee281e97"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74e5fce61553f52ba88e7ab1ee281e97">search_fields</a> = (&quot;email&quot;,)</td></tr>
+<tr class="memitem:afb1ed49e34800b9f0f78c44af3febc4e" id="r_afb1ed49e34800b9f0f78c44af3febc4e"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb1ed49e34800b9f0f78c44af3febc4e">list_filter</a> = (&quot;is_verified&quot;,)</td></tr>
+<tr class="memitem:affd8e552f4be6bfc18d1103f135e660d" id="r_affd8e552f4be6bfc18d1103f135e660d"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affd8e552f4be6bfc18d1103f135e660d">readonly_fields</a> = (&quot;created_at&quot;, &quot;total_score&quot;)</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Подробное описание</h2>
+<div class="textblock"><pre class="fragment">Настройки списка и формы для модели `User`.</pre> 
+<p class="definition">См. определение в файле <a class="el" href="admin_8py_source.html">admin.py</a> строка <a class="el" href="admin_8py_source.html#l00033">33</a></p>
+</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Данные класса</h2>
+<a id="ab6e9cdebf6de123f9d89e04eae4ca51d" name="ab6e9cdebf6de123f9d89e04eae4ca51d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e9cdebf6de123f9d89e04eae4ca51d">&#9670;&#160;</a></span>list_display</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple arb.admin.UserAdmin.list_display = (&quot;email&quot;, &quot;is_verified&quot;, &quot;created_at&quot;, &quot;total_score&quot;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="admin_8py_source.html">admin.py</a> строка <a class="el" href="admin_8py_source.html#l00035">35</a></p>
+
+</div>
+</div>
+<a id="afb1ed49e34800b9f0f78c44af3febc4e" name="afb1ed49e34800b9f0f78c44af3febc4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb1ed49e34800b9f0f78c44af3febc4e">&#9670;&#160;</a></span>list_filter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple arb.admin.UserAdmin.list_filter = (&quot;is_verified&quot;,)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="admin_8py_source.html">admin.py</a> строка <a class="el" href="admin_8py_source.html#l00037">37</a></p>
+
+</div>
+</div>
+<a id="affd8e552f4be6bfc18d1103f135e660d" name="affd8e552f4be6bfc18d1103f135e660d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affd8e552f4be6bfc18d1103f135e660d">&#9670;&#160;</a></span>readonly_fields</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple arb.admin.UserAdmin.readonly_fields = (&quot;created_at&quot;, &quot;total_score&quot;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="admin_8py_source.html">admin.py</a> строка <a class="el" href="admin_8py_source.html#l00038">38</a></p>
+
+</div>
+</div>
+<a id="a74e5fce61553f52ba88e7ab1ee281e97" name="a74e5fce61553f52ba88e7ab1ee281e97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74e5fce61553f52ba88e7ab1ee281e97">&#9670;&#160;</a></span>search_fields</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple arb.admin.UserAdmin.search_fields = (&quot;email&quot;,)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="admin_8py_source.html">admin.py</a> строка <a class="el" href="admin_8py_source.html#l00036">36</a></p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>arb/arb/<a class="el" href="admin_8py_source.html">admin.py</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespacearb.html">arb</a></li><li class="navelem"><a href="namespacearb_1_1admin.html">admin</a></li><li class="navelem"><a href="classarb_1_1admin_1_1_user_admin.html">UserAdmin</a></li>
+    <li class="footer">Документация по LCTAR Backend. Последние изменения: <span class="timestamp"></span>. Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>
