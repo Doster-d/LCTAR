@@ -1,0 +1,56 @@
+# Doxygen configuration for LCTAR Python backend
+# Русскоязычная документация коду Django-проекта
+
+PROJECT_NAME           = "LCTAR Backend"
+PROJECT_BRIEF          = "Документация кода (Django + DRF + Celery)"
+PROJECT_NUMBER         = "0.1"
+OUTPUT_DIRECTORY       = docs
+CREATE_SUBDIRS         = NO
+OUTPUT_LANGUAGE        = Russian
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# Input
+INPUT                  = arb/arb
+FILE_PATTERNS          = *.py
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = *__pycache__* *.pyc
+
+# Build
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_OUTPUT_JAVA   = NO
+OPTIMIZE_FOR_FORTRAN   = NO
+OPTIMIZE_OUTPUT_VHDL   = NO
+MARKDOWN_SUPPORT       = YES
+AUTOLINK_SUPPORT       = YES
+BUILTIN_STL_SUPPORT    = YES
+SORT_MEMBER_DOCS       = YES
+
+# Warnings
+WARN_IF_UNDOCUMENTED   = NO
+WARN_NO_PARAMDOC       = YES
+WARN_AS_ERROR          = NO
+
+# Diagrams
+HAVE_DOT               = NO
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+
+# HTML
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_TIMESTAMP         = YES
+
+# LaTeX/PDF (optional)
+GENERATE_LATEX         = NO
+
+# Source browser
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+STRIP_CODE_COMMENTS    = NO
+
+# Python specifics
+PYTHON_DOCSTRING       = YES
+PYTHON_SOURCE_BROWSER  = YES
