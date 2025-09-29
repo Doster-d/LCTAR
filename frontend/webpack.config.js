@@ -2,8 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 
 const isDev = process.env.NODE_ENV !== 'production';
+
+const envResult = dotenv.config({ path: path.resolve(__dirname, '.env') });
+const envVars = { ...envResult.parsed };
+const defineEnv = {
+  'process.env.API_URL': JSON.stringify(process.env.API_URL ?? envVars?.API_URL ?? ''),
+};
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
@@ -97,6 +105,7 @@ module.exports = {
       template: path.resolve(__dirname, 'public/index.html'),
       inject: 'body'
     }),
+    new webpack.DefinePlugin(defineEnv),
     new CopyWebpackPlugin({
       patterns: [
         {
