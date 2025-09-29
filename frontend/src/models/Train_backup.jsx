@@ -31,7 +31,6 @@ export const Model = forwardRef((props, ref) => {
     else ref.current = groupRef.current
   }, [ref])
 
-  // Анимация только работает в React Three Fiber Canvas, в AR используется внешняя анимация
   useFrame((_, delta) => {
     const wheel = wheelRef.current
     const group = groupRef.current
@@ -86,6 +85,8 @@ export const Model = forwardRef((props, ref) => {
         <mesh geometry={nodes['Train-Wagon'].geometry} material={materials.Wagon} position={[0.001, 0.26, 0.014]} />
         <mesh ref={wheelRef} geometry={nodes['Train-Wheels'].geometry} material={materials.Wheels} position={[0.001, 0.26, 0.014]} />
       </group>
+      <mesh geometry={nodes['Train-Wagon'].geometry} material={materials.Wagon} position={[0.001, 0.26, 0.014]} />
+      <mesh ref={wheelRef} geometry={nodes['Train-Wheels'].geometry} material={materials.Wheels} position={[0.001, 0.26, 0.014]} />
     </group>
   )
 })

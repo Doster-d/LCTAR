@@ -3,11 +3,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import ApriltagPipeline from "./apriltagPipeline";
 import { Canvas } from '@react-three/fiber';
-import { Model as TestModel } from './models/Testmodel';
 import { Model as TrainModel } from './models/Train';
 import { SkeletonUtils } from 'three-stdlib'
+import { useGLTF } from '@react-three/drei'
 import { averageQuaternion, bestFitPointFromRays, toVector3, clampQuaternion, softenSmallAngleQuaternion } from './lib/anchorMath';
 import { loadAlva } from './alvaBridge';
+import { startTrainAnimation } from './trainAnimation';
+import Landing from './Landing';
+import AprilTagLayoutEditor from './AprilTagLayoutEditor';
 
 /**
  * @brief Ограничивает число указанным диапазоном.
@@ -50,11 +53,11 @@ function pickMime() {
 /**
  * @brief Коэффициент интерполяции позиции якоря между кадрами.
  */
-const ANCHOR_POSITION_LERP = 0.18;
+const ANCHOR_POSITION_LERP = 0.05;
 /**
  * @brief Коэффициент интерполяции ориентации якоря между кадрами.
  */
-const ANCHOR_ROTATION_SLERP = 0.18;
+const ANCHOR_ROTATION_SLERP = 0.03;
 /**
  * @brief Dead zone (радианы), в пределах которой якорь считается без поворота.
  */
@@ -77,7 +80,7 @@ const getRayColor = (tagId) => {
  * @brief Основной AR-компонент: камера, детектор, отрисовка и запись.
  * @returns {JSX.Element} Узел с разметкой приложения.
  */
-export default function ARRecorder() {
+function ARRecorder({ onShowLanding }) {
   const mixRef = useRef(null);     // конечный 2D-canvas
   const procRef = useRef(null);    // hidden processing canvas (fixed 640x480 for OpenCV)
   const pctxRef = useRef(null);    // cached 2D context for processing canvas
@@ -90,13 +93,17 @@ export default function ARRecorder() {
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
-  const cubeRef = useRef(null); // now points to always-visible TestModel instance
+  const cubeRef = useRef(null); // anchor group aligned to active scene
   const pyramidMapRef = useRef(new Map());
   const pyramidGeoRef = useRef(null);
   const pyramidMatRef = useRef(null);
-  const trainPrefabRef = useRef(null); // Train model prefab for AprilTag spawning
-  const trainMapRef = useRef(new Map());
-  const mainModelPrefabRef = useRef(null); // TestModel prefab for initial always-visible instance
+  const trainPrefabRef = useRef(null); // Train model prefab captured from R3F scene
+  const trainInstanceRef = useRef(null);
+  const trainSmoothPosition = useRef(new THREE.Vector3());
+  const trainSmoothQuaternion = useRef(new THREE.Quaternion());
+  const trainInitialized = useRef(false);
+  const lastDetectionTime = useRef(0);
+  const debugCubeInstanceRef = useRef(null); // Debug cube instance
   const sceneAnchorsRef = useRef(new Map());
   const anchorDebugMapRef = useRef(new Map());
   const scenePlaneRef = useRef(new Map());
@@ -105,7 +112,7 @@ export default function ARRecorder() {
   const alvaRef = useRef(null);
   const lastAlvaUpdateRef = useRef(0);
   const alvaPointsRef = useRef([]);
-  const fallbackCubeRef = useRef(null);
+  const debugCubeRef = useRef(null);
 
   // Streams / recorder
   const camStreamRef = useRef(null);
@@ -116,10 +123,12 @@ export default function ARRecorder() {
   // UI state
   const [status, setStatus] = useState("Нужен HTTPS или localhost");
   const [withMic, setWithMic] = useState(true);
-  const [fps, setFps] = useState(30);
+
   const [running, setRunning] = useState(false);
   const [recOn, setRecOn] = useState(false);
   const [dl, setDl] = useState(null); // { url, name, size }
+
+
   const [time, setTime] = useState("00:00");
   const t0Ref = useRef(0);
   const tidRef = useRef(0);
@@ -127,6 +136,102 @@ export default function ARRecorder() {
   // AprilTag state
   const [aprilTagTransforms, setAprilTagTransforms] = useState([]);
   const aprilTagPipelineRef = useRef(null);
+  
+  // Прямая загрузка модели поезда
+  const trainGltf = useGLTF('./models/Train-transformed.glb');
+  
+  useEffect(() => {
+    if (trainGltf && trainGltf.scene) {
+      console.log('🚂 Direct GLTF load success:', trainGltf);
+      
+      // Создаем группу из загруженной сцены
+      const trainGroup = new THREE.Group();
+      trainGroup.add(trainGltf.scene.clone());
+      trainGroup.name = 'DirectTrainPrefab';
+      
+      // Настраиваем группу как префаб
+      trainGroup.traverse((obj) => {
+        if (obj.isMesh) {
+          obj.castShadow = true;
+          obj.receiveShadow = true;
+        }
+      });
+      
+      trainPrefabRef.current = trainGroup;
+      console.log('✅ Direct train prefab set from GLTF');
+    } else if (trainGltf === null) {
+      // Fallback: создаем простой тестовый куб, если GLTF не загружается
+      console.log('⚠️ GLTF failed, creating fallback cube');
+      const fallbackGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.4);
+      const fallbackMaterial = new THREE.MeshStandardMaterial({ 
+        color: 0xff6600,
+        metalness: 0.3,
+        roughness: 0.7
+      });
+      const fallbackMesh = new THREE.Mesh(fallbackGeometry, fallbackMaterial);
+      fallbackMesh.name = 'FallbackTrain';
+      
+      const fallbackGroup = new THREE.Group();
+      fallbackGroup.add(fallbackMesh);
+      fallbackGroup.position.set(0, 0.05, 0);
+      
+      trainPrefabRef.current = fallbackGroup;
+      console.log('✅ Fallback train cube created');
+    }
+  }, [trainGltf]);
+
+  /**
+   * @brief Создает DebugCube напрямую через Three.js для размещения в центре AR-сцены.
+   */
+  const createDebugCube = () => {
+    console.log('🎯 Creating DebugCube directly with Three.js');
+    
+    const size = 0.15;
+    const geometry = new THREE.BoxGeometry(size, size, size);
+    
+    // Создаем цветные грани как в оригинальном компоненте
+    const colors = new Float32Array(geometry.attributes.position.count * 3);
+    const palette = [
+      new THREE.Color('#ff4d4f'), // +X (красный)
+      new THREE.Color('#8c1c1d'), // -X (темно-красный)
+      new THREE.Color('#52c41a'), // +Y (зеленый)
+      new THREE.Color('#1f6f1a'), // -Y (темно-зеленый)
+      new THREE.Color('#1890ff'), // +Z (синий)
+      new THREE.Color('#152773')  // -Z (темно-синий)
+    ];
+
+    for (let face = 0; face < 6; face += 1) {
+      const color = palette[face];
+      for (let vertex = 0; vertex < 6; vertex += 1) {
+        const index = (face * 6 + vertex) * 3;
+        colors[index] = color.r;
+        colors[index + 1] = color.g;
+        colors[index + 2] = color.b;
+      }
+    }
+
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      metalness: 0.1,
+      roughness: 0.35
+    });
+
+    const debugCube = new THREE.Mesh(geometry, material);
+    debugCube.name = 'CenterDebugCube';
+    debugCube.position.set(0, 0, 0); // Центр сцены
+    debugCube.scale.set(1.5, 1.5, 1.5); // Чуть больше для лучшей видимости
+    debugCube.castShadow = true;
+    debugCube.receiveShadow = true;
+
+    // Добавляем мини-оси для лучшей ориентации
+    const axesHelper = new THREE.AxesHelper(size * 2);
+    debugCube.add(axesHelper);
+    
+    debugCubeInstanceRef.current = debugCube;
+    console.log('✅ DebugCube created directly with axes:', debugCube);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -158,14 +263,14 @@ export default function ARRecorder() {
     const cam = new THREE.PerspectiveCamera(60, 1, 0.01, 100);
     scene.add(new THREE.HemisphereLight(0xffffff, 0x222233, 1.2));
 
-    // Always-visible main model (TestModel) will be attached once its prefab ref becomes available.
-    // For now create a temporary placeholder group to avoid null checks in interaction logic.
-    const placeholder = new THREE.Group();
-    placeholder.position.set(0, 0, -0.6);
+    // Anchor group is populated once detection delivers a scene transform
+    const anchorGroup = new THREE.Group();
+    anchorGroup.name = 'AnchorRoot';
+    anchorGroup.visible = false;
 
-    const fallbackGeometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-    const colorArray = [];
-    const facePalette = [
+    const debugGeometry = new THREE.BoxGeometry(0.12, 0.12, 0.12);
+    const debugColors = [];
+    const debugPalette = [
       new THREE.Color('#ff4d4f'),
       new THREE.Color('#36cfc9'),
       new THREE.Color('#40a9ff'),
@@ -173,22 +278,23 @@ export default function ARRecorder() {
       new THREE.Color('#9254de'),
       new THREE.Color('#73d13d')
     ];
-    const positionCount = fallbackGeometry.getAttribute('position').count;
-    for (let i = 0; i < positionCount; i += 1) {
-      const faceColor = facePalette[Math.floor(i / 6) % facePalette.length];
-      colorArray.push(faceColor.r, faceColor.g, faceColor.b);
+    const vertexCount = debugGeometry.getAttribute('position').count;
+    for (let i = 0; i < vertexCount; i += 1) {
+      const faceColor = debugPalette[Math.floor(i / 6) % debugPalette.length];
+      debugColors.push(faceColor.r, faceColor.g, faceColor.b);
     }
-    fallbackGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colorArray, 3));
-    const fallbackMaterial = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.2, roughness: 0.5, emissiveIntensity: 0.1 });
-    const fallbackCube = new THREE.Mesh(fallbackGeometry, fallbackMaterial);
-    fallbackCube.name = 'AnchorDebugCube';
-    const edgeHelper = new THREE.LineSegments(new THREE.EdgesGeometry(fallbackGeometry), new THREE.LineBasicMaterial({ color: 0x111111 }));
-    fallbackCube.add(edgeHelper);
-    placeholder.add(fallbackCube);
-    fallbackCubeRef.current = fallbackCube;
+    debugGeometry.setAttribute('color', new THREE.Float32BufferAttribute(debugColors, 3));
+    const debugMaterial = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.2, roughness: 0.45 });
+    const debugCube = new THREE.Mesh(debugGeometry, debugMaterial);
+    debugCube.name = 'SceneDebugCube';
+    const debugEdges = new THREE.LineSegments(new THREE.EdgesGeometry(debugGeometry), new THREE.LineBasicMaterial({ color: 0x111111 }));
+    debugCube.add(debugEdges);
+    debugCube.visible = false;
+    anchorGroup.add(debugCube);
+    debugCubeRef.current = debugCube;
 
-    scene.add(placeholder);
-    cubeRef.current = placeholder;
+    scene.add(anchorGroup);
+    cubeRef.current = anchorGroup;
 
     // Pyramid debug geometry (a 4-sided cone) and material
     const pyramidGeo = new THREE.ConeGeometry(0.08, 0.12, 4);
@@ -228,7 +334,30 @@ export default function ARRecorder() {
 
     setStatus((location.protocol === "https:" || location.hostname === "localhost") ? "Готово" : "Нужен HTTPS или localhost");
 
+    // Диагностика модели поезда
+    const checkTrainModel = async () => {
+      try {
+        const response = await fetch('./models/Train-transformed.glb');
+        console.log('🚂 Train model file check:', {
+          status: response.status,
+          size: response.headers.get('content-length'),
+          type: response.headers.get('content-type')
+        });
+      } catch (error) {
+        console.error('❌ Train model file not accessible:', error);
+      }
+    };
+    checkTrainModel();
+
+    // Создаем DebugCube для AR-сцены
+    createDebugCube();
+
+    // Запускаем анимацию поезда
+    const stopAnimation = startTrainAnimation(trainInstanceRef);
+
     return () => {
+      stopAnimation && stopAnimation();
+      try { anchorGroup.removeFromParent(); } catch {}
       try { gl.dispose(); } catch {}
       try { gl.domElement.remove(); } catch {}
       try { procRef.current?.remove(); } catch {}
@@ -236,33 +365,34 @@ export default function ARRecorder() {
   }, []);
 
   /**
-   * @brief Сохраняет основной префаб модели и добавляет его в сцену.
-   * @param node Клон модели, полученный из React Three Fiber.
-   */
-  const attachTestModel = (node) => {
-    if (!node || !sceneRef.current) return;
-    node.position.set(0, 0, -0.6);
-    sceneRef.current.add(node);
-    cubeRef.current = node;
-    mainModelPrefabRef.current = node;
-    if (fallbackCubeRef.current) {
-      fallbackCubeRef.current.parent?.remove(fallbackCubeRef.current);
-      fallbackCubeRef.current.scale.set(0.25, 0.25, 0.25);
-      fallbackCubeRef.current.position.set(0, 0, 0);
-      fallbackCubeRef.current.visible = true;
-      node.add(fallbackCubeRef.current);
-    }
-    console.log('✅ TestModel attached as main visible model');
-  };
-
-  /**
    * @brief Сохраняет префаб поезда для последующего клонирования под каждый тег.
    * @param node Экземпляр модели поезда.
    */
   const captureTrainPrefab = (node) => {
-    if (!node) return;
+    console.log('🚂 captureTrainPrefab called with:', node);
+    if (!node) {
+      console.warn('⚠️ Train prefab node is null');
+      return;
+    }
     trainPrefabRef.current = node;
-    console.log('✅ Train prefab captured');
+    node.visible = false;
+    // Отладочная информация о модели
+    let meshCount = 0;
+    let materialCount = 0;
+    node.traverse((obj) => {
+      if (obj.isMesh) {
+        meshCount++;
+        if (obj.material) materialCount++;
+      }
+    });
+    
+    console.log('✅ Train prefab captured:', {
+      meshes: meshCount,
+      materials: materialCount,
+      position: node.position.toArray(),
+      scale: node.scale.toArray(),
+      children: node.children.length
+    });
   };
 
   // Initialize AprilTag pipeline
@@ -736,51 +866,16 @@ export default function ARRecorder() {
           imageDataForAlva = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight);
           const detected = pipeline.detect(imageDataForAlva);
           latestTransforms = Array.isArray(detected) ? detected : [];
-          setAprilTagTransforms(latestTransforms);
-
-          try {
-            const modelMap = trainMapRef.current;
-            const prefab = trainPrefabRef.current;
-            const seenIds = new Set();
-
-            latestTransforms.forEach(t => {
-              const id = t.id;
-              seenIds.add(id);
-              let obj = modelMap.get(id);
-              if (!obj) {
-                if (prefab) {
-                  obj = SkeletonUtils.clone(prefab);
-                  obj.matrixAutoUpdate = false;
-                  scene.add(obj);
-                  modelMap.set(id, obj);
-                } else {
-                  obj = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.12), new THREE.MeshStandardMaterial({ color: 0xffcc00 }));
-                  obj.matrixAutoUpdate = false;
-                  scene.add(obj);
-                  modelMap.set(id, obj);
-                }
-              }
-
-              const m = new THREE.Matrix4();
-              try {
-                m.fromArray(t.matrix);
-              } catch (e) {
-                return;
-              }
-              const up = new THREE.Matrix4().makeTranslation(0, 0.06, 0);
-              m.multiply(up);
-              obj.matrix.copy(m);
-            });
-
-            for (const [key, obj] of Array.from(modelMap.entries())) {
-              if (!seenIds.has(key)) {
-                obj.removeFromParent();
-                modelMap.delete(key);
-              }
+          
+          // Отладочное логирование детекций
+          if (latestTransforms.length !== aprilTagTransforms.length) {
+            console.log(`🔍 AprilTag detections changed: ${aprilTagTransforms.length} → ${latestTransforms.length}`);
+            if (latestTransforms.length > 0) {
+              console.log('✅ Detected tags:', latestTransforms.map(t => `ID:${t.id} Scene:${t.sceneId}`));
             }
-          } catch (e) {
-            console.warn('Failed to update Train models', e);
           }
+          
+          setAprilTagTransforms(latestTransforms);
         } catch (err) {
           console.error('Error reading imageData for detection', err);
         }
@@ -819,11 +914,138 @@ export default function ARRecorder() {
     const groupedDetections = updateSceneAnchors(latestTransforms);
     const currentSceneId = activeSceneIdRef.current;
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null;
+    const hasDetections = Boolean(anchorState?.visible && latestTransforms.length > 0);
+    
+    // Сброс инициализации при длительной потере детекции (>500ms)
+    const now = performance.now();
+    if (hasDetections) {
+      lastDetectionTime.current = now;
+    } else if (trainInitialized.current && (now - lastDetectionTime.current > 500)) {
+      trainInitialized.current = false;
+      console.log('🚂 Train initialization reset (detection lost for >500ms)');
+    }
+    
+    // Отладочное логирование состояния детекции
+    const frameDetectionCount = latestTransforms.length;
+    if (frameDetectionCount > 0 && !hasDetections) {
+      console.warn(`⚠️ Tags detected (${frameDetectionCount}) but hasDetections=false. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`);
+    } else if (frameDetectionCount === 0 && hasDetections) {
+      console.warn(`⚠️ No tags detected but hasDetections=true. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`);
+    }
+
+    if (cube) {
+      cube.visible = hasDetections;
+      if (debugCubeRef.current) {
+        debugCubeRef.current.visible = hasDetections;
+      }
+      if (hasDetections && trainPrefabRef.current && !trainInstanceRef.current) {
+        console.log('🚂 Creating train instance...', {
+          hasDetections,
+          prefabExists: !!trainPrefabRef.current,
+          instanceExists: !!trainInstanceRef.current
+        });
+        try {
+          const instance = SkeletonUtils.clone(trainPrefabRef.current);
+          instance.name = 'TrainSceneInstance';
+          
+          // Улучшенное позиционирование и масштабирование поезда
+          instance.position.set(0, 0.1, 0); // Поднимаем поезд над плоскостью
+          instance.quaternion.identity();
+          instance.scale.set(0.3, 0.3, 0.3); // Делаем поезд более заметным
+          
+          // Убеждаемся что все объекты видимы и правильно настроены
+          instance.traverse(obj => {
+            if (obj && 'matrixAutoUpdate' in obj) {
+              obj.matrixAutoUpdate = true;
+            }
+            if (obj.isMesh) {
+              obj.castShadow = true;
+              obj.receiveShadow = true;
+              // Делаем материалы более яркими
+              if (obj.material) {
+                obj.material.metalness = 0.1;
+                obj.material.roughness = 0.8;
+                if (obj.material.color) {
+                  obj.material.color.multiplyScalar(1.2); // Увеличиваем яркость
+                }
+              }
+            }
+          });
+          
+          cube.add(instance);
+          trainInstanceRef.current = instance;
+          
+          // Инициализируем данные для анимации
+          instance.userData.lastTime = performance.now() * 0.001;
+          console.log('✅ Train instance created and added to scene with animation ready');
+        } catch (cloneErr) {
+          console.warn('Failed to clone Train prefab', cloneErr);
+        }
+      }
+      
+      if (trainInstanceRef.current) {
+        const wasVisible = trainInstanceRef.current.visible;
+        trainInstanceRef.current.visible = hasDetections;
+        
+        if (wasVisible !== hasDetections) {
+          console.log(`🚂 Train visibility changed: ${wasVisible} → ${hasDetections}`);
+        }
+        
+        if (hasDetections && !trainInstanceRef.current.parent) {
+          console.log('🚂 Adding train to scene');
+          cube.add(trainInstanceRef.current);
+        }
+        
+        // Убрана анимация покачивания для уменьшения тряски
+      }
+      
+      // Добавление/управление DebugCube в центре сцены
+      if (debugCubeInstanceRef.current) {
+        const debugCube = debugCubeInstanceRef.current;
+        const wasVisible = debugCube.visible;
+        debugCube.visible = hasDetections;
+        
+        if (wasVisible !== hasDetections) {
+          console.log(`🎯 DebugCube visibility changed: ${wasVisible} → ${hasDetections}`);
+        }
+        
+        if (hasDetections && !debugCube.parent) {
+          console.log('🎯 Adding DebugCube to scene center', {
+            position: debugCube.position,
+            scale: debugCube.scale,
+            parent: cube.name
+          });
+          cube.add(debugCube);
+        }
+      } else if (hasDetections) {
+        console.warn('⚠️ DebugCube instance is null but detections are active');
+      }
+    }
 
     if (cube && anchorState?.position && anchorState?.rotation) {
       cube.matrixAutoUpdate = true;
-      cube.position.copy(anchorState.position);
-      cube.quaternion.copy(anchorState.rotation);
+      // Дополнительное сглаживание для поезда
+      const TRAIN_SMOOTH_FACTOR = 0.08;
+      const POSITION_THRESHOLD = 0.001; // минимальное движение в метрах для обновления
+      
+      // При первой детекции сразу устанавливаем правильные значения без интерполяции
+      if (!trainInitialized.current) {
+        trainSmoothPosition.current.copy(anchorState.position);
+        trainSmoothQuaternion.current.copy(anchorState.rotation);
+        trainInitialized.current = true;
+        console.log('🚂 Train initialized with correct position and rotation');
+      } else {
+        // Фильтрация мелких движений
+        const positionDistance = trainSmoothPosition.current.distanceTo(anchorState.position);
+        if (positionDistance > POSITION_THRESHOLD) {
+          trainSmoothPosition.current.lerp(anchorState.position, TRAIN_SMOOTH_FACTOR);
+        }
+        
+        trainSmoothQuaternion.current.slerp(anchorState.rotation, TRAIN_SMOOTH_FACTOR);
+      }
+      
+      cube.position.copy(trainSmoothPosition.current);
+      cube.quaternion.copy(trainSmoothQuaternion.current);
     }
 
     updateRayHelpers(sceneAnchorsRef.current);
@@ -986,7 +1208,7 @@ export default function ARRecorder() {
   const startRecording = useCallback(() => {
     const canvas = mixRef.current;
     if (!canvas) return;
-    const stream = canvas.captureStream(Math.max(1, fps|0));
+    const stream = canvas.captureStream(30);
     if (withMic && micStreamRef.current) {
       const track = micStreamRef.current.getAudioTracks()[0];
       if (track) stream.addTrack(track);
@@ -1024,7 +1246,7 @@ export default function ARRecorder() {
     setRecOn(true);
     setDl(null);
     setStatus(`Запись: ${recorder.mimeType || "auto"}`);
-  }, [fps, withMic]);
+  }, [withMic]);
 
   /**
    * @brief Останавливает текущую сессию записи и формирует итоговый видео-blob.
@@ -1100,6 +1322,29 @@ export default function ARRecorder() {
       overflow: "hidden"
     }}>
 
+      {onShowLanding && (
+        <button
+          type="button"
+          onClick={onShowLanding}
+          style={{
+            position: 'fixed',
+            top: 18,
+            right: 18,
+            zIndex: 15,
+            background: '#1b1f29',
+            color: '#f6f7fb',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '8px',
+            padding: '8px 14px',
+            fontSize: '12px',
+            fontWeight: 600,
+            cursor: 'pointer'
+          }}
+        >
+          Landing
+        </button>
+      )}
+
       {/* Enhanced UI Container - Bottom positioned */}
       <div id="ui" style={{
         position: "fixed",
@@ -1167,6 +1412,60 @@ export default function ARRecorder() {
                 animation: aprilTagTransforms.length > 0 ? "blink 2s ease-in-out infinite" : "none"
               }} />
               AprilTags: {aprilTagTransforms.length}
+            </div>
+
+            {/* Train Status Indicator */}
+            <div style={{
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: (aprilTagTransforms.length > 0 && trainInstanceRef.current)
+                ? "rgba(255, 165, 0, 0.2)"
+                : "rgba(255, 255, 255, 0.1)",
+              border: (aprilTagTransforms.length > 0 && trainInstanceRef.current)
+                ? "1px solid rgba(255, 165, 0, 0.4)"
+                : "1px solid rgba(255, 255, 255, 0.2)",
+              fontSize: "11px",
+              fontWeight: "600",
+              color: (aprilTagTransforms.length > 0 && trainInstanceRef.current) ? "#ffa500" : "#e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px"
+            }}>
+              <div style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: (aprilTagTransforms.length > 0 && trainInstanceRef.current) ? "#ffa500" : "#666",
+                animation: (aprilTagTransforms.length > 0 && trainInstanceRef.current) ? "blink 1.5s ease-in-out infinite" : "none"
+              }} />
+              🚂 Train: {trainInstanceRef.current ? (aprilTagTransforms.length > 0 ? 'Active' : 'Loaded') : 'Loading...'}
+            </div>
+
+            {/* DebugCube Status Indicator */}
+            <div style={{
+              padding: "4px 8px",
+              borderRadius: "8px",
+              background: (aprilTagTransforms.length > 0 && debugCubeInstanceRef.current)
+                ? "rgba(0, 255, 255, 0.2)"
+                : "rgba(255, 255, 255, 0.1)",
+              border: (aprilTagTransforms.length > 0 && debugCubeInstanceRef.current)
+                ? "1px solid rgba(0, 255, 255, 0.4)"
+                : "1px solid rgba(255, 255, 255, 0.2)",
+              fontSize: "11px",
+              fontWeight: "600",
+              color: (aprilTagTransforms.length > 0 && debugCubeInstanceRef.current) ? "#00ffff" : "#e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px"
+            }}>
+              <div style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: (aprilTagTransforms.length > 0 && debugCubeInstanceRef.current) ? "#00ffff" : "#666",
+                animation: (aprilTagTransforms.length > 0 && debugCubeInstanceRef.current) ? "blink 1s ease-in-out infinite" : "none"
+              }} />
+              🎯 Debug: {debugCubeInstanceRef.current ? (aprilTagTransforms.length > 0 ? 'Center' : 'Ready') : 'Loading...'}
             </div>
 
             <div style={{
@@ -1370,70 +1669,6 @@ export default function ARRecorder() {
             </label>
           </div>
 
-          {/* Quality Controls Group */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "8px"
-          }}>
-            <h4 style={{
-              color: "#e0e0e0",
-              fontSize: "12px",
-              fontWeight: "600",
-              margin: 0,
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-              opacity: 0.8
-            }}>
-              Качество
-            </h4>
-            <label style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "6px 12px",
-              borderRadius: "8px",
-              background: "rgba(255, 255, 255, 0.05)",
-              border: "1px solid rgba(255, 255, 255, 0.1)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.1)";
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = "rgba(255, 255, 255, 0.05)";
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            >
-              <span style={{
-                color: "#e0e0e0",
-                fontSize: "14px",
-                fontWeight: "500"
-              }}>
-                FPS:
-              </span>
-              <select
-                value={fps}
-                onChange={(e) => setFps(Number(e.target.value))}
-                style={{
-                  background: "rgba(85, 20, 219, 0.2)",
-                  border: "1px solid rgba(85, 20, 219, 0.4)",
-                  borderRadius: "6px",
-                  color: "#e0e0e0",
-                  padding: "2px 8px",
-                  fontSize: "11px",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                  outline: "none"
-                }}
-              >
-                <option value={30}>30</option>
-                <option value={60}>60</option>
-              </select>
-            </label>
-          </div>
-
           {/* Recording Controls Group */}
           <div style={{
             display: "flex",
@@ -1514,10 +1749,10 @@ export default function ARRecorder() {
       </div>
 
       {/* Enhanced Canvas */}
-      {/* Hidden R3F Canvas: mounts TestModel (instanced) and TrainModel (prefab for tags) */}
-      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', pointerEvents: 'none' }} aria-hidden>
+      {/* Hidden R3F Canvas: captures TrainModel prefab for cloning */}
+      <div style={{ position: 'absolute', top: '-1000px', left: '-1000px', width: '100px', height: '100px', pointerEvents: 'none' }} aria-hidden>
         <Canvas>
-          <TestModel ref={attachTestModel} />
+          <ambientLight intensity={0.5} />
           <TrainModel ref={captureTrainPrefab} />
         </Canvas>
       </div>
@@ -1546,4 +1781,23 @@ export default function ARRecorder() {
       `}</style>
     </div>
   );
+}
+
+export default function App() {
+  const [view, setView] = useState('camera');
+
+  if (view === 'landing') {
+    return (
+      <Landing
+        onSwitchToApp={() => setView('camera')}
+        onOpenEditor={() => setView('editor')}
+      />
+    );
+  }
+
+  if (view === 'editor') {
+    return <AprilTagLayoutEditor onExit={() => setView('landing')} />;
+  }
+
+  return <ARRecorder onShowLanding={() => setView('landing')} />;
 }

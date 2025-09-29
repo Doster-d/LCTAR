@@ -7,7 +7,7 @@ import AprilTagLayoutEditor from './AprilTagLayoutEditor';
 
 
 const AppContainer = () => {
-  const [currentView, setCurrentView] = useState('landing');
+  const [currentView, setCurrentView] = useState('app');
 
   const handleSwitchToApp = () => {
     console.log('[DEBUG] index.jsx: Switching from landing to app view');

@@ -483,22 +483,31 @@ const AprilTagLayoutEditor = ({ onExit }) => {
           right: 18,
           zIndex: 10,
           display: 'flex',
+          flexDirection: 'column',
           gap: '16px'
         }}
       >
-        <div
-          style={{
-            flex: '0 0 280px',
-            background: 'rgba(16,18,24,0.92)',
-            borderRadius: '12px',
-            padding: '16px',
-            border: '1px solid rgba(255,255,255,0.06)',
-            boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px'
-          }}
-        >
+        {onExit && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button type="button" onClick={onExit} style={{ ...buttonStyle, padding: '10px 18px' }}>
+              Landing page
+            </button>
+          </div>
+        )}
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <div
+            style={{
+              flex: '0 0 280px',
+              background: 'rgba(16,18,24,0.92)',
+              borderRadius: '12px',
+              padding: '16px',
+              border: '1px solid rgba(255,255,255,0.06)',
+              boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}
+          >
           <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 600 }}>Scenes</h2>
             <div style={{ display: 'flex', gap: '6px' }}>
@@ -763,6 +772,7 @@ const AprilTagLayoutEditor = ({ onExit }) => {
         )}
       </footer>
     </div>
+  </div>
   );
 };
 
