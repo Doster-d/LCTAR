@@ -165,7 +165,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
             { photo: './img/team/ch1ll.jpg', name: t.team.roster[0], role: t.team.roles[0], techStack: t.team.techStacks[0] },
             { photo: './img/team/doster.jpg', name: t.team.roster[1], role: t.team.roles[1], techStack: t.team.techStacks[1] },
             { photo: './img/team/cookie.jpg', name: t.team.roster[2], role: t.team.roles[2], techStack: t.team.techStacks[2] },
-            { photo: './img/team/rina.jpg', name: t.team.roster[3], role: t.team.roles[3], techStack: t.team.techStacks[3] },
+            { photo: './img/team/rina.png', name: t.team.roster[3], role: t.team.roles[3], techStack: t.team.techStacks[3] },
             { photo: './img/team/arina.jpg', name: t.team.roster[4], role: t.team.roles[4], techStack: t.team.techStacks[4] },
             { photo: './img/team/ppl.jpg', name: t.stakeholders.title, role: t.stakeholders.description }
           ].map((member, index) => (

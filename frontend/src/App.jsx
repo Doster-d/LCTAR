@@ -66,6 +66,12 @@ const SMALL_ANGLE_DEADZONE = 0.08;
  * @brief Угол (радианы), при превышении которого демпфирование не применяется.
  */
 const SMALL_ANGLE_SOFT_ZONE = 0.24;
+const APRILTAG_VISIBILITY_HOLD_MS = 3000;
+const CV_TO_GL_MATRIX3 = new THREE.Matrix3().set(
+  1,  0,  0,
+  0, -1,  0,
+  0,  0, -1
+);
 /**
  * @brief Генерирует насыщенный цвет для указанного идентификатора тега.
  * @param tagId Идентификатор AprilTag.
@@ -467,6 +473,10 @@ function ARRecorder({ onShowLanding }) {
    */
   const updateSceneAnchors = useCallback((detections) => {
     const grouped = new Map();
+    cameraRef.current?.updateMatrixWorld?.();
+    const cameraRotationMatrix3 = cameraRef.current
+      ? new THREE.Matrix3().setFromMatrix4(cameraRef.current.matrixWorld)
+      : null;
     detections.forEach(det => {
       if (!det || !det.sceneId) return;
       if (!grouped.has(det.sceneId)) {
@@ -501,24 +511,33 @@ function ARRecorder({ onShowLanding }) {
       const radius = typeof sceneConfig?.diameter === 'number' ? sceneConfig.diameter / 2 : 0.25;
 
       let fallbackVector = state.fallback ? state.fallback.clone() : new THREE.Vector3(0, 0, -0.6);
+      const anchorCenters = [];
+      const planeNormals = [];
       const rays = list.map(det => {
         const fallback = toVector3(det?.fallbackCenter, fallbackVector);
         fallbackVector = fallback.clone();
         const origin = toVector3(det.position, fallback);
-        const direction = toVector3(det.normal, new THREE.Vector3(0, 0, 1));
-        if (direction.lengthSq() < 1e-6) direction.set(0, 0, 1);
-        direction.normalize();
+        let direction = null;
+        if (det?.normalCamera && cameraRotationMatrix3) {
+          const camNormal = toVector3(det.normalCamera, new THREE.Vector3(0, 0, 1));
+          if (camNormal.lengthSq() > 1e-6) {
+            const glNormal = camNormal.clone().applyMatrix3(CV_TO_GL_MATRIX3).normalize();
+            direction = glNormal.applyMatrix3(cameraRotationMatrix3).normalize();
+          }
+        }
+        if (!direction) {
+          direction = toVector3(det.normal, new THREE.Vector3(0, 1, 0));
+          if (direction.lengthSq() < 1e-6) direction.set(0, 1, 0);
+          direction.normalize();
+        }
+        if (direction.lengthSq() < 1e-6) direction.set(0, 1, 0);
+        planeNormals.push(direction.clone());
         const length = typeof det.normalLength === 'number' ? det.normalLength : 0;
         const anchor = toVector3(det.anchorPoint, origin.clone().addScaledVector(direction, length));
+        anchorCenters.push(anchor.clone());
         return { origin, direction, anchor, length, tagId: det.id };
       });
 
-      const anchorCenters = [];
-      list.forEach(det => {
-        if (det?.anchorCamera) {
-          anchorCenters.push(toVector3(det.anchorCamera, new THREE.Vector3(0, 0, 0)));
-        }
-      });
       const unionCenter = anchorCenters.length
         ? anchorCenters.reduce((acc, vec) => acc.add(vec), new THREE.Vector3()).multiplyScalar(1 / anchorCenters.length)
         : null;
@@ -554,17 +573,40 @@ function ARRecorder({ onShowLanding }) {
       clampQuaternion(targetRotation);
       targetRotation = softenSmallAngleQuaternion(targetRotation, SMALL_ANGLE_DEADZONE, SMALL_ANGLE_SOFT_ZONE);
 
+      if (planeNormals.length) {
+              const normalAvg = planeNormals.reduce((acc, vec) => acc.add(vec), new THREE.Vector3()).normalize();
+              const up = new THREE.Vector3(0, 1, 0);
+              let tangent = new THREE.Vector3().crossVectors(up, normalAvg);
+              if (tangent.lengthSq() < 1e-6) {
+                tangent = new THREE.Vector3(1, 0, 0);
+              }
+              tangent.normalize();
+              const bitangent = new THREE.Vector3().crossVectors(normalAvg, tangent).normalize();
+              const rotationMatrix = new THREE.Matrix4().makeBasis(tangent, bitangent, normalAvg);
+              targetRotation = new THREE.Quaternion().setFromRotationMatrix(rotationMatrix);
+            }
+
       const planeInfo = scenePlaneRef.current.get(sceneId);
       if (planeInfo) {
-        const planePosition = planeInfo.position.clone();
-        if (unionCenter && radius > 0) {
-          const distance = planePosition.distanceTo(unionCenter);
-          if (distance > radius) {
-            planePosition.copy(unionCenter);
-          }
+        const planeNormal = planeInfo.normal.clone();
+        const planePoint = planeInfo.position.clone();
+        if (unionCenter) {
+          const toPoint = unionCenter.clone().sub(planePoint);
+          const distance = planeNormal.dot(toPoint);
+          const projected = unionCenter.clone().sub(planeNormal.clone().multiplyScalar(distance));
+          targetPosition = projected;
+        } else {
+          targetPosition = planePoint;
         }
-        targetPosition = planePosition;
-        targetRotation = planeInfo.quaternion.clone();
+        if (!planeNormals.length) {
+          const up = new THREE.Vector3(0, 1, 0);
+          let tangent = new THREE.Vector3().crossVectors(up, planeNormal);
+          if (tangent.lengthSq() < 1e-6) tangent = new THREE.Vector3(1, 0, 0);
+          tangent.normalize();
+          const bitangent = new THREE.Vector3().crossVectors(planeNormal, tangent).normalize();
+          const rotationMatrix = new THREE.Matrix4().makeBasis(tangent, bitangent, planeNormal);
+          targetRotation = new THREE.Quaternion().setFromRotationMatrix(rotationMatrix);
+        }
       }
 
       state.fallback = fallbackVector.clone();
@@ -584,14 +626,18 @@ function ARRecorder({ onShowLanding }) {
     });
 
     anchors.forEach((state, sceneId) => {
+      const timeSinceSeen = now - (state.lastSeen || 0);
+      const withinHold = timeSinceSeen <= APRILTAG_VISIBILITY_HOLD_MS;
       if (!grouped.has(sceneId)) {
-        state.visible = false;
         if (!state.targetPosition) {
           state.targetPosition = state.position ? state.position.clone() : state.fallback.clone();
         }
         if (!state.targetRotation) {
           state.targetRotation = state.rotation ? state.rotation.clone() : new THREE.Quaternion();
         }
+        state.visible = withinHold;
+      } else {
+        state.visible = true;
       }
 
       if (state.targetPosition && state.position) {
@@ -711,28 +757,24 @@ function ARRecorder({ onShowLanding }) {
     }
 
     alvaPointsRef.current = normalizedPoints;
+    alvaRef.current?.__debugPoints?.clear?.();
     return normalizedPoints;
   }, []);
 
-  const extractPlaneState = useCallback((matrixArray) => {
+  const extractPlaneState = useCallback((matrixArray, cameraMatrixWorld) => {
     if (!matrixArray || matrixArray.length !== 16) return null;
 
-    const planeMatrix = new THREE.Matrix4().set(
-      matrixArray[0], matrixArray[1], matrixArray[2], matrixArray[12] ?? 0,
-      matrixArray[4], matrixArray[5], matrixArray[6], matrixArray[13] ?? 0,
-      matrixArray[8], matrixArray[9], matrixArray[10], matrixArray[14] ?? 0,
-      0, 0, 0, 1
-    );
+    const planeMatrixCam = new THREE.Matrix4().fromArray(matrixArray);
+    let planeMatrixWorld = planeMatrixCam;
+    if (cameraMatrixWorld) {
+      planeMatrixWorld = cameraMatrixWorld.clone().multiply(planeMatrixCam);
+    }
 
-    const position = new THREE.Vector3(
-      matrixArray[12] ?? 0,
-      matrixArray[13] ?? 0,
-      matrixArray[14] ?? 0
-    );
-    const quaternion = new THREE.Quaternion().setFromRotationMatrix(planeMatrix);
+    const position = new THREE.Vector3().setFromMatrixPosition(planeMatrixWorld);
+    const quaternion = new THREE.Quaternion().setFromRotationMatrix(planeMatrixWorld);
     const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(quaternion).normalize();
 
-    return { matrix: planeMatrix, position, quaternion, normal };
+    return { matrix: planeMatrixWorld, position, quaternion, normal };
   }, []);
 
   /**
@@ -891,21 +933,93 @@ function ARRecorder({ onShowLanding }) {
       } catch (err) {
         console.debug('AlvaAR findCameraPose failed', err);
       }
+      let currentPoints = [];
       try {
-        assignAlvaPoints(alvaInstance.getFramePoints());
+        currentPoints = assignAlvaPoints(alvaInstance.getFramePoints()) || [];
       } catch (err) {
         console.debug('AlvaAR getFramePoints failed', err);
+        currentPoints = [];
         assignAlvaPoints(null);
       }
       try {
+        cameraRef.current?.updateMatrixWorld?.();
         const planeRaw = alvaInstance.findPlane(180);
-        const planeState = extractPlaneState(planeRaw);
+        const cameraMatrixWorld = cameraRef.current?.matrixWorld;
+        const planeState = extractPlaneState(planeRaw, cameraMatrixWorld);
         const activeSceneKey = activeSceneIdRef.current ?? 'default';
         if (planeState) {
           scenePlaneRef.current.set(activeSceneKey, planeState);
         }
       } catch (err) {
         console.debug('AlvaAR findPlane failed', err);
+      }
+
+      try {
+        const activeSceneKey = activeSceneIdRef.current ?? 'default';
+        const anchorState = sceneAnchorsRef.current.get(activeSceneKey);
+        const collisionSpheres = [];
+        if (anchorState?.lastDetections?.length) {
+          anchorState.lastDetections.forEach(det => {
+            const center = toVector3(det.anchorPoint, new THREE.Vector3(0, 0, -0.6));
+            let radius = typeof det.normalLength === 'number' ? det.normalLength : 0;
+            const configRadius = typeof det.config?.normalOffsetMm === 'number'
+              ? det.config.normalOffsetMm / 1000
+              : null;
+            if (configRadius && configRadius > radius) radius = configRadius;
+            if (radius <= 0) radius = anchorState.radius || 0.25;
+            collisionSpheres.push({ center, radius });
+          });
+        }
+
+        const video = camRef.current;
+        const mixRect = drawRectRef.current;
+        const mixWidth = mixRect.w || 1;
+        const mixHeight = mixRect.h || 1;
+        const videoWidth = video?.videoWidth || 1;
+        const videoHeight = video?.videoHeight || 1;
+        const scaleX = mixWidth / videoWidth;
+        const scaleY = mixHeight / videoHeight;
+
+        const hitPoints = [];
+        currentPoints.forEach(point => {
+          const px = point.x;
+          const py = point.y;
+          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+          const videoPoint = new THREE.Vector3(px, py, 0);
+          const cameraMatrix = cameraRef.current?.matrixWorld;
+          if (!cameraMatrix) return;
+
+          const cameraPosition = cameraRef.current.position.clone();
+          const planeState = scenePlaneRef.current.get(activeSceneKey);
+          if (!planeState) return;
+
+          const planeNormal = planeState.normal.clone();
+          const planePoint = planeState.position.clone();
+
+          const clipX = (px / videoWidth) * 2 - 1;
+          const clipY = -((py / videoHeight) * 2 - 1);
+          const clip = new THREE.Vector3(clipX, clipY, 0.5);
+
+          const invProjection = cameraRef.current.projectionMatrixInverse;
+          const worldDir = clip.clone().applyMatrix4(invProjection).applyMatrix4(cameraMatrix).sub(cameraPosition).normalize();
+          const denom = planeNormal.dot(worldDir);
+          if (Math.abs(denom) < 1e-6) return;
+          const t = planeNormal.clone().dot(planePoint.clone().sub(cameraPosition)) / denom;
+          if (t < 0) return;
+          const hitPoint = cameraPosition.clone().add(worldDir.clone().multiplyScalar(t));
+
+          collisionSpheres.forEach(sphere => {
+            const dist = sphere.center.distanceTo(hitPoint);
+            if (dist <= sphere.radius + 0.01) {
+              hitPoints.push({ point, mixX: mixRect.x + px * scaleX, mixY: mixRect.y + py * scaleY });
+            }
+          });
+        });
+
+        alvaRef.current.__debugHitPoints = hitPoints;
+      } catch (err) {
+        console.debug('AlvaAR point highlighting failed', err);
+        alvaRef.current.__debugHitPoints = null;
       }
     } else if (!alvaInstance) {
       assignAlvaPoints(null);
@@ -914,23 +1028,24 @@ function ARRecorder({ onShowLanding }) {
     const groupedDetections = updateSceneAnchors(latestTransforms);
     const currentSceneId = activeSceneIdRef.current;
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null;
-    const hasDetections = Boolean(anchorState?.visible && latestTransforms.length > 0);
-    
-    // Сброс инициализации при длительной потере детекции (>500ms)
     const now = performance.now();
-    if (hasDetections) {
+    const activeDetections = currentSceneId && groupedDetections ? (groupedDetections.get(currentSceneId) || []) : [];
+    const detectionActive = Array.isArray(activeDetections) && activeDetections.length > 0;
+    const lastSeen = anchorState?.lastSeen ?? 0;
+    const holding = anchorState ? (now - lastSeen <= APRILTAG_VISIBILITY_HOLD_MS) : false;
+    const hasDetections = Boolean(anchorState && (detectionActive || holding));
+    
+    // Сброс инициализации при длительной потере детекции (>hold)
+    if (detectionActive) {
       lastDetectionTime.current = now;
-    } else if (trainInitialized.current && (now - lastDetectionTime.current > 500)) {
+    } else if (trainInitialized.current && (now - lastDetectionTime.current > APRILTAG_VISIBILITY_HOLD_MS)) {
       trainInitialized.current = false;
-      console.log('🚂 Train initialization reset (detection lost for >500ms)');
+      console.log(`🚂 Train initialization reset (detection lost for >${APRILTAG_VISIBILITY_HOLD_MS}ms)`);
     }
     
     // Отладочное логирование состояния детекции
-    const frameDetectionCount = latestTransforms.length;
-    if (frameDetectionCount > 0 && !hasDetections) {
-      console.warn(`⚠️ Tags detected (${frameDetectionCount}) but hasDetections=false. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`);
-    } else if (frameDetectionCount === 0 && hasDetections) {
-      console.warn(`⚠️ No tags detected but hasDetections=true. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`);
+    if (detectionActive && !hasDetections) {
+      console.warn(`⚠️ Tags detected (${activeDetections.length}) but hasDetections=false. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`);
     }
 
     if (cube) {
@@ -1082,7 +1197,19 @@ function ARRecorder({ onShowLanding }) {
         if (!Number.isFinite(px) || !Number.isFinite(py)) return;
         ctx.fillRect(px - 2, py - 2, 4, 4);
       });
+      const hitPoints = alvaRef.current?.__debugHitPoints;
+      if (Array.isArray(hitPoints) && hitPoints.length > 0) {
+        ctx.fillStyle = "#00ff88";
+        hitPoints.forEach(hit => {
+          if (!hit) return;
+          const px = hit.mixX ?? (r.x + hit.point.x * scaleX);
+          const py = hit.mixY ?? (r.y + hit.point.y * scaleY);
+          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+          ctx.fillRect(px - 3, py - 3, 6, 6);
+        });
+      }
       ctx.restore();
+
     }
 
     rafIdRef.current = requestAnimationFrame(renderLoop);

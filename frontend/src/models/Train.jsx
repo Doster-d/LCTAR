@@ -81,7 +81,7 @@ export const Model = forwardRef((props, ref) => {
   return (
     <group ref={groupRef} {...props} dispose={null}>
       {/* Коррекция ориентации: поворот на 180° по X чтобы поезд был правильно ориентирован */}
-      <group rotation={[Math.PI, 0, 0]}>
+      <group rotation={[0, 0, 0]}>
         <mesh geometry={nodes['Train-Mat2'].geometry} material={materials['Mat.2']} position={[0.001, 0.26, 0.014]} />
         <mesh geometry={nodes['Train-Wagon'].geometry} material={materials.Wagon} position={[0.001, 0.26, 0.014]} />
         <mesh ref={wheelRef} geometry={nodes['Train-Wheels'].geometry} material={materials.Wheels} position={[0.001, 0.26, 0.014]} />
