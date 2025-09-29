@@ -108,3 +108,5 @@ uploads/
 logs/
 *.pid
 .*/
+repomix-output.xml
+docs/

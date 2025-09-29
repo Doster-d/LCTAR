@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Camera repro</title>
+  <style>body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:20px}button{margin:6px}</style>
+</head>
+<body>
+  <h3>Camera Repro - minimal getUserMedia tester</h3>
+  <p>Open this page from the same dev server/profile used for your app. Use the buttons to run different constraints. Watch console for detailed error info.</p>
+
+  <div>
+    <button id="btn-simple">Start: simple {video:true}</button>
+    <button id="btn-env">Start: facingMode environment</button>
+    <button id="btn-stop">Stop stream</button>
+  </div>
+
+  <video id="video" playsinline autoplay muted style="width:480px;height:360px;background:#000;border:1px solid #444"></video>
+  <pre id="out" style="max-height:200px;overflow:auto;background:#111;color:#bfb;padding:8px;margin-top:12px"></pre>
+
+  <script>
+    const out = (m) => { const el = document.getElementById('out'); el.textContent = (new Date()).toISOString() + ' ' + m + '\n' + el.textContent; console.log(m); };
+    let stream = null;
+
+    async function start(constraints) {
+      try {
+        out('Requesting getUserMedia with ' + JSON.stringify(constraints));
+        const s = await navigator.mediaDevices.getUserMedia(constraints);
+        out('getUserMedia success: tracks=' + s.getTracks().map(t=>t.kind+':'+t.id).join(','));
+        stream = s;
+        const v = document.getElementById('video');
+        v.srcObject = s;
+        try { await v.play(); out('video.play success'); } catch (e) { out('video.play error: ' + e.name + ' - ' + e.message); console.error(e); }
+      } catch (err) {
+        out('getUserMedia error: ' + (err.name || err) + ' - ' + (err.message || '')); 
+        out('Full error: ' + JSON.stringify(Object.getOwnPropertyNames(err).reduce((acc,k)=>{acc[k]=err[k];return acc},{}) , null, 2));
+        console.error('getUserMedia error', err);
+      }
+    }
+
+    document.getElementById('btn-simple').addEventListener('click', ()=>start({video:true}));
+    document.getElementById('btn-env').addEventListener('click', ()=>start({video:{facingMode:{ideal:'environment'}}}));
+    document.getElementById('btn-stop').addEventListener('click', ()=>{
+      if (!stream) return out('No stream to stop');
+      stream.getTracks().forEach(t=>t.stop()); stream=null; document.getElementById('video').srcObject=null; out('Stopped stream');
+    });
+
+    // show device list
+    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+      navigator.mediaDevices.enumerateDevices().then(devs=>{
+        out('Devices: ' + devs.map(d=>`${d.kind}:${d.label||'<hidden>'}:${d.deviceId}`).join(', '));
+      }).catch(e=>out('enumerateDevices error: '+e));
+    }
+  </script>
+</body>
+</html>
