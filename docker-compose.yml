@@ -1,19 +1,19 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
+    hostname: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: lctar
-      MYSQL_USER: lctar
-      MYSQL_PASSWORD: lctarpassword
+      MYSQL_ROOT_PASSWORD: ${DB_ROOTPASSWORD?Variable not set}
+      MYSQL_DATABASE: ${DB_NAME?Variable not set}
+      MYSQL_USER: ${DB_USER?Variable not set}
+      MYSQL_PASSWORD: ${DB_PASSWORD?Variable not set}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
   redis:
+    hostname: redis
     image: redis:7-alpine
     ports:
       - "6379:6379"
@@ -22,6 +22,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: lctar
       RABBITMQ_DEFAULT_PASS: lctarpassword
@@ -38,9 +39,9 @@ services:
     env_file:
       - .env
     environment:
-      DB_NAME: lctar
-      DB_USER: lctar
-      DB_PASSWORD: lctarpassword
+      DB_NAME: ${DB_NAME?Variable not set}
+      DB_USER: ${DB_USER?Variable not set}
+      DB_PASSWORD: ${DB_PASSWORD?Variable not set}
       DB_HOST: mysql
       DB_PORT: 3306
       REDIS_URL: redis://redis:6379/0
@@ -54,6 +55,7 @@ services:
 
   celery:
     build: .
+    hostname: celery
     working_dir: /app/arb
     command: celery -A arb worker -l info
     env_file:

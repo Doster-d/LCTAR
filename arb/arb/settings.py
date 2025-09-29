@@ -29,6 +29,13 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=Csv())
 
+CORS_ALLOWED_ORIGINS = config(
+    "CORS_ALLOWED_ORIGINS",
+    default="https://localhost:3000,http://localhost:3000",
+    cast=Csv(),
+)
+CORS_ALLOW_CREDENTIALS = config("CORS_ALLOW_CREDENTIALS", default=True, cast=bool)
+
 
 # Application definition
 
@@ -47,6 +54,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "arb.middleware.SimpleCorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",

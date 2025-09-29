@@ -11,6 +11,17 @@ import { loadAlva } from './alvaBridge';
 import { startTrainAnimation } from './trainAnimation';
 import Landing from './Landing';
 import AprilTagLayoutEditor from './AprilTagLayoutEditor';
+import {
+  startSession as apiStartSession,
+  sendViewEvent,
+  submitEmail as apiSubmitEmail,
+  getSessionProgress,
+  getPromoBySession,
+  getPromoByUser,
+  getStats as apiGetStats,
+  getHealth as apiGetHealth,
+} from './api/backend';
+import { getAssetByDetection } from './data/assets';
 
 /**
  * @brief Ограничивает число указанным диапазоном.
@@ -119,6 +130,10 @@ function ARRecorder({ onShowLanding }) {
   const lastAlvaUpdateRef = useRef(0);
   const alvaPointsRef = useRef([]);
   const debugCubeRef = useRef(null);
+  const sessionIdRef = useRef(null);
+  const detectedAssetsRef = useRef(new Set());
+  const pendingAssetsRef = useRef(new Set());
+  const submittedAssetsRef = useRef(new Set());
 
   // Streams / recorder
   const camStreamRef = useRef(null);
@@ -142,6 +157,19 @@ function ARRecorder({ onShowLanding }) {
   // AprilTag state
   const [aprilTagTransforms, setAprilTagTransforms] = useState([]);
   const aprilTagPipelineRef = useRef(null);
+
+  // Backend integration state
+  const [sessionId, setSessionId] = useState(null);
+  const [sessionLoading, setSessionLoading] = useState(false);
+  const [progressState, setProgressState] = useState(null);
+  const [promoState, setPromoState] = useState(null);
+  const [userState, setUserState] = useState(null);
+  const [statsState, setStatsState] = useState(null);
+  const [healthState, setHealthState] = useState(null);
+  const [apiError, setApiError] = useState(null);
+  const [emailInput, setEmailInput] = useState('');
+  const [emailSubmitting, setEmailSubmitting] = useState(false);
+  const [lastViewEvent, setLastViewEvent] = useState(null);
   
   // Прямая загрузка модели поезда
   const trainGltf = useGLTF('./models/Train-transformed.glb');
@@ -423,6 +451,188 @@ function ARRecorder({ onShowLanding }) {
       }
     };
   }, []);
+
+  const handleApiError = useCallback((error, fallbackMessage) => {
+    if (!error) {
+      setApiError(fallbackMessage);
+      return;
+    }
+    const message = error.message || fallbackMessage || 'API error';
+    setApiError(message);
+  }, []);
+
+  const refreshStats = useCallback(async () => {
+    try {
+      const stats = await apiGetStats();
+      setStatsState(stats);
+    } catch (error) {
+      handleApiError(error, 'Не удалось получить статистику');
+    }
+  }, [handleApiError]);
+
+  const refreshPromo = useCallback(async (sid, userId) => {
+    try {
+      if (userId) {
+        const promo = await getPromoByUser(userId);
+        setPromoState(promo);
+        return;
+      }
+      const promo = await getPromoBySession(sid);
+      setPromoState(promo);
+    } catch (error) {
+      if (error?.status === 404) {
+        setPromoState(null);
+        return;
+      }
+      handleApiError(error, 'Не удалось получить промокод');
+    }
+  }, [handleApiError]);
+
+  const refreshProgress = useCallback(async (sid) => {
+    const sessionKey = sid || sessionIdRef.current;
+    if (!sessionKey) return;
+    try {
+      const progress = await getSessionProgress(sessionKey);
+      setProgressState(progress);
+      if (progress?.remaining_assets === 0 && (progress?.viewed_assets ?? 0) > 0) {
+        await refreshPromo(sessionKey);
+      }
+    } catch (error) {
+      handleApiError(error, 'Не удалось получить прогресс');
+    }
+  }, [handleApiError, refreshPromo]);
+
+  const fetchHealthStatus = useCallback(async () => {
+    try {
+      const result = await apiGetHealth();
+      setHealthState(result);
+    } catch (error) {
+      handleApiError(error, 'Сервис недоступен');
+    }
+  }, [handleApiError]);
+
+  const createSession = useCallback(async () => {
+    setSessionLoading(true);
+    setApiError(null);
+    try {
+      const response = await apiStartSession();
+      const newSessionId = response?.session_id;
+      if (newSessionId) {
+        sessionIdRef.current = newSessionId;
+        setSessionId(newSessionId);
+        if (typeof window !== 'undefined') {
+          window.localStorage?.setItem('lctar_session_id', newSessionId);
+        }
+        detectedAssetsRef.current = new Set();
+        pendingAssetsRef.current = new Set();
+        submittedAssetsRef.current = new Set();
+        setProgressState(null);
+        setPromoState(null);
+        setUserState(null);
+        setLastViewEvent(null);
+        await refreshProgress(newSessionId);
+      }
+    } catch (error) {
+      handleApiError(error, 'Не удалось создать сессию');
+    } finally {
+      setSessionLoading(false);
+    }
+  }, [handleApiError, refreshProgress]);
+
+  const resetSession = useCallback(async () => {
+    if (typeof window !== 'undefined') {
+      window.localStorage?.removeItem('lctar_session_id');
+    }
+    sessionIdRef.current = null;
+    setSessionId(null);
+    detectedAssetsRef.current = new Set();
+    pendingAssetsRef.current = new Set();
+    submittedAssetsRef.current = new Set();
+    setProgressState(null);
+    setPromoState(null);
+    setUserState(null);
+    setLastViewEvent(null);
+    await createSession();
+  }, [createSession]);
+
+  const ensureSession = useCallback(async () => {
+    if (sessionIdRef.current) {
+      await refreshProgress(sessionIdRef.current);
+      return;
+    }
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage?.getItem('lctar_session_id');
+      if (saved) {
+        sessionIdRef.current = saved;
+        setSessionId(saved);
+        await refreshProgress(saved);
+        return;
+      }
+    }
+    await createSession();
+  }, [createSession, refreshProgress]);
+
+  const submitAssetView = useCallback(
+    async (assetSlug) => {
+      const currentSession = sessionIdRef.current;
+      if (!currentSession || !assetSlug) return;
+      if (submittedAssetsRef.current.has(assetSlug)) return;
+      try {
+        const result = await sendViewEvent(currentSession, assetSlug);
+        submittedAssetsRef.current.add(assetSlug);
+        setLastViewEvent({ slug: assetSlug, result, ts: Date.now() });
+        await refreshProgress(currentSession);
+        await refreshStats();
+        if (result?.promo_code) {
+          setPromoState({ promo_code: result.promo_code });
+        }
+        setApiError(null);
+      } catch (error) {
+        handleApiError(error, `Не удалось отправить событие для ${assetSlug}`);
+      }
+    },
+    [handleApiError, refreshProgress, refreshStats],
+  );
+
+  const flushPendingAssets = useCallback(async () => {
+    if (!pendingAssetsRef.current.size) return;
+    const assets = Array.from(pendingAssetsRef.current);
+    pendingAssetsRef.current.clear();
+    for (const slug of assets) {
+      // eslint-disable-next-line no-await-in-loop
+      await submitAssetView(slug);
+    }
+  }, [submitAssetView]);
+  const handleEmailSubmit = useCallback(
+    async (event) => {
+      event?.preventDefault?.();
+      const trimmed = emailInput.trim();
+      const currentSession = sessionIdRef.current;
+      if (!currentSession || !trimmed) return;
+      setEmailSubmitting(true);
+      setApiError(null);
+      try {
+        const response = await apiSubmitEmail(currentSession, trimmed);
+        setUserState(response);
+        setEmailInput('');
+        await refreshProgress(currentSession);
+        if (response?.user_id) {
+          await refreshPromo(currentSession, response.user_id);
+        }
+      } catch (error) {
+        handleApiError(error, 'Не удалось привязать email');
+      } finally {
+        setEmailSubmitting(false);
+      }
+    },
+    [emailInput, handleApiError, refreshProgress, refreshPromo],
+  );
+
+  useEffect(() => {
+    ensureSession();
+    fetchHealthStatus();
+    refreshStats();
+  }, [ensureSession, fetchHealthStatus, refreshStats]);
 
   /**
    * @brief Подгоняет размеры канвасов под текущие габариты видео и окна.
@@ -760,6 +970,19 @@ function ARRecorder({ onShowLanding }) {
     alvaRef.current?.__debugPoints?.clear?.();
     return normalizedPoints;
   }, []);
+
+  useEffect(() => {
+    const currentSlugs = new Set();
+    aprilTagTransforms.forEach((det) => {
+      const asset = getAssetByDetection(det.sceneId, det.id);
+      if (!asset) return;
+      currentSlugs.add(asset.slug);
+      if (recOn && !submittedAssetsRef.current.has(asset.slug)) {
+        pendingAssetsRef.current.add(asset.slug);
+      }
+    });
+    detectedAssetsRef.current = currentSlugs;
+  }, [aprilTagTransforms, recOn]);
 
   const extractPlaneState = useCallback((matrixArray, cameraMatrixWorld) => {
     if (!matrixArray || matrixArray.length !== 16) return null;
@@ -1350,6 +1573,7 @@ function ARRecorder({ onShowLanding }) {
       setStatus(`MediaRecorder: ${e.name}`);
       return;
     }
+    pendingAssetsRef.current.clear();
     const chunks = [];
     recorder.ondataavailable = (e) => { if (e.data?.size) chunks.push(e.data); };
     recorder.onstop = () => {
@@ -1360,6 +1584,9 @@ function ARRecorder({ onShowLanding }) {
       setDl({ url, name, size: (blob.size / 1048576).toFixed(2) });
       setRecOn(false);
       setStatus("Готово");
+      flushPendingAssets().catch((err) => {
+        console.error('Failed to submit pending assets', err);
+      });
     };
     recorder.start(100);
     recRef.current = { recorder, chunks, mime, ext };
@@ -1373,7 +1600,7 @@ function ARRecorder({ onShowLanding }) {
     setRecOn(true);
     setDl(null);
     setStatus(`Запись: ${recorder.mimeType || "auto"}`);
-  }, [withMic]);
+  }, [withMic, flushPendingAssets]);
 
   /**
    * @brief Останавливает текущую сессию записи и формирует итоговый видео-blob.
@@ -1612,6 +1839,42 @@ function ARRecorder({ onShowLanding }) {
               <span style={{ opacity: 0.7 }}>Scene</span>
               <span>{activeSceneId || '—'}</span>
             </div>
+
+            {sessionId && (
+              <div style={{
+                padding: "4px 8px",
+                borderRadius: "8px",
+                background: "rgba(85, 20, 219, 0.12)",
+                border: "1px solid rgba(85, 20, 219, 0.25)",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: "#d6c7ff",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}>
+                <span style={{ opacity: 0.7 }}>Session</span>
+                <span>{`${sessionId.slice(0, 8)}…`}</span>
+              </div>
+            )}
+
+            {progressState?.total_score !== undefined && (
+              <div style={{
+                padding: "4px 8px",
+                borderRadius: "8px",
+                background: "rgba(0, 0, 0, 0.35)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: "#ffd966",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px"
+              }}>
+                <span style={{ opacity: 0.7 }}>Score</span>
+                <span>{progressState.total_score}</span>
+              </div>
+            )}
 
             {/* Download Link */}
             {dl && (
@@ -1873,6 +2136,200 @@ function ARRecorder({ onShowLanding }) {
             </div>
           </div>
         </div>
+
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '16px',
+          marginTop: '8px'
+        }}>
+          <div style={{
+            minWidth: '220px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '10px',
+            padding: '12px',
+            color: '#e0e0e0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}>
+            <strong style={{ fontSize: '12px', opacity: 0.7 }}>Сессия</strong>
+            <span style={{ fontFamily: 'monospace', fontSize: '12px' }}>
+              {sessionId ? sessionId : '—'}
+            </span>
+            <button
+              type="button"
+              onClick={resetSession}
+              disabled={sessionLoading}
+              style={{
+                marginTop: '6px',
+                padding: '6px 10px',
+                borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.15)',
+                background: sessionLoading ? 'rgba(255,255,255,0.1)' : '#3a2bd9',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 600,
+                cursor: sessionLoading ? 'not-allowed' : 'pointer',
+                opacity: sessionLoading ? 0.6 : 1
+              }}
+            >
+              {sessionLoading ? 'Создание…' : 'Новая сессия'}
+            </button>
+            {healthState && (
+              <span style={{ fontSize: '11px', opacity: 0.7 }}>{String(healthState)}</span>
+            )}
+          </div>
+
+          <div style={{
+            minWidth: '220px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '10px',
+            padding: '12px',
+            color: '#e0e0e0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}>
+            <strong style={{ fontSize: '12px', opacity: 0.7 }}>Прогресс</strong>
+            {progressState ? (
+              <>
+                <span style={{ fontSize: '12px' }}>
+                  {progressState.viewed_assets} / {progressState.total_assets} активов
+                </span>
+                <span style={{ fontSize: '12px' }}>
+                  Осталось: {progressState.remaining_assets}
+                </span>
+                <span style={{ fontSize: '12px' }}>
+                  Очки: {progressState.total_score}
+                </span>
+              </>
+            ) : (
+              <span style={{ fontSize: '12px', opacity: 0.7 }}>Нет данных</span>
+            )}
+            {lastViewEvent && (
+              <span style={{ fontSize: '11px', opacity: 0.7 }}>
+                Последний: {lastViewEvent.slug} (+{lastViewEvent.result?.awarded_points ?? 0})
+              </span>
+            )}
+          </div>
+
+          <div style={{
+            minWidth: '220px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '10px',
+            padding: '12px',
+            color: '#e0e0e0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}>
+            <strong style={{ fontSize: '12px', opacity: 0.7 }}>Промокод</strong>
+            {promoState?.promo_code ? (
+              <span style={{ fontFamily: 'monospace', fontSize: '12px' }}>
+                {promoState.promo_code}
+              </span>
+            ) : (
+              <span style={{ fontSize: '12px', opacity: 0.7 }}>Недоступен</span>
+            )}
+          </div>
+
+          <div style={{
+            minWidth: '220px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '10px',
+            padding: '12px',
+            color: '#e0e0e0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px'
+          }}>
+            <strong style={{ fontSize: '12px', opacity: 0.7 }}>Статистика</strong>
+            {statsState ? (
+              <>
+                <span style={{ fontSize: '12px' }}>Сегодня: {statsState.views_today}</span>
+                <span style={{ fontSize: '12px' }}>Всего: {statsState.views_all_time}</span>
+                <span style={{ fontSize: '12px', opacity: 0.8 }}>
+                  Лучший: {statsState.best_asset?.name || statsState.best_asset?.slug || '—'}
+                </span>
+              </>
+            ) : (
+              <span style={{ fontSize: '12px', opacity: 0.7 }}>Нет данных</span>
+            )}
+          </div>
+
+          <form
+            onSubmit={handleEmailSubmit}
+            style={{
+              minWidth: '220px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '10px',
+              padding: '12px',
+              color: '#e0e0e0',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px'
+            }}
+          >
+            <strong style={{ fontSize: '12px', opacity: 0.7 }}>Email</strong>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              placeholder="you@example.com"
+              style={{
+                padding: '6px',
+                borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.15)',
+                background: 'rgba(0,0,0,0.4)',
+                color: '#fff',
+                fontSize: '12px'
+              }}
+            />
+            <button
+              type="submit"
+              disabled={!emailInput.trim() || emailSubmitting}
+              style={{
+                padding: '6px 10px',
+                borderRadius: '6px',
+                border: '1px solid rgba(255,255,255,0.15)',
+                background: emailSubmitting ? 'rgba(255,255,255,0.1)' : '#00a878',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: 600,
+                cursor: (!emailInput.trim() || emailSubmitting) ? 'not-allowed' : 'pointer',
+                opacity: (!emailInput.trim() || emailSubmitting) ? 0.6 : 1
+              }}
+            >
+              {emailSubmitting ? 'Отправка…' : 'Сохранить'}
+            </button>
+            {userState?.email && (
+              <span style={{ fontSize: '11px', opacity: 0.7 }}>
+                Привязан: {userState.email}
+              </span>
+            )}
+          </form>
+        </div>
+
+        {apiError && (
+          <div style={{
+            marginTop: '8px',
+            padding: '8px 12px',
+            borderRadius: '8px',
+            background: 'rgba(255, 85, 85, 0.2)',
+            border: '1px solid rgba(255, 85, 85, 0.3)',
+            color: '#ff9595',
+            fontSize: '12px'
+          }}>
+            {apiError}
+          </div>
+        )}
       </div>
 
       {/* Enhanced Canvas */}
