@@ -1,3 +1,11 @@
+"""
+@file celery.py
+@brief Инициализация Celery-приложения.
+
+Создаёт экземпляр `Celery`, загружает конфигурацию из Django settings
+по пространству имён `CELERY` и включает автопоиск задач.
+"""
+
 from __future__ import annotations
 
 import os

@@ -1,10 +1,8 @@
 """
-ASGI config for arb project.
+@file asgi.py
+@brief Точка входа ASGI для проекта.
 
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
+Провайдер `application` для ASGI-серверов (Uvicorn, Daphne).
 """
 
 import os

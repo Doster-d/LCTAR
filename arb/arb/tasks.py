@@ -1,3 +1,11 @@
+"""
+@file tasks.py
+@brief Асинхронные задачи Celery для уведомлений и событий.
+
+Содержит задачу отправки промокода на email. При успешной отправке
+дополнительно логируется событие `promo_sent` в `ViewEvent`.
+"""
+
 from __future__ import annotations
 
 from celery import shared_task
@@ -15,6 +23,12 @@ from .models import PromoCode, Session, ViewEvent
     max_retries=5,
 )
 def send_promocode_email(promo_code: str) -> bool:
+    """
+    @brief Отправляет промокод на email получателя.
+
+    @param promo_code: Строковый код промо
+    @return True, если письмо отправлено; иначе False.
+    """
     promo = PromoCode.objects.filter(code=promo_code).first()
     if not promo or not promo.email:
         return False

@@ -1,9 +1,19 @@
+"""
+@file admin.py
+@brief Админка Django: настройка отображения основных моделей.
+
+Содержит админские классы для `User`, `Session`, `Asset`,
+`SessionItemProgress`, `ViewEvent`, `PromoCode`.
+"""
+
 from django.contrib import admin
 
 from .models import Asset, PromoCode, Session, SessionItemProgress, User, ViewEvent
 
 
 class SessionItemProgressInline(admin.TabularInline):
+    """Встроенный список прогресса для отображения в карточке сессии."""
+
     model = SessionItemProgress
     extra = 0
     readonly_fields = ("asset", "viewed_at", "times_viewed")
@@ -12,6 +22,8 @@ class SessionItemProgressInline(admin.TabularInline):
 
 
 class ViewEventInline(admin.TabularInline):
+    """Встроенный список событий для отображения в карточке сессии."""
+
     model = ViewEvent
     extra = 0
     readonly_fields = ("asset", "event_type", "timestamp", "raw_payload")
@@ -21,6 +33,8 @@ class ViewEventInline(admin.TabularInline):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `User`."""
+
     list_display = ("email", "is_verified", "created_at", "total_score")
     search_fields = ("email",)
     list_filter = ("is_verified",)
@@ -29,6 +43,8 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `Session`."""
+
     list_display = ("id", "user", "created_at", "last_seen", "score", "is_active")
     search_fields = ("id", "user__email")
     list_filter = ("is_active",)
@@ -39,6 +55,8 @@ class SessionAdmin(admin.ModelAdmin):
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `Asset`."""
+
     list_display = ("slug", "name", "type", "campaign")
     search_fields = ("slug", "name", "campaign")
     list_filter = ("type", "campaign")
@@ -46,6 +64,8 @@ class AssetAdmin(admin.ModelAdmin):
 
 @admin.register(SessionItemProgress)
 class SessionItemProgressAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `SessionItemProgress`."""
+
     list_display = ("session", "asset", "viewed_at", "times_viewed")
     search_fields = ("session__id", "asset__slug")
     list_filter = ("asset__type",)
@@ -54,6 +74,8 @@ class SessionItemProgressAdmin(admin.ModelAdmin):
 
 @admin.register(ViewEvent)
 class ViewEventAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `ViewEvent`."""
+
     list_display = ("session", "asset", "event_type", "timestamp")
     search_fields = ("session__id", "asset__slug", "event_type")
     list_filter = ("event_type",)
@@ -62,6 +84,8 @@ class ViewEventAdmin(admin.ModelAdmin):
 
 @admin.register(PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
+    """Настройки списка и формы для модели `PromoCode`."""
+
     list_display = ("code", "session", "user", "issued_at", "sent_at", "used_at")
     search_fields = ("code", "session__id", "user__email")
     list_filter = ("issued_at", "sent_at", "used_at")

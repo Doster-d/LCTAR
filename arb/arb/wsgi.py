@@ -1,10 +1,8 @@
 """
-WSGI config for arb project.
+@file wsgi.py
+@brief Точка входа WSGI для проекта.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
+Провайдер `application` для WSGI-серверов (gunicorn, uWSGI).
 """
 
 import os

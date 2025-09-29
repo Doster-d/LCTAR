@@ -1,3 +1,13 @@
+"""
+@file views.py
+@brief Публичные API-обработчики и бизнес-логика MVP.
+
+Содержит представления (DRF function-based views) для старта сессии,
+регистрации событий просмотра, привязки email, получения прогресса,
+выдачи промокодов и сводных статистик. Вспомогательные функции
+инкапсулируют вычисление очков и условий выдачи промокода.
+"""
+
 import logging
 
 from django.conf import settings
@@ -25,6 +35,12 @@ FIRST_VIEW_POINTS = 10
 
 
 def health_check(_request):
+    """
+    @brief Простой health-check.
+
+    @param _request: HTTP-запрос
+    @return Текстовое сообщение из конфигурации `HEALTH_MESSAGE`.
+    """
     return HttpResponse(
         settings.HEALTH_MESSAGE,
         content_type="text/plain",
@@ -32,6 +48,12 @@ def health_check(_request):
 
 
 def _compute_session_viewed_count(session: Session) -> int:
+    """
+    @brief Количество просмотренных (хотя бы один раз) активов в сессии.
+
+    @param session: Объект `Session`
+    @return Число уникальных активов с `times_viewed > 0`.
+    """
     return (
         SessionItemProgress.objects.filter(session=session, times_viewed__gt=0)
         .only("id")
@@ -40,6 +62,15 @@ def _compute_session_viewed_count(session: Session) -> int:
 
 
 def _compute_user_total_score(user: User) -> int:
+    """
+    @brief Пересчёт общего балла пользователя.
+
+    @details Суммирует уникальные активы, просмотренные в любых сессиях
+    пользователя, и умножает на константу `FIRST_VIEW_POINTS`.
+
+    @param user: Объект `User`
+    @return Число очков.
+    """
     unique_viewed_assets = (
         SessionItemProgress.objects.filter(session__user=user, times_viewed__gt=0)
         .values_list("asset_id", flat=True)
@@ -50,6 +81,13 @@ def _compute_user_total_score(user: User) -> int:
 
 
 def _issue_promocode_if_completed(session: Session, return_existing: bool = True):
+    """
+    @brief Выдаёт промокод, если сессия просмотрела все активы.
+
+    @param session: Объект `Session`
+    @param return_existing: Возвращать ли ранее неиспользованный промокод
+    @return Код промо или None.
+    """
     total_assets = Asset.objects.count()
     if total_assets == 0:
         return None
@@ -86,6 +124,12 @@ def _issue_promocode_if_completed(session: Session, return_existing: bool = True
 
 @api_view(["POST"])
 def session_start(request):  # noqa: ARG001
+    """
+    @brief Создаёт новую сессию и логирует событие старта.
+
+    @param request: HTTP-запрос без тела
+    @return Идентификатор созданной сессии.
+    """
     session = Session.objects.create(last_seen=timezone.now(), is_active=True)
     ViewEvent.objects.create(
         session=session,
@@ -98,6 +142,12 @@ def session_start(request):  # noqa: ARG001
 
 @api_view(["POST"])
 def view_event(request):
+    """
+    @brief Регистрирует просмотр актива и начисляет очки за первый просмотр.
+
+    @param request: JSON с полями `session_id`, `asset_slug` и доп. payload
+    @return Информация о начисленных очках и текущем счёте сессии.
+    """
     session_id = request.data.get("session_id")
     asset_slug = request.data.get("asset_slug")
     if not session_id or not asset_slug:
@@ -146,6 +196,12 @@ def view_event(request):
 
 @api_view(["POST"])
 def user_email(request):
+    """
+    @brief Привязывает email к сессии и пользователю, пересчитывает баллы.
+
+    @param request: JSON с полями `session_id`, `email`
+    @return Данные пользователя и его суммарный балл.
+    """
     session_id = request.data.get("session_id")
     email = request.data.get("email")
     if not session_id or not email:
@@ -184,6 +240,12 @@ def user_email(request):
 
 @api_view(["GET"])
 def progress(request):
+    """
+    @brief Возвращает прогресс по сессии или пользователю.
+
+    @param request: Query `session_id` или `user_id`
+    @return Общее число активов, просмотренные и оставшиеся, и очки.
+    """
     session_id = request.query_params.get("session_id")
     user_id = request.query_params.get("user_id")
     if not session_id and not user_id:
@@ -228,6 +290,12 @@ def progress(request):
 
 @api_view(["GET"])
 def promo(request):
+    """
+    @brief Возвращает активный промокод для пользователя/сессии, если он есть.
+
+    @param request: Query `session_id` или `user_id` или `email`
+    @return JSON с `promo_code` либо 404, если условия не выполнены.
+    """
     session_id = request.query_params.get("session_id")
     user_id = request.query_params.get("user_id")
     email = request.query_params.get("email")
@@ -288,6 +356,15 @@ def promo(request):
 
 @api_view(["GET"])
 def stats(_request):
+    """
+    @brief Сводная статистика просмотров и «лучший» актив за сегодня.
+
+    @details Находит актив по комбинированному скорингу из долей:
+    сегодняшние просмотры, «первым в сессии», и суммарные просмотры.
+
+    @param _request: HTTP-запрос
+    @return JSON с `best_asset`, `views_today`, `views_all_time`.
+    """
     today = timezone.localdate()
     base_filter = {"event_type": "viewed_asset", "asset__isnull": False}
     views_all_time = ViewEvent.objects.filter(**base_filter).count()
