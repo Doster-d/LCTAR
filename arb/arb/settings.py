@@ -40,11 +40,7 @@ CORS_ALLOW_CREDENTIALS = config("CORS_ALLOW_CREDENTIALS", default=False, cast=bo
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
-    default=[
-        "https://localhost:8089",
-        "https://lct-ar-cheburashka.ru.tuna.am",
-        "https://lctar2.duckdns.org",
-    ],
+    default="https://localhost:8089,https://lct-ar-cheburashka.ru.tuna.am,https://lctar2.duckdns.org",
     cast=Csv(),
 )
 
