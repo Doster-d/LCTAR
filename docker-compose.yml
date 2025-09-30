@@ -73,6 +73,31 @@ services:
       - redis
       - rabbitmq
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_URL: /api
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./frontend/certs/frontend.crt:/etc/nginx/ssl/frontend.crt:ro
+      - ./frontend/certs/frontend.key:/etc/nginx/ssl/frontend.key:ro
+
+  tuna:
+    image: yuccastream/tuna:latest
+    command: http frontend:80 --inspect=false
+    restart: always
+    environment:
+      - TUNA_SUBDOMAIN=lct-ar-cheburashka
+      - TUNA_TOKEN=${TUNA_TOKEN?Variable not set}
+      - TUNA_HTTPS_REDIRECT=true
+    depends_on:
+      - frontend
+
 volumes:
   mysql_data:
   redis_data:

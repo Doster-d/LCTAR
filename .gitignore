@@ -48,6 +48,7 @@ instance/
 .webassets-cache
 .scrapy
 docs/_build/
+docs/
 target/
 .ipynb_checkpoints
 profile_default/
@@ -99,7 +100,6 @@ Thumbs.db
 *.old
 *.tmp
 *.temp
-poetry.lock
 docker-compose.override.yml
 .dockerignore
 *.pem
