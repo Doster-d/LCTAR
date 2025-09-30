@@ -91,8 +91,10 @@ services:
     image: yuccastream/tuna:latest
     command: http frontend:80 --inspect=false
     restart: always
-    env_file:
-      - .env
+    environment:
+      - TUNA_SUBDOMAIN=lct-ar-cheburashka
+      - TUNA_TOKEN=${TUNA_TOKEN?Variable not set}
+      - TUNA_HTTPS_REDIRECT=true
     depends_on:
       - frontend
 
