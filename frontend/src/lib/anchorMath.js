@@ -1,197 +1,278 @@
-import { Matrix3, Quaternion, Vector3 } from 'three';
-
-const EPS = 1e-6;
+import * as THREE from 'three';
 
 /**
- * @brief Вычисляет точку пересечения набора лучей методом наименьших квадратов.
- * @param rays Набор лучей с заданными началом и направлением.
- * @returns {Vector3|null} Приближение точки пересечения либо null, если решение не найдено.
+ * Математические функции для работы с якорями AprilTag
+ */
+
+/**
+ * Конвертирует значение в THREE.Vector3
+ * @param {Array|Object|THREE.Vector3} value - Значение для конвертации
+ * @param {THREE.Vector3} fallback - Fallback значение при ошибке
+ * @returns {THREE.Vector3}
+ */
+export function toVector3(value, fallback = new THREE.Vector3()) {
+  if (value instanceof THREE.Vector3) {
+    return value.clone();
+  }
+
+  if (Array.isArray(value) && value.length >= 3) {
+    return new THREE.Vector3(value[0], value[1], value[2]);
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    const { x = 0, y = 0, z = 0 } = value;
+    return new THREE.Vector3(x, y, z);
+  }
+
+  if (fallback instanceof THREE.Vector3) {
+    return fallback.clone();
+  }
+
+  return new THREE.Vector3();
+}
+
+/**
+ * Вычисляет средний кватернион из массива кватернионов
+ * @param {THREE.Quaternion[]} quaternions - Массив кватернионов
+ * @returns {THREE.Quaternion}
+ */
+export function averageQuaternion(quaternions) {
+  if (!Array.isArray(quaternions) || quaternions.length === 0) {
+    return new THREE.Quaternion();
+  }
+
+  if (quaternions.length === 1) {
+    return quaternions[0].clone();
+  }
+
+  // Используем алгоритм усреднения кватернионов
+  // Находим кватернион, наиболее близкий к остальным
+  let bestQuaternion = quaternions[0].clone();
+  let maxDot = -1;
+
+  for (let i = 0; i < quaternions.length; i++) {
+    let dot = 0;
+    for (let j = 0; j < quaternions.length; j++) {
+      if (i !== j) {
+        dot += quaternions[i].dot(quaternions[j]);
+      }
+    }
+    if (dot > maxDot) {
+      maxDot = dot;
+      bestQuaternion = quaternions[i].clone();
+    }
+  }
+
+  return bestQuaternion.normalize();
+}
+
+/**
+ * Находит лучшую точку пересечения из массива лучей
+ * @param {Array<{origin: THREE.Vector3, direction: THREE.Vector3}>} rays - Массив лучей
+ * @returns {THREE.Vector3|null}
  */
 export function bestFitPointFromRays(rays) {
   if (!Array.isArray(rays) || rays.length === 0) {
     return null;
   }
 
-  const m = new Matrix3().set(0, 0, 0, 0, 0, 0, 0, 0, 0);
-  const b = new Vector3();
-
-  rays.forEach(ray => {
-    if (!ray?.origin || !ray?.direction) {
-      return;
-    }
-    const origin = Array.isArray(ray.origin) ? new Vector3().fromArray(ray.origin) : ray.origin.clone?.() ?? new Vector3();
-    const direction = Array.isArray(ray.direction) ? new Vector3().fromArray(ray.direction) : ray.direction.clone?.() ?? new Vector3();
-    if (direction.lengthSq() < EPS) {
-      return;
-    }
-    const d = direction.clone().normalize();
-
-    const proj = [
-      1 - d.x * d.x, -d.x * d.y, -d.x * d.z,
-      -d.y * d.x, 1 - d.y * d.y, -d.y * d.z,
-      -d.z * d.x, -d.z * d.y, 1 - d.z * d.z
-    ];
-
-    const elem = m.elements;
-    elem[0] += proj[0]; elem[1] += proj[1]; elem[2] += proj[2];
-    elem[3] += proj[3]; elem[4] += proj[4]; elem[5] += proj[5];
-    elem[6] += proj[6]; elem[7] += proj[7]; elem[8] += proj[8];
-
-    const projected = new Vector3(
-      proj[0] * origin.x + proj[1] * origin.y + proj[2] * origin.z,
-      proj[3] * origin.x + proj[4] * origin.y + proj[5] * origin.z,
-      proj[6] * origin.x + proj[7] * origin.y + proj[8] * origin.z
+  if (rays.length === 1) {
+    // Для одного луча возвращаем точку на расстоянии 1 от origin
+    return rays[0].origin.clone().add(
+      rays[0].direction.clone().normalize()
     );
-    b.add(projected);
-  });
-
-  const mat = new Matrix3().fromArray(m.elements);
-  const det = mat.determinant();
-  if (Math.abs(det) < EPS) {
-    return null;
   }
 
-  const inv = mat.invert();
-  const result = b.clone().applyMatrix3(inv);
-  return result;
-}
+  // Метод наименьших квадратов для нахождения точки, минимизирующей сумму расстояний до всех лучей
+  const origins = rays.map(ray => ray.origin);
+  const directions = rays.map(ray => ray.direction.clone().normalize());
 
-/**
- * @brief Усредняет несколько кватернионов с учётом выравнивания полусфер.
- * @param quaternions Массив экземпляров Quaternion для усреднения.
- * @returns {Quaternion|null} Нормализованный усреднённый кватернион либо null для пустого массива.
- */
-export function averageQuaternion(quaternions) {
-  if (!Array.isArray(quaternions) || quaternions.length === 0) {
-    return null;
-  }
+  // Вычисляем центр масс начал лучей
+  const centroid = new THREE.Vector3();
+  origins.forEach(origin => centroid.add(origin));
+  centroid.divideScalar(origins.length);
 
-  const reference = quaternions[0].clone();
-  let sx = reference.x;
-  let sy = reference.y;
-  let sz = reference.z;
-  let sw = reference.w;
+  // Итеративное уточнение точки пересечения
+  let bestPoint = centroid.clone();
+  const maxIterations = 100;
+  const tolerance = 1e-6;
 
-  for (let i = 1; i < quaternions.length; i += 1) {
-    const q = quaternions[i].clone();
-    if (reference.dot(q) < 0) {
-      q.x *= -1;
-      q.y *= -1;
-      q.z *= -1;
-      q.w *= -1;
+  for (let iteration = 0; iteration < maxIterations; iteration++) {
+    let totalDirection = new THREE.Vector3();
+    let totalWeight = 0;
+
+    for (let i = 0; i < rays.length; i++) {
+      const origin = origins[i];
+      const direction = directions[i];
+
+      // Вектор от начала луча к текущей точке
+      const toPoint = bestPoint.clone().sub(origin);
+
+      // Проекция вектора на направление луча
+      const projection = toPoint.dot(direction);
+
+      // Направление коррекции
+      const correction = toPoint.clone().sub(
+        direction.clone().multiplyScalar(projection)
+      );
+
+      // Взвешиваем коррекцию
+      const weight = 1.0 / (1.0 + correction.lengthSq());
+      totalDirection.add(correction.multiplyScalar(weight));
+      totalWeight += weight;
     }
-    sx += q.x;
-    sy += q.y;
-    sz += q.z;
-    sw += q.w;
+
+    if (totalWeight > 0) {
+      totalDirection.divideScalar(totalWeight);
+      bestPoint.sub(totalDirection);
+
+      // Проверяем сходимость
+      if (totalDirection.lengthSq() < tolerance * tolerance) {
+        break;
+      }
+    }
   }
 
-  const averaged = new Quaternion(sx, sy, sz, sw);
-  if (averaged.lengthSq() < EPS) {
-    return reference.clone();
-  }
-  averaged.normalize();
-  return averaged;
+  return bestPoint;
 }
 
 /**
- * @brief Приводит произвольное вектороподобное значение к Vector3 из Three.js.
- * @param value Представление входного вектора.
- * @param fallback Вектор по умолчанию при некорректном значении.
- * @returns {Vector3} Полученный клон вектора.
- */
-export function toVector3(value, fallback = new Vector3()) {
-  if (value instanceof Vector3) {
-    return value.clone();
-  }
-  if (Array.isArray(value) && value.length >= 3) {
-    return new Vector3(value[0], value[1], value[2]);
-  }
-  if (value && typeof value === 'object' && 'x' in value && 'y' in value && 'z' in value) {
-    return new Vector3(value.x, value.y, value.z);
-  }
-  return fallback.clone();
-}
-
-/**
- * @brief Гарантирует нормализацию кватерниона, возвращая единичный при некорректных данных.
- * @param quaternion Экземпляр Quaternion для нормализации.
- * @returns {Quaternion} Нормализованный кватернион.
+ * Нормализует кватернион и обеспечивает корректный диапазон значений
+ * @param {THREE.Quaternion} quaternion - Исходный кватернион
+ * @returns {THREE.Quaternion}
  */
 export function clampQuaternion(quaternion) {
-  if (!(quaternion instanceof Quaternion)) {
-    return new Quaternion();
-  }
-  if (quaternion.lengthSq() < EPS) {
-    quaternion.set(0, 0, 0, 1);
+  // Проверяем тип входного параметра и создаем корректный кватернион при необходимости
+  let quat;
+  if (quaternion instanceof THREE.Quaternion) {
+    quat = quaternion;
+  } else if (typeof quaternion === 'object' && quaternion !== null && 'w' in quaternion && 'x' in quaternion && 'y' in quaternion && 'z' in quaternion) {
+    // Создаем кватернион из объекта с компонентами
+    quat = new THREE.Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
   } else {
-    quaternion.normalize();
+    return new THREE.Quaternion();
   }
-  return quaternion;
+
+  // Выполняем операции clone и normalize с проверкой результата
+  let normalized;
+  try {
+    const cloned = quat.clone();
+    if (typeof cloned.normalize === 'function') {
+      normalized = cloned.normalize();
+    } else {
+      normalized = cloned;
+    }
+  } catch (error) {
+    return new THREE.Quaternion();
+  }
+
+  // Проверяем, что normalized является корректным THREE.Quaternion объектом
+  if (!(normalized instanceof THREE.Quaternion)) {
+    return new THREE.Quaternion();
+  }
+
+  // Убеждаемся, что кватернион в правильном диапазоне
+  // Избегаем кватернионов с отрицательной скалярной частью для непрерывности
+  if (normalized.w < 0 && typeof normalized.multiplyScalar === 'function') {
+    normalized.multiplyScalar(-1);
+  }
+
+  return normalized;
 }
 
 /**
- * @brief Применяет dead zone и сглаживание для малых углов вращения.
- * @param quaternion Экземпляр Quaternion для обработки.
- * @param deadZone Угол (радианы), в пределах которого ориентация приравнивается к единичной.
- * @param softZone Угол (радианы), начиная с которого поведение остаётся без изменений.
- * @returns {Quaternion} Новый кватернион с приглушённым малым углом.
+ * Применяет фильтрацию малых углов для предотвращения дрожания
+ * @param {THREE.Quaternion} quaternion - Исходный кватернион
+ * @param {number} deadZone - Зона мертвого угла в радианах
+ * @param {number} softZone - Зона мягкого перехода в радианах
+ * @returns {THREE.Quaternion}
  */
-export function softenSmallAngleQuaternion(quaternion, deadZone = 0.08, softZone = 0.22) {
-  if (!(quaternion instanceof Quaternion)) {
-    return new Quaternion();
+export function softenSmallAngleQuaternion(quaternion, deadZone = 0.01, softZone = 0.05) {
+  if (!(quaternion instanceof THREE.Quaternion)) {
+    return new THREE.Quaternion();
   }
 
-  const q = quaternion.clone();
-  if (q.lengthSq() < EPS) {
-    q.set(0, 0, 0, 1);
-    return q;
-  }
+  // Преобразуем кватернион в углы Эйлера для анализа
+  const euler = new THREE.Euler().setFromQuaternion(quaternion);
 
-  q.normalize();
-  const w = Math.min(Math.max(q.w, -1), 1);
-  const angle = 2 * Math.acos(w);
-  if (!Number.isFinite(angle) || angle < EPS) {
-    return q;
-  }
-
-  const dz = Math.max(deadZone, 0);
-  const sz = Math.max(softZone, dz + EPS);
-
-  if (angle <= dz) {
-    q.set(0, 0, 0, 1);
-    return q;
-  }
-  if (angle >= sz) {
-    return q;
-  }
-
-  const axis = new Vector3(q.x, q.y, q.z);
-  const axisLen = axis.length();
-  if (axisLen < EPS) {
-    return q;
-  }
-  axis.divideScalar(axisLen);
-
-  const ratio = (angle - dz) / (sz - dz);
-  const clamped = Math.min(Math.max(ratio, 0), 1);
-  const eased = clamped * clamped * (3 - 2 * clamped); // smoothstep
-  const softenedAngle = eased * angle;
-  const half = softenedAngle * 0.5;
-  const sinHalf = Math.sin(half);
-
-  q.set(
-    axis.x * sinHalf,
-    axis.y * sinHalf,
-    axis.z * sinHalf,
-    Math.cos(half)
+  // Применяем фильтрацию к каждому углу
+  const filteredEuler = new THREE.Euler(
+    softenAngle(euler.x, deadZone, softZone),
+    softenAngle(euler.y, deadZone, softZone),
+    softenAngle(euler.z, deadZone, softZone)
   );
 
-  if (q.lengthSq() < EPS) {
-    q.set(0, 0, 0, 1);
-  } else {
-    q.normalize();
+  // Возвращаем отфильтрованный кватернион
+  return new THREE.Quaternion().setFromEuler(filteredEuler);
+}
+
+/**
+ * Вспомогательная функция для фильтрации отдельного угла
+ * @param {number} angle - Угол в радианах
+ * @param {number} deadZone - Зона мертвого угла
+ * @param {number} softZone - Зона мягкого перехода
+ * @returns {number}
+ */
+function softenAngle(angle, deadZone, softZone) {
+  const absAngle = Math.abs(angle);
+
+  if (absAngle <= deadZone) {
+    // В зоне мертвого угла - обнуляем угол
+    return 0;
+  } else if (absAngle <= softZone) {
+    // В зоне мягкого перехода - применяем нелинейную фильтрацию
+    const normalizedAngle = (absAngle - deadZone) / (softZone - deadZone);
+    const filteredAngle = Math.sin(normalizedAngle * Math.PI / 2) * (absAngle - deadZone);
+    return Math.sign(angle) * (deadZone + filteredAngle);
   }
 
-  return q;
+  // За пределами зоны - возвращаем угол без изменений
+  return angle;
+}
+
+/**
+ * Вычисляет матрицу трансформации из позиции и кватерниона
+ * @param {THREE.Vector3} position - Позиция
+ * @param {THREE.Quaternion} quaternion - Поворот
+ * @returns {THREE.Matrix4}
+ */
+export function createTransformMatrix(position, quaternion) {
+  const matrix = new THREE.Matrix4();
+  matrix.compose(
+    position instanceof THREE.Vector3 ? position : toVector3(position),
+    quaternion instanceof THREE.Quaternion ? quaternion : new THREE.Quaternion(),
+    new THREE.Vector3(1, 1, 1)
+  );
+  return matrix;
+}
+
+/**
+ * Извлекает позицию и поворот из матрицы трансформации
+ * @param {THREE.Matrix4} matrix - Матрица трансформации
+ * @returns {{position: THREE.Vector3, quaternion: THREE.Quaternion}}
+ */
+export function decomposeTransformMatrix(matrix) {
+  const position = new THREE.Vector3();
+  const quaternion = new THREE.Quaternion();
+  const scale = new THREE.Vector3();
+
+  matrix.decompose(position, quaternion, scale);
+
+  return { position, quaternion };
+}
+
+/**
+ * Вычисляет расстояние между двумя трансформациями
+ * @param {THREE.Matrix4} transform1 - Первая трансформация
+ * @param {THREE.Matrix4} transform2 - Вторая трансформация
+ * @returns {number}
+ */
+export function getTransformDistance(transform1, transform2) {
+  const decomp1 = decomposeTransformMatrix(transform1);
+  const decomp2 = decomposeTransformMatrix(transform2);
+
+  const positionDistance = decomp1.position.distanceTo(decomp2.position);
+  const quaternionDistance = decomp1.quaternion.angleTo(decomp2.quaternion);
+
+  return positionDistance + quaternionDistance * 10; // Взвешиваем угловое расстояние
 }

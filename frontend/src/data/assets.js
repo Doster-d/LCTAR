@@ -1,8 +1,8 @@
 const ASSETS_BY_SCENE = {
   cheburashka_company: {
-    0: { slug: 'cheburashka_company', name: 'cheburashka_company' },
-    1: { slug: 'cheburashka_company', name: 'cheburashka_company' },
-    2: { slug: 'cheburashka_company', name: 'cheburashka_company' },
+    0: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
+    1: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
+    2: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
   },
   volk: {},
 };

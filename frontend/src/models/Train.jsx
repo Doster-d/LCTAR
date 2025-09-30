@@ -15,7 +15,6 @@ import { useGLTF } from '@react-three/drei'
  */
 export const Model = forwardRef((props, ref) => {
   const { nodes, materials } = useGLTF('./models/Train-transformed.glb')
-  console.log('🚂 Train model loaded:', { nodes: Object.keys(nodes), materials: Object.keys(materials) });
   const wheelRef = useRef()
   const timeRef = useRef(0)
   const baseRef = useRef(null)
