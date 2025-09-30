@@ -1,0 +1,5 @@
+# Ignore generated diagram outputs
+/output/
+*.svg
+*.png
+*.puml.svg
