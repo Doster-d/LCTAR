@@ -73,6 +73,29 @@ services:
       - redis
       - rabbitmq
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_URL: /api
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - ./frontend/certs/frontend.crt:/etc/nginx/ssl/frontend.crt:ro
+      - ./frontend/certs/frontend.key:/etc/nginx/ssl/frontend.key:ro
+
+  tuna:
+    image: yuccastream/tuna:latest
+    command: http frontend:80 --inspect=false
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - frontend
+
 volumes:
   mysql_data:
   redis_data:
