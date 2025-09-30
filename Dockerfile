@@ -25,4 +25,4 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["python", "arb/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
