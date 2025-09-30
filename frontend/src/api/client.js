@@ -3,7 +3,7 @@ const normalizeBaseUrl = (value) => {
   return value.endsWith('/') ? value.slice(0, -1) : value;
 };
 
-const API_BASE_URL = 'https://localhost:8089/api';
+const API_BASE_URL = 'https://lct-ar-cheburashka.ru.tuna.am/api';
 
 const baseUrl = normalizeBaseUrl(API_BASE_URL);
 
@@ -15,6 +15,23 @@ const buildUrl = (path) => {
     return path;
   }
   return `${baseUrl}${path}`;
+};
+
+// Функция получения CSRF токена из cookies
+const getCsrfToken = () => {
+  const name = 'csrftoken';
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
 };
 
 const parseResponseBody = async (response) => {
@@ -38,12 +55,24 @@ const parseResponseBody = async (response) => {
 export async function request(path, { method = 'GET', body, headers, ...rest } = {}) {
   const init = {
     method,
-    headers: {
-      ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-      ...(headers || {}),
-    },
     ...rest,
   };
+
+  // Создаем базовые заголовки
+  const requestHeaders = {
+    ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+    ...(headers || {}),
+  };
+
+  // Добавляем CSRF токен для не-GET методов
+  if (method !== 'GET') {
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+      requestHeaders['X-CSRFToken'] = csrfToken;
+    }
+  }
+
+  init.headers = requestHeaders;
 
   if (body !== undefined) {
     init.body = JSON.stringify(body);

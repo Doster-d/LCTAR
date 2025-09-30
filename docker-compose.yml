@@ -95,7 +95,7 @@ services:
 
   tuna:
     image: yuccastream/tuna:latest
-    command: http frontend:80 --inspect=false
+    command: http https://frontend:80 --inspect=false
     restart: always
     environment:
       - TUNA_SUBDOMAIN=lct-ar-cheburashka

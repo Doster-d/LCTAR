@@ -37,6 +37,11 @@ CORS_ALLOWED_ORIGINS = config(
 # Do not allow credentials by default unless strictly required
 CORS_ALLOW_CREDENTIALS = config("CORS_ALLOW_CREDENTIALS", default=False, cast=bool)
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost:8089',
+    'https://lct-ar-cheburashka.ru.tuna.am',
+]
+
 
 # Application definition
 
