@@ -87,7 +87,7 @@ services:
         API_URL: /api
         NODE_ENV: production
     ports:
-      - "8089:80"
+      - "443:80"
     restart: always
     volumes:
       - ./frontend/certs/frontend.crt:/etc/nginx/ssl/frontend.crt:ro
