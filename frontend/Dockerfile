@@ -5,16 +5,18 @@ WORKDIR /app
 # Enable corepack to ensure yarn is available and reproducible
 RUN corepack enable
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock webpack.config.js config-overrides.js .babelrc ./
 
 # Install dependencies using yarn with the project's lockfile
 RUN yarn install --frozen-lockfile
 
 COPY . .
 
-# Allow build-time configuration of API_URL for webpack
+# Allow build-time configuration of API_URL and NODE_ENV for webpack
 ARG API_URL
+ARG NODE_ENV=production
 ENV API_URL=${API_URL}
+ENV NODE_ENV=${NODE_ENV}
 
 # Build static assets into the dist directory
 RUN yarn build

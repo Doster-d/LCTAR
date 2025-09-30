@@ -132,7 +132,7 @@ EXCLUDE_SYMBOLS        =
 EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO
-IMAGE_PATH             =
+IMAGE_PATH             = ./web-md
 
 # Используем главный README как главную страницу
 USE_MDFILE_AS_MAINPAGE = ./README.md

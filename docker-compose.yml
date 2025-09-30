@@ -2,6 +2,7 @@ services:
   mysql:
     image: mysql:8.0
     hostname: mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOTPASSWORD?Variable not set}
       MYSQL_DATABASE: ${DB_NAME?Variable not set}
@@ -15,6 +16,7 @@ services:
   redis:
     hostname: redis
     image: redis:7-alpine
+    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -23,6 +25,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     hostname: rabbitmq
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: lctar
       RABBITMQ_DEFAULT_PASS: lctarpassword
@@ -38,6 +41,7 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    restart: always
     environment:
       DB_NAME: ${DB_NAME?Variable not set}
       DB_USER: ${DB_USER?Variable not set}
@@ -60,10 +64,11 @@ services:
     command: ["/usr/local/bin/entrypoint.sh", "celery", "-A", "arb", "worker", "-l", "info"]
     env_file:
       - .env
+    restart: always
     environment:
-      DB_NAME: lctar
-      DB_USER: lctar
-      DB_PASSWORD: lctarpassword
+      DB_NAME: ${DB_NAME?Variable not set}
+      DB_USER: ${DB_USER?Variable not set}
+      DB_PASSWORD: ${DB_PASSWORD?Variable not set}
       DB_HOST: mysql
       DB_PORT: 3306
       REDIS_URL: redis://redis:6379/0
@@ -80,10 +85,10 @@ services:
       dockerfile: Dockerfile
       args:
         API_URL: /api
+        NODE_ENV: production
     ports:
-      - "80:80"
-    depends_on:
-      - app
+      - "8089:80"
+    restart: always
     volumes:
       - ./frontend/certs/frontend.crt:/etc/nginx/ssl/frontend.crt:ro
       - ./frontend/certs/frontend.key:/etc/nginx/ssl/frontend.key:ro

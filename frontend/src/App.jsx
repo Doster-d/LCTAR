@@ -1141,19 +1141,7 @@ function ARRecorder({ onShowLanding }) {
           }
           
           setAprilTagTransforms(latestTransforms);
-          
-          // Scoring logic: добавляем очки за обнаруженные теги (с ограничением по времени)
-          if (latestTransforms.length > 0) {
-            const now = performance.now();
-            const timeSinceLastScoring = now - lastScoringTimeRef.current;
-            
-            // Начисляем очки не чаще чем раз в 100 мс
-            if (timeSinceLastScoring >= 100) {
-              const scoreIncrement = latestTransforms.length * 5; // 5 очков за тег за 100мс
-              addScore(scoreIncrement);
-              lastScoringTimeRef.current = now;
-            }
-          }
+
         } catch (err) {
           console.error('Error reading imageData for detection', err);
         }
@@ -1781,52 +1769,6 @@ function ARRecorder({ onShowLanding }) {
               AprilTags: {aprilTagTransforms.length}
             </div>
 
-            {/* Score Counter */}
-            <div style={{
-              padding: "4px 8px",
-              borderRadius: "8px",
-              background: score >= maxScore 
-                ? "rgba(255, 215, 0, 0.2)"
-                : "rgba(102, 126, 234, 0.2)",
-              border: score >= maxScore 
-                ? "1px solid rgba(255, 215, 0, 0.4)"
-                : "1px solid rgba(102, 126, 234, 0.4)",
-              fontSize: "11px",
-              fontWeight: "600",
-              color: score >= maxScore ? "#FFD700" : "#667eea",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px"
-            }}>
-              <div style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: score >= maxScore ? "#FFD700" : "#667eea",
-                animation: score >= maxScore ? "blink 1s ease-in-out infinite" : "none"
-              }} />
-              Очки: {score} / {maxScore}
-              {/* Test button for development */}
-              {score < maxScore && (
-                <button
-                  onClick={() => addScore(maxScore - score)}
-                  style={{
-                    marginLeft: "8px",
-                    padding: "2px 6px",
-                    fontSize: "9px",
-                    background: "rgba(255, 255, 255, 0.2)",
-                    border: "1px solid rgba(255, 255, 255, 0.3)",
-                    color: "white",
-                    borderRadius: "4px",
-                    cursor: "pointer"
-                  }}
-                  title="Test: Reach max score"
-                >
-                  MAX
-                </button>
-              )}
-            </div>
-
             {/* Train Status Indicator */}
             <div style={{
               padding: "4px 8px",
@@ -2423,13 +2365,6 @@ function ARRecorder({ onShowLanding }) {
         select:focus { border-color: #5514db !important; }
       `}</style>
 
-      {/* Promo Popup */}
-      <PromoPopup
-        isVisible={showPromoPopup}
-        promoCode={currentPromoCode}
-        onClose={closePromoPopup}
-        score={score}
-      />
     </div>
   );
 }

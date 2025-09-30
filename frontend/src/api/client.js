@@ -3,7 +3,7 @@ const normalizeBaseUrl = (value) => {
   return value.endsWith('/') ? value.slice(0, -1) : value;
 };
 
-const API_BASE_URL = 'http://localhost:8087';
+const API_BASE_URL = 'https://localhost:8089/api';
 
 const baseUrl = normalizeBaseUrl(API_BASE_URL);
 

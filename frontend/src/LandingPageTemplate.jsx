@@ -32,7 +32,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         items: {
           react: "Frontend framework for building user interfaces",
           threejs: "3D graphics library for web applications",
-          fastapi: "Modern web framework for building APIs",
+          django: "Modern web framework for building APIs",
           apriltags: "Computer vision library for AR markers",
           blender: "3D modeling and animation software",
           postgresql: "Advanced open source relational database"
@@ -72,7 +72,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         items: {
           react: "Фреймворк для создания пользовательских интерфейсов",
           threejs: "Библиотека 3D графики для веб-приложений",
-          fastapi: "Современный веб-фреймворк для создания API",
+          django: "Современный веб-фреймворк для создания API",
           apriltags: "Библиотека компьютерного зрения для AR-маркеров",
           blender: "Программное обеспечение для 3D-моделирования и анимации",
           postgresql: "Продвинутая реляционная база данных с открытым исходным кодом"
@@ -130,7 +130,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
           {[
             { icon: './img/stack/react.png', name: 'React', description: t.techStack.items.react },
             { icon: './img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
-            { icon: './img/stack/fastapi.png', name: 'FastAPI', description: t.techStack.items.fastapi },
+            { icon: './img/stack/django.png', name: 'FastAPI', description: t.techStack.items.django },
             { icon: './img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
             { icon: './img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
             { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }

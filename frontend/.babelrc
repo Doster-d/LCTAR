@@ -3,5 +3,5 @@
     ["@babel/preset-env", { "targets": "defaults" }],
     ["@babel/preset-react", { "runtime": "automatic" }]
   ],
-  "plugins": ["react-refresh/babel"]
+  "plugins": []
 }

@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = process.env.NODE_ENV === 'development';
 
 const envResult = dotenv.config({ path: path.resolve(__dirname, '.env') });
 const envVars = { ...envResult.parsed };
@@ -47,7 +47,12 @@ module.exports = {
             presets: [
               ['@babel/preset-env', { targets: 'defaults' }],
               ['@babel/preset-react', { runtime: 'automatic' }]
-            ]
+            ],
+            plugins: isDev ? (function() {
+              return ['react-refresh/babel'];
+            })() : (function() {
+              return [];
+            })()
           }
         }
       },
@@ -108,17 +113,48 @@ module.exports = {
     new webpack.DefinePlugin(defineEnv),
     new CopyWebpackPlugin({
       patterns: [
-        {
-          from: 'public/apriltag_wasm.js',
-          to: 'apriltag_wasm.js'
-        },
-        {
-          from: 'public/apriltag_wasm.wasm',
-          to: 'apriltag_wasm.wasm'
-        }
+        // Критически важные файлы
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'public/alva/alva_ar.js', to: 'alva/alva_ar.js' },
+        { from: 'public/apriltag-config.json', to: 'apriltag-config.json' },
+        { from: 'public/manifest.json', to: 'manifest.json' },
+        { from: 'public/robots.txt', to: 'robots.txt' },
+
+        // SVG маркеры AprilTag
+        { from: 'public/tag36h11-0.svg', to: 'tag36h11-0.svg' },
+        { from: 'public/tag36h11-1.svg', to: 'tag36h11-1.svg' },
+        { from: 'public/tag36h11-2.svg', to: 'tag36h11-2.svg' },
+
+        // Изображения с сохранением структуры папок
+        { from: 'public/img/**/*', to: 'img/[name][ext]' },
+
+        // Дополнительные модели
+        { from: 'public/models/**/*', to: 'models/[name][ext]' },
+
+        // Разработческие инструменты (опционально)
+        { from: 'public/dev-tools/**/*', to: 'dev-tools/[name][ext]' },
+
+        // Существующие файлы (сохранить)
+        { from: 'public/apriltag_wasm.js', to: 'apriltag_wasm.js' },
+        { from: 'public/apriltag_wasm.wasm', to: 'apriltag_wasm.wasm' }
       ]
     }),
-    isDev && new ReactRefreshWebpackPlugin()
+    isDev && (function() {
+      try {
+        const plugin = new ReactRefreshWebpackPlugin({
+          overlay: false, // Отключаем overlay чтобы избежать конфликтов
+          disableRefreshCheck: true // Отключаем проверку для React 19
+        });
+        return plugin;
+      } catch (error) {
+        try {
+          const fallbackPlugin = new ReactRefreshWebpackPlugin();
+          return fallbackPlugin;
+        } catch (fallbackError) {
+          return null;
+        }
+      }
+    })()
   ].filter(Boolean),
   devServer: {
     static: {
