@@ -3,7 +3,7 @@ const normalizeBaseUrl = (value) => {
   return value.endsWith('/') ? value.slice(0, -1) : value;
 };
 
-const API_BASE_URL = 'https://lct-ar-cheburashka.ru.tuna.am/api';
+const API_BASE_URL = 'https://lctar2.duckdns.org/api';
 
 const baseUrl = normalizeBaseUrl(API_BASE_URL);
 
