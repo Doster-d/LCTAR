@@ -97,7 +97,8 @@ INPUT                  = arb/arb \
                           ./frontend/README-frontend.md \
                           ./README-backend.md \
                           ./README.md \
-                          ./frontend/public/alva
+                          ./frontend/public/alva \
+                          ./web-md/plan.md
 
 # Поддержка файлов полного стека
 FILE_PATTERNS          = *.py \
