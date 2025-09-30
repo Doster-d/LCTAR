@@ -117,7 +117,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
       {/* 1. General Information - Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <img src="./img/k1.png" alt="Logo" className="logo"/>
+          <img src="/img/k1.png" alt="Logo" className="logo"/>
           <h1>{t.hero.title}</h1>
           <p>{t.hero.description}</p>
         </div>
@@ -128,12 +128,12 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         <h2>{t.techStack.title}</h2>
         <div className="tech-grid">
           {[
-            { icon: './img/stack/react.png', name: 'React', description: t.techStack.items.react },
-            { icon: './img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
-            { icon: './img/stack/django.png', name: 'FastAPI', description: t.techStack.items.django },
-            { icon: './img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
-            { icon: './img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
-            { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
+            { icon: '/img/stack/react.png', name: 'React', description: t.techStack.items.react },
+            { icon: '/img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
+            { icon: '/img/stack/django.png', name: 'FastAPI', description: t.techStack.items.django },
+            { icon: '/img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
+            { icon: '/img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
+            { icon: '/img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
           ].map((tech, index) => (
             <div key={index} className="tech-item">
               <img src={tech.icon} alt={tech.name} />
@@ -162,12 +162,12 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         <h2>{t.team.title}</h2>
         <div className="team-grid">
           {[
-            { photo: './img/team/ch1ll.jpg', name: t.team.roster[0], role: t.team.roles[0], techStack: t.team.techStacks[0] },
-            { photo: './img/team/doster.jpg', name: t.team.roster[1], role: t.team.roles[1], techStack: t.team.techStacks[1] },
-            { photo: './img/team/cookie.jpg', name: t.team.roster[2], role: t.team.roles[2], techStack: t.team.techStacks[2] },
-            { photo: './img/team/rina.png', name: t.team.roster[3], role: t.team.roles[3], techStack: t.team.techStacks[3] },
-            { photo: './img/team/arina.jpg', name: t.team.roster[4], role: t.team.roles[4], techStack: t.team.techStacks[4] },
-            { photo: './img/team/ppl.jpg', name: t.stakeholders.title, role: t.stakeholders.description }
+            { photo: '/img/team/ch1ll.jpg', name: t.team.roster[0], role: t.team.roles[0], techStack: t.team.techStacks[0] },
+            { photo: '/img/team/doster.jpg', name: t.team.roster[1], role: t.team.roles[1], techStack: t.team.techStacks[1] },
+            { photo: '/img/team/cookie.jpg', name: t.team.roster[2], role: t.team.roles[2], techStack: t.team.techStacks[2] },
+            { photo: '/img/team/rina.png', name: t.team.roster[3], role: t.team.roles[3], techStack: t.team.techStacks[3] },
+            { photo: '/img/team/arina.jpg', name: t.team.roster[4], role: t.team.roles[4], techStack: t.team.techStacks[4] },
+            { photo: '/img/team/ppl.jpg', name: t.stakeholders.title, role: t.stakeholders.description }
           ].map((member, index) => (
             <div key={index} className="team-member">
               <img src={member.photo} alt={member.name} />
