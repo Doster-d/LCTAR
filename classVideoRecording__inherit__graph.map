@@ -1,0 +1,7 @@
+<map id="VideoRecording" name="VideoRecording">
+<area shape="rect" id="Node000001" title="Базовый класс, инкапсулирующий жизненный цикл записи." alt="" coords="168,5,292,31"/>
+<area shape="rect" id="Node000002" href="$classFrameAccurateVideoRecording.html" title="Режим записи, снимающий дискретные кадры для детерминированного тайминга." alt="" coords="5,79,228,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,40,137,81,134,76,198,36"/>
+<area shape="rect" id="Node000003" href="$classRealtimeVideoRecording.html" title="Режим записи, транслирующий кадры в реальном времени." alt="" coords="252,79,435,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,36,326,76,323,81,259,40"/>
+</map>

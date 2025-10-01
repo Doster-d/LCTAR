@@ -1,0 +1,5 @@
+<map id="ApriltagPipeline::applyConfig" name="ApriltagPipeline::applyConfig">
+<area shape="rect" id="Node000001" title="Кэширует метаданные сцен и тегов для быстрого доступа при детекции." alt="" coords="208,5,419,31"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,21,160,21,160,15,194,15"/>
+</map>

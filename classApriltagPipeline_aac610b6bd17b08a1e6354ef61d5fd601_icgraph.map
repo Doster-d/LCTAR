@@ -1,0 +1,7 @@
+<map id="ApriltagPipeline::loadAprilTagScript" name="ApriltagPipeline::loadAprilTagScript">
+<area shape="rect" id="Node000001" title="Встраивает скрипт загрузчика AprilTag WASM в документ." alt="" coords="463,5,653,45"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="208,13,415,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="449,28,415,28,415,23,449,23"/>
+<area shape="rect" id="Node000003" href="$classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,13,160,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
+</map>

@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Бизнес план проекта</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('plan.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Бизнес план проекта</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h1><a class="anchor" id="autotoc_md127"></a>
+1. Резюме</h1>
+<p>Мы превращаем скульптуры СоюзмультПарка в точку продаж. Посетитель сканирует QR. В браузере запускается модуль для работы с дополненной реальностью. Камера распознает AprilTag, установленный у подножья скульптуры. Рядом с персонажем и человек появляются виртуальные объекты, наполняющие сцену динамикой и интересом к технологиям. Гость взаимодействует со сценой, после чего получает временный промокод на приобретение билета или мерча.</p>
+<h1><a class="anchor" id="autotoc_md128"></a>
+2. Бизнес-модель и эффект</h1>
+<p>Доходы. Продажи билетов и мерча после AR-сессии. Партнерские интеграции. Ключевая механика. Временный промокод сразу после фото. Прямая конверсия из эмоции в чек. Формула выручки после AR: <code>Revenue = QR × p_cam × p_detect × p_photo × p_click × p_pay × AOV × (1 − discount)</code>. Управление каждым множителем происходит засчёт настроек контента, скорости сцен и UI.</p>
+<h1><a class="anchor" id="autotoc_md129"></a>
+3. Пользовательский путь и случаи использования</h1>
+<p>Цель. Упростить переход от сканирования к покупке. Снять трение по разрешениям. Дать понятный шаг к билету.</p>
+<div class="image">
+<img src="usecase.png" alt=""/>
+<div class="caption">
+Диаграмма прецендентов</div></div>
+    <h1><a class="anchor" id="autotoc_md130"></a>
+4. Последовательность QR → AR → покупка</h1>
+<p>Оптимизация. Загружаем лёгкий лендинг, запрашиваем камеру после клика. Подгружаем GLB по частям. Возвращаем промокод с сервера вместе с атрибуцией.</p>
+<div class="image">
+<img src="sequence.png" alt=""/>
+<div class="caption">
+Диаграмма последовательности</div></div>
+    <h1><a class="anchor" id="autotoc_md131"></a>
+5. Продукт и архитектура</h1>
+<p>Требования. Запуск без установки. Время старта до 3 секунд на 4G. Технологии. WebGL и Three.js в браузере. Трекинг AprilTags и SLAM. Бэкенд выдает промокод и ведет сбор метрик.</p>
+<div class="image">
+<img src="components.png" alt=""/>
+<div class="caption">
+Диаграмма компонентов</div></div>
+    <h1><a class="anchor" id="autotoc_md132"></a>
+6. Развертывание</h1>
+<p>Изоляция рисков. CDN рядом с парком. Бэкенд в облаке. Фото храним отдельно. Платежи и CRM по защищенным каналам.</p>
+<div class="image">
+<img src="deploy.png" alt=""/>
+<div class="caption">
+Диаграмма развёртывания</div></div>
+    <h1><a class="anchor" id="autotoc_md133"></a>
+7. Данные и аналитика</h1>
+<p>Мы собираем минимум. Сессия, устройство, скульптура, средний FPS, факт фото, показ промокода, клик, покупка. Эти поля закрывают расчет воронки и ROI.</p>
+<div class="image">
+<img src="logicDB.png" alt=""/>
+<div class="caption">
+Логическкая схема БД</div></div>
+    <p>Ключевые метрики. p_cam раздача разрешения камеры. p_detect стабильность трекинга. p_photo факт фото. p_click CTR к покупке. p_pay конверсия в оплату. AOV средний чек. Время старта сцены. FPS. Uptime.</p>
+<h1><a class="anchor" id="autotoc_md134"></a>
+8. Процессы и UX</h1>
+<p>Мы ведем пользователя простыми шагами. Даем подсказки по свету. Держим один экран на один выбор. Фолбэк есть.</p>
+<div class="image">
+<img src="process.png" alt=""/>
+<div class="caption">
+Диаграмма процесса</div></div>
+    <p>Стабильность трекинга управляется порогами дрожания и тайм-аутами.</p>
+<h1><a class="anchor" id="autotoc_md135"></a>
+9. Классы и интерфейсы фронтенда</h1>
+<div class="image">
+<img src="classFront.png" alt=""/>
+<div class="caption">
+Диаграмма классов клиенсткого модуля</div></div>
+    <h1><a class="anchor" id="autotoc_md136"></a>
+10. Тест-план</h1>
+<ul>
+<li>Тестируемые ОС устройств:<ul>
+<li>Android</li>
+<li>iOS</li>
+</ul>
+</li>
+<li>Тестируемые браузеры:<ul>
+<li>Chrome</li>
+<li>Safari</li>
+<li>Yandex</li>
+<li>Firefox</li>
+<li>Microsoft Edge</li>
+</ul>
+</li>
+<li>Условия:<ul>
+<li>яркое солнце</li>
+<li>тень</li>
+<li>сумерки</li>
+<li>дистанции 1–4 м.</li>
+<li>ракурсы фронт/¾/бок.</li>
+</ul>
+</li>
+<li>Проверки:<ul>
+<li>FPS</li>
+<li>стабильность детекта</li>
+<li>валидность позы</li>
+<li>качество фото/видео </li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md137"></a>
+* корректность промокода</h2>
+<h3><a class="anchor" id="autotoc_md138"></a>
+При возможности дальнейшего взаимодействия</h3>
+<ul>
+<li>UTM и параметры promo на лендинге</li>
+<li>путь оплаты</li>
+<li>нагрузка.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md139"></a>
+11. Риски и как мы их снимаем</h1>
+<h3><a class="anchor" id="autotoc_md140"></a>
+Слабый интернет.</h3>
+<blockquote class="doxtable">
+<p>&zwj;- Кэш и CDN.</p><ul>
+<li>Отложенная подгрузка.</li>
+<li>Старые смартфоны.</li>
+<li>LOD и упрощенные шейдеры. </li>
+</ul>
+</blockquote>
+<p>### Потеря трекинга. </p><blockquote class="doxtable">
+<p>&zwj;- Порог дрожания.</p><ul>
+<li>Сглаживание перехода сцены при обнаружении маркера/перемещения камеры. </li>
+</ul>
+</blockquote>
+<p>### Юридические вопросы </p><blockquote class="doxtable">
+<p>&zwj;- Ясное согласие в UI и срок хранения.</p><ul>
+<li>Засчёт использования AlvaAR разрабатываемый продукт работает под лицензией GPL-v3. </li>
+</ul>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md141"></a>
+12. Безопасность и приватность</h1>
+<p>Фото по согласию. Минимум персональных данных. Хранение фото ограниченное по сроку. Шифрование в транзите и в покое. Журналы доступа. Удаление по запросу. </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

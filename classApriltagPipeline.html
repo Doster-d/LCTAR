@@ -1,0 +1,709 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Класс ApriltagPipeline</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classApriltagPipeline.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="classApriltagPipeline-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle"><div class="title">Класс ApriltagPipeline</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.  
+ <a href="classApriltagPipeline.html#details">Подробнее...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:ab659d4a61ad08f46a91ea4e3dcf8e313" id="r_ab659d4a61ad08f46a91ea4e3dcf8e313"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#ab659d4a61ad08f46a91ea4e3dcf8e313">constructor</a> ()</td></tr>
+<tr class="memdesc:ab659d4a61ad08f46a91ea4e3dcf8e313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создаёт новый экземпляр пайплайна с контейнерами состояния по умолчанию.  <br /></td></tr>
+<tr class="separator:ab659d4a61ad08f46a91ea4e3dcf8e313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec5d95893c68f79173dc0b7d1ea4cc2b" id="r_aec5d95893c68f79173dc0b7d1ea4cc2b"><td class="memItemLeft" align="right" valign="top">async&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b">init</a> ()</td></tr>
+<tr class="memdesc:aec5d95893c68f79173dc0b7d1ea4cc2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM.  <br /></td></tr>
+<tr class="separator:aec5d95893c68f79173dc0b7d1ea4cc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad441d4da1a0ca7efc04690e95fdea8b1" id="r_ad441d4da1a0ca7efc04690e95fdea8b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#ad441d4da1a0ca7efc04690e95fdea8b1">applyConfig</a> (config)</td></tr>
+<tr class="memdesc:ad441d4da1a0ca7efc04690e95fdea8b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Кэширует метаданные сцен и тегов для быстрого доступа при детекции.  <br /></td></tr>
+<tr class="separator:ad441d4da1a0ca7efc04690e95fdea8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa85038ebd8765c445eb2828567100743" id="r_aa85038ebd8765c445eb2828567100743"><td class="memItemLeft" align="right" valign="top">async&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743">initAprilTag</a> ()</td></tr>
+<tr class="memdesc:aa85038ebd8765c445eb2828567100743"><td class="mdescLeft">&#160;</td><td class="mdescRight">Загружает WASM-ресурсы AprilTag и подготавливает детектор.  <br /></td></tr>
+<tr class="separator:aa85038ebd8765c445eb2828567100743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ea4288958a7d5f976c473277ed3c9e7" id="r_a5ea4288958a7d5f976c473277ed3c9e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7">getSceneConfig</a> (sceneId)</td></tr>
+<tr class="memdesc:a5ea4288958a7d5f976c473277ed3c9e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает закэшированную конфигурацию конкретной сцены.  <br /></td></tr>
+<tr class="separator:a5ea4288958a7d5f976c473277ed3c9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af55562ac0ef004f601a5fb17323fa3c6" id="r_af55562ac0ef004f601a5fb17323fa3c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#af55562ac0ef004f601a5fb17323fa3c6">getTagSizeById</a> ()</td></tr>
+<tr class="memdesc:af55562ac0ef004f601a5fb17323fa3c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Предоставляет отображение идентификаторов тегов на их физический размер.  <br /></td></tr>
+<tr class="separator:af55562ac0ef004f601a5fb17323fa3c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f3b422f293a7b9423d32f48d80257d" id="r_a52f3b422f293a7b9423d32f48d80257d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a52f3b422f293a7b9423d32f48d80257d">getTagConfig</a> (id)</td></tr>
+<tr class="memdesc:a52f3b422f293a7b9423d32f48d80257d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает подготовленную запись конфигурации тега.  <br /></td></tr>
+<tr class="separator:a52f3b422f293a7b9423d32f48d80257d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac610b6bd17b08a1e6354ef61d5fd601" id="r_aac610b6bd17b08a1e6354ef61d5fd601"><td class="memItemLeft" align="right" valign="top">async&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601">loadAprilTagScript</a> ()</td></tr>
+<tr class="memdesc:aac610b6bd17b08a1e6354ef61d5fd601"><td class="mdescLeft">&#160;</td><td class="mdescRight">Встраивает скрипт загрузчика AprilTag WASM в документ.  <br /></td></tr>
+<tr class="separator:aac610b6bd17b08a1e6354ef61d5fd601"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771074a21afa6da145de715717469c13" id="r_a771074a21afa6da145de715717469c13"><td class="memItemLeft" align="right" valign="top">async&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a771074a21afa6da145de715717469c13">initializeAprilTagDetector</a> ()</td></tr>
+<tr class="memdesc:a771074a21afa6da145de715717469c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Настраивает привязки WASM и инициализирует параметры детектора.  <br /></td></tr>
+<tr class="separator:a771074a21afa6da145de715717469c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a762864d5d9d1475189b8e7214ef35de8" id="r_a762864d5d9d1475189b8e7214ef35de8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8">detect</a> (imageData)</td></tr>
+<tr class="memdesc:a762864d5d9d1475189b8e7214ef35de8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выполняет детекцию тегов по переданному RGBA-буферу изображения.  <br /></td></tr>
+<tr class="separator:a762864d5d9d1475189b8e7214ef35de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec516cefad8b330f79a38e00e77c71c" id="r_a3ec516cefad8b330f79a38e00e77c71c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">convertImageDataToGrayscale</a> (imageData)</td></tr>
+<tr class="memdesc:a3ec516cefad8b330f79a38e00e77c71c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Преобразует RGBA-данные изображения в ожидаемый детектором градационный буфер.  <br /></td></tr>
+<tr class="separator:a3ec516cefad8b330f79a38e00e77c71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1e94b5478fa7e791c500c3651115b67" id="r_ac1e94b5478fa7e791c500c3651115b67"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">set_camera_info</a> (fx, fy, cx, cy)</td></tr>
+<tr class="memdesc:ac1e94b5478fa7e791c500c3651115b67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обновляет детектор параметрами внутренней калибровки камеры.  <br /></td></tr>
+<tr class="separator:ac1e94b5478fa7e791c500c3651115b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e859d94ed7a9721a72775d0ce24ac54" id="r_a4e859d94ed7a9721a72775d0ce24ac54"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">getCameraInfo</a> ()</td></tr>
+<tr class="memdesc:a4e859d94ed7a9721a72775d0ce24ac54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает последние параметры внутренней калибровки, переданные детектору.  <br /></td></tr>
+<tr class="separator:a4e859d94ed7a9721a72775d0ce24ac54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af55bc7bb21846a70c136b86d48a567c3" id="r_af55bc7bb21846a70c136b86d48a567c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">set_tag_size</a> (tagid, size)</td></tr>
+<tr class="memdesc:af55bc7bb21846a70c136b86d48a567c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Сообщает детектору физический размер тега.  <br /></td></tr>
+<tr class="separator:af55bc7bb21846a70c136b86d48a567c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы. </p>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00046">46</a></p>
+</div><h2 class="groupheader">Методы</h2>
+<a id="ad441d4da1a0ca7efc04690e95fdea8b1" name="ad441d4da1a0ca7efc04690e95fdea8b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad441d4da1a0ca7efc04690e95fdea8b1">&#9670;&#160;</a></span>applyConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::applyConfig </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Кэширует метаданные сцен и тегов для быстрого доступа при детекции. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>Загруженный объект конфигурации. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{void} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00103">103</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_ad441d4da1a0ca7efc04690e95fdea8b1_icgraph.png" border="0" usemap="#aclassApriltagPipeline_ad441d4da1a0ca7efc04690e95fdea8b1_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_ad441d4da1a0ca7efc04690e95fdea8b1_icgraph" id="aclassApriltagPipeline_ad441d4da1a0ca7efc04690e95fdea8b1_icgraph">
+<area shape="rect" title="Кэширует метаданные сцен и тегов для быстрого доступа при детекции." alt="" coords="208,5,419,31"/>
+<area shape="rect" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,5,160,31"/>
+<area shape="poly" title=" " alt="" coords="194,21,160,21,160,15,194,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab659d4a61ad08f46a91ea4e3dcf8e313" name="ab659d4a61ad08f46a91ea4e3dcf8e313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab659d4a61ad08f46a91ea4e3dcf8e313">&#9670;&#160;</a></span>constructor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::constructor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Создаёт новый экземпляр пайплайна с контейнерами состояния по умолчанию. </p>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00050">50</a></p>
+
+</div>
+</div>
+<a id="a3ec516cefad8b330f79a38e00e77c71c" name="a3ec516cefad8b330f79a38e00e77c71c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ec516cefad8b330f79a38e00e77c71c">&#9670;&#160;</a></span>convertImageDataToGrayscale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::convertImageDataToGrayscale </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>imageData</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Преобразует RGBA-данные изображения в ожидаемый детектором градационный буфер. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imageData</td><td>Источник ImageData. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{Uint8Array} Буфер яркости в оттенках серого. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00474">474</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a3ec516cefad8b330f79a38e00e77c71c_icgraph.png" border="0" usemap="#aclassApriltagPipeline_a3ec516cefad8b330f79a38e00e77c71c_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a3ec516cefad8b330f79a38e00e77c71c_icgraph" id="aclassApriltagPipeline_a3ec516cefad8b330f79a38e00e77c71c_icgraph">
+<area shape="rect" title="Преобразует RGBA&#45;данные изображения в ожидаемый детектором градационный буфер." alt="" coords="228,22,411,62"/>
+<area shape="rect" href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,29,180,55"/>
+<area shape="poly" title=" " alt="" coords="214,45,180,45,180,39,214,39"/>
+<area shape="poly" title=" " alt="" coords="133,20,123,11,93,8,68,10,56,15,53,20,60,27,56,31,48,21,52,11,67,5,93,3,125,7,137,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a762864d5d9d1475189b8e7214ef35de8" name="a762864d5d9d1475189b8e7214ef35de8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a762864d5d9d1475189b8e7214ef35de8">&#9670;&#160;</a></span>detect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::detect </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>imageData</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Выполняет детекцию тегов по переданному RGBA-буферу изображения. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imageData</td><td>Объект ImageData, подготовленный для анализа AprilTag. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{Array&lt;object&gt;} Обработанные детекции с данными о позе. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00289">289</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_cgraph.png" border="0" usemap="#aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_cgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_cgraph" id="aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_cgraph">
+<area shape="rect" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,45,180,70"/>
+<area shape="poly" title=" " alt="" coords="55,46,47,36,51,26,67,20,93,18,125,22,138,31,134,36,123,27,93,23,68,25,55,30,52,36,59,43"/>
+<area shape="rect" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c" title="Преобразует RGBA&#45;данные изображения в ожидаемый детектором градационный буфер." alt="" coords="233,5,416,45"/>
+<area shape="poly" title=" " alt="" coords="180,43,219,37,220,42,180,48"/>
+<area shape="rect" href="classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7" title="Возвращает закэшированную конфигурацию конкретной сцены." alt="" coords="228,69,421,109"/>
+<area shape="poly" title=" " alt="" coords="180,67,215,72,214,77,180,72"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_icgraph.png" border="0" usemap="#aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_icgraph" id="aclassApriltagPipeline_a762864d5d9d1475189b8e7214ef35de8_icgraph">
+<area shape="rect" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,29,180,55"/>
+<area shape="poly" title=" " alt="" coords="123,19,114,11,93,8,74,10,65,15,63,20,68,28,64,31,58,21,61,11,73,5,93,3,117,6,127,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a4e859d94ed7a9721a72775d0ce24ac54" name="a4e859d94ed7a9721a72775d0ce24ac54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e859d94ed7a9721a72775d0ce24ac54">&#9670;&#160;</a></span>getCameraInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::getCameraInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает последние параметры внутренней калибровки, переданные детектору. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{{fx:number, fy:number, cx:number, cy:number}} Текущие intrinsics. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00516">516</a></p>
+
+</div>
+</div>
+<a id="a5ea4288958a7d5f976c473277ed3c9e7" name="a5ea4288958a7d5f976c473277ed3c9e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ea4288958a7d5f976c473277ed3c9e7">&#9670;&#160;</a></span>getSceneConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::getSceneConfig </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>sceneId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает закэшированную конфигурацию конкретной сцены. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sceneId</td><td>Идентификатор сцены из конфигурационного файла. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{object|null} Конфигурация сцены либо null. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00156">156</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a5ea4288958a7d5f976c473277ed3c9e7_icgraph.png" border="0" usemap="#aclassApriltagPipeline_a5ea4288958a7d5f976c473277ed3c9e7_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a5ea4288958a7d5f976c473277ed3c9e7_icgraph" id="aclassApriltagPipeline_a5ea4288958a7d5f976c473277ed3c9e7_icgraph">
+<area shape="rect" title="Возвращает закэшированную конфигурацию конкретной сцены." alt="" coords="228,22,421,62"/>
+<area shape="rect" href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,29,180,55"/>
+<area shape="poly" title=" " alt="" coords="214,45,180,45,180,39,214,39"/>
+<area shape="poly" title=" " alt="" coords="134,20,123,11,93,8,68,10,55,15,52,20,59,27,55,31,47,21,51,11,67,5,93,3,125,7,138,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a52f3b422f293a7b9423d32f48d80257d" name="a52f3b422f293a7b9423d32f48d80257d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f3b422f293a7b9423d32f48d80257d">&#9670;&#160;</a></span>getTagConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::getTagConfig </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Получает подготовленную запись конфигурации тега. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>Идентификатор AprilTag. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{object|null} Конфигурация тега либо null при отсутствии. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00174">174</a></p>
+
+</div>
+</div>
+<a id="af55562ac0ef004f601a5fb17323fa3c6" name="af55562ac0ef004f601a5fb17323fa3c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af55562ac0ef004f601a5fb17323fa3c6">&#9670;&#160;</a></span>getTagSizeById()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::getTagSizeById </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Предоставляет отображение идентификаторов тегов на их физический размер. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Map&lt;number, number&gt;} Карта с размерами тегов в метрах. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00165">165</a></p>
+
+</div>
+</div>
+<a id="aec5d95893c68f79173dc0b7d1ea4cc2b" name="aec5d95893c68f79173dc0b7d1ea4cc2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec5d95893c68f79173dc0b7d1ea4cc2b">&#9670;&#160;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ApriltagPipeline::init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00076">76</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_aec5d95893c68f79173dc0b7d1ea4cc2b_cgraph.png" border="0" usemap="#aclassApriltagPipeline_aec5d95893c68f79173dc0b7d1ea4cc2b_cgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_aec5d95893c68f79173dc0b7d1ea4cc2b_cgraph" id="aclassApriltagPipeline_aec5d95893c68f79173dc0b7d1ea4cc2b_cgraph">
+<area shape="rect" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,31,160,56"/>
+<area shape="rect" href="classApriltagPipeline.html#ad441d4da1a0ca7efc04690e95fdea8b1" title="Кэширует метаданные сцен и тегов для быстрого доступа при детекции." alt="" coords="208,5,419,31"/>
+<area shape="poly" title=" " alt="" coords="160,32,194,28,195,34,161,37"/>
+<area shape="rect" href="classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="210,55,417,80"/>
+<area shape="poly" title=" " alt="" coords="161,49,196,52,196,58,160,54"/>
+<area shape="rect" href="classApriltagPipeline.html#a771074a21afa6da145de715717469c13" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="467,15,657,55"/>
+<area shape="poly" title=" " alt="" coords="412,52,453,47,454,52,413,57"/>
+<area shape="rect" href="classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601" title="Встраивает скрипт загрузчика AprilTag WASM в документ." alt="" coords="467,79,657,119"/>
+<area shape="poly" title=" " alt="" coords="413,77,453,83,453,88,412,83"/>
+<area shape="rect" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67" title="Обновляет детектор параметрами внутренней калибровки камеры." alt="" coords="705,15,859,55"/>
+<area shape="poly" title=" " alt="" coords="657,33,692,33,692,38,657,38"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa85038ebd8765c445eb2828567100743" name="aa85038ebd8765c445eb2828567100743"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa85038ebd8765c445eb2828567100743">&#9670;&#160;</a></span>initAprilTag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ApriltagPipeline::initAprilTag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Загружает WASM-ресурсы AprilTag и подготавливает детектор. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00134">134</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_aa85038ebd8765c445eb2828567100743_cgraph.png" border="0" usemap="#aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_cgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_cgraph" id="aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_cgraph">
+<area shape="rect" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="5,45,212,70"/>
+<area shape="rect" href="classApriltagPipeline.html#a771074a21afa6da145de715717469c13" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="261,5,450,45"/>
+<area shape="poly" title=" " alt="" coords="206,42,247,37,248,42,207,47"/>
+<area shape="rect" href="classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601" title="Встраивает скрипт загрузчика AprilTag WASM в документ." alt="" coords="260,69,451,109"/>
+<area shape="poly" title=" " alt="" coords="207,67,247,73,246,78,206,73"/>
+<area shape="rect" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67" title="Обновляет детектор параметрами внутренней калибровки камеры." alt="" coords="499,5,652,45"/>
+<area shape="poly" title=" " alt="" coords="450,23,485,23,485,28,450,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_aa85038ebd8765c445eb2828567100743_icgraph.png" border="0" usemap="#aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_icgraph" id="aclassApriltagPipeline_aa85038ebd8765c445eb2828567100743_icgraph">
+<area shape="rect" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="208,5,415,31"/>
+<area shape="rect" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,5,160,31"/>
+<area shape="poly" title=" " alt="" coords="194,21,160,21,160,15,194,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a771074a21afa6da145de715717469c13" name="a771074a21afa6da145de715717469c13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a771074a21afa6da145de715717469c13">&#9670;&#160;</a></span>initializeAprilTagDetector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ApriltagPipeline::initializeAprilTagDetector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Настраивает привязки WASM и инициализирует параметры детектора. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00233">233</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a771074a21afa6da145de715717469c13_cgraph.png" border="0" usemap="#aclassApriltagPipeline_a771074a21afa6da145de715717469c13_cgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a771074a21afa6da145de715717469c13_cgraph" id="aclassApriltagPipeline_a771074a21afa6da145de715717469c13_cgraph">
+<area shape="rect" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="5,5,195,45"/>
+<area shape="rect" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67" title="Обновляет детектор параметрами внутренней калибровки камеры." alt="" coords="243,5,396,45"/>
+<area shape="poly" title=" " alt="" coords="195,23,229,23,229,28,195,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_a771074a21afa6da145de715717469c13_icgraph.png" border="0" usemap="#aclassApriltagPipeline_a771074a21afa6da145de715717469c13_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_a771074a21afa6da145de715717469c13_icgraph" id="aclassApriltagPipeline_a771074a21afa6da145de715717469c13_icgraph">
+<area shape="rect" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="463,5,652,45"/>
+<area shape="rect" href="classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="208,13,415,38"/>
+<area shape="poly" title=" " alt="" coords="449,28,415,28,415,23,449,23"/>
+<area shape="rect" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,13,160,38"/>
+<area shape="poly" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aac610b6bd17b08a1e6354ef61d5fd601" name="aac610b6bd17b08a1e6354ef61d5fd601"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac610b6bd17b08a1e6354ef61d5fd601">&#9670;&#160;</a></span>loadAprilTagScript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">async ApriltagPipeline::loadAprilTagScript </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Встраивает скрипт загрузчика AprilTag WASM в документ. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} Завершается после готовности глобального модуля. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00182">182</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_aac610b6bd17b08a1e6354ef61d5fd601_icgraph.png" border="0" usemap="#aclassApriltagPipeline_aac610b6bd17b08a1e6354ef61d5fd601_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_aac610b6bd17b08a1e6354ef61d5fd601_icgraph" id="aclassApriltagPipeline_aac610b6bd17b08a1e6354ef61d5fd601_icgraph">
+<area shape="rect" title="Встраивает скрипт загрузчика AprilTag WASM в документ." alt="" coords="463,5,653,45"/>
+<area shape="rect" href="classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="208,13,415,38"/>
+<area shape="poly" title=" " alt="" coords="449,28,415,28,415,23,449,23"/>
+<area shape="rect" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,13,160,38"/>
+<area shape="poly" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac1e94b5478fa7e791c500c3651115b67" name="ac1e94b5478fa7e791c500c3651115b67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1e94b5478fa7e791c500c3651115b67">&#9670;&#160;</a></span>set_camera_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::set_camera_info </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>fx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>fy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>cy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Обновляет детектор параметрами внутренней калибровки камеры. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fx</td><td>Горизонтальное фокусное расстояние в пикселях. </td></tr>
+    <tr><td class="paramname">fy</td><td>Вертикальное фокусное расстояние в пикселях. </td></tr>
+    <tr><td class="paramname">cx</td><td>Координата X главной точки. </td></tr>
+    <tr><td class="paramname">cy</td><td>Координата Y главной точки. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number|undefined} Код результата от WASM-обёртки. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00495">495</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApriltagPipeline_ac1e94b5478fa7e791c500c3651115b67_icgraph.png" border="0" usemap="#aclassApriltagPipeline_ac1e94b5478fa7e791c500c3651115b67_icgraph" alt=""/></div>
+<map name="aclassApriltagPipeline_ac1e94b5478fa7e791c500c3651115b67_icgraph" id="aclassApriltagPipeline_ac1e94b5478fa7e791c500c3651115b67_icgraph">
+<area shape="rect" title="Обновляет детектор параметрами внутренней калибровки камеры." alt="" coords="700,5,853,45"/>
+<area shape="rect" href="classApriltagPipeline.html#a771074a21afa6da145de715717469c13" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="463,5,652,45"/>
+<area shape="poly" title=" " alt="" coords="686,28,652,28,652,23,686,23"/>
+<area shape="rect" href="classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="208,13,415,38"/>
+<area shape="poly" title=" " alt="" coords="449,28,415,28,415,23,449,23"/>
+<area shape="rect" href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,13,160,38"/>
+<area shape="poly" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af55bc7bb21846a70c136b86d48a567c3" name="af55bc7bb21846a70c136b86d48a567c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af55bc7bb21846a70c136b86d48a567c3">&#9670;&#160;</a></span>set_tag_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ApriltagPipeline::set_tag_size </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>tagid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Сообщает детектору физический размер тега. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tagid</td><td>Идентификатор тега. </td></tr>
+    <tr><td class="paramname">size</td><td>Длина стороны тега в метрах. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number|undefined} Код результата от WASM-обёртки. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a> строка <a class="el" href="apriltagPipeline_8jsx_source.html#l00526">526</a></p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>frontend/src/<a class="el" href="apriltagPipeline_8jsx_source.html">apriltagPipeline.jsx</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classApriltagPipeline.html">ApriltagPipeline</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

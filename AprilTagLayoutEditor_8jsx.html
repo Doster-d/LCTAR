@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Файл frontend/src/AprilTagLayoutEditor.jsx</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#var-members">Переменные</a>  </div>
+  <div class="headertitle"><div class="title">Файл AprilTagLayoutEditor.jsx</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>import React;</code><br />
+</div>
+<p><a href="AprilTagLayoutEditor_8jsx_source.html">См. исходные тексты.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Переменные</h2></td></tr>
+<tr class="memitem:a37d11a7b5d51f3120397381e5de3f434" id="r_a37d11a7b5d51f3120397381e5de3f434"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a37d11a7b5d51f3120397381e5de3f434">toVector</a></td></tr>
+<tr class="separator:a37d11a7b5d51f3120397381e5de3f434"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7c158c4dd3141bf138b73eeb5ca8539" id="r_aa7c158c4dd3141bf138b73eeb5ca8539"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#aa7c158c4dd3141bf138b73eeb5ca8539">clampDecimals</a></td></tr>
+<tr class="separator:aa7c158c4dd3141bf138b73eeb5ca8539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788f9a0fb893d641b7dff0040a97b6dc" id="r_a788f9a0fb893d641b7dff0040a97b6dc"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc">createEmptyScene</a></td></tr>
+<tr class="separator:a788f9a0fb893d641b7dff0040a97b6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48fc72a20fecf7b2149ac2207aba3be" id="r_ab48fc72a20fecf7b2149ac2207aba3be"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#ab48fc72a20fecf7b2149ac2207aba3be">createEmptyTag</a></td></tr>
+<tr class="separator:ab48fc72a20fecf7b2149ac2207aba3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbc67cca6ff9ad14a86f1ac40388401" id="r_a5dbc67cca6ff9ad14a86f1ac40388401"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a5dbc67cca6ff9ad14a86f1ac40388401">TagCube</a></td></tr>
+<tr class="separator:a5dbc67cca6ff9ad14a86f1ac40388401"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fee46e81618bd04f69188cef4fc3ea0" id="r_a6fee46e81618bd04f69188cef4fc3ea0"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a6fee46e81618bd04f69188cef4fc3ea0">SceneCanvas</a></td></tr>
+<tr class="separator:a6fee46e81618bd04f69188cef4fc3ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c9feea671cf59142847474a6d947a5a" id="r_a3c9feea671cf59142847474a6d947a5a"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a3c9feea671cf59142847474a6d947a5a">AprilTagLayoutEditor</a></td></tr>
+<tr class="separator:a3c9feea671cf59142847474a6d947a5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b5d43049d25c92acadd60f9847dc50a" id="r_a6b5d43049d25c92acadd60f9847dc50a"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a6b5d43049d25c92acadd60f9847dc50a">buttonStyle</a></td></tr>
+<tr class="separator:a6b5d43049d25c92acadd60f9847dc50a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe45e9600113735f6051eadcf2591db7" id="r_afe45e9600113735f6051eadcf2591db7"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#afe45e9600113735f6051eadcf2591db7">labelStyle</a></td></tr>
+<tr class="separator:afe45e9600113735f6051eadcf2591db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a564b35bee57b692e37d25f3312d6ba07" id="r_a564b35bee57b692e37d25f3312d6ba07"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a564b35bee57b692e37d25f3312d6ba07">inputStyle</a></td></tr>
+<tr class="separator:a564b35bee57b692e37d25f3312d6ba07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03631a333dba498eeefd27ffecd8692a" id="r_a03631a333dba498eeefd27ffecd8692a"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a03631a333dba498eeefd27ffecd8692a">vectorRowStyle</a></td></tr>
+<tr class="separator:a03631a333dba498eeefd27ffecd8692a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ad257cad189c120018e3c2f98002587" id="r_a9ad257cad189c120018e3c2f98002587"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AprilTagLayoutEditor_8jsx.html#a9ad257cad189c120018e3c2f98002587">vectorInputStyle</a></td></tr>
+<tr class="separator:a9ad257cad189c120018e3c2f98002587"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Переменные</h2>
+<a id="a3c9feea671cf59142847474a6d947a5a" name="a3c9feea671cf59142847474a6d947a5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c9feea671cf59142847474a6d947a5a">&#9670;&#160;</a></span>AprilTagLayoutEditor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">export default AprilTagLayoutEditor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00187">187</a></p>
+
+</div>
+</div>
+<a id="a6b5d43049d25c92acadd60f9847dc50a" name="a6b5d43049d25c92acadd60f9847dc50a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5d43049d25c92acadd60f9847dc50a">&#9670;&#160;</a></span>buttonStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const buttonStyle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  background: <span class="stringliteral">&#39;#1b1f29&#39;</span>,</div>
+<div class="line">  color: <span class="stringliteral">&#39;#f6f7fb&#39;</span>,</div>
+<div class="line">  border: <span class="stringliteral">&#39;1px solid rgba(255,255,255,0.08)&#39;</span>,</div>
+<div class="line">  borderRadius: <span class="stringliteral">&#39;8px&#39;</span>,</div>
+<div class="line">  padding: <span class="stringliteral">&#39;6px 12px&#39;</span>,</div>
+<div class="line">  fontSize: <span class="stringliteral">&#39;12px&#39;</span>,</div>
+<div class="line">  fontWeight: 500,</div>
+<div class="line">  cursor: <span class="stringliteral">&#39;pointer&#39;</span>,</div>
+<div class="line">  transition: <span class="stringliteral">&#39;background 0.2s ease, transform 0.2s ease&#39;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00779">779</a></p>
+
+</div>
+</div>
+<a id="aa7c158c4dd3141bf138b73eeb5ca8539" name="aa7c158c4dd3141bf138b73eeb5ca8539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7c158c4dd3141bf138b73eeb5ca8539">&#9670;&#160;</a></span>clampDecimals</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const clampDecimals</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= (value, precision = 4) =&gt; {</div>
+<div class="line">  <span class="keyword">const</span> factor = 10 ** precision;</div>
+<div class="line">  <span class="keywordflow">return</span> Math.round(value * factor) / factor;</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00011">11</a></p>
+
+</div>
+</div>
+<a id="a788f9a0fb893d641b7dff0040a97b6dc" name="a788f9a0fb893d641b7dff0040a97b6dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788f9a0fb893d641b7dff0040a97b6dc">&#9670;&#160;</a></span>createEmptyScene</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const createEmptyScene</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= (name, fallbackOffset = <span class="keyword">null</span>) =&gt; ({</div>
+<div class="line">  name,</div>
+<div class="line">  diameter: 1,</div>
+<div class="line">  fallbackOffsetDefault: fallbackOffset ? [...fallbackOffset] : <span class="keyword">null</span></div>
+<div class="line">})</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00016">16</a></p>
+
+</div>
+</div>
+<a id="ab48fc72a20fecf7b2149ac2207aba3be" name="ab48fc72a20fecf7b2149ac2207aba3be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48fc72a20fecf7b2149ac2207aba3be">&#9670;&#160;</a></span>createEmptyTag</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const createEmptyTag</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= (sceneId, id, fallbackOffset = [0, 0, 0]) =&gt; ({</div>
+<div class="line">  id,</div>
+<div class="line">  sceneId,</div>
+<div class="line">  size: 0.15,</div>
+<div class="line">  normalOffsetMm: 1000,</div>
+<div class="line">  position: [0, 0.02, 0],</div>
+<div class="line">  rotation: [0, 0, 0],</div>
+<div class="line">  sphereOffset: [0, 0, 0.1],</div>
+<div class="line">  fallbackOffset: [...fallbackOffset],</div>
+<div class="line">  order: Date.now()</div>
+<div class="line">})</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00022">22</a></p>
+
+</div>
+</div>
+<a id="a564b35bee57b692e37d25f3312d6ba07" name="a564b35bee57b692e37d25f3312d6ba07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a564b35bee57b692e37d25f3312d6ba07">&#9670;&#160;</a></span>inputStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const inputStyle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  width: <span class="stringliteral">&#39;100%&#39;</span>,</div>
+<div class="line">  padding: <span class="stringliteral">&#39;8px&#39;</span>,</div>
+<div class="line">  borderRadius: <span class="stringliteral">&#39;8px&#39;</span>,</div>
+<div class="line">  border: <span class="stringliteral">&#39;1px solid rgba(255,255,255,0.1)&#39;</span>,</div>
+<div class="line">  background: <span class="stringliteral">&#39;#1a1d24&#39;</span>,</div>
+<div class="line">  color: <span class="stringliteral">&#39;#f6f7fb&#39;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00798">798</a></p>
+
+</div>
+</div>
+<a id="afe45e9600113735f6051eadcf2591db7" name="afe45e9600113735f6051eadcf2591db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe45e9600113735f6051eadcf2591db7">&#9670;&#160;</a></span>labelStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const labelStyle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  display: <span class="stringliteral">&#39;grid&#39;</span>,</div>
+<div class="line">  gap: <span class="stringliteral">&#39;6px&#39;</span>,</div>
+<div class="line">  fontSize: <span class="stringliteral">&#39;12px&#39;</span>,</div>
+<div class="line">  color: <span class="stringliteral">&#39;rgba(255,255,255,0.8)&#39;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00791">791</a></p>
+
+</div>
+</div>
+<a id="a6fee46e81618bd04f69188cef4fc3ea0" name="a6fee46e81618bd04f69188cef4fc3ea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fee46e81618bd04f69188cef4fc3ea0">&#9670;&#160;</a></span>SceneCanvas</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const SceneCanvas</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00111">111</a></p>
+
+</div>
+</div>
+<a id="a5dbc67cca6ff9ad14a86f1ac40388401" name="a5dbc67cca6ff9ad14a86f1ac40388401"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dbc67cca6ff9ad14a86f1ac40388401">&#9670;&#160;</a></span>TagCube</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const TagCube</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00034">34</a></p>
+
+</div>
+</div>
+<a id="a37d11a7b5d51f3120397381e5de3f434" name="a37d11a7b5d51f3120397381e5de3f434"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d11a7b5d51f3120397381e5de3f434">&#9670;&#160;</a></span>toVector</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const toVector</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= (value, length = 3) =&gt; {</div>
+<div class="line">  <span class="keywordflow">if</span> (!Array.isArray(value)) <span class="keywordflow">return</span> Array.from({ length }, () =&gt; 0);</div>
+<div class="line">  <span class="keywordflow">return</span> value.slice(0, length).map((n) =&gt; Number(n) || 0);</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00006">6</a></p>
+
+</div>
+</div>
+<a id="a9ad257cad189c120018e3c2f98002587" name="a9ad257cad189c120018e3c2f98002587"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ad257cad189c120018e3c2f98002587">&#9670;&#160;</a></span>vectorInputStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const vectorInputStyle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  flex: 1,</div>
+<div class="line">  padding: <span class="stringliteral">&#39;8px&#39;</span>,</div>
+<div class="line">  borderRadius: <span class="stringliteral">&#39;8px&#39;</span>,</div>
+<div class="line">  border: <span class="stringliteral">&#39;1px solid rgba(255,255,255,0.1)&#39;</span>,</div>
+<div class="line">  background: <span class="stringliteral">&#39;#1a1d24&#39;</span>,</div>
+<div class="line">  color: <span class="stringliteral">&#39;#f6f7fb&#39;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00812">812</a></p>
+
+</div>
+</div>
+<a id="a03631a333dba498eeefd27ffecd8692a" name="a03631a333dba498eeefd27ffecd8692a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03631a333dba498eeefd27ffecd8692a">&#9670;&#160;</a></span>vectorRowStyle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const vectorRowStyle</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  display: <span class="stringliteral">&#39;flex&#39;</span>,</div>
+<div class="line">  gap: <span class="stringliteral">&#39;6px&#39;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="AprilTagLayoutEditor_8jsx_source.html">AprilTagLayoutEditor.jsx</a> строка <a class="el" href="AprilTagLayoutEditor_8jsx_source.html#l00807">807</a></p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="AprilTagLayoutEditor_8jsx.html">AprilTagLayoutEditor.jsx</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

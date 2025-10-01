@@ -1,0 +1,18 @@
+<map id="VideoCanvasManager::toFrame" name="VideoCanvasManager::toFrame">
+<area shape="rect" id="Node000001" title="Переводит прошедшие секунды в индекс кадра." alt="" coords="853,51,1017,91"/>
+<area shape="rect" id="Node000002" href="$classVideoCanvasManager.html#a03b40ea2686939232d8b0ad590efab70" title="Текущая позиция курсора по кадрам." alt="" coords="641,51,805,91"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="840,73,805,73,805,68,840,68"/>
+<area shape="rect" id="Node000004" href="$classVideoCanvasManager.html#adaa235bc388ba27dc49c44a3e7399a57" title="Устанавливает время воспроизведения через преобразование кадров." alt="" coords="5,80,169,120"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="850,96,806,105,641,132,512,147,382,149,217,135,156,123,157,117,218,129,383,144,512,142,641,126,805,100,849,91"/>
+<area shape="rect" id="Node000003" href="$classVideoCanvasManager.html#aa850fc60a7ba0efdefd1f17fac8ff5fe" title="Обновляет курсор кадра и внутреннее представление времени." alt="" coords="217,80,381,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="642,97,594,105,483,112,382,109,382,104,483,106,593,100,641,91"/>
+<area shape="rect" id="Node000005" href="$classVideoCanvasManager.html#a7183d52e750cb8019c5406ae2ca05b1e" title="Текущее время воспроизведения в секундах." alt="" coords="217,5,381,45"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="638,50,593,41,483,31,382,27,382,22,483,25,594,36,639,45"/>
+<area shape="rect" id="Node000006" href="$classVideoCanvasManager.html#a665ae102438157d5b5437d3a105aff6b" title="Преобразует индекс кадра обратно во время." alt="" coords="429,51,593,91"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="628,73,593,73,593,68,628,68"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="204,103,169,103,169,97,204,97"/>
+<area shape="poly" id="edge6_Node000005_Node000001" title=" " alt="" coords="395,14,429,12,535,9,618,10,701,19,806,36,861,48,860,53,805,41,700,24,618,16,536,14,429,17,395,19"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="230,52,146,82,144,77,228,47"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="416,87,382,91,381,86,415,81"/>
+<area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="415,53,381,45,382,40,416,48"/>
+</map>

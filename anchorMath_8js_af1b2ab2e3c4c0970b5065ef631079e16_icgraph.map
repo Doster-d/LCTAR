@@ -1,0 +1,5 @@
+<map id="decomposeTransformMatrix" name="decomposeTransformMatrix">
+<area shape="rect" id="Node000001" title="Извлекает позицию и поворот из матрицы трансформации" alt="" coords="219,5,423,31"/>
+<area shape="rect" id="Node000002" href="$anchorMath_8js.html#ad2e468c81411c4dc569354c438d66397" title="Вычисляет расстояние между двумя трансформациями" alt="" coords="5,5,171,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,21,171,21,171,15,205,15"/>
+</map>

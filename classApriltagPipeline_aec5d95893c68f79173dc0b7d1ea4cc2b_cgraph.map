@@ -1,0 +1,13 @@
+<map id="ApriltagPipeline::init" name="ApriltagPipeline::init">
+<area shape="rect" id="Node000001" title="Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM." alt="" coords="5,31,160,56"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#ad441d4da1a0ca7efc04690e95fdea8b1" title="Кэширует метаданные сцен и тегов для быстрого доступа при детекции." alt="" coords="208,5,419,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,32,194,28,195,34,161,37"/>
+<area shape="rect" id="Node000003" href="$classApriltagPipeline.html#aa85038ebd8765c445eb2828567100743" title="Загружает WASM&#45;ресурсы AprilTag и подготавливает детектор." alt="" coords="210,55,417,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,49,196,52,196,58,160,54"/>
+<area shape="rect" id="Node000004" href="$classApriltagPipeline.html#a771074a21afa6da145de715717469c13" title="Настраивает привязки WASM и инициализирует параметры детектора." alt="" coords="467,15,657,55"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="412,52,453,47,454,52,413,57"/>
+<area shape="rect" id="Node000006" href="$classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601" title="Встраивает скрипт загрузчика AprilTag WASM в документ." alt="" coords="467,79,657,119"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="413,77,453,83,453,88,412,83"/>
+<area shape="rect" id="Node000005" href="$classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67" title="Обновляет детектор параметрами внутренней калибровки камеры." alt="" coords="705,15,859,55"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="657,33,692,33,692,38,657,38"/>
+</map>

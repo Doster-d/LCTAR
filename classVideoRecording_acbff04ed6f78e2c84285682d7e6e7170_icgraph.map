@@ -1,0 +1,7 @@
+<map id="VideoRecording::toTime" name="VideoRecording::toTime">
+<area shape="rect" id="Node000001" title="Возвращает индекс кадра обратно во временную отметку." alt="" coords="276,45,455,70"/>
+<area shape="rect" id="Node000002" href="$classFrameAccurateVideoRecording.html#a42fc86fe5c5a8e32e9a941f9d8090dba" title="Захватывает кадр по точной временной отметке для последующего кодирования." alt="" coords="5,5,228,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,47,228,42,229,37,263,41"/>
+<area shape="rect" id="Node000003" href="$classRealtimeVideoRecording.html#aa239a3f1edee57b903df37519f307247" title="Захватывает кадр в процессе записи в реальном времени." alt="" coords="25,69,208,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="263,73,209,80,208,75,262,68"/>
+</map>

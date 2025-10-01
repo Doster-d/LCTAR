@@ -1,0 +1,5 @@
+<map id="softenSmallAngleQuaternion" name="softenSmallAngleQuaternion">
+<area shape="rect" id="Node000001" title="Применяет фильтрацию малых углов для предотвращения дрожания" alt="" coords="5,5,213,31"/>
+<area shape="rect" id="Node000002" href="$anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46" title="Вспомогательная функция для фильтрации отдельного угла" alt="" coords="261,5,360,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,15,248,15,248,21,213,21"/>
+</map>

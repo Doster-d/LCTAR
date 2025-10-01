@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Класс VideoRecording</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classVideoRecording.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="#pub-attribs">Открытые атрибуты</a> &#124;
+<a href="classVideoRecording-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle"><div class="title">Класс VideoRecording</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Базовый класс, инкапсулирующий жизненный цикл записи.  
+ <a href="classVideoRecording.html#details">Подробнее...</a></p>
+<div class="dynheader">
+Граф наследования:VideoRecording:</div>
+<div class="dyncontent">
+<div class="center"><img src="classVideoRecording__inherit__graph.png" border="0" usemap="#aVideoRecording_inherit__map" alt="Inheritance graph"/></div>
+<map name="aVideoRecording_inherit__map" id="aVideoRecording_inherit__map">
+<area shape="rect" title="Базовый класс, инкапсулирующий жизненный цикл записи." alt="" coords="168,5,292,31"/>
+<area shape="rect" href="classFrameAccurateVideoRecording.html" title="Режим записи, снимающий дискретные кадры для детерминированного тайминга." alt="" coords="5,79,228,104"/>
+<area shape="poly" title=" " alt="" coords="201,40,137,81,134,76,198,36"/>
+<area shape="rect" href="classRealtimeVideoRecording.html" title="Режим записи, транслирующий кадры в реальном времени." alt="" coords="252,79,435,104"/>
+<area shape="poly" title=" " alt="" coords="262,36,326,76,323,81,259,40"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">см. легенду</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:a328b0df414142a21b5f6941b27e00714" id="r_a328b0df414142a21b5f6941b27e00714"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#a328b0df414142a21b5f6941b27e00714">constructor</a> ({ canvas, fps, format, codec, quality, onDone, onError })</td></tr>
+<tr class="memdesc:a328b0df414142a21b5f6941b27e00714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создаёт обёртку новой сессии записи.  <br /></td></tr>
+<tr class="separator:a328b0df414142a21b5f6941b27e00714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8454633a0353729ea2c3deba1b62307" id="r_aa8454633a0353729ea2c3deba1b62307"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#aa8454633a0353729ea2c3deba1b62307">toFrame</a> (time)</td></tr>
+<tr class="memdesc:aa8454633a0353729ea2c3deba1b62307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Переводит секунды в номер кадра.  <br /></td></tr>
+<tr class="separator:aa8454633a0353729ea2c3deba1b62307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbff04ed6f78e2c84285682d7e6e7170" id="r_acbff04ed6f78e2c84285682d7e6e7170"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#acbff04ed6f78e2c84285682d7e6e7170">toTime</a> (frame)</td></tr>
+<tr class="memdesc:acbff04ed6f78e2c84285682d7e6e7170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает индекс кадра обратно во временную отметку.  <br /></td></tr>
+<tr class="separator:acbff04ed6f78e2c84285682d7e6e7170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad18781677c4514b6dc000c8398d931ad" id="r_ad18781677c4514b6dc000c8398d931ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad">setStatus</a> (s)</td></tr>
+<tr class="memdesc:ad18781677c4514b6dc000c8398d931ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обновляет текущий статус записи.  <br /></td></tr>
+<tr class="separator:ad18781677c4514b6dc000c8398d931ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Открытые атрибуты</h2></td></tr>
+<tr class="memitem:ac723feabab9ebb36fb08aa7dc19ffa4c" id="r_ac723feabab9ebb36fb08aa7dc19ffa4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#ac723feabab9ebb36fb08aa7dc19ffa4c">stop</a></td></tr>
+<tr class="memdesc:ac723feabab9ebb36fb08aa7dc19ffa4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Завершает запись и возвращает итоговый блоб.  <br /></td></tr>
+<tr class="separator:ac723feabab9ebb36fb08aa7dc19ffa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16eb76ea7b8166a9c86fadf32d97c2e9" id="r_a16eb76ea7b8166a9c86fadf32d97c2e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#a16eb76ea7b8166a9c86fadf32d97c2e9">cancelWithReason</a></td></tr>
+<tr class="memdesc:a16eb76ea7b8166a9c86fadf32d97c2e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Отменяет запись и передаёт ошибку подписчикам.  <br /></td></tr>
+<tr class="separator:a16eb76ea7b8166a9c86fadf32d97c2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353f745f24a76f4bc691d1b629b21a52" id="r_a353f745f24a76f4bc691d1b629b21a52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoRecording.html#a353f745f24a76f4bc691d1b629b21a52">cancel</a> = async () =&gt; this.cancelWithReason(new Error(&quot;Recording canceled&quot;))</td></tr>
+<tr class="memdesc:a353f745f24a76f4bc691d1b629b21a52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Упрощённый помощник для отмены записи с сообщением по умолчанию.  <br /></td></tr>
+<tr class="separator:a353f745f24a76f4bc691d1b629b21a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Базовый класс, инкапсулирующий жизненный цикл записи. </p>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00314">314</a></p>
+</div><h2 class="groupheader">Методы</h2>
+<a id="a328b0df414142a21b5f6941b27e00714" name="a328b0df414142a21b5f6941b27e00714"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a328b0df414142a21b5f6941b27e00714">&#9670;&#160;</a></span>constructor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::constructor </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>{ canvas, fps, format, codec, quality, onDone, onError }</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Создаёт обёртку новой сессии записи. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canvas</td><td>HTMLCanvasElement, с которого ведётся захват. </td></tr>
+    <tr><td class="paramname">fps</td><td>Частота захвата. </td></tr>
+    <tr><td class="paramname">format</td><td>Экземпляр выходного формата. </td></tr>
+    <tr><td class="paramname">codec</td><td>Идентификатор видеокодека. </td></tr>
+    <tr><td class="paramname">quality</td><td>Качество кодирования или битрейт. </td></tr>
+    <tr><td class="paramname">onDone</td><td>Колбэк с готовым блобом. </td></tr>
+    <tr><td class="paramname">onError</td><td>Колбэк при ошибке записи. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00325">325</a></p>
+
+</div>
+</div>
+<a id="ad18781677c4514b6dc000c8398d931ad" name="ad18781677c4514b6dc000c8398d931ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad18781677c4514b6dc000c8398d931ad">&#9670;&#160;</a></span>setStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::setStatus </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Обновляет текущий статус записи. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>Новое значение статуса. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{void} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00371">371</a></p>
+
+</div>
+</div>
+<a id="aa8454633a0353729ea2c3deba1b62307" name="aa8454633a0353729ea2c3deba1b62307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8454633a0353729ea2c3deba1b62307">&#9670;&#160;</a></span>toFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::toFrame </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>time</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Переводит секунды в номер кадра. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time</td><td>Время в секундах. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number} Номер кадра. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00358">358</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classVideoRecording_aa8454633a0353729ea2c3deba1b62307_cgraph.png" border="0" usemap="#aclassVideoRecording_aa8454633a0353729ea2c3deba1b62307_cgraph" alt=""/></div>
+<map name="aclassVideoRecording_aa8454633a0353729ea2c3deba1b62307_cgraph" id="aclassVideoRecording_aa8454633a0353729ea2c3deba1b62307_cgraph">
+<area shape="rect" title="Переводит секунды в номер кадра." alt="" coords="5,5,192,31"/>
+<area shape="rect" href="r3f-video-recorder_8jsx.html#ac2a0d737e20a7739de4f181103a9cfa6" title="Округляет число вниз с учётом эпсилона, чтобы избежать ошибок округления." alt="" coords="240,5,291,31"/>
+<area shape="poly" title=" " alt="" coords="192,15,226,15,226,21,192,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acbff04ed6f78e2c84285682d7e6e7170" name="acbff04ed6f78e2c84285682d7e6e7170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbff04ed6f78e2c84285682d7e6e7170">&#9670;&#160;</a></span>toTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::toTime </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>frame</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает индекс кадра обратно во временную отметку. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>Номер кадра. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number} Время в секундах. </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00364">364</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classVideoRecording_acbff04ed6f78e2c84285682d7e6e7170_icgraph.png" border="0" usemap="#aclassVideoRecording_acbff04ed6f78e2c84285682d7e6e7170_icgraph" alt=""/></div>
+<map name="aclassVideoRecording_acbff04ed6f78e2c84285682d7e6e7170_icgraph" id="aclassVideoRecording_acbff04ed6f78e2c84285682d7e6e7170_icgraph">
+<area shape="rect" title="Возвращает индекс кадра обратно во временную отметку." alt="" coords="276,45,455,70"/>
+<area shape="rect" href="classFrameAccurateVideoRecording.html#a42fc86fe5c5a8e32e9a941f9d8090dba" title="Захватывает кадр по точной временной отметке для последующего кодирования." alt="" coords="5,5,228,45"/>
+<area shape="poly" title=" " alt="" coords="262,47,228,42,229,37,263,41"/>
+<area shape="rect" href="classRealtimeVideoRecording.html#aa239a3f1edee57b903df37519f307247" title="Захватывает кадр в процессе записи в реальном времени." alt="" coords="25,69,208,109"/>
+<area shape="poly" title=" " alt="" coords="263,73,209,80,208,75,262,68"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Данные класса</h2>
+<a id="a353f745f24a76f4bc691d1b629b21a52" name="a353f745f24a76f4bc691d1b629b21a52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353f745f24a76f4bc691d1b629b21a52">&#9670;&#160;</a></span>cancel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::cancel = async () =&gt; this.cancelWithReason(new Error(&quot;Recording canceled&quot;))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Упрощённый помощник для отмены записи с сообщением по умолчанию. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00410">410</a></p>
+
+</div>
+</div>
+<a id="a16eb76ea7b8166a9c86fadf32d97c2e9" name="a16eb76ea7b8166a9c86fadf32d97c2e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16eb76ea7b8166a9c86fadf32d97c2e9">&#9670;&#160;</a></span>cancelWithReason</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::cancelWithReason</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= async (err = <span class="keyword">new</span> Error(<span class="stringliteral">&quot;Recording canceled&quot;</span>)) =&gt; {</div>
+<div class="line">    <span class="keywordflow">try</span> {</div>
+<div class="line">      this.<a class="code hl_function" href="classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad">setStatus</a>(<a class="code hl_variable" href="r3f-video-recorder_8jsx.html#a49b61ca005cb1e024f3d41f7de56fda6">VideoRecordingStatus</a>.Canceling);</div>
+<div class="line">      this.canvasSource.close();</div>
+<div class="line">      await this.output.cancel();</div>
+<div class="line">      this.onError(err);</div>
+<div class="line">    } <span class="keywordflow">catch</span> (e) {</div>
+<div class="line">      this.onError(e);</div>
+<div class="line">    }</div>
+<div class="line">  }</div>
+<div class="ttc" id="aclassVideoRecording_html_ad18781677c4514b6dc000c8398d931ad"><div class="ttname"><a href="classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad">VideoRecording::setStatus</a></div><div class="ttdeci">setStatus(s)</div><div class="ttdoc">Обновляет текущий статус записи.</div><div class="ttdef"><b>Definition</b> <a href="r3f-video-recorder_8jsx_source.html#l00371">r3f-video-recorder.jsx:371</a></div></div>
+<div class="ttc" id="ar3f-video-recorder_8jsx_html_a49b61ca005cb1e024f3d41f7de56fda6"><div class="ttname"><a href="r3f-video-recorder_8jsx.html#a49b61ca005cb1e024f3d41f7de56fda6">VideoRecordingStatus</a></div><div class="ttdeci">const VideoRecordingStatus</div><div class="ttdef"><b>Definition</b> <a href="r3f-video-recorder_8jsx_source.html#l00304">r3f-video-recorder.jsx:304</a></div></div>
+</div><!-- fragment -->
+<p>Отменяет запись и передаёт ошибку подписчикам. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">err</td><td>Ошибка, объясняющая причину отмены. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00395">395</a></p>
+
+</div>
+</div>
+<a id="ac723feabab9ebb36fb08aa7dc19ffa4c" name="ac723feabab9ebb36fb08aa7dc19ffa4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac723feabab9ebb36fb08aa7dc19ffa4c">&#9670;&#160;</a></span>stop</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoRecording::stop</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">= async () =&gt; {</div>
+<div class="line">    <span class="keywordflow">try</span> {</div>
+<div class="line">      this.<a class="code hl_function" href="classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad">setStatus</a>(<a class="code hl_variable" href="r3f-video-recorder_8jsx.html#a49b61ca005cb1e024f3d41f7de56fda6">VideoRecordingStatus</a>.Finalizing);</div>
+<div class="line">      this.canvasSource.close();</div>
+<div class="line">      await this.output.finalize();</div>
+<div class="line">      <span class="keyword">const</span> buffer = this.output.target.buffer;</div>
+<div class="line">      <span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([buffer], { type: this.output.format.mimeType });</div>
+<div class="line">      this.onDone(blob);</div>
+<div class="line">    } <span class="keywordflow">catch</span> (err) {</div>
+<div class="line">      this.<a class="code hl_variable" href="classVideoRecording.html#a16eb76ea7b8166a9c86fadf32d97c2e9">cancelWithReason</a>(err);</div>
+<div class="line">    }</div>
+<div class="line">  }</div>
+<div class="ttc" id="aclassVideoRecording_html_a16eb76ea7b8166a9c86fadf32d97c2e9"><div class="ttname"><a href="classVideoRecording.html#a16eb76ea7b8166a9c86fadf32d97c2e9">VideoRecording::cancelWithReason</a></div><div class="ttdeci">cancelWithReason</div><div class="ttdoc">Отменяет запись и передаёт ошибку подписчикам.</div><div class="ttdef"><b>Definition</b> <a href="r3f-video-recorder_8jsx_source.html#l00395">r3f-video-recorder.jsx:395</a></div></div>
+</div><!-- fragment -->
+<p>Завершает запись и возвращает итоговый блоб. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>{Promise&lt;void&gt;} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a> строка <a class="el" href="r3f-video-recorder_8jsx_source.html#l00377">377</a></p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>frontend/src/lib/<a class="el" href="r3f-video-recorder_8jsx_source.html">r3f-video-recorder.jsx</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classVideoRecording.html">VideoRecording</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

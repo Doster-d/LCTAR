@@ -1,0 +1,21 @@
+<map id="VideoCanvasManager::setTime" name="VideoCanvasManager::setTime">
+<area shape="rect" id="Node000001" title="Устанавливает время воспроизведения через преобразование кадров." alt="" coords="5,197,169,237"/>
+<area shape="rect" id="Node000002" href="$classVideoCanvasManager.html#aa850fc60a7ba0efdefd1f17fac8ff5fe" title="Обновляет курсор кадра и внутреннее представление времени." alt="" coords="217,67,381,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,194,252,112,255,117,123,199"/>
+<area shape="rect" id="Node000005" href="$classVideoCanvasManager.html#a4174d00ac12f5e21158535f0dc032e52" title="Переводит прошедшие секунды в индекс кадра." alt="" coords="641,197,805,237"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="170,214,628,214,628,219,170,219"/>
+<area shape="rect" id="Node000006" href="$classVideoCanvasManager.html#a7183d52e750cb8019c5406ae2ca05b1e" title="Текущее время воспроизведения в секундах." alt="" coords="853,171,1017,211"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="170,231,294,251,453,266,540,269,629,268,718,260,805,246,847,233,886,215,889,220,849,238,806,251,719,266,630,273,540,274,453,271,294,256,169,236"/>
+<area shape="rect" id="Node000003" href="$r3f-video-recorder_8jsx.html#ac2a0d737e20a7739de4f181103a9cfa6" title="Округляет число вниз с учётом эпсилона, чтобы избежать ошибок округления." alt="" coords="910,45,961,71"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="381,81,896,57,896,63,382,86"/>
+<area shape="rect" id="Node000004" href="$classVideoCanvasManager.html#a03b40ea2686939232d8b0ad590efab70" title="Текущая позиция курсора по кадрам." alt="" coords="429,118,593,158"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="382,104,417,113,416,118,381,110"/>
+<area shape="rect" id="Node000007" href="$classVideoCanvasManager.html#a665ae102438157d5b5437d3a105aff6b" title="Преобразует индекс кадра обратно во время." alt="" coords="1065,89,1229,129"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="368,65,491,36,569,22,654,11,744,4,836,4,929,12,1018,30,1069,51,1112,78,1109,83,1066,56,1017,35,928,17,836,9,744,9,655,16,570,27,492,41,369,70"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="567,156,657,190,655,195,565,161"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="750,195,904,77,907,82,753,199"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="805,204,840,200,840,206,806,210"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="853,184,607,153,607,147,854,179"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="986,169,1081,131,1083,136,988,174"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="1065,115,607,136,607,131,1065,110"/>
+</map>

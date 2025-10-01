@@ -1,0 +1,9 @@
+<map id="arb.views.user_email" name="arb.views.user_email">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,167,70"/>
+<area shape="rect" id="Node000002" href="$namespacearb_1_1views.html#a0ac8d10e3bdf4cd11b7109b0b3841425" title=" " alt="" coords="243,5,397,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,44,229,35,230,40,167,49"/>
+<area shape="rect" id="Node000003" href="$namespacearb_1_1views.html#a487cc2aa7159af4772de92c2ff70e063" title=" " alt="" coords="215,69,425,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,66,201,70,201,76,167,71"/>
+<area shape="rect" id="Node000004" href="$namespacearb_1_1views.html#a010c8b79b0b91c78729ae5e74254facb" title=" " alt="" coords="473,69,648,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="425,87,460,87,460,92,425,92"/>
+</map>

@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Класс arb.models.PromoCode</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classarb_1_1models_1_1PromoCode.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Классы</a> &#124;
+<a href="#pub-static-attribs">Статические открытые данные</a> &#124;
+<a href="classarb_1_1models_1_1PromoCode-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle"><div class="title">Класс arb.models.PromoCode</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Граф наследования:arb.models.PromoCode:</div>
+<div class="dyncontent">
+<div class="center"><img src="classarb_1_1models_1_1PromoCode__inherit__graph.png" border="0" usemap="#aarb_8models_8PromoCode_inherit__map" alt="Inheritance graph"/></div>
+<map name="aarb_8models_8PromoCode_inherit__map" id="aarb_8models_8PromoCode_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,79,180,104"/>
+<area shape="rect" title=" " alt="" coords="35,5,150,31"/>
+<area shape="poly" title=" " alt="" coords="95,44,95,79,90,79,90,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">см. легенду</a>]</span></center></div>
+<div class="dynheader">
+Граф связей класса arb.models.PromoCode:</div>
+<div class="dyncontent">
+<div class="center"><img src="classarb_1_1models_1_1PromoCode__coll__graph.png" border="0" usemap="#aarb_8models_8PromoCode_coll__map" alt="Collaboration graph"/></div>
+<map name="aarb_8models_8PromoCode_coll__map" id="aarb_8models_8PromoCode_coll__map">
+<area shape="rect" title=" " alt="" coords="5,79,180,104"/>
+<area shape="rect" title=" " alt="" coords="35,5,150,31"/>
+<area shape="poly" title=" " alt="" coords="95,44,95,79,90,79,90,44"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">см. легенду</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Классы</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode_1_1Meta.html">Meta</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Статические открытые данные</h2></td></tr>
+<tr class="memitem:a3a4e8f55427c711f77cfa64152757520" id="r_a3a4e8f55427c711f77cfa64152757520"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a3a4e8f55427c711f77cfa64152757520">id</a> = models.AutoField(primary_key=True)</td></tr>
+<tr class="separator:a3a4e8f55427c711f77cfa64152757520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40279f7f81cfc0ff590d2e33e4914135" id="r_a40279f7f81cfc0ff590d2e33e4914135"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a40279f7f81cfc0ff590d2e33e4914135">code</a> = models.CharField(max_length=128, unique=True)</td></tr>
+<tr class="separator:a40279f7f81cfc0ff590d2e33e4914135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb3281a73b63de35c3777399064d1040" id="r_abb3281a73b63de35c3777399064d1040"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#abb3281a73b63de35c3777399064d1040">session</a></td></tr>
+<tr class="separator:abb3281a73b63de35c3777399064d1040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23550c37e5408631a6af50d11410aad2" id="r_a23550c37e5408631a6af50d11410aad2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a23550c37e5408631a6af50d11410aad2">user</a></td></tr>
+<tr class="separator:a23550c37e5408631a6af50d11410aad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd13be940159a8630b8e30e4ec16a1b" id="r_a9dd13be940159a8630b8e30e4ec16a1b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a9dd13be940159a8630b8e30e4ec16a1b">email</a> = models.EmailField(null=True, blank=True)</td></tr>
+<tr class="separator:a9dd13be940159a8630b8e30e4ec16a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99acc0ebf06c2fb0a8c27d742b2e417e" id="r_a99acc0ebf06c2fb0a8c27d742b2e417e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a99acc0ebf06c2fb0a8c27d742b2e417e">issued_at</a> = models.DateTimeField(null=True, blank=True)</td></tr>
+<tr class="separator:a99acc0ebf06c2fb0a8c27d742b2e417e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade7f8328c8125f3520fa9672e7222e66" id="r_ade7f8328c8125f3520fa9672e7222e66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#ade7f8328c8125f3520fa9672e7222e66">sent_at</a> = models.DateTimeField(null=True, blank=True)</td></tr>
+<tr class="separator:ade7f8328c8125f3520fa9672e7222e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f5392ccaa7c8610a1bae1c6633f7a4" id="r_a26f5392ccaa7c8610a1bae1c6633f7a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#a26f5392ccaa7c8610a1bae1c6633f7a4">used_at</a> = models.DateTimeField(null=True, blank=True)</td></tr>
+<tr class="separator:a26f5392ccaa7c8610a1bae1c6633f7a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca43cca88507788f873f3ea736de47a4" id="r_aca43cca88507788f873f3ea736de47a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarb_1_1models_1_1PromoCode.html#aca43cca88507788f873f3ea736de47a4">meta</a> = models.JSONField(default=dict)</td></tr>
+<tr class="separator:aca43cca88507788f873f3ea736de47a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><pre class="fragment">@brief Промокод, выдаваемый за завершение сценария.
+
+@details Может быть привязан к сессии и/или пользователю; хранит
+статус выдачи, отправки и использования.
+
+@ivar id: Целочисленный первичный ключ
+@ivar code: Уникальный код промо
+@ivar session: Ссылка на `Session` (может отсутствовать)
+@ivar user: Ссылка на `User` (может отсутствовать)
+@ivar email: Электронная почта получателя
+@ivar issued_at: Время генерации промокода
+@ivar sent_at: Время отправки промокода по email
+@ivar used_at: Время использования промокода
+@ivar meta: Дополнительные данные в формате JSON
+</pre> 
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00182">182</a></p>
+</div><h2 class="groupheader">Данные класса</h2>
+<a id="a40279f7f81cfc0ff590d2e33e4914135" name="a40279f7f81cfc0ff590d2e33e4914135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40279f7f81cfc0ff590d2e33e4914135">&#9670;&#160;</a></span>code</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.code = models.CharField(max_length=128, unique=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00201">201</a></p>
+
+</div>
+</div>
+<a id="a9dd13be940159a8630b8e30e4ec16a1b" name="a9dd13be940159a8630b8e30e4ec16a1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dd13be940159a8630b8e30e4ec16a1b">&#9670;&#160;</a></span>email</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.email = models.EmailField(null=True, blank=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00216">216</a></p>
+
+</div>
+</div>
+<a id="a3a4e8f55427c711f77cfa64152757520" name="a3a4e8f55427c711f77cfa64152757520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a4e8f55427c711f77cfa64152757520">&#9670;&#160;</a></span>id</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.id = models.AutoField(primary_key=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00200">200</a></p>
+
+</div>
+</div>
+<a id="a99acc0ebf06c2fb0a8c27d742b2e417e" name="a99acc0ebf06c2fb0a8c27d742b2e417e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99acc0ebf06c2fb0a8c27d742b2e417e">&#9670;&#160;</a></span>issued_at</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.issued_at = models.DateTimeField(null=True, blank=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00217">217</a></p>
+
+</div>
+</div>
+<a id="aca43cca88507788f873f3ea736de47a4" name="aca43cca88507788f873f3ea736de47a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca43cca88507788f873f3ea736de47a4">&#9670;&#160;</a></span>meta</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.meta = models.JSONField(default=dict)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00220">220</a></p>
+
+</div>
+</div>
+<a id="ade7f8328c8125f3520fa9672e7222e66" name="ade7f8328c8125f3520fa9672e7222e66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7f8328c8125f3520fa9672e7222e66">&#9670;&#160;</a></span>sent_at</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.sent_at = models.DateTimeField(null=True, blank=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00218">218</a></p>
+
+</div>
+</div>
+<a id="abb3281a73b63de35c3777399064d1040" name="abb3281a73b63de35c3777399064d1040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb3281a73b63de35c3777399064d1040">&#9670;&#160;</a></span>session</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.session</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">=  models.ForeignKey(</div>
+<div class="line">        Session,</div>
+<div class="line">        null=<span class="keyword">True</span>,</div>
+<div class="line">        blank=<span class="keyword">True</span>,</div>
+<div class="line">        on_delete=models.SET_NULL,</div>
+<div class="line">        related_name=<span class="stringliteral">&quot;promo_codes&quot;</span>,</div>
+<div class="line">    )</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00202">202</a></p>
+
+</div>
+</div>
+<a id="a26f5392ccaa7c8610a1bae1c6633f7a4" name="a26f5392ccaa7c8610a1bae1c6633f7a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f5392ccaa7c8610a1bae1c6633f7a4">&#9670;&#160;</a></span>used_at</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.used_at = models.DateTimeField(null=True, blank=True)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00219">219</a></p>
+
+</div>
+</div>
+<a id="a23550c37e5408631a6af50d11410aad2" name="a23550c37e5408631a6af50d11410aad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23550c37e5408631a6af50d11410aad2">&#9670;&#160;</a></span>user</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arb.models.PromoCode.user</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Инициализатор</b><div class="fragment"><div class="line">=  models.ForeignKey(</div>
+<div class="line">        User,</div>
+<div class="line">        null=<span class="keyword">True</span>,</div>
+<div class="line">        blank=<span class="keyword">True</span>,</div>
+<div class="line">        on_delete=models.SET_NULL,</div>
+<div class="line">        related_name=<span class="stringliteral">&quot;promo_codes&quot;</span>,</div>
+<div class="line">    )</div>
+</div><!-- fragment -->
+<p class="definition">См. определение в файле <a class="el" href="models_8py_source.html">models.py</a> строка <a class="el" href="models_8py_source.html#l00209">209</a></p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>arb/arb/<a class="el" href="models_8py_source.html">models.py</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacearb.html">arb</a></li><li class="navelem"><a class="el" href="namespacearb_1_1models.html">models</a></li><li class="navelem"><a class="el" href="classarb_1_1models_1_1PromoCode.html">PromoCode</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

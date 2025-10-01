@@ -1,0 +1,8 @@
+<map id="ApriltagPipeline::detect" name="ApriltagPipeline::detect">
+<area shape="rect" id="Node000001" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,45,180,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="55,46,47,36,51,26,67,20,93,18,125,22,138,31,134,36,123,27,93,23,68,25,55,30,52,36,59,43"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c" title="Преобразует RGBA&#45;данные изображения в ожидаемый детектором градационный буфер." alt="" coords="233,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,43,219,37,220,42,180,48"/>
+<area shape="rect" id="Node000003" href="$classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7" title="Возвращает закэшированную конфигурацию конкретной сцены." alt="" coords="228,69,421,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="180,67,215,72,214,77,180,72"/>
+</map>

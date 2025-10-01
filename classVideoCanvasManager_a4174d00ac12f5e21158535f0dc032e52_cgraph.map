@@ -1,0 +1,13 @@
+<map id="VideoCanvasManager::toFrame" name="VideoCanvasManager::toFrame">
+<area shape="rect" id="Node000001" title="Переводит прошедшие секунды в индекс кадра." alt="" coords="5,55,169,95"/>
+<area shape="rect" id="Node000002" href="$r3f-video-recorder_8jsx.html#ac2a0d737e20a7739de4f181103a9cfa6" title="Округляет число вниз с учётом эпсилона, чтобы избежать ошибок округления." alt="" coords="274,5,325,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,53,260,26,262,31,163,58"/>
+<area shape="rect" id="Node000003" href="$classVideoCanvasManager.html#a7183d52e750cb8019c5406ae2ca05b1e" title="Текущее время воспроизведения в секундах." alt="" coords="217,55,381,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,73,204,73,204,78,170,78"/>
+<area shape="rect" id="Node000004" href="$classVideoCanvasManager.html#a03b40ea2686939232d8b0ad590efab70" title="Текущая позиция курсора по кадрам." alt="" coords="641,55,805,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,53,429,41,511,34,594,41,642,49,641,55,593,46,511,39,430,46,369,58"/>
+<area shape="rect" id="Node000005" href="$classVideoCanvasManager.html#a665ae102438157d5b5437d3a105aff6b" title="Преобразует индекс кадра обратно во время." alt="" coords="429,55,593,95"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="382,73,416,73,416,78,382,78"/>
+<area shape="poly" id="edge4_Node000004_Node000001" title=" " alt="" coords="655,98,594,110,488,121,405,125,323,121,217,110,169,101,170,96,218,105,323,116,405,120,488,116,593,105,654,93"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="594,73,628,73,628,78,594,78"/>
+</map>

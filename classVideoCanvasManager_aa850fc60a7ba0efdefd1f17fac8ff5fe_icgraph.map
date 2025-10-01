@@ -1,0 +1,5 @@
+<map id="VideoCanvasManager::setFrame" name="VideoCanvasManager::setFrame">
+<area shape="rect" id="Node000001" title="Обновляет курсор кадра и внутреннее представление времени." alt="" coords="217,5,381,45"/>
+<area shape="rect" id="Node000002" href="$classVideoCanvasManager.html#adaa235bc388ba27dc49c44a3e7399a57" title="Устанавливает время воспроизведения через преобразование кадров." alt="" coords="5,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,28,169,28,169,23,204,23"/>
+</map>

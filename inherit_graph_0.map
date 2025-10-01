@@ -1,0 +1,15 @@
+<map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,133,155,159"/>
+<area shape="rect" id="Node000001" href="$classarb_1_1admin_1_1AssetAdmin.html" title=" " alt="" coords="231,5,402,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="99,121,143,79,171,58,202,40,231,28,233,33,204,44,174,62,147,83,103,125"/>
+<area shape="rect" id="Node000002" href="$classarb_1_1admin_1_1PromoCodeAdmin.html" title=" " alt="" coords="212,55,421,80"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="117,125,202,89,244,77,245,83,204,94,119,130"/>
+<area shape="rect" id="Node000003" href="$classarb_1_1admin_1_1SessionAdmin.html" title=" " alt="" coords="225,104,409,129"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="168,132,224,125,225,131,169,138"/>
+<area shape="rect" id="Node000004" href="$classarb_1_1admin_1_1SessionItemProgressAdmin.html" title=" " alt="" coords="203,154,431,194"/>
+<area shape="poly" id="edge4_Node000000_Node000004" title=" " alt="" coords="168,154,203,158,202,163,168,159"/>
+<area shape="rect" id="Node000005" href="$classarb_1_1admin_1_1UserAdmin.html" title=" " alt="" coords="235,219,399,244"/>
+<area shape="poly" id="edge5_Node000000_Node000005" title=" " alt="" coords="116,163,158,184,204,203,247,216,246,221,202,209,155,189,114,168"/>
+<area shape="rect" id="Node000006" href="$classarb_1_1admin_1_1ViewEventAdmin.html" title=" " alt="" coords="215,268,418,293"/>
+<area shape="poly" id="edge6_Node000000_Node000006" title=" " alt="" coords="102,167,146,212,174,234,204,253,236,265,234,270,201,258,171,238,142,216,99,171"/>
+</map>

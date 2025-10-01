@@ -1,0 +1,912 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Документация фронтенда</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('frontend.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Документация фронтенда</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
+Введение</h1>
+<p>Фронтенд LCTAR — система захвата AR-контента на React, React Three Fiber и связке AprilTag + AlvaAR.</p>
+<p>Приложение обеспечивает трансляцию с камеры, детекцию AprilTag в WebAssembly, стабилизацию виртуальных объектов и запись AR-видео (с поддержкой микрофона).</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Основные возможности</h1>
+<ul>
+<li><b>Живой AR-композит</b> — <code><a class="el" href="App_8jsx.html">App.jsx</a></code> объединяет поток камеры, якоря по AprilTag и трёхмерные модели Three.js.</li>
+<li><b>Гибкое управление якорями</b> — лучи от каждого тега, сценовые сглаживания и fallback-позиции для устойчивости трекинга.</li>
+<li><b>Интеграция с AlvaAR</b> — передача данных детекции в AlvaAR для поиска и сопровождения плоскости.</li>
+<li><b>Запись медиа</b> — <code>VideoCanvas</code> и <code><a class="el" href="classVideoCanvasManager.html" title="Координирует время воспроизведения и запись WebGL-канваса.">VideoCanvasManager</a></code> умеют записывать WebM/MP4 вместе с аудио.</li>
+<li><b>Средства диагностики</b> — консольный оверлей, разноцветные лучи и резервный куб помогают проверять геометрию и вращения.</li>
+<li><b>Комментарии в стиле Doxygen</b> — весь исходный код снабжён <code>@brief</code>, <code>@param</code>, <code>@returns</code>.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Требования</h1>
+<ul>
+<li>Node.js 18+</li>
+<li>npm 9+</li>
+<li>Современный браузер с поддержкой WebGL2, MediaRecorder и WebAssembly</li>
+</ul>
+<p>Дополнительно (по желанию): Doxygen ≥ 1.9 + Graphviz для генерации документации.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+Установка и запуск</h1>
+<div class="fragment"><div class="line">npm install          # установка зависимостей</div>
+<div class="line">npm run start        # dev-сервер по HTTPS на https://localhost:3000</div>
+<div class="line">npm run build        # продакшн-сборка в dist/</div>
+</div><!-- fragment --><blockquote class="doxtable">
+<p>&zwj;<b>Важно:</b> для доступа к камере нужен защищённый origin. При первом запуске браузер попросит доверить самоподписанный сертификат dev-сервера. </p>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Структура проекта</h1>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Обзор архитектуры</h2>
+<p>Проект построен на современной стек-технологии с использованием React для UI, Three.js для 3D-графики и WebAssembly для компьютерного зрения:</p>
+<div class="fragment"><div class="line">frontend/</div>
+<div class="line">├── public/                    # статические ресурсы и WASM-модули</div>
+<div class="line">│   ├── apriltag_wasm.js       # JavaScript мост для AprilTag детектора</div>
+<div class="line">│   ├── apriltag_wasm.wasm     # WebAssembly модуль для детекции маркеров</div>
+<div class="line">│   ├── apriltag-config.json   # конфигурация сцен и размеров тегов</div>
+<div class="line">│   ├── models/                # 3D модели (GLTF/GLB формат)</div>
+<div class="line">│   │   ├── Train-transformed.glb</div>
+<div class="line">│   │   └── testmodel-transformed.glb</div>
+<div class="line">│   ├── img/                   # изображения и маркетинговые материалы</div>
+<div class="line">│   └── alva/                  # интеграция с AlvaAR библиотекой</div>
+<div class="line">├── src/</div>
+<div class="line">│   ├── App.jsx                # основной компонент AR-рекордера</div>
+<div class="line">│   ├── index.jsx              # точка входа приложения</div>
+<div class="line">│   ├── apriltagPipeline.jsx   # пайплайн обработки AprilTag детекции</div>
+<div class="line">│   ├── SceneComponent.jsx     # компонент Three.js сцены</div>
+<div class="line">│   ├── Landing.jsx            # посадочная страница</div>
+<div class="line">│   ├── AprilTagLayoutEditor.jsx # редактор размещения тегов</div>
+<div class="line">│   ├── api/                   # интеграция с бэкендом</div>
+<div class="line">│   │   ├── client.js          # базовый HTTP клиент</div>
+<div class="line">│   │   └── backend.js         # API функции для Django</div>
+<div class="line">│   ├── data/                  # конфигурационные данные</div>
+<div class="line">│   │   └── assets.js          # определение активов по детекциям</div>
+<div class="line">│   ├── models/                # React Three Fiber компоненты моделей</div>
+<div class="line">│   │   ├── Train.jsx          # компонент модели поезда</div>
+<div class="line">│   │   └── Testmodel.jsx      # тестовые модели</div>
+<div class="line">│   ├── lib/                   # вспомогательные библиотеки</div>
+<div class="line">│   │   ├── anchorMath.js      # математические функции для якорей</div>
+<div class="line">│   │   └── r3f-video-recorder.jsx # система записи видео</div>
+<div class="line">│   ├── alvaBridge.jsx         # интеграция с AlvaAR</div>
+<div class="line">│   ├── trainAnimation.js      # анимационная логика поезда</div>
+<div class="line">│   ├── WavyGridBackground.jsx # фоновые компоненты</div>
+<div class="line">│   ├── DebugCube.jsx          # отладочные 3D элементы</div>
+<div class="line">│   └── TestModelVideoComponent.jsx # тестовые компоненты</div>
+<div class="line">├── config-overrides.js        # настройки Create React App</div>
+<div class="line">├── webpack.config.js          # кастомная конфигурация Webpack</div>
+<div class="line">├── package.json               # зависимости и скрипты</div>
+<div class="line">├── .env.example               # пример переменных окружения</div>
+<div class="line">└── Doxyfile                   # документация Doxygen</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+Ключевые компоненты</h2>
+<p><b>Основные модули:</b></p><ul>
+<li>**<code><a class="el" href="App_8jsx.html">App.jsx</a></code>** - центральный компонент, управляющий камерой, детекцией и UI</li>
+<li>**<code><a class="el" href="apriltagPipeline_8jsx.html">apriltagPipeline.jsx</a></code>** - обертка над WebAssembly AprilTag детектором</li>
+<li>**<code><a class="el" href="SceneComponent_8jsx.html">SceneComponent.jsx</a></code>** - интеграция React Three Fiber с Three.js сценой</li>
+<li>**<code><a class="el" href="backend_8js.html">api/backend.js</a></code>** - функции взаимодействия с Django API</li>
+</ul>
+<p><b>Система детекции:</b></p><ul>
+<li><b>AprilTag Pipeline</b> - детекция маркеров с субпиксельной точностью</li>
+<li><b>AlvaAR интеграция</b> - улучшенное отслеживание плоскостей и поз камеры</li>
+<li><b>Якорная система</b> - стабилизация виртуальных объектов в пространстве</li>
+</ul>
+<p><b>AR функции:</b></p><ul>
+<li><b>Многосценарная поддержка</b> - разные конфигурации тегов для различных активов</li>
+<li><b>Запись видео</b> - захват AR-композита с аудио в реальном времени</li>
+<li><b>Отслеживание прогресса</b> - интеграция с бэкендом для учета просмотров</li>
+</ul>
+<p><b>Конфигурационные файлы:</b></p><ul>
+<li>**<code>apriltag-config.json</code>** - определение сцен, размеров тегов и смещений моделей</li>
+<li>**<code>.env</code>** - переменные окружения (API URL, настройки сборки)</li>
+<li>**<code>webpack.config.js</code>** - оптимизированная сборка с разделением чанков</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md7"></a>
+Как всё работает</h1>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Архитектура системы</h2>
+<p>Приложение построено на модульной архитектуре с четким разделением ответственности:</p>
+<p><b>Основной поток данных:</b> </p><div class="fragment"><div class="line">Камера → Обработка кадра → Детекция маркеров → Расчет позы → Стабилизация → Отображение → Запись</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
+Детальная обработка AprilTag</h2>
+<p><b>Шаг 1: Захват и предобработка изображения</b> </p><div class="fragment"><div class="line"><span class="comment">// Захват кадра в фиксированном разрешении для стабильной детекции</span></div>
+<div class="line"><span class="keyword">const</span> procCanvas = createCanvas(640, 480);</div>
+<div class="line"><span class="keyword">const</span> ctx = procCanvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>, { willReadFrequently: <span class="keyword">true</span> });</div>
+<div class="line">ctx.drawImage(video, 0, 0, 640, 480);</div>
+<div class="line"><span class="keyword">const</span> imageData = ctx.getImageData(0, 0, 640, 480);</div>
+</div><!-- fragment --><p><b>Шаг 2: WebAssembly детекция</b> </p><div class="fragment"><div class="line"><span class="comment">// Вызов WASM модуля для поиска AprilTag маркеров</span></div>
+<div class="line"><span class="keyword">const</span> detections = aprilTagPipeline.detect(imageData);</div>
+</div><!-- fragment --><p><b>Шаг 3: Постобработка детекций</b></p><ul>
+<li>Расчет матриц поворота для каждого маркера</li>
+<li>Определение лучей от камеры через центр маркера</li>
+<li>Группировка маркеров по сценам</li>
+<li>Фильтрация ложных детекций</li>
+</ul>
+<p><b>Алгоритм расчета позы камеры:</b> </p><div class="fragment"><div class="line"><span class="comment">// Математическая модель для нескольких маркеров</span></div>
+<div class="line"><span class="keyword">const</span> rays = detections.map(det =&gt; ({</div>
+<div class="line">  origin: cameraPosition,</div>
+<div class="line">  direction: calculateRayDirection(det.corners)</div>
+<div class="line">}));</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> pose = solvePnP(rays, tagSize, cameraIntrinsics);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md10"></a>
+Стабилизация трекинга</h2>
+<p><b>Интерполяция якоря:</b> </p><div class="fragment"><div class="line"><span class="comment">// Экспоненциальное сглаживание для предотвращения дрожания</span></div>
+<div class="line"><span class="keyword">const</span> ANCHOR_LERP = 0.05;</div>
+<div class="line"><span class="keyword">const</span> smoothedPosition = currentPosition.lerp(targetPosition, ANCHOR_LERP);</div>
+<div class="line"><span class="keyword">const</span> smoothedRotation = currentRotation.slerp(targetRotation, ROTATION_SLERP);</div>
+</div><!-- fragment --><p><b>Компенсация задержек:</b></p><ul>
+<li>Предиктивное позиционирование на основе скорости движения</li>
+<li>Dead zone для предотвращения микрокоррекций</li>
+<li>Адаптивное сглаживание в зависимости от уверенности детекции</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Интеграция AlvaAR</h2>
+<p><b>Улучшенное отслеживание плоскостей:</b> </p><div class="fragment"><div class="line"><span class="comment">// Передача детекций в AlvaAR для расчета плоскости</span></div>
+<div class="line"><span class="keyword">const</span> planeState = alvaAR.estimatePlaneFromTags({</div>
+<div class="line">  detections: processedDetections,</div>
+<div class="line">  tagSizeById: tagSizes</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Автоматическое позиционирование виртуальных объектов</span></div>
+<div class="line"><span class="keyword">const</span> hitPoint = calculateHitPoint(cameraPose, planeState);</div>
+<div class="line">model.position.copy(hitPoint);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
+Система координат</h2>
+<p><b>Преобразования координат:</b></p><ul>
+<li><b>Камера</b> → нормализованные координаты устройства (0..1)</li>
+<li><b>OpenCV</b> → пиксельные координаты изображения</li>
+<li><b>Three.js</b> → мировые координаты сцены (метры)</li>
+<li><b>AprilTag</b> → координаты относительно центра маркера</li>
+</ul>
+<p><b>Матричные преобразования:</b> </p><div class="fragment"><div class="line"><span class="comment">// OpenCV → OpenGL матрица поворота</span></div>
+<div class="line"><span class="keyword">const</span> CV_TO_GL = <span class="keyword">new</span> Matrix3().set(1, 0, 0, 0, -1, 0, 0, 0, -1);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Компенсация координатных систем</span></div>
+<div class="line"><span class="keyword">const</span> worldMatrix = opencvMatrix.clone()</div>
+<div class="line">  .multiplyMatrices(CV_TO_GL)</div>
+<div class="line">  .multiplyMatrices(cameraMatrix);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
+Запись видео</h2>
+<p><b>Архитектура записи:</b> </p><div class="fragment"><div class="line"><span class="comment">// Создание композитного канваса</span></div>
+<div class="line"><span class="keyword">const</span> mixCanvas = createMixCanvas();</div>
+<div class="line"><span class="keyword">const</span> ctx = mixCanvas.getContext(<span class="stringliteral">&#39;2d&#39;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Захват 3D сцены</span></div>
+<div class="line"><span class="keyword">const</span> glCanvas = renderer.domElement;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Комбинирование слоев</span></div>
+<div class="line">ctx.drawImage(video, 0, 0, width, height);      <span class="comment">// Фон камеры</span></div>
+<div class="line">ctx.drawImage(glCanvas, 0, 0, width, height);   <span class="comment">// AR объекты</span></div>
+</div><!-- fragment --><p><b>Режимы записи:</b></p><ul>
+<li><b>Frame-accurate</b> - точная синхронизация с кадровым буфером</li>
+<li><b>Realtime</b> - потоковая запись с адаптивным битрейтом</li>
+</ul>
+<p><b>Поддержка аудио:</b> </p><div class="fragment"><div class="line"><span class="comment">// Захват системного микрофона</span></div>
+<div class="line"><span class="keyword">const</span> micStream = await navigator.mediaDevices.getUserMedia({</div>
+<div class="line">  audio: { echoCancellation: <span class="keyword">true</span>, noiseSuppression: <span class="keyword">true</span> }</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Добавление аудио к видеопотоку</span></div>
+<div class="line"><span class="keyword">const</span> mixedStream = <span class="keyword">new</span> MediaStream([</div>
+<div class="line">  ...videoStream.getTracks(),</div>
+<div class="line">  ...micStream.getTracks()</div>
+<div class="line">]);</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md14"></a>
+Работа с AR-контентом</h1>
+<h2><a class="anchor" id="autotoc_md15"></a>
+Система активов</h2>
+<p>AR-контент организован в систему активов, где каждый актив связан с определенной конфигурацией AprilTag:</p>
+<p><b>Структура актива:</b></p><ul>
+<li><b>Slug</b> - уникальный идентификатор актива</li>
+<li><b>Scene ID</b> - идентификатор сцены/конфигурации тегов</li>
+<li><b>Tag ID</b> - конкретный AprilTag, активирующий контент</li>
+<li><b>Название и описание</b> - метаданные для пользователей</li>
+</ul>
+<p><b>Файл конфигурации:</b> <code><a class="el" href="assets_8js.html">src/data/assets.js</a></code> содержит маппинг детекций к активам: </p><div class="fragment"><div class="line">export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a> = (sceneId, tagId) =&gt; {</div>
+<div class="line">  <span class="comment">// Возвращает актив по sceneId и tagId</span></div>
+<div class="line">}</div>
+<div class="ttc" id="aassets_8js_html_a971f10532c7dfde1b290cf83c25b1af0"><div class="ttname"><a href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a></div><div class="ttdeci">export const getAssetByDetection</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00018">assets.js:18</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md16"></a>
+Процесс загрузки и отображения AR-моделей</h2>
+<ol type="1">
+<li><b>Детекция AprilTag</b> - идентификация маркера в кадре</li>
+<li><b>Определение актива</b> - сопоставление с зарегистрированным контентом</li>
+<li><b>Загрузка модели</b> - асинхронная загрузка GLTF/GLB файла</li>
+<li><b>Позиционирование</b> - размещение модели относительно маркера</li>
+<li><b>Стабилизация</b> - сглаживание движения для предотвращения дрожания</li>
+</ol>
+<p><b>Поддерживаемые форматы моделей:</b></p><ul>
+<li><b>GLTF/GLB</b> - стандарт WebGL с поддержкой анимаций и материалов</li>
+<li><b>PBR материалы</b> - физически корректное освещение</li>
+<li><b>Анимации</b> - skeletal и morphing анимации</li>
+<li><b>LOD</b> - уровни детализации для оптимизации</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md17"></a>
+Управление сценами</h2>
+<p>Каждая сцена определяет конфигурацию тегов и связанный с ними контент:</p>
+<p><b>Параметры сцены:</b></p><ul>
+<li><b>Размер тегов</b> - физический размер AprilTag маркеров</li>
+<li><b>Расположение моделей</b> - смещения относительно центра маркера</li>
+<li><b>Ориентация</b> - поворот моделей в пространстве</li>
+<li><b>Масштаб</b> - размер виртуальных объектов</li>
+</ul>
+<p><b>Пример конфигурации:</b> </p><div class="fragment"><div class="line">{</div>
+<div class="line">  &quot;sceneId&quot;: &quot;train-station&quot;,</div>
+<div class="line">  &quot;tagSize&quot;: 0.15,</div>
+<div class="line">  &quot;tags&quot;: [</div>
+<div class="line">    {</div>
+<div class="line">      &quot;id&quot;: 0,</div>
+<div class="line">      &quot;size&quot;: 0.15,</div>
+<div class="line">      &quot;assetSlug&quot;: &quot;express-train&quot;</div>
+<div class="line">    }</div>
+<div class="line">  ]</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+Оптимизация производительности</h2>
+<p><b>Стратегии оптимизации:</b></p><ul>
+<li><b>Frustum culling</b> - отображение только видимых объектов</li>
+<li><b>Level of Detail (LOD)</b> - снижение детализации для distant объектов</li>
+<li><b>Texture compression</b> - оптимизация текстур для WebGL</li>
+<li><b>Geometry instancing</b> - повторное использование геометрии</li>
+<li><b>Shader optimization</b> - оптимизированные шейдеры для мобильных устройств</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md19"></a>
+Настройки сборки</h1>
+<h2><a class="anchor" id="autotoc_md20"></a>
+Webpack конфигурация</h2>
+<p>Проект использует кастомную конфигурацию Webpack 5 для оптимальной сборки AR-приложения:</p>
+<p><b>Ключевые особенности:</b></p><ul>
+<li><b>Раздельные чанки</b> - оптимизация загрузки по группам библиотек</li>
+<li><b>WebAssembly поддержка</b> - интеграция AprilTag детектора</li>
+<li><b>Hot Module Replacement</b> - быстрая разработка с React Fast Refresh</li>
+<li><b>Source maps</b> - качественная отладка в development режиме</li>
+<li><b>HTTPS сервер разработки</b> - доступ к камере без дополнительных настроек</li>
+</ul>
+<p><b>Структура чанков:</b> </p><div class="fragment"><div class="line">optimization: {</div>
+<div class="line">  splitChunks: {</div>
+<div class="line">    cacheGroups: {</div>
+<div class="line">      vendor: { test: /[\\/]node_modules[\\/]/, priority: 10 },</div>
+<div class="line">      opencv: { test: /[\\/]node_modules[\\/]@techstark[\\/]opencv-js[\\/]/, priority: 20 },</div>
+<div class="line">      three: { test: /[\\/]node_modules[\\/]three[\\/]/, priority: 20 },</div>
+<div class="line">      reactThree: { test: /[\\/]node_modules[\\/]@react-three[\\/]/, priority: 20 }</div>
+<div class="line">    }</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p><b>Плагины сборки:</b></p><ul>
+<li><b>HtmlWebpackPlugin</b> - генерация index.html с внедренными скриптами</li>
+<li><b>CopyWebpackPlugin</b> - копирование WASM файлов и других ресурсов</li>
+<li><b>ReactRefreshWebpackPlugin</b> - быстрый релоад компонентов</li>
+<li><b>DefinePlugin</b> - внедрение переменных окружения</li>
+</ul>
+<p><b>Разрешение модулей:</b> </p><div class="fragment"><div class="line">resolve: {</div>
+<div class="line">  extensions: [<span class="stringliteral">&#39;.js&#39;</span>, <span class="stringliteral">&#39;.jsx&#39;</span>, <span class="stringliteral">&#39;.json&#39;</span>],</div>
+<div class="line">  fallback: {</div>
+<div class="line">    vm: require.resolve(<span class="stringliteral">&quot;vm-browserify&quot;</span>),</div>
+<div class="line">    crypto: require.resolve(<span class="stringliteral">&#39;crypto-browserify&#39;</span>),</div>
+<div class="line">    buffer: require.resolve(<span class="stringliteral">&#39;buffer/&#39;</span>),</div>
+<div class="line">    stream: require.resolve(<span class="stringliteral">&#39;stream-browserify&#39;</span>)</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p><b>Обработка ресурсов:</b></p><ul>
+<li><b>JavaScript/JSX</b> - Babel с preset-env и preset-react</li>
+<li><b>CSS</b> - style-loader и css-loader для стилей</li>
+<li><b>Изображения</b> - asset модули с оптимизацией размера</li>
+<li><b>WASM файлы</b> - asset/resource для WebAssembly модулей</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md21"></a>
+Скрипты сборки</h2>
+<div class="fragment"><div class="line"># Разработка с hot reload</div>
+<div class="line">npm start              # development сервер на https://localhost:3000</div>
+<div class="line"> </div>
+<div class="line"># Продакшн сборка</div>
+<div class="line">npm run build          # оптимизированная сборка в dist/</div>
+<div class="line"> </div>
+<div class="line"># Продакшн сервер</div>
+<div class="line">npm run start:prod     # production режим без hot reload</div>
+<div class="line"> </div>
+<div class="line"># Анализ бандла</div>
+<div class="line">npm run analyze        # генерация stats.json для анализа размера</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
+Переменные окружения</h2>
+<p><b>Ключевые настройки:</b></p><ul>
+<li><code>API_URL</code> - URL Django бэкенда (по умолчанию: <a href="http://localhost:8087">http://localhost:8087</a>)</li>
+<li><code>NODE_ENV</code> - режим сборки (development/production)</li>
+<li>Настройки прокси для разработки</li>
+</ul>
+<p><b>Файлы окружения:</b></p><ul>
+<li><code>.env</code> - актуальные переменные (не в git)</li>
+<li><code>.env.example</code> - шаблон с описанием переменных</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md23"></a>
+Оптимизации производительности</h2>
+<p><b>Стратегии оптимизации:</b></p><ul>
+<li><b>Code splitting</b> - ленивая загрузка компонентов</li>
+<li><b>Tree shaking</b> - удаление неиспользуемого кода</li>
+<li><b>Minification</b> - сжатие JavaScript и CSS</li>
+<li><b>Asset optimization</b> - оптимизация изображений и ресурсов</li>
+<li><b>Caching</b> - долгосрочное кеширование статических ресурсов</li>
+</ul>
+<p><b>Размеры чанков (примерные):</b></p><ul>
+<li><b>Vendor</b> (~2.1 MB) - React, Three.js, системные библиотеки</li>
+<li><b>OpenCV</b> (~1.8 MB) - компьютерное зрение</li>
+<li><b>Three.js</b> (~1.2 MB) - 3D графика</li>
+<li><b>React Three Fiber</b> (~800 KB) - React интеграция для Three.js</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md24"></a>
+Метрики производительности</h2>
+<p><b>Целевые показатели:</b></p><ul>
+<li><b>Время загрузки</b> - полная инициализация за &lt;3 секунд</li>
+<li>**Частота кадров** - стабильные 30+ FPS в большинстве сценариев</li>
+<li>**Время отклика** - реакция на движение камеры за &lt;100мс</li>
+<li>**Потребление памяти** - стабильное потребление без утечек</li>
+<li>**Размер бандла** - оптимизированный размер для быстрой загрузки</li>
+</ul>
+<p>**Измерение производительности:** </p><div class="fragment"><div class="line"><span class="comment">// Web Vitals для оценки пользовательского опыта</span></div>
+<div class="line"><span class="keyword">import</span> { getCLS, getFID, getFCP, getLCP, getTTFB } from <span class="stringliteral">&#39;web-vitals&#39;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Мониторинг кастомных метрик</span></div>
+<div class="line"><span class="keyword">const</span> metrics = {</div>
+<div class="line">  detectionTime: measureDetectionTime(),</div>
+<div class="line">  renderTime: measureRenderTime(),</div>
+<div class="line">  memoryUsage: measureMemoryUsage()</div>
+<div class="line">};</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md25"></a>
+Производительность и оптимизация</h1>
+<h2><a class="anchor" id="autotoc_md26"></a>
+Оптимизация загрузки</h2>
+<p>**Стратегии загрузки ресурсов:**</p><ul>
+<li>**Предзагрузка критических ресурсов** - WASM модули загружаются первыми</li>
+<li>**Ленивая загрузка моделей** - 3D модели загружаются по требованию</li>
+<li>**Code splitting** - разделение кода по маршрутам и функциональности</li>
+<li>**Кеширование** - долгосрочное кеширование статических ресурсов</li>
+</ul>
+<p>**Оптимизация WebAssembly:** </p><div class="fragment"><div class="line"><span class="comment">// Асинхронная инициализация модуля</span></div>
+<div class="line"><span class="keyword">const</span> initAprilTag = async () =&gt; {</div>
+<div class="line">  <span class="keyword">const</span> pipeline = <span class="keyword">new</span> <a class="code hl_class" href="classApriltagPipeline.html">ApriltagPipeline</a>();</div>
+<div class="line">  await pipeline.init(); <span class="comment">// Загрузка ~1.5MB WASM кода</span></div>
+<div class="line">  <span class="keywordflow">return</span> pipeline;</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Предзагрузка для сокращения времени инициализации</span></div>
+<div class="line">useEffect(() =&gt; {</div>
+<div class="line">  initAprilTag().then(setPipeline);</div>
+<div class="line">}, []);</div>
+<div class="ttc" id="aclassApriltagPipeline_html"><div class="ttname"><a href="classApriltagPipeline.html">ApriltagPipeline</a></div><div class="ttdoc">Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00046">apriltagPipeline.jsx:46</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
+Оптимизация рендеринга</h2>
+<p><b>Three.js оптимизации:</b></p><ul>
+<li><b>Frustum culling</b> - отображение только видимых объектов</li>
+<li><b>Level of Detail (LOD)</b> - разные уровни детализации для моделей</li>
+<li><b>Texture compression</b> - оптимизированные текстуры для WebGL</li>
+<li><b>Instancing</b> - повторное использование геометрии для одинаковых объектов</li>
+</ul>
+<p><b>React оптимизации:</b> </p><div class="fragment"><div class="line"><span class="comment">// Мемоизированные компоненты для предотвращения лишних рендеров</span></div>
+<div class="line"><span class="keyword">const</span> OptimizedModel = React.memo(({ position, rotation }) =&gt; {</div>
+<div class="line">  <span class="keywordflow">return</span> &lt;Model position={position} rotation={rotation} /&gt;;</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Использование useMemo для дорогих вычислений</span></div>
+<div class="line"><span class="keyword">const</span> expensiveValue = useMemo(() =&gt; {</div>
+<div class="line">  <span class="keywordflow">return</span> computeExpensiveValue(data);</div>
+<div class="line">}, [data]);</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
+Оптимизация детекции</h2>
+<p><b>Настройки AprilTag для производительности:</b> </p><div class="fragment"><div class="line"><span class="comment">// Баланс между скоростью и качеством детекции</span></div>
+<div class="line"><span class="keyword">const</span> pipelineConfig = {</div>
+<div class="line">  quadDecimate: 2,        <span class="comment">// Уменьшение разрешения для ускорения</span></div>
+<div class="line">  quadSigma: 0.8,         <span class="comment">// Размытие для стабильности</span></div>
+<div class="line">  refineEdges: <span class="keyword">true</span>,      <span class="comment">// Улучшенная точность краев</span></div>
+<div class="line">  decodeSharpening: 0.25  <span class="comment">// Шарпенинг для лучшей детекции</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><p><b>Адаптивная обработка кадров:</b></p><ul>
+<li>Пропуск кадров при высокой нагрузке на CPU</li>
+<li>Уменьшение частоты детекции при стабильном трекинге</li>
+<li>Приоритетное использование GPU для вычислений</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md29"></a>
+Оптимизация памяти</h2>
+<p><b>Управление памятью:</b> </p><div class="fragment"><div class="line"><span class="comment">// Очистка ресурсов при размонтировании</span></div>
+<div class="line">useEffect(() =&gt; {</div>
+<div class="line">  <span class="keywordflow">return</span> () =&gt; {</div>
+<div class="line">    geometry.dispose();</div>
+<div class="line">    material.dispose();</div>
+<div class="line">    texture.dispose();</div>
+<div class="line">  };</div>
+<div class="line">}, []);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Мониторинг утечек памяти</span></div>
+<div class="line"><span class="keyword">const</span> memoryCheck = () =&gt; {</div>
+<div class="line">  <span class="keywordflow">if</span> (performance.memory) {</div>
+<div class="line">    console.log(<span class="stringliteral">&#39;Использование памяти:&#39;</span>, {</div>
+<div class="line">      used: Math.round(performance.memory.usedJSHeapSize / 1048576),</div>
+<div class="line">      total: Math.round(performance.memory.totalJSHeapSize / 1048576),</div>
+<div class="line">      limit: Math.round(performance.memory.jsHeapSizeLimit / 1048576)</div>
+<div class="line">    });</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
+Мобильная оптимизация</h2>
+<p><b>Адаптация для мобильных устройств:</b></p><ul>
+<li><b>Автоматическое качество</b> - снижение настроек графики на слабых устройствах</li>
+<li><b>Энергосбережение</b> - паузы в обработке при неактивности приложения</li>
+<li><b>Сенсорная оптимизация</b> - адаптация интерфейса для touch управления</li>
+</ul>
+<p><b>Детекция возможностей устройства:</b> </p><div class="fragment"><div class="line"><span class="keyword">const</span> deviceCapabilities = {</div>
+<div class="line">  isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),</div>
+<div class="line">  hasWebGL2: checkWebGL2Support(),</div>
+<div class="line">  maxTextureSize: getMaxTextureSize(),</div>
+<div class="line">  memoryLimit: estimateMemoryLimit()</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Адаптивная конфигурация</span></div>
+<div class="line"><span class="keyword">const</span> config = deviceCapabilities.isMobile</div>
+<div class="line">  ? mobileConfig</div>
+<div class="line">  : desktopConfig;</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md31"></a>
+Мониторинг и аналитика</h2>
+<p><b>Сбор метрик производительности:</b></p><ul>
+<li><b>Core Web Vitals</b> - стандартные метрики Google</li>
+<li><b>Кастомные метрики</b> - специфичные для AR функции</li>
+<li><b>Ошибка отслеживание</b> - мониторинг сбоев и проблем</li>
+<li><b>Пользовательская аналитика</b> - поведение пользователей в AR сценах</li>
+</ul>
+<p><b>Инструменты мониторинга:</b></p><ul>
+<li><b>Performance Observer</b> - отслеживание метрик в реальном времени</li>
+<li><b>Web Workers</b> - фоновый анализ без блокировки UI</li>
+<li><b>Service Workers</b> - кеширование и оффлайн функциональность</li>
+</ul>
+<p><b>Профилирование в продакшене:</b> </p><div class="fragment"><div class="line"><span class="comment">// Легковесное профилирование без влияния на производительность</span></div>
+<div class="line"><span class="keyword">const</span> profiler = {</div>
+<div class="line">  start: (name) =&gt; {</div>
+<div class="line">    <span class="keywordflow">if</span> (process.env.NODE_ENV === <span class="stringliteral">&#39;development&#39;</span>) {</div>
+<div class="line">      console.time(name);</div>
+<div class="line">    }</div>
+<div class="line">  },</div>
+<div class="line">  end: (name) =&gt; {</div>
+<div class="line">    <span class="keywordflow">if</span> (process.env.NODE_ENV === <span class="stringliteral">&#39;development&#39;</span>) {</div>
+<div class="line">      console.timeEnd(name);</div>
+<div class="line">    }</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md32"></a>
+Генерация документации</h1>
+<div class="fragment"><div class="line">cd frontend</div>
+<div class="line">doxygen Doxyfile</div>
+</div><!-- fragment --><p>HTML-версия появится в <code>docs/html/</code> (каталог можно изменить в Doxyfile).</p>
+<h1><a class="anchor" id="autotoc_md33"></a>
+Интеграция с бэкендом</h1>
+<h2><a class="anchor" id="autotoc_md34"></a>
+Django API интеграция</h2>
+<p>Frontend взаимодействует с Django-бэкендом через REST API для управления сессиями, отслеживания прогресса и получения промокодов:</p>
+<p><b>Основные функции API:</b></p><ul>
+<li><b>Управление сессиями</b> - создание и отслеживание пользовательских сессий</li>
+<li><b>Отслеживание активов</b> - автоматическая отправка событий просмотра AR-контента</li>
+<li><b>Система промокодов</b> - получение наград за просмотр активов</li>
+<li><b>Статистика</b> - сбор данных о взаимодействии с контентом</li>
+<li><b>Пользовательские данные</b> - привязка email адресов к сессиям</li>
+</ul>
+<p><b>Конфигурация API:</b> </p><div class="fragment"><div class="line"><span class="comment">// src/api/client.js</span></div>
+<div class="line"><span class="keyword">const</span> <a class="code hl_variable" href="client_8js.html#a951736089168e22ec5096995fd400ab2">API_BASE_URL</a> = <span class="stringliteral">&#39;http://localhost:8087&#39;</span>;</div>
+<div class="ttc" id="aclient_8js_html_a951736089168e22ec5096995fd400ab2"><div class="ttname"><a href="client_8js.html#a951736089168e22ec5096995fd400ab2">API_BASE_URL</a></div><div class="ttdeci">const API_BASE_URL</div><div class="ttdef"><b>Definition</b> <a href="client_8js_source.html#l00006">client.js:6</a></div></div>
+</div><!-- fragment --><p><b>Доступные эндпоинты:</b></p><ul>
+<li><code>POST /session/start/</code> - создание новой сессии</li>
+<li><code>POST /view/</code> - отправка события просмотра актива</li>
+<li><code>POST /user/email/</code> - привязка email к сессии</li>
+<li><code>GET /progress/?session_id={id}</code> - получение прогресса сессии</li>
+<li><code>GET /promo/?session_id={id}</code> - получение промокода по сессии</li>
+<li><code>GET /stats/</code> - общая статистика</li>
+<li><code>GET /health/</code> - проверка доступности сервиса</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md35"></a>
+Автоматическая интеграция</h2>
+<p>При детекции AprilTag приложение автоматически:</p><ol type="1">
+<li>Определяет актив по конфигурации сцены</li>
+<li>Отправляет событие просмотра на бэкенд</li>
+<li>Обновляет локальный прогресс</li>
+<li>Проверяет доступность промокодов</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md36"></a>
+Лучшие практики разработки</h1>
+<h2><a class="anchor" id="autotoc_md37"></a>
+Структура кода</h2>
+<p><b>Организация компонентов:</b></p><ul>
+<li>Разделяйте сложные компоненты на меньшие переиспользуемые части</li>
+<li>Используйте кастомные хуки для логики, не связанной с UI</li>
+<li>Избегайте глубоких вложенностей компонентов (&gt;5 уровней)</li>
+</ul>
+<p><b>Стили кода:</b></p><ul>
+<li>Используйте функциональные компоненты с хуками вместо классов</li>
+<li>Предпочитайте деструктуризацию объектов и массивов</li>
+<li>Избегайте мутаций состояния, используйте неизменяемые обновления</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md38"></a>
+Работа с Three.js</h2>
+<p><b>Производительность:</b> </p><div class="fragment"><div class="line"><span class="comment">// Правильно: используйте requestAnimationFrame для анимаций</span></div>
+<div class="line">useFrame((state, delta) =&gt; {</div>
+<div class="line">  mesh.current.rotation.y += delta * 0.5;</div>
+<div class="line">});</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Неправильно: используйте setInterval для анимаций</span></div>
+<div class="line">setInterval(() =&gt; {</div>
+<div class="line">  mesh.current.rotation.y += 0.1;</div>
+<div class="line">}, 16);</div>
+</div><!-- fragment --><p><b>Управление памятью:</b></p><ul>
+<li>Всегда очищайте геометрию и материалы при размонтировании компонентов</li>
+<li>Используйте <code>useMemo</code> для дорогих вычислений геометрии</li>
+<li>Предзагружайте критически важные ресурсы</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md39"></a>
+AR-разработка</h2>
+<p><b>Калибровка камеры:</b></p><ul>
+<li>Тестируйте на разных устройствах для определения оптимальных параметров</li>
+<li>Учитывайте distortion камеры при расчете позиций</li>
+<li>Калибруйте focal length для повышения точности детекции</li>
+</ul>
+<p><b>Стабилизация трекинга:</b></p><ul>
+<li>Используйте фильтры низких частот для сглаживания движения</li>
+<li>Реализуйте предиктивное отслеживание для компенсации задержек</li>
+<li>Настраивайте dead zone для предотвращения микродвижений</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md40"></a>
+Отладка и тестирование</h2>
+<p><b>Стратегии отладки:</b></p><ul>
+<li>Используйте React DevTools Profiler для анализа производительности</li>
+<li>Мониторьте память с помощью Chrome DevTools Memory tab</li>
+<li>Логируйте ключевые события для анализа поведения в продакшене</li>
+</ul>
+<p><b>Тестирование:</b></p><ul>
+<li>Тестируйте на реальных устройствах с разными характеристиками камеры</li>
+<li>Проверяйте работу в различных условиях освещения</li>
+<li>Тестируйте интеграцию с бэкендом в разных сетевых условиях</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md41"></a>
+Безопасность</h2>
+<p><b>WebRTC безопасность:</b></p><ul>
+<li>Всегда запрашивайте разрешения пользователя для доступа к камере</li>
+<li>Проверяйте поддержку функций перед использованием</li>
+<li>Обрабатывайте ошибки доступа к медиа-устройствам</li>
+</ul>
+<p><b>API безопасность:</b></p><ul>
+<li>Валидируйте все данные перед отправкой на сервер</li>
+<li>Используйте HTTPS для всех API вызовов</li>
+<li>Обрабатывайте ошибки аутентификации и авторизации</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md42"></a>
+Кроссбраузерная поддержка</h1>
+<h2><a class="anchor" id="autotoc_md43"></a>
+Поддерживаемые браузеры</h2>
+<p><b>Полная поддержка (рекомендуется):</b></p><ul>
+<li><b>Chrome 88+</b> - лучшая поддержка WebGL и WebAssembly</li>
+<li><b>Firefox 85+</b> - хорошая поддержка с некоторыми ограничениями WebGL</li>
+<li><b>Safari 14+</b> - поддержка на macOS и iOS (ограничения камеры)</li>
+<li><b>Edge 88+</b> - полная поддержка на базе Chromium</li>
+</ul>
+<p><b>Ограниченная поддержка:</b></p><ul>
+<li><b>Chrome 70-87</b> - основные функции работают, возможны проблемы с WebGL2</li>
+<li><b>Safari 12-13</b> - ограниченная поддержка WebAssembly и MediaRecorder</li>
+<li><b>Firefox 70-84</b> - возможны проблемы с производительностью</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md44"></a>
+Web APIs совместимость</h2>
+<p><b>Критичные APIs:</b></p><ul>
+<li><b>WebGL2</b> - аппаратное ускорение 3D графики</li>
+<li><b>WebAssembly</b> - детекция AprilTag маркеров</li>
+<li><b>MediaDevices.getUserMedia</b> - доступ к камере</li>
+<li><b>MediaRecorder</b> - запись видео с аудио</li>
+<li><b>WebRTC</b> - захват медиа-потоков</li>
+</ul>
+<p><b>Проверка поддержки:</b> </p><div class="fragment"><div class="line"><span class="comment">// Проверка WebGL2</span></div>
+<div class="line"><span class="keyword">const</span> canvas = document.createElement(<span class="stringliteral">&#39;canvas&#39;</span>);</div>
+<div class="line"><span class="keyword">const</span> gl = canvas.getContext(<span class="stringliteral">&#39;webgl2&#39;</span>);</div>
+<div class="line"><span class="keywordflow">if</span> (!gl) {</div>
+<div class="line">  <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(<span class="stringliteral">&#39;WebGL2 не поддерживается&#39;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Проверка MediaRecorder</span></div>
+<div class="line"><span class="keywordflow">if</span> (!window.MediaRecorder) {</div>
+<div class="line">  <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(<span class="stringliteral">&#39;MediaRecorder не поддерживается&#39;</span>);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Проверка WebAssembly</span></div>
+<div class="line"><span class="keywordflow">if</span> (!window.WebAssembly) {</div>
+<div class="line">  <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(<span class="stringliteral">&#39;WebAssembly не поддерживается&#39;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md45"></a>
+Мобильная поддержка</h2>
+<p><b>iOS Safari:</b></p><ul>
+<li>Требует HTTPS для доступа к камере</li>
+<li>Ограничения на использование микрофона в фоне</li>
+<li>WebGL производительность ниже десктопной версии</li>
+<li>Рекомендуется добавлять в homescreen для лучшей производительности</li>
+</ul>
+<p><b>Android Chrome:</b></p><ul>
+<li>Хорошая поддержка WebGL и WebAssembly</li>
+<li>Стабильный доступ к камере и микрофону</li>
+<li>Возможны проблемы с производительностью на старых устройствах</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md46"></a>
+Fallback стратегии</h2>
+<p><b>Для старых браузеров:</b></p><ul>
+<li>Предупреждение о необходимости обновления браузера</li>
+<li>Предложение альтернативных способов использования</li>
+<li>Проверка и предложение обновления до последней версии</li>
+</ul>
+<p><b>Для ограниченной функциональности:</b></p><ul>
+<li>Отключение записи видео при отсутствии MediaRecorder</li>
+<li>Использование WebGL1 вместо WebGL2 (снижение качества)</li>
+<li>Альтернативные методы детекции без WebAssembly</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md47"></a>
+Тестирование</h2>
+<p><b>Кроссбраузерное тестирование:</b></p><ul>
+<li>Тестируйте на разных версиях браузеров</li>
+<li>Проверяйте работу на мобильных устройствах</li>
+<li>Тестируйте в различных условиях сети</li>
+<li>Используйте browserstack или similarweb для удаленного тестирования</li>
+</ul>
+<p><b>Матрица поддержки функций:</b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Функция   </th><th class="markdownTableHeadNone">Chrome   </th><th class="markdownTableHeadNone">Firefox   </th><th class="markdownTableHeadNone">Safari   </th><th class="markdownTableHeadNone">Edge    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">WebGL2   </td><td class="markdownTableBodyNone">✅ 88+   </td><td class="markdownTableBodyNone">✅ 85+   </td><td class="markdownTableBodyNone">✅ 14+   </td><td class="markdownTableBodyNone">✅ 88+    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">WebAssembly   </td><td class="markdownTableBodyNone">✅ 57+   </td><td class="markdownTableBodyNone">✅ 52+   </td><td class="markdownTableBodyNone">✅ 11+   </td><td class="markdownTableBodyNone">✅ 79+    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">MediaRecorder   </td><td class="markdownTableBodyNone">✅ 47+   </td><td class="markdownTableBodyNone">✅ 25+   </td><td class="markdownTableBodyNone">✅ 14+   </td><td class="markdownTableBodyNone">✅ 79+    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">getUserMedia   </td><td class="markdownTableBodyNone">✅ 53+   </td><td class="markdownTableBodyNone">✅ 36+   </td><td class="markdownTableBodyNone">✅ 11+   </td><td class="markdownTableBodyNone">✅ 79+   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md48"></a>
+Советы по отладке</h1>
+<h2><a class="anchor" id="autotoc_md49"></a>
+Визуальная отладка</h2>
+<p><b>Элементы отладки в приложении:</b></p><ul>
+<li><b>Разноцветный debug-куб</b> - показывает позицию и ориентацию якоря в реальном времени</li>
+<li><b>Цветные лучи от тегов</b> - визуализация детекции каждого AprilTag маркера</li>
+<li><b>AlvaAR точки</b> - зеленые точки показывают детекцию точек интереса</li>
+<li><b>Красные точки</b> - точки пересечения лучей с предполагаемой плоскостью</li>
+</ul>
+<p><b>Интерпретация визуальных сигналов:</b> </p><div class="fragment"><div class="line"><span class="comment">// Цвета лучей соответствуют ID тегов (детерминированная палитра)</span></div>
+<div class="line"><span class="keyword">const</span> getRayColor = (tagId) =&gt; {</div>
+<div class="line">  <span class="keyword">const</span> hue = ((tagId ?? 0) * 0.173) % 1; <span class="comment">// Золотое сечение для разнообразия</span></div>
+<div class="line">  <span class="keywordflow">return</span> <span class="keyword">new</span> THREE.Color().setHSL(hue, 0.68, 0.53);</div>
+<div class="line">};</div>
+</div><!-- fragment --><p><b>Отладочные режимы:</b></p><ul>
+<li><b>Fallback куб</b> - всегда отображается при потере трекинга</li>
+<li><b>Микродвижения</b> - визуализация мелких корректировок позиции</li>
+<li><b>Матрицы поворота</b> - отображение текущей матрицы трансформации</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md50"></a>
+Отладка производительности</h2>
+<p><b>Инструменты анализа:</b> </p><div class="fragment"><div class="line"><span class="comment">// React DevTools Profiler - анализ рендеров компонентов</span></div>
+<div class="line"><span class="comment">// Chrome DevTools Performance - анализ кадров в секунду</span></div>
+<div class="line"><span class="comment">// Memory tab - мониторинг утечек памяти</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Логирование производительности</span></div>
+<div class="line"><span class="keyword">const</span> t0 = performance.now();</div>
+<div class="line"><span class="comment">// ... код для профилирования</span></div>
+<div class="line">console.log(`Операция заняла ${performance.now() - t0}мс`);</div>
+</div><!-- fragment --><p><b>Метрики производительности:</b></p><ul>
+<li><b>FPS</b> - целевой показатель 30+ кадров в секунду</li>
+<li><b>Время детекции</b> - AprilTag обработка должна занимать &lt;50мс</li>
+<li><b>Потребление памяти</b> - мониторинг роста памяти во времени</li>
+<li><b>Время загрузки</b> - модели должны загружаться за &lt;3 секунд</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md51"></a>
+Отладка камеры и медиа</h2>
+<p>**Проблемы с камерой:** </p><div class="fragment"><div class="line"><span class="comment">// Проверка поддержки устройств</span></div>
+<div class="line"><span class="keyword">const</span> devices = await navigator.mediaDevices.enumerateDevices();</div>
+<div class="line"><span class="keyword">const</span> videoDevices = devices.filter(d =&gt; d.kind === <span class="stringliteral">&#39;videoinput&#39;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Диагностика разрешения камеры</span></div>
+<div class="line">videoTrack.getSettings(); <span class="comment">// Текущие настройки</span></div>
+<div class="line">videoTrack.getConstraints(); <span class="comment">// Запрошенные ограничения</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Обработка ошибок камеры</span></div>
+<div class="line"><span class="keywordflow">try</span> {</div>
+<div class="line">  <span class="keyword">const</span> stream = await navigator.mediaDevices.getUserMedia(constraints);</div>
+<div class="line">} <span class="keywordflow">catch</span> (error) {</div>
+<div class="line">  <span class="keywordflow">switch</span> (error.name) {</div>
+<div class="line">    <span class="keywordflow">case</span> <span class="stringliteral">&#39;NotAllowedError&#39;</span>:</div>
+<div class="line">      console.error(<span class="stringliteral">&#39;Пользователь запретил доступ к камере&#39;</span>);</div>
+<div class="line">      <span class="keywordflow">break</span>;</div>
+<div class="line">    <span class="keywordflow">case</span> <span class="stringliteral">&#39;NotFoundError&#39;</span>:</div>
+<div class="line">      console.error(<span class="stringliteral">&#39;Камера не найдена&#39;</span>);</div>
+<div class="line">      <span class="keywordflow">break</span>;</div>
+<div class="line">    <span class="keywordflow">case</span> <span class="stringliteral">&#39;NotReadableError&#39;</span>:</div>
+<div class="line">      console.error(<span class="stringliteral">&#39;Камера занята другим приложением&#39;</span>);</div>
+<div class="line">      <span class="keywordflow">break</span>;</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p><b>Калибровка камеры:</b></p><ul>
+<li>Проверьте параметры фокусного расстояния в настройках AprilTag</li>
+<li>Убедитесь в правильности размеров тегов в конфигурации</li>
+<li>Тестируйте на разных расстояниях от камеры</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md52"></a>
+Отладка AprilTag детекции</h2>
+<p><b>Диагностика детекции:</b> </p><div class="fragment"><div class="line"><span class="comment">// Логирование сырых детекций</span></div>
+<div class="line">console.log(<span class="stringliteral">&#39;Детекции:&#39;</span>, detections.map(d =&gt; ({</div>
+<div class="line">  id: d.id,</div>
+<div class="line">  corners: d.corners,</div>
+<div class="line">  center: d.center,</div>
+<div class="line">  hamming: d.hamming,</div>
+<div class="line">  confidence: d.confidence</div>
+<div class="line">})));</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Проверка качества детекции</span></div>
+<div class="line"><span class="keyword">const</span> goodDetections = detections.filter(d =&gt; d.hamming === 0);</div>
+<div class="line"><span class="keyword">const</span> avgConfidence = detections.reduce((sum, d) =&gt; sum + d.confidence, 0) / detections.length;</div>
+</div><!-- fragment --><p><b>Настройка параметров детекции:</b></p><ul>
+<li><b>Разрешение</b> - фиксированные 640x480 для стабильности</li>
+<li><b>Контрастность</b> - достаточное освещение маркеров</li>
+<li><b>Угол наклона</b> - маркеры не должны быть сильно искажены</li>
+<li><b>Расстояние</b> - оптимальное расстояние для размера тегов</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md53"></a>
+Отладка API интеграции</h2>
+<p><b>Мониторинг сетевых запросов:</b> </p><div class="fragment"><div class="line"><span class="comment">// Логирование всех API запросов</span></div>
+<div class="line"><span class="keyword">const</span> originalFetch = window.fetch;</div>
+<div class="line">window.fetch = <span class="keyword">function</span>(...args) {</div>
+<div class="line">  console.log(<span class="stringliteral">&#39;API запрос:&#39;</span>, args[0], args[1]);</div>
+<div class="line">  <span class="keywordflow">return</span> originalFetch.apply(<span class="keyword">this</span>, args);</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Отслеживание состояния сессии</span></div>
+<div class="line">console.log(<span class="stringliteral">&#39;Session ID:&#39;</span>, sessionIdRef.current);</div>
+<div class="line">console.log(<span class="stringliteral">&#39;Progress:&#39;</span>, progressState);</div>
+<div class="line">console.log(<span class="stringliteral">&#39;API Error:&#39;</span>, apiError);</div>
+</div><!-- fragment --><p><b>Обработка ошибок API:</b></p><ul>
+<li><b>Сетевые ошибки</b> - проверка доступности бэкенда</li>
+<li><b>Ошибки авторизации</b> - проверка валидности сессии</li>
+<li><b>Ошибки валидации</b> - проверка корректности отправляемых данных</li>
+<li><b>Таймауты</b> - обработка медленных соединений</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md54"></a>
+Отладка WebAssembly</h2>
+<p><b>Диагностика WASM модулей:</b> </p><div class="fragment"><div class="line"><span class="comment">// Проверка загрузки модуля</span></div>
+<div class="line"><span class="keywordflow">try</span> {</div>
+<div class="line">  <span class="keyword">const</span> pipeline = <span class="keyword">new</span> <a class="code hl_class" href="classApriltagPipeline.html">ApriltagPipeline</a>();</div>
+<div class="line">  await pipeline.init();</div>
+<div class="line">  console.log(<span class="stringliteral">&#39;WASM модуль загружен успешно&#39;</span>);</div>
+<div class="line">} <span class="keywordflow">catch</span> (error) {</div>
+<div class="line">  console.error(<span class="stringliteral">&#39;Ошибка загрузки WASM:&#39;</span>, error);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Мониторинг производительности WASM</span></div>
+<div class="line"><span class="keyword">const</span> t0 = performance.now();</div>
+<div class="line"><span class="keyword">const</span> detections = await pipeline.detect(imageData);</div>
+<div class="line">console.log(`Детекция заняла ${performance.now() - t0}мс`);</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md55"></a>
+Расширенные инструменты отладки</h3>
+<p><b>Расширения браузера:</b></p><ul>
+<li><b>React DevTools</b> - инспекция компонентов и профилирование</li>
+<li><b>Three.js Inspector</b> - визуализация 3D сцены и геометрии</li>
+<li><b>WebGL Inspector</b> - анализ WebGL вызовов и производительности</li>
+<li><b>Network Throttling</b> - симуляция медленного интернета</li>
+</ul>
+<p><b>Локальная разработка:</b></p><ul>
+<li>Используйте <code>npm run analyze</code> для анализа размера бандла</li>
+<li>Мониторьте консоль на наличие warning'ов и error'ов</li>
+<li>Проверяйте память на утечки при длительной работе</li>
+<li>Тестируйте на разных устройствах и браузерах</li>
+</ul>
+<p><b>Логирование в продакшене:</b> </p><div class="fragment"><div class="line"><span class="comment">// Условное логирование только в development</span></div>
+<div class="line"><span class="keywordflow">if</span> (process.env.NODE_ENV === <span class="stringliteral">&#39;development&#39;</span>) {</div>
+<div class="line">  console.log(<span class="stringliteral">&#39;Отладочная информация&#39;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md56"></a>
+Лицензии и благодарности</h1>
+<ul>
+<li>GLTF-модели содержат ссылки на авторов внутри <code>src/models/*.jsx</code>.</li>
+<li>AprilTag WASM, OpenCV, mediabunny и three-stdlib распространяются по своим лицензиям.</li>
+<li>AlvaAR распространяется по лицензии GPLv3. </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

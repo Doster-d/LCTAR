@@ -1,0 +1,540 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Файл frontend/src/lib/anchorMath.js</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('anchorMath_8js.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Функции</a>  </div>
+  <div class="headertitle"><div class="title">Файл anchorMath.js</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>import as;</code><br />
+</div>
+<p><a href="anchorMath_8js_source.html">См. исходные тексты.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Функции</h2></td></tr>
+<tr class="memitem:a04e0e3a6ec8cba714a174d9c91b2556e" id="r_a04e0e3a6ec8cba714a174d9c91b2556e"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a04e0e3a6ec8cba714a174d9c91b2556e">toVector3</a> (value, fallback=new THREE.Vector3())</td></tr>
+<tr class="memdesc:a04e0e3a6ec8cba714a174d9c91b2556e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Математические функции для работы с якорями AprilTag.  <br /></td></tr>
+<tr class="separator:a04e0e3a6ec8cba714a174d9c91b2556e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93be2c0703299525d096c869227b9571" id="r_a93be2c0703299525d096c869227b9571"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a93be2c0703299525d096c869227b9571">averageQuaternion</a> (quaternions)</td></tr>
+<tr class="memdesc:a93be2c0703299525d096c869227b9571"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет средний кватернион из массива кватернионов  <br /></td></tr>
+<tr class="separator:a93be2c0703299525d096c869227b9571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6703cfce9afd8fab3e870c05f7cf9979" id="r_a6703cfce9afd8fab3e870c05f7cf9979"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a6703cfce9afd8fab3e870c05f7cf9979">bestFitPointFromRays</a> (rays)</td></tr>
+<tr class="memdesc:a6703cfce9afd8fab3e870c05f7cf9979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Находит лучшую точку пересечения из массива лучей  <br /></td></tr>
+<tr class="separator:a6703cfce9afd8fab3e870c05f7cf9979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f060eb448a6417e2a5afe45c4ee8bfe" id="r_a6f060eb448a6417e2a5afe45c4ee8bfe"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a6f060eb448a6417e2a5afe45c4ee8bfe">clampQuaternion</a> (quaternion)</td></tr>
+<tr class="memdesc:a6f060eb448a6417e2a5afe45c4ee8bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Нормализует кватернион и обеспечивает корректный диапазон значений  <br /></td></tr>
+<tr class="separator:a6f060eb448a6417e2a5afe45c4ee8bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28decfe80be356ebb9782ad629b4fcc2" id="r_a28decfe80be356ebb9782ad629b4fcc2"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a28decfe80be356ebb9782ad629b4fcc2">softenSmallAngleQuaternion</a> (quaternion, deadZone=0.01, softZone=0.05)</td></tr>
+<tr class="memdesc:a28decfe80be356ebb9782ad629b4fcc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Применяет фильтрацию малых углов для предотвращения дрожания  <br /></td></tr>
+<tr class="separator:a28decfe80be356ebb9782ad629b4fcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a550a1fa2856f9ba44124d2b83732ea46" id="r_a550a1fa2856f9ba44124d2b83732ea46"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46">softenAngle</a> (angle, deadZone, softZone)</td></tr>
+<tr class="memdesc:a550a1fa2856f9ba44124d2b83732ea46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вспомогательная функция для фильтрации отдельного угла  <br /></td></tr>
+<tr class="separator:a550a1fa2856f9ba44124d2b83732ea46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf432c00f3df86c3c8a5eef3c1d9c7e4" id="r_abf432c00f3df86c3c8a5eef3c1d9c7e4"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#abf432c00f3df86c3c8a5eef3c1d9c7e4">createTransformMatrix</a> (position, quaternion)</td></tr>
+<tr class="memdesc:abf432c00f3df86c3c8a5eef3c1d9c7e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет матрицу трансформации из позиции и кватерниона  <br /></td></tr>
+<tr class="separator:abf432c00f3df86c3c8a5eef3c1d9c7e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1b2ab2e3c4c0970b5065ef631079e16" id="r_af1b2ab2e3c4c0970b5065ef631079e16"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#af1b2ab2e3c4c0970b5065ef631079e16">decomposeTransformMatrix</a> (matrix)</td></tr>
+<tr class="memdesc:af1b2ab2e3c4c0970b5065ef631079e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Извлекает позицию и поворот из матрицы трансформации  <br /></td></tr>
+<tr class="separator:af1b2ab2e3c4c0970b5065ef631079e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2e468c81411c4dc569354c438d66397" id="r_ad2e468c81411c4dc569354c438d66397"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="anchorMath_8js.html#ad2e468c81411c4dc569354c438d66397">getTransformDistance</a> (transform1, transform2)</td></tr>
+<tr class="memdesc:ad2e468c81411c4dc569354c438d66397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет расстояние между двумя трансформациями  <br /></td></tr>
+<tr class="separator:ad2e468c81411c4dc569354c438d66397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Функции</h2>
+<a id="a93be2c0703299525d096c869227b9571" name="a93be2c0703299525d096c869227b9571"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93be2c0703299525d096c869227b9571">&#9670;&#160;</a></span>averageQuaternion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export averageQuaternion </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>quaternions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет средний кватернион из массива кватернионов </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Quaternion[]}</td><td>quaternions - Массив кватернионов </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Quaternion} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00039">39</a></p>
+
+</div>
+</div>
+<a id="a6703cfce9afd8fab3e870c05f7cf9979" name="a6703cfce9afd8fab3e870c05f7cf9979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6703cfce9afd8fab3e870c05f7cf9979">&#9670;&#160;</a></span>bestFitPointFromRays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export bestFitPointFromRays </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>rays</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Находит лучшую точку пересечения из массива лучей </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{Array&lt;{origin</td><td>THREE.Vector3, direction: THREE.Vector3}&gt;} rays - Массив лучей </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Vector3|null} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00074">74</a></p>
+
+</div>
+</div>
+<a id="a6f060eb448a6417e2a5afe45c4ee8bfe" name="a6f060eb448a6417e2a5afe45c4ee8bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f060eb448a6417e2a5afe45c4ee8bfe">&#9670;&#160;</a></span>clampQuaternion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export clampQuaternion </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>quaternion</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Нормализует кватернион и обеспечивает корректный диапазон значений </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Quaternion}</td><td>quaternion - Исходный кватернион </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Quaternion} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00144">144</a></p>
+
+</div>
+</div>
+<a id="abf432c00f3df86c3c8a5eef3c1d9c7e4" name="abf432c00f3df86c3c8a5eef3c1d9c7e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf432c00f3df86c3c8a5eef3c1d9c7e4">&#9670;&#160;</a></span>createTransformMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export createTransformMatrix </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>quaternion</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет матрицу трансформации из позиции и кватерниона </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Vector3}</td><td>position - Позиция </td></tr>
+    <tr><td class="paramname">{THREE.Quaternion}</td><td>quaternion - Поворот </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Matrix4} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00239">239</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_abf432c00f3df86c3c8a5eef3c1d9c7e4_cgraph.png" border="0" usemap="#aanchorMath_8js_abf432c00f3df86c3c8a5eef3c1d9c7e4_cgraph" alt=""/></div>
+<map name="aanchorMath_8js_abf432c00f3df86c3c8a5eef3c1d9c7e4_cgraph" id="aanchorMath_8js_abf432c00f3df86c3c8a5eef3c1d9c7e4_cgraph">
+<area shape="rect" title="Вычисляет матрицу трансформации из позиции и кватерниона" alt="" coords="5,5,176,31"/>
+<area shape="rect" href="anchorMath_8js.html#a04e0e3a6ec8cba714a174d9c91b2556e" title="Математические функции для работы с якорями AprilTag." alt="" coords="224,5,308,31"/>
+<area shape="poly" title=" " alt="" coords="176,15,211,15,211,21,176,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af1b2ab2e3c4c0970b5065ef631079e16" name="af1b2ab2e3c4c0970b5065ef631079e16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1b2ab2e3c4c0970b5065ef631079e16">&#9670;&#160;</a></span>decomposeTransformMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export decomposeTransformMatrix </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>matrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Извлекает позицию и поворот из матрицы трансформации </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Matrix4}</td><td>matrix - Матрица трансформации </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{{position: THREE.Vector3, quaternion: THREE.Quaternion}} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00254">254</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_af1b2ab2e3c4c0970b5065ef631079e16_icgraph.png" border="0" usemap="#aanchorMath_8js_af1b2ab2e3c4c0970b5065ef631079e16_icgraph" alt=""/></div>
+<map name="aanchorMath_8js_af1b2ab2e3c4c0970b5065ef631079e16_icgraph" id="aanchorMath_8js_af1b2ab2e3c4c0970b5065ef631079e16_icgraph">
+<area shape="rect" title="Извлекает позицию и поворот из матрицы трансформации" alt="" coords="219,5,423,31"/>
+<area shape="rect" href="anchorMath_8js.html#ad2e468c81411c4dc569354c438d66397" title="Вычисляет расстояние между двумя трансформациями" alt="" coords="5,5,171,31"/>
+<area shape="poly" title=" " alt="" coords="205,21,171,21,171,15,205,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad2e468c81411c4dc569354c438d66397" name="ad2e468c81411c4dc569354c438d66397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2e468c81411c4dc569354c438d66397">&#9670;&#160;</a></span>getTransformDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export getTransformDistance </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>transform1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>transform2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет расстояние между двумя трансформациями </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Matrix4}</td><td>transform1 - Первая трансформация </td></tr>
+    <tr><td class="paramname">{THREE.Matrix4}</td><td>transform2 - Вторая трансформация </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00270">270</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_ad2e468c81411c4dc569354c438d66397_cgraph.png" border="0" usemap="#aanchorMath_8js_ad2e468c81411c4dc569354c438d66397_cgraph" alt=""/></div>
+<map name="aanchorMath_8js_ad2e468c81411c4dc569354c438d66397_cgraph" id="aanchorMath_8js_ad2e468c81411c4dc569354c438d66397_cgraph">
+<area shape="rect" title="Вычисляет расстояние между двумя трансформациями" alt="" coords="5,5,171,31"/>
+<area shape="rect" href="anchorMath_8js.html#af1b2ab2e3c4c0970b5065ef631079e16" title="Извлекает позицию и поворот из матрицы трансформации" alt="" coords="219,5,423,31"/>
+<area shape="poly" title=" " alt="" coords="171,15,205,15,205,21,171,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a550a1fa2856f9ba44124d2b83732ea46" name="a550a1fa2856f9ba44124d2b83732ea46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a550a1fa2856f9ba44124d2b83732ea46">&#9670;&#160;</a></span>softenAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function softenAngle </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>angle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>deadZone</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>softZone</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вспомогательная функция для фильтрации отдельного угла </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{number}</td><td>angle - Угол в радианах </td></tr>
+    <tr><td class="paramname">{number}</td><td>deadZone - Зона мертвого угла </td></tr>
+    <tr><td class="paramname">{number}</td><td>softZone - Зона мягкого перехода </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{number} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00216">216</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_a550a1fa2856f9ba44124d2b83732ea46_icgraph.png" border="0" usemap="#aanchorMath_8js_a550a1fa2856f9ba44124d2b83732ea46_icgraph" alt=""/></div>
+<map name="aanchorMath_8js_a550a1fa2856f9ba44124d2b83732ea46_icgraph" id="aanchorMath_8js_a550a1fa2856f9ba44124d2b83732ea46_icgraph">
+<area shape="rect" title="Вспомогательная функция для фильтрации отдельного угла" alt="" coords="261,5,360,31"/>
+<area shape="rect" href="anchorMath_8js.html#a28decfe80be356ebb9782ad629b4fcc2" title="Применяет фильтрацию малых углов для предотвращения дрожания" alt="" coords="5,5,213,31"/>
+<area shape="poly" title=" " alt="" coords="248,21,214,21,214,15,248,15"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a28decfe80be356ebb9782ad629b4fcc2" name="a28decfe80be356ebb9782ad629b4fcc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28decfe80be356ebb9782ad629b4fcc2">&#9670;&#160;</a></span>softenSmallAngleQuaternion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export softenSmallAngleQuaternion </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>quaternion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>deadZone</em> = <code>0.01</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>softZone</em> = <code>0.05</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Применяет фильтрацию малых углов для предотвращения дрожания </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{THREE.Quaternion}</td><td>quaternion - Исходный кватернион </td></tr>
+    <tr><td class="paramname">{number}</td><td>deadZone - Зона мертвого угла в радианах </td></tr>
+    <tr><td class="paramname">{number}</td><td>softZone - Зона мягкого перехода в радианах </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Quaternion} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00190">190</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_a28decfe80be356ebb9782ad629b4fcc2_cgraph.png" border="0" usemap="#aanchorMath_8js_a28decfe80be356ebb9782ad629b4fcc2_cgraph" alt=""/></div>
+<map name="aanchorMath_8js_a28decfe80be356ebb9782ad629b4fcc2_cgraph" id="aanchorMath_8js_a28decfe80be356ebb9782ad629b4fcc2_cgraph">
+<area shape="rect" title="Применяет фильтрацию малых углов для предотвращения дрожания" alt="" coords="5,5,213,31"/>
+<area shape="rect" href="anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46" title="Вспомогательная функция для фильтрации отдельного угла" alt="" coords="261,5,360,31"/>
+<area shape="poly" title=" " alt="" coords="213,15,248,15,248,21,213,21"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a04e0e3a6ec8cba714a174d9c91b2556e" name="a04e0e3a6ec8cba714a174d9c91b2556e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04e0e3a6ec8cba714a174d9c91b2556e">&#9670;&#160;</a></span>toVector3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">function export toVector3 </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>fallback</em> = <code>new&#160;THREE.Vector3()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Математические функции для работы с якорями AprilTag. </p>
+<p>Конвертирует значение в THREE.Vector3 </p><dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{Array|Object|THREE.Vector3}</td><td>value - Значение для конвертации </td></tr>
+    <tr><td class="paramname">{THREE.Vector3}</td><td>fallback - Fallback значение при ошибке </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{THREE.Vector3} </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="anchorMath_8js_source.html">anchorMath.js</a> строка <a class="el" href="anchorMath_8js_source.html#l00013">13</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="anchorMath_8js_a04e0e3a6ec8cba714a174d9c91b2556e_icgraph.png" border="0" usemap="#aanchorMath_8js_a04e0e3a6ec8cba714a174d9c91b2556e_icgraph" alt=""/></div>
+<map name="aanchorMath_8js_a04e0e3a6ec8cba714a174d9c91b2556e_icgraph" id="aanchorMath_8js_a04e0e3a6ec8cba714a174d9c91b2556e_icgraph">
+<area shape="rect" title="Математические функции для работы с якорями AprilTag." alt="" coords="224,5,308,31"/>
+<area shape="rect" href="anchorMath_8js.html#abf432c00f3df86c3c8a5eef3c1d9c7e4" title="Вычисляет матрицу трансформации из позиции и кватерниона" alt="" coords="5,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="210,21,176,21,176,15,210,15"/>
+</map>
+</div>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="dir_4a296fb22e14d54e648023a35f56bd71.html">lib</a></li><li class="navelem"><a class="el" href="anchorMath_8js.html">anchorMath.js</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

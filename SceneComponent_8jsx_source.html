@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Исходный файл frontend/src/SceneComponent.jsx</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('SceneComponent_8jsx_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SceneComponent.jsx</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="SceneComponent_8jsx.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> { useEffect } from <span class="stringliteral">&#39;react&#39;</span>;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> { useThree } from <span class="stringliteral">&#39;@react-three/fiber&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">import</span> { Matrix4 } from <span class="stringliteral">&#39;three&#39;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="SceneComponent_8jsx.html#afd810085655f23cfd352660607890dd5">   10</a></span><span class="keyword">function</span> <a class="code hl_function" href="SceneComponent_8jsx.html#afd810085655f23cfd352660607890dd5">isMatrixValid</a>(matrixArray) {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  <span class="keywordflow">return</span> Boolean(matrixArray &amp;&amp; Array.isArray(matrixArray) &amp;&amp;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    matrixArray.length === 16 &amp;&amp;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    matrixArray.every(val =&gt; val !== <span class="keyword">null</span> &amp;&amp; val !== undefined &amp;&amp; !isNaN(val)));</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>}</div>
+</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f">   29</a></span><span class="keyword">function</span> <a class="code hl_function" href="SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f">setProjectionFromIntrinsics</a>(camera, fx, fy, cx, cy, w, h, near=0.01, far=100) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keyword">const</span> P = <span class="keyword">new</span> Matrix4();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keyword">const</span> m00 = 2*fx/w, m11 = 2*fy/h;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keyword">const</span> m02 = 1 - 2*cx/w, m12 = 2*cy/h - 1;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keyword">const</span> m22 = (far+near)/(near-far), m23 = (2*far*near)/(near-far);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  P.set(</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    m00, 0,   m02, 0,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    0,   m11, m12, 0,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    0,   0,   m22, m23,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    0,   0,  -1,   0</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  );</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  camera.projectionMatrix.copy(P);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="comment">// camera.projectionMatrixInverse.copy(P.clone().invert());</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05">   53</a></span><span class="keyword">function</span> <a class="code hl_function" href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05">Scene</a>({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix }) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keyword">const</span> { camera } = useThree();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  useEffect(() =&gt; {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    camera.position.set(0, 0, 0);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    camera.matrixAutoUpdate = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    camera.updateMatrix();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    camera.updateMatrixWorld(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">if</span> (pipelineRef.current &amp;&amp; videoWidth &amp;&amp; videoHeight) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>      const intrinsics = pipelineRef.current.getCameraInfo();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      setProjectionFromIntrinsics(</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        camera,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        intrinsics.fx,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        intrinsics.fy,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        intrinsics.cx,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        intrinsics.cy,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        videoWidth,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        videoHeight</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>      );</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  }, [camera, pipelineRef, videoWidth, videoHeight]);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordflow">return</span> (</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    &lt;&gt;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      {anchorMatrix &amp;&amp; (</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        &lt;group matrixAutoUpdate={<span class="keyword">false</span>} matrix={<span class="keyword">new</span> Matrix4().fromArray(anchorMatrix)}&gt;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>          &lt;mesh position={[0, 0, 0]}&gt;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            &lt;boxGeometry args={[0.08, 0.08, 0.08]} /&gt;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            &lt;meshStandardMaterial color={<span class="stringliteral">&#39;orange&#39;</span>} /&gt;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>          &lt;/mesh&gt;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        &lt;/group&gt;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      )}</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      {<span class="comment">/* Пример для отрисовки найденных тэгов, если нужно:</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">      {transforms.map((t, i) =&gt; (</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">        &lt;group key={i} matrixAutoUpdate={false} matrix={new Matrix4().fromArray(t.matrix)}&gt;</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">          &lt;mesh&gt;</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">            &lt;boxGeometry args={[0.08,0.08,0.08]} /&gt;</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">            &lt;meshStandardMaterial color=&quot;blue&quot; /&gt;</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">          &lt;/mesh&gt;</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">        &lt;/group&gt;</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">      ))} */</span>}</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      &lt;ambientLight intensity={0.4} /&gt;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      &lt;directionalLight position={[2.5, 8, 5]} intensity={1.5} /&gt;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    &lt;/&gt;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  );</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>}</div>
+</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="foldopen" id="foldopen00106" data-start="{" data-end="}">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516">  106</a></span>export <span class="keywordflow">default</span> <span class="keyword">function</span> <a class="code hl_function" href="SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516">SceneComponent</a>(props) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">return</span> &lt;<a class="code hl_function" href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05">Scene</a> {...props} /&gt;;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
+</div>
+<div class="ttc" id="aSceneComponent_8jsx_html_a0f46cdf831c4ff2a9e7950c1d3eba516"><div class="ttname"><a href="SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516">SceneComponent</a></div><div class="ttdeci">function default SceneComponent(props)</div><div class="ttdoc">Адаптер, пробрасывающий пропсы во внутренний компонент Scene.</div><div class="ttdef"><b>Definition</b> <a href="SceneComponent_8jsx_source.html#l00106">SceneComponent.jsx:106</a></div></div>
+<div class="ttc" id="aSceneComponent_8jsx_html_a43eaf01af45ef0596e19a160fdaed33f"><div class="ttname"><a href="SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f">setProjectionFromIntrinsics</a></div><div class="ttdeci">function setProjectionFromIntrinsics(camera, fx, fy, cx, cy, w, h, near=0.01, far=100)</div><div class="ttdoc">Строит проекционную матрицу по внутренним параметрам камеры.</div><div class="ttdef"><b>Definition</b> <a href="SceneComponent_8jsx_source.html#l00029">SceneComponent.jsx:29</a></div></div>
+<div class="ttc" id="aSceneComponent_8jsx_html_a930f6949edb2ff8f4c5f2a11971add05"><div class="ttname"><a href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05">Scene</a></div><div class="ttdeci">function Scene({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix })</div><div class="ttdoc">Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag.</div><div class="ttdef"><b>Definition</b> <a href="SceneComponent_8jsx_source.html#l00053">SceneComponent.jsx:53</a></div></div>
+<div class="ttc" id="aSceneComponent_8jsx_html_afd810085655f23cfd352660607890dd5"><div class="ttname"><a href="SceneComponent_8jsx.html#afd810085655f23cfd352660607890dd5">isMatrixValid</a></div><div class="ttdeci">function isMatrixValid(matrixArray)</div><div class="ttdoc">Проверяет, что массив соответствует однородной матрице 4×4.</div><div class="ttdef"><b>Definition</b> <a href="SceneComponent_8jsx_source.html#l00010">SceneComponent.jsx:10</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="SceneComponent_8jsx.html">SceneComponent.jsx</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
