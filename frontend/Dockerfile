@@ -15,7 +15,7 @@ COPY . .
 # Allow build-time configuration of API_URL and NODE_ENV for webpack
 ARG API_URL
 ARG NODE_ENV=production
-ENV API_URL=${API_URL}
+ENV REACT_APP_API_URL=${API_URL}
 ENV NODE_ENV=${NODE_ENV}
 
 # Build static assets into the dist directory

@@ -51,7 +51,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         title: "Development Team",
         roster: ["Vagulich Alexander", "Alekseev Dmitriy", "Gorbunov Andrey", "Akhmedov Rinat", "Pashkova Arina"],
         roles: ["Frontend Developer", "Full Stack Developer", "3D Designer", "Backend Developer", "DevOps Engineer"],
-        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D Modeling", "FastAPI, Python", "Docker, Kubernetes"]
+        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D Modeling", "Django, Python", "Docker, Kubernetes"]
       },
       stakeholders: {
         title: "You",
@@ -91,7 +91,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         title: "Команда разработчиков",
         roster: ["Вагулич Александр", "Алексеев Дмитрий", "Горбунов Андрей", "Ахмедов Ринат", "Пашкова Арина"],
         roles: ["Frontend-разработчик", "Full Stack-разработчик", "3D-дизайнер", "Backend-разработчик", "DevOps-инженер"],
-        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D-моделирование", "FastAPI, Python", "Docker, Kubernetes"]
+        techStacks: ["React, TypeScript", "React, Node.js, Python", "Blender, 3D-моделирование", "Django, Python", "Docker, Kubernetes"]
       },
       stakeholders: {
         title: "Вы",
@@ -128,12 +128,12 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         <h2>{t.techStack.title}</h2>
         <div className="tech-grid">
           {[
-            { icon: '/img/stack/react.png', name: 'React', description: t.techStack.items.react },
-            { icon: '/img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
-            { icon: '/img/stack/django.png', name: 'FastAPI', description: t.techStack.items.django },
-            { icon: '/img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
-            { icon: '/img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
-            { icon: '/img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
+            { icon: './img/stack/react.png', name: 'React', description: t.techStack.items.react },
+            { icon: './img/stack/three-js.png', name: 'Three.js', description: t.techStack.items.threejs },
+            { icon: './img/stack/django.png', name: 'Django', description: t.techStack.items.django },
+            { icon: './img/stack/AT.svg', name: 'AprilTags', description: t.techStack.items.apriltags },
+            { icon: './img/stack/blender.png', name: 'Blender', description: t.techStack.items.blender },
+            { icon: './img/stack/postgre.png', name: 'PostgreSQL', description: t.techStack.items.postgresql }
           ].map((tech, index) => (
             <div key={index} className="tech-item">
               <img src={tech.icon} alt={tech.name} />

@@ -126,13 +126,13 @@ module.exports = {
         { from: 'public/tag36h11-2.svg', to: 'tag36h11-2.svg' },
 
         // Изображения с сохранением структуры папок
-        { from: 'public/img/**/*', to: 'img/[name][ext]' },
+        { from: path.resolve(__dirname, 'public/img'), to: 'img', noErrorOnMissing: true },
 
         // Дополнительные модели
-        { from: 'public/models/**/*', to: 'models/[name][ext]' },
+        { from: path.resolve(__dirname, 'public/models'), to: 'models', noErrorOnMissing: true },
 
         // Разработческие инструменты (опционально)
-        { from: 'public/dev-tools/**/*', to: 'dev-tools/[name][ext]' },
+        { from: path.resolve(__dirname, 'public/dev-tools'), to: 'dev-tools', noErrorOnMissing: true },
 
         // Существующие файлы (сохранить)
         { from: 'public/apriltag_wasm.js', to: 'apriltag_wasm.js' },

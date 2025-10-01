@@ -84,7 +84,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        API_URL: /api
+        API_URL: ${API_URL?https://lctar2.duckdns.org/api}
         NODE_ENV: production
     ports:
       - "443:80"
@@ -93,16 +93,16 @@ services:
       - ./frontend/certs/frontend.crt:/etc/nginx/ssl/frontend.crt:ro
       - ./frontend/certs/frontend.key:/etc/nginx/ssl/frontend.key:ro
 
-  tuna:
-    image: yuccastream/tuna:latest
-    command: http https://frontend:80 --inspect=false
-    restart: always
-    environment:
-      - TUNA_SUBDOMAIN=lct-ar-cheburashka
-      - TUNA_TOKEN=${TUNA_TOKEN?Variable not set}
-      - TUNA_HTTPS_REDIRECT=true
-    depends_on:
-      - frontend
+  # tuna:
+  #   image: yuccastream/tuna:latest
+  #   command: http https://frontend:80 --inspect=false
+  #   restart: always
+  #   environment:
+  #     TUNA_SUBDOMAIN: ${TUNA_SUBDOMAIN?lct-ar-cheburashka}
+  #     TUNA_TOKEN: ${TUNA_TOKEN?Variable not set}
+  #     TUNA_HTTPS_REDIRECT: true
+  #   depends_on:
+  #     - frontend
 
 volumes:
   mysql_data:

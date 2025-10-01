@@ -1,5 +1,6 @@
 import { Matrix4, Vector3 } from 'three';
 import cv from '@techstark/opencv-js';
+import { CoordinateTransformer } from './CoordinateTransformer.jsx';
 
 /**
  * @brief Загружает конфигурацию пайплайна AprilTag с диска.
@@ -29,7 +30,7 @@ const loadConfig = async () => {
           id: 0,
           sceneId: 'cheburashka_company',
           size: 0.15,
-          normalOffsetMm: 120,
+          normalOffsetMm: 10,
           position: [0, 0, 0],
           rotation: [0, 0, 0],
           sphereOffset: [0, 0, 0.1],
@@ -67,6 +68,32 @@ class ApriltagPipeline {
     this.tagConfigById = new Map();
     this.scenesById = new Map();
     this.tagSizeById = new Map();
+
+    // Координатный трансформатор для стабилизации
+    this.coordinateTransformer = new CoordinateTransformer({
+      positionDeadZone: 0.001, // 1мм в метрах
+      rotationDeadZone: 0.0017, // 0.1° в радианах
+      maxLerpSpeed: 0.3,
+      minLerpSpeed: 0.05,
+      predictionWindow: 10,
+      stabilizationEnabled: true
+    });
+
+    // Конфигурация множественных маркеров
+    this.multiTagConfig = {
+      enabled: false,
+      minTagsForMultiMode: 2,
+      confidenceThreshold: 0.5,
+      layoutMode: 'dynamic' // 'static' или 'dynamic'
+    };
+
+    // Стратегии восстановления при потере детекции
+    this.recoveryStrategies = {
+      predictionEnabled: true,
+      fallbackToLastKnown: true,
+      maxPredictionTime: 2000, // 2 секунды максимум предикции
+      lastKnownTransforms: new Map()
+    };
   }
 
   /**
@@ -282,6 +309,116 @@ class ApriltagPipeline {
   }
 
   /**
+   * @brief Оценивает качество детекции множественных маркеров
+   * @param detections Массив детекций маркеров
+   * @returns {object} Оценка качества с режимом детекции
+   */
+  evaluateMultiTagQuality(detections) {
+    if (!detections || detections.length === 0) {
+      return { quality: 0, mode: 'none', confidence: 0 };
+    }
+
+    const confidences = detections.map(d => this.calculateDetectionConfidence(d));
+    const avgConfidence = confidences.reduce((sum, conf) => sum + conf, 0) / confidences.length;
+
+    // Определяем режим на основе количества маркеров и уверенности
+    let mode = 'single';
+    if (detections.length >= this.multiTagConfig.minTagsForMultiMode &&
+        avgConfidence >= this.multiTagConfig.confidenceThreshold) {
+      mode = 'multi';
+    }
+
+    return {
+      quality: detections.length,
+      mode: mode,
+      confidence: avgConfidence,
+      individualConfidences: confidences
+    };
+  }
+
+  /**
+   * @brief Вычисляет уверенность детекции маркера
+   * @param detection Детекция маркера
+   * @returns {number} Уверенность от 0 до 1
+   */
+  calculateDetectionConfidence(detection) {
+    // Базовая уверенность
+    const baseConfidence = detection.rawDetection ? 0.8 : 0.5;
+
+    // Модификатор на основе расстояния до маркера
+    const distance = Math.sqrt(
+      detection.position[0] ** 2 +
+      detection.position[1] ** 2 +
+      detection.position[2] ** 2
+    );
+
+    const distanceModifier = Math.max(0.1, Math.min(1.0, 1.0 / (1.0 + distance * 2)));
+
+    return baseConfidence * distanceModifier;
+  }
+
+  /**
+   * @brief Применяет стратегии восстановления при потере детекции
+   * @param currentDetections Текущие детекции
+   * @param timestamp Временная метка
+   * @returns {Array<object>} Детекции с восстановлением
+   */
+  applyRecoveryStrategies(currentDetections, timestamp) {
+    const timeSinceLastDetection = timestamp - this.lastDetectionTime;
+
+    // Если есть текущие детекции, сохраняем их для будущего восстановления
+    if (currentDetections.length > 0) {
+      currentDetections.forEach(detection => {
+        this.recoveryStrategies.lastKnownTransforms.set(detection.id, {
+          ...detection,
+          lastSeen: timestamp
+        });
+      });
+      return currentDetections;
+    }
+
+    // Если нет детекций, применяем стратегии восстановления
+    const recoveredDetections = [];
+
+    if (this.recoveryStrategies.fallbackToLastKnown) {
+      // Fallback к последним известным трансформациям
+      this.recoveryStrategies.lastKnownTransforms.forEach((lastKnown, id) => {
+        const timeSinceLastSeen = timestamp - lastKnown.lastSeen;
+
+        // Не используем трансформации старше максимального времени предикции
+        if (timeSinceLastSeen < this.recoveryStrategies.maxPredictionTime) {
+          const decayFactor = 1.0 - (timeSinceLastSeen / this.recoveryStrategies.maxPredictionTime);
+
+          recoveredDetections.push({
+            ...lastKnown,
+            confidence: lastKnown.confidence * decayFactor * 0.5, // Уменьшаем уверенность
+            recovered: true,
+            recoveryMethod: 'fallback'
+          });
+        }
+      });
+    }
+
+    return recoveredDetections;
+  }
+
+  /**
+   * @brief Конфигурирует поддержку множественных маркеров
+   * @param config Конфигурация множественных маркеров
+   */
+  configureMultiTag(config) {
+    this.multiTagConfig = { ...this.multiTagConfig, ...config };
+  }
+
+  /**
+   * @brief Конфигурирует стратегии восстановления
+   * @param strategies Стратегии восстановления
+   */
+  configureRecoveryStrategies(strategies) {
+    this.recoveryStrategies = { ...this.recoveryStrategies, ...strategies };
+  }
+
+  /**
    * @brief Выполняет детекцию тегов по переданному RGBA-буферу изображения.
    * @param imageData Объект ImageData, подготовленный для анализа AprilTag.
    * @returns {Array<object>} Обработанные детекции с данными о позе.
@@ -293,20 +430,20 @@ class ApriltagPipeline {
     // Проверяем инициализацию
     if (!this.apriltagReady || !this._Module) {
       console.warn('⚠️ [detect] AprilTag не готов или модуль не инициализирован');
-      return [];
+      return this.applyRecoveryStrategies([], now);
     }
 
     // Проверяем, что все WASM функции инициализированы
     if (!this._init || !this._destroy || !this._set_detector_options ||
         !this._set_pose_info || !this._set_img_buffer || !this._set_tag_size || !this._detect) {
       console.error('❌ [detect] WASM функции не инициализированы');
-      return [];
+      return this.applyRecoveryStrategies([], now);
     }
 
     // Проверяем валидность imageData
     if (!imageData || !imageData.data || !imageData.width || !imageData.height) {
       console.error('❌ [detect] Неверные данные изображения');
-      return [];
+      return this.applyRecoveryStrategies([], now);
     }
 
     try {
@@ -459,11 +596,108 @@ class ApriltagPipeline {
         console.debug('[detect] Transforms prepared:', transforms);
       }
 
-      return transforms;
+      // Применяем стратегии восстановления при потере детекции
+      const transformsWithRecovery = this.applyRecoveryStrategies(transforms, now);
+
+      // Оцениваем качество множественных маркеров
+      const qualityAssessment = this.evaluateMultiTagQuality(transformsWithRecovery);
+
+      console.debug('[detect] Quality assessment:', qualityAssessment);
+
+      // Добавляем метаданные качества к трансформациям
+      const enhancedTransforms = transformsWithRecovery.map(transform => ({
+        ...transform,
+        qualityInfo: {
+          overall: qualityAssessment,
+          individual: this.calculateDetectionConfidence(transform)
+        },
+        stabilized: true,
+        timestamp: now,
+        frameCount: this.frameCount
+      }));
+
+      // Применяем стабилизацию координат через CoordinateTransformer
+      if (enhancedTransforms.length > 0 && this.coordinateTransformer) {
+        try {
+          // Подготавливаем данные для трансформатора координат
+          const cameraPose = this.extractCameraPoseFromTransforms(enhancedTransforms);
+          const aprilTagDetections = enhancedTransforms.map(transform => ({
+            id: transform.id,
+            anchorPoint: transform.anchorPoint,
+            normal: transform.normal,
+            position: transform.position,
+            confidence: transform.qualityInfo.individual
+          }));
+
+          // Применяем трансформацию координат
+          const stabilizedMatrix = this.coordinateTransformer.transformCameraToWorld(
+            cameraPose,
+            aprilTagDetections
+          );
+
+          // Обновляем матрицу якоря в трансформациях
+          enhancedTransforms.forEach(transform => {
+            if (transform.id === enhancedTransforms[0].id) { // Используем первую детекцию как якорь
+              transform.stabilizedMatrix = stabilizedMatrix.toArray();
+              transform.stabilizedPosition = [
+                stabilizedMatrix.elements[12],
+                stabilizedMatrix.elements[13],
+                stabilizedMatrix.elements[14]
+              ];
+            }
+          });
+
+          console.debug('[detect] Coordinate stabilization applied');
+        } catch (stabilizationError) {
+          console.warn('⚠️ [detect] Error applying coordinate stabilization:', stabilizationError);
+        }
+      }
+
+      return enhancedTransforms;
     } catch (error) {
       console.error(`❌ [Кадр ${this.frameCount}] Ошибка в методе detect:`, error);
-      return [];
+      return this.applyRecoveryStrategies([], now);
     }
+  }
+
+  /**
+   * @brief Извлекает позу камеры из трансформаций маркеров
+   * @param transforms Массив трансформаций маркеров
+   * @returns {object} Поза камеры в формате {R, t}
+   */
+  extractCameraPoseFromTransforms(transforms) {
+    if (!transforms || transforms.length === 0) {
+      return { R: [1, 0, 0, 0, 1, 0, 0, 0, 1], t: [0, 0, 0] };
+    }
+
+    // Используем первую трансформацию для извлечения позы камеры
+    const firstTransform = transforms[0];
+    const { R, t } = firstTransform.pose;
+
+    return {
+      R: Array.isArray(R) ? R : [1, 0, 0, 0, 1, 0, 0, 0, 1],
+      t: Array.isArray(t) && t.length >= 3 ? t : [0, 0, 0]
+    };
+  }
+
+  /**
+   * @brief Сбрасывает состояние трансформатора координат
+   */
+  resetCoordinateTransformer() {
+    if (this.coordinateTransformer) {
+      this.coordinateTransformer.reset();
+    }
+  }
+
+  /**
+   * @brief Получает текущее состояние трансформатора координат
+   * @returns {object} Состояние трансформатора
+   */
+  getCoordinateTransformerState() {
+    if (this.coordinateTransformer) {
+      return this.coordinateTransformer.getCurrentTransform();
+    }
+    return null;
   }
 
   /**
