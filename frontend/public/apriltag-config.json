@@ -11,8 +11,8 @@
     {
       "id": 0,
       "sceneId": "cheburashka_company",
-      "size": 0.06,
-      "normalOffsetMm": -500,
+      "size": 0.15,
+      "normalOffsetMm": 10,
       "position": [
         0,
         0.03,
@@ -30,15 +30,15 @@
       ],
       "fallbackCenter": [
         0.01,
-        0.05,
+        0.01,
         0.01
       ]
     },
     {
       "id": 1,
       "sceneId": "cheburashka_company",
-      "size": 0.06,
-      "normalOffsetMm": -300,
+      "size": 0.15,
+      "normalOffsetMm": -100,
       "position": [
         -0.13,
         0.03,
@@ -63,8 +63,8 @@
     {
       "id": 2,
       "sceneId": "cheburashka_company",
-      "size": 0.06,
-      "normalOffsetMm": -300,
+      "size": 0.15,
+      "normalOffsetMm": -100,
       "position": [
         0.13,
         0.03,
