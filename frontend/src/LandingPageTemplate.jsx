@@ -24,8 +24,8 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
   const translations = {
     en: {
       hero: {
-        title: "AR-case solution",
-        description: "Enter your description here. This is a placeholder for the description text."
+        title: "Creating an AR photo zone for SoyuzmultPark",
+        description: "A system for capturing and viewing AR content with gamification elements to increase user engagement in the SoyuzmultPark Museum."
       },
       techStack: {
         title: "Tech Stack",
@@ -41,10 +41,10 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
       advantages: {
         title: "Advantages",
         items: [
-          { title: "Innovative Technologies", description: "Cutting-edge AR solutions with advanced computer vision and 3D graphics capabilities." },
-          { title: "High Performance", description: "Optimized for real-time processing with minimal latency for seamless user experience." },
-          { title: "User-Friendly Interface", description: "Intuitive design that makes complex AR technology accessible to all users." },
-          { title: "Reliable Support", description: "Comprehensive technical support and regular updates to ensure optimal performance." }
+          {  title: "AR without apps", description: "Everything works right in the browser — the visitor scans the QR code of the exhibits and goes to the service. No installations and complicated settings." },
+          { title: "Gamification", description: "Visitors go through a small AR-quest, collect points and get rewards — promo codes for tickets, souvenirs or promotions of partners." },
+          { title: "Analytics for the museum", description: "The system collects data on the popularity of the exhibits, the involvement of visitors and the time of interaction. This helps the museum understand the interests of the audience." },
+          { title: "Scalability and flexibility", description: "New characters, scenes and exhibits are added through the admin panel. Both permanent exhibitions and temporary exhibitions are supported." }
         ]
       },
       team: {
@@ -64,8 +64,8 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
     },
     ru: {
       hero: {
-        title: "Решение AR-кейса",
-        description: "Введите ваше описание здесь. Это плейсхолдер для текста описания."
+        title: "Создание AR-фотозоны для СоюзмультПарка",
+        description: "Система захвата и просмотра AR-контента с элементами геймификации для повышения вовлеченности пользователей в музей СоюзмультПарка."
       },
       techStack: {
         title: "Технологический стек",
@@ -81,10 +81,10 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
       advantages: {
         title: "Преимущества",
         items: [
-          { title: "Инновационные технологии", description: "Современные AR-решения с передовыми возможностями компьютерного зрения и 3D-графики." },
-          { title: "Высокая производительность", description: "Оптимизировано для обработки в реальном времени с минимальной задержкой для бесперебойной работы." },
-          { title: "Удобный интерфейс", description: "Интуитивный дизайн, делающий сложную AR-технологию доступной для всех пользователей." },
-          { title: "Надежная поддержка", description: "Комплексная техническая поддержка и регулярные обновления для обеспечения оптимальной работы." }
+          { title: "AR без приложений", description: "Всё работает прямо в браузере — посетитель сканирует QR-код у экспонатов и переходит в сервис. Никаких установок и сложных настроек." },
+          { title: "Геймификация", description: "Посетители проходят небольшой AR-квест, собирают очки и получают вознаграждения — промокоды на билеты, сувениры или акции партнёров." },
+          { title: "Аналитика для музея", description: "Система собирает данные о популярности экспонатов, вовлечённости посетителей и времени взаимодействия. Это помогает музею понимать интересы аудитории." },
+          { title: "Масштабируемость и гибкость", description: "Новые персонажи, сцены и экспонаты добавляются через админку. Поддерживается работа как на постоянных экспозициях, так и на временных выставках." }
         ]
       },
       team: {
