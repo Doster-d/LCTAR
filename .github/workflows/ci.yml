@@ -21,18 +21,18 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install deps (requirements.txt если есть; иначе минимальный набор)
+      - name: Install deps
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           else
-            pip install "Django>=4.2,<5" "djangorestframework>=3.14,<4"
+            # минимально нужно для твоих тестов
+            pip install "Django>=4.2,<5" "djangorestframework>=3.14,<4" "celery>=5,<6"
           fi
 
       - name: Run Django tests (arb)
         env:
           DJANGO_SETTINGS_MODULE: arb.settings
         run: |
-          python -c "import django,sys; print('Django', django.get_version()); print(sys.path)"
           python arb/manage.py test arb -v 2
