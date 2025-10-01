@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Landing from './Landing';
 import AprilTagLayoutEditor from './AprilTagLayoutEditor';
+import { ApiProvider } from './api/ApiContext';
 
 
 const AppContainer = () => {
@@ -48,4 +49,8 @@ const root = createRoot(container);
 /**
  * @brief Загружает выбранный компонент в DOM.
  */
-root.render(<AppContainer />);
+root.render(
+  <ApiProvider>
+    <AppContainer />
+  </ApiProvider>
+);
