@@ -11,6 +11,11 @@ import { loadAlva } from './alvaBridge'
 import { startTrainAnimation } from './trainAnimation'
 import Landing from './Landing'
 import AprilTagLayoutEditor from './AprilTagLayoutEditor'
+import { createTheme, ThemeProvider, styled, keyframes } from '@mui/material/styles'
+import { Box, Stack, Tooltip, IconButton } from '@mui/material'
+import CameraAltRounded from '@mui/icons-material/CameraAltRounded'
+import VideocamRounded from '@mui/icons-material/VideocamRounded'
+import StopRounded from '@mui/icons-material/StopRounded'
 import {
   startSession as apiStartSession,
   sendViewEvent,
@@ -20,8 +25,9 @@ import {
   getPromoByUser,
   getStats as apiGetStats,
   getHealth as apiGetHealth,
-} from './api/backend'
+} from './api/api'
 import { getAssetByDetection } from './data/assets'
+import { CoordinateTransformer } from './CoordinateTransformer'
 
 /**
  * @brief Ограничивает число указанным диапазоном.
@@ -93,6 +99,60 @@ const getRayColor = (tagId) => {
   return new THREE.Color().setHSL(hue, 0.68, 0.53)
 }
 
+// Material-UI тема и компоненты
+const theme = createTheme({
+  palette: {
+    primary: { main: '#5514db' },     // Custom purple
+    secondary: { main: '#4e08d8' }    // Custom purple hover
+  },
+  shape: { borderRadius: 14 },
+  typography: { button: { textTransform: 'none', fontWeight: 600 } }
+})
+
+const ShutterButton = styled(IconButton)(({ theme }) => ({
+  width: 88,
+  height: 88,
+  borderRadius: '50%',
+  color: '#fff',
+  background:
+    'radial-gradient(65% 65% at 50% 50%, #4e08d8 0%, #5514db 60%, #4a10c4 100%)',
+  boxShadow:
+    '0 10px 30px rgba(85,20,219,.45), inset 0 2px 4px rgba(255,255,255,.2)',
+  transition: 'transform .08s ease, box-shadow .2s ease, filter .2s ease',
+  '&:hover': {
+    transform: 'translateY(-1px)',
+    boxShadow:
+      '0 14px 40px rgba(85,20,219,.55), inset 0 2px 6px rgba(255,255,255,.25)'
+  },
+  '&:active': { transform: 'translateY(0)', filter: 'brightness(.95)' },
+  '&:focus-visible': { outline: '3px solid rgba(167,139,250,.6)', outlineOffset: 2 }
+}))
+
+const pulse = keyframes`
+  0%   { box-shadow: 0 0 0 0 rgba(85,20,219,.60); }
+  70%  { box-shadow: 0 0 0 16px rgba(85,20,219,0); }
+  100% { box-shadow: 0 0 0 0 rgba(85,20,219,0); }
+`
+
+const RecordButton = styled(IconButton, {
+  shouldForwardProp: (prop) => prop !== 'recording'
+})(({ theme, recording }) => ({
+  width: 72,
+  height: 72,
+  borderRadius: '50%',
+  color: '#fff',
+  background: 'linear-gradient(135deg, #4e08d8 0%, #5514db 70%)',
+  boxShadow: '0 10px 24px rgba(85,20,219,.35)',
+  transition: 'transform .08s ease, filter .2s ease, box-shadow .2s ease',
+  '&:hover': { transform: 'translateY(-1px)', boxShadow: '0 14px 36px rgba(85,20,219,.45)' },
+  '&:active': { transform: 'translateY(0)', filter: 'brightness(.95)' },
+  '&:focus-visible': { outline: '3px solid rgba(167,139,250,.6)', outlineOffset: 2 },
+  ...(recording && {
+    animation: `${pulse} 1.5s ease-in-out infinite`,
+    background: 'linear-gradient(135deg, #5514db 0%, #4a10c4 70%)'
+  })
+}))
+
 /**
  * @brief Основной AR-компонент: камера, детектор, отрисовка и запись.
  * @returns {JSX.Element} Узел с разметкой приложения.
@@ -125,6 +185,12 @@ function ARRecorder({ onShowLanding }) {
   const anchorDebugMapRef = useRef(new Map())
   const scenePlaneRef = useRef(new Map())
   const activeSceneIdRef = useRef(null)
+  // AprilTag state
+  const [aprilTagTransforms, setAprilTagTransforms] = useState([])
+  const aprilTagPipelineRef = useRef(null)
+
+  // Координатный трансформатор для стабилизации
+  const coordinateTransformerRef = useRef(null)
   const [activeSceneId, setActiveSceneId] = useState(null)
   const alvaRef = useRef(null)
   const lastAlvaUpdateRef = useRef(0)
@@ -154,10 +220,6 @@ function ARRecorder({ onShowLanding }) {
   const t0Ref = useRef(0)
   const tidRef = useRef(0)
 
-  // AprilTag state
-  const [aprilTagTransforms, setAprilTagTransforms] = useState([])
-  const aprilTagPipelineRef = useRef(null)
-
   // Backend integration state
   const [sessionId, setSessionId] = useState(null)
   const [sessionLoading, setSessionLoading] = useState(false)
@@ -172,6 +234,8 @@ function ARRecorder({ onShowLanding }) {
   const [emailSubmitting, setEmailSubmitting] = useState(false)
   const [lastViewEvent, setLastViewEvent] = useState(null)
   const [showStats, setShowStats] = useState(false)
+
+  const PROC_W = 640, PROC_H = 480; // единый рабочий размер для детекции/проекции
 
   // Прямая загрузка модели поезда
   const trainGltf = useGLTF('./models/Train-transformed.glb')
@@ -430,7 +494,19 @@ function ARRecorder({ onShowLanding }) {
         const pipeline = new ApriltagPipeline()
         await pipeline.init()
         aprilTagPipelineRef.current = pipeline
+
+        // Инициализируем координатный трансформатор после пайплайна
+        const transformer = new CoordinateTransformer({
+          positionDeadZone: 0.001, // 1мм
+          rotationDeadZone: 0.0017, // 0.1°
+          maxLerpSpeed: 0.3,
+          minLerpSpeed: 0.05,
+          stabilizationEnabled: true
+        })
+        coordinateTransformerRef.current = transformer
+
         setStatus("AprilTag pipeline готово")
+        console.log('✅ CoordinateTransformer инициализирован')
       } catch (error) {
         console.error("Failed to initialize AprilTag pipeline:", error)
         setStatus("Ошибка AprilTag pipeline")
@@ -442,6 +518,9 @@ function ARRecorder({ onShowLanding }) {
     return () => {
       if (aprilTagPipelineRef.current) {
         // Cleanup AprilTag pipeline if needed
+      }
+      if (coordinateTransformerRef.current) {
+        coordinateTransformerRef.current.reset()
       }
     }
   }, [])
@@ -694,6 +773,26 @@ function ARRecorder({ onShowLanding }) {
     const cameraRotationMatrix3 = cameraRef.current
       ? new THREE.Matrix3().setFromMatrix4(cameraRef.current.matrixWorld)
       : null
+    const cameraWorldPosition = new THREE.Vector3()
+    const hasCameraWorld = Boolean(cameraRef.current?.getWorldPosition)
+    if (hasCameraWorld) {
+      cameraRef.current.getWorldPosition(cameraWorldPosition)
+    }
+    const tmpToCamera = new THREE.Vector3()
+    const ensureAntiNormal = (vector, referencePoint) => {
+      if (!hasCameraWorld || !vector || !(referencePoint instanceof THREE.Vector3)) {
+        return vector
+      }
+      tmpToCamera.copy(cameraWorldPosition).sub(referencePoint)
+      if (tmpToCamera.lengthSq() < 1e-8) {
+        return vector
+      }
+      if (vector.dot(tmpToCamera) > 0) {
+        vector.multiplyScalar(-1)
+      }
+      return vector
+    }
+
     detections.forEach(det => {
       if (!det || !det.sceneId) return
       if (!grouped.has(det.sceneId)) {
@@ -748,6 +847,7 @@ function ARRecorder({ onShowLanding }) {
           direction.normalize()
         }
         if (direction.lengthSq() < 1e-6) direction.set(0, 1, 0)
+        ensureAntiNormal(direction, origin)
         planeNormals.push(direction.clone())
         const length = typeof det.normalLength === 'number' ? det.normalLength : 0
         const anchor = toVector3(det.anchorPoint, origin.clone().addScaledVector(direction, length))
@@ -791,22 +891,27 @@ function ARRecorder({ onShowLanding }) {
       targetRotation = softenSmallAngleQuaternion(targetRotation, SMALL_ANGLE_DEADZONE, SMALL_ANGLE_SOFT_ZONE)
 
       if (planeNormals.length) {
-              const normalAvg = planeNormals.reduce((acc, vec) => acc.add(vec), new THREE.Vector3()).normalize()
-              const up = new THREE.Vector3(0, 1, 0)
-              let tangent = new THREE.Vector3().crossVectors(up, normalAvg)
-              if (tangent.lengthSq() < 1e-6) {
-                tangent = new THREE.Vector3(1, 0, 0)
-              }
-              tangent.normalize()
-              const bitangent = new THREE.Vector3().crossVectors(normalAvg, tangent).normalize()
-              const rotationMatrix = new THREE.Matrix4().makeBasis(tangent, bitangent, normalAvg)
-              targetRotation = new THREE.Quaternion().setFromRotationMatrix(rotationMatrix)
-            }
+        const normalAvg = planeNormals.reduce((acc, vec) => acc.add(vec), new THREE.Vector3()).normalize()
+        const referencePoint = targetPosition || state.position || unionCenter || fallbackVector
+        if (referencePoint) {
+          ensureAntiNormal(normalAvg, referencePoint)
+        }
+        const up = new THREE.Vector3(0, 1, 0)
+        let tangent = new THREE.Vector3().crossVectors(up, normalAvg)
+        if (tangent.lengthSq() < 1e-6) {
+          tangent = new THREE.Vector3(1, 0, 0)
+        }
+        tangent.normalize()
+        const bitangent = new THREE.Vector3().crossVectors(normalAvg, tangent).normalize()
+        const rotationMatrix = new THREE.Matrix4().makeBasis(tangent, bitangent, normalAvg)
+        targetRotation = new THREE.Quaternion().setFromRotationMatrix(rotationMatrix)
+      }
 
       const planeInfo = scenePlaneRef.current.get(sceneId)
       if (planeInfo) {
         const planeNormal = planeInfo.normal.clone()
         const planePoint = planeInfo.position.clone()
+        ensureAntiNormal(planeNormal, planePoint)
         if (unionCenter) {
           const toPoint = unionCenter.clone().sub(planePoint)
           const distance = planeNormal.dot(toPoint)
@@ -1251,7 +1356,34 @@ function ARRecorder({ onShowLanding }) {
       assignAlvaPoints(null)
     }
 
-    const groupedDetections = updateSceneAnchors(latestTransforms)
+    // Применяем стабилизацию координат через CoordinateTransformer
+    let stabilizedTransforms = latestTransforms
+    if (coordinateTransformerRef.current && latestTransforms.length > 0) {
+      try {
+        // Получаем текущую позу камеры для трансформации
+        const currentCameraPose = alvaInstance?.getCameraPose ? alvaInstance.getCameraPose() : null
+
+        if (currentCameraPose) {
+          // Применяем трансформацию координат
+          const stabilizedMatrix = coordinateTransformerRef.current.transformCameraToWorld(
+            currentCameraPose,
+            latestTransforms
+          )
+
+          // Обновляем трансформации с учетом стабилизации
+          stabilizedTransforms = latestTransforms.map(transform => ({
+            ...transform,
+            matrix: stabilizedMatrix.toArray(),
+            confidence: coordinateTransformerRef.current.currentTransform.confidence
+          }))
+        }
+      } catch (stabilizationError) {
+        console.warn('⚠️ Ошибка стабилизации координат:', stabilizationError)
+        stabilizedTransforms = latestTransforms // Fallback к оригинальным трансформациям
+      }
+    }
+
+    const groupedDetections = updateSceneAnchors(stabilizedTransforms)
     const currentSceneId = activeSceneIdRef.current
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null
     const now = performance.now()
@@ -1260,7 +1392,7 @@ function ARRecorder({ onShowLanding }) {
     const lastSeen = anchorState?.lastSeen ?? 0
     const holding = anchorState ? (now - lastSeen <= APRILTAG_VISIBILITY_HOLD_MS) : false
     const hasDetections = Boolean(anchorState && (detectionActive || holding))
-    
+
     // Сброс инициализации при длительной потере детекции (>hold)
     if (detectionActive) {
       lastDetectionTime.current = now
@@ -1551,47 +1683,49 @@ function ARRecorder({ onShowLanding }) {
       await camRef.current.play()
       sizeAll()
 
-      let effectiveWidth = 640
-      let effectiveHeight = 480
+      let effectiveWidth = PROC_W
+      let effectiveHeight = PROC_H
 
       // Configure AprilTag pipeline with camera info
       if (aprilTagPipelineRef.current) {
         const videoTrack = camStream.getVideoTracks()[0]
-        const settings = videoTrack.getSettings()
-        const width = settings.width || 640
-        const height = settings.height || 480
-        effectiveWidth = width
-        effectiveHeight = height
-
-        // Try to request the camera deliver 640x480 directly to avoid heavy resizing artifacts.
+        // 1) Сначала просим 640x480
         try {
-          await videoTrack.applyConstraints({ width: 640, height: 480, frameRate: 30 })
-          const newSettings = videoTrack.getSettings()
-             console.log('Applied track constraints, new settings:', newSettings)
+          await videoTrack.applyConstraints({ width: PROC_W, height: PROC_H, frameRate: 30 })
         } catch (e) {
-          // not all browsers/devices allow changing track resolution ignore
-          console.warn('Could not apply 640x480 constraints to video track:', e)
+          console.warn('applyConstraints 640x480 не применился:', e)
         }
-
-        // Set camera intrinsics for AprilTag detection
-        // Using reasonable default values for focal length (can be adjusted based on camera specs)
-        const fx = width * 0.8 // Approximate focal length based on width
-        const fy = height * 0.8 // Approximate focal length based on height
-        const cx = width / 2   // Center x
-        const cy = height / 2  // Center y
-
+        // 2) Потом читаем фактические размеры и используем именно их
+        const s = videoTrack.getSettings ? videoTrack.getSettings() : {}
+        const width  = s.width  || PROC_W
+        const height = s.height || PROC_H
+        effectiveWidth  = width
+        effectiveHeight = height
+        // 3) Проставляем intrinsics под те же w,h
+        const fx = width * 0.8
+        const fy = height * 0.8
+        const cx = width / 2
+        const cy = height / 2
         try {
           aprilTagPipelineRef.current.set_camera_info(fx, fy, cx, cy)
-          console.log(`AprilTag camera info configured: ${fx}, ${fy}, ${cx}, ${cy}`)
+          console.log(`AprilTag intrinsics => fx=${fx} fy=${fy} cx=${cx} cy=${cy} w=${width} h=${height}`)
         } catch (error) {
-          console.warn("Failed to configure AprilTag camera info:", error)
+          console.warn('Failed to set AprilTag camera info:', error)
         }
+      }
+
+      // 4) Синхронизируем скрытый proc-canvas с теми же размерами кадра
+      if (procRef.current) {
+        procRef.current.width  = effectiveWidth
+        procRef.current.height = effectiveHeight
+        pctxRef.current = procRef.current.getContext('2d', { willReadFrequently: true })
       }
 
       try {
         const currentAlva = alvaRef.current
-        const currentWidth = currentAlva?.intrinsics?.width
+        const currentWidth  = currentAlva?.intrinsics?.width
         const currentHeight = currentAlva?.intrinsics?.height
+        // 5) Alva инициализируем ровно под те же w,h
         if (!currentAlva || currentWidth !== effectiveWidth || currentHeight !== effectiveHeight) {
           console.log(`Reinitializing AlvaAR with ${effectiveWidth}x${effectiveHeight}`)
           const newAlva = await loadAlva(effectiveWidth, effectiveHeight)
@@ -1654,6 +1788,11 @@ function ARRecorder({ onShowLanding }) {
 
     // Clear AprilTag transforms when camera stops
     setAprilTagTransforms([])
+
+    // Сбрасываем состояние трансформатора координат
+    if (coordinateTransformerRef.current) {
+      coordinateTransformerRef.current.reset()
+    }
 
     setRunning(false)
     setStatus("Камера остановлена")
@@ -1869,12 +2008,13 @@ function ARRecorder({ onShowLanding }) {
   }, [stopCamera, stopRecording])
 
   return (
-    <div style={{
-      height: "100vh",
-      background: "#000000",
-      position: "relative",
-      overflow: "hidden"
-    }}>
+    <ThemeProvider theme={theme}>
+      <div style={{
+        height: "100vh",
+        background: "#000000",
+        position: "relative",
+        overflow: "hidden"
+      }}>
 
       {/* Кнопка статистики - левый верхний угол */}
       <button
@@ -2455,142 +2595,56 @@ function ARRecorder({ onShowLanding }) {
       </div>
 
       {/* Recording Controls - Right Bottom Corner */}
-       <div style={{
-         position: 'fixed',
-         bottom: window.innerWidth <= 768 ? '12px' : '20px',
-         right: window.innerWidth <= 768 ? '12px' : '20px',
-         zIndex: 20,
-         display: 'flex',
-         flexDirection: 'column',
-         gap: window.innerWidth <= 768 ? '8px' : '12px',
-         alignItems: 'flex-end'
-       }}>
-        {/* Photo Capture Button */}
-        <button
-          onClick={capturePhoto}
-          disabled={!running}
-          style={{
-            width: window.innerWidth <= 768 ? '45px' : '64px',
-            height: window.innerWidth <= 768 ? '45px' : '64px',
-            borderRadius: '50%',
-            border: window.innerWidth <= 768 ? '1.5px solid #5514db' : '2px solid #5514db',
-            background: !running ? 'rgba(85, 20, 219, 0.2)' : '#5514db',
-            color: '#ffffff',
-            fontSize: window.innerWidth <= 768 ? '16px' : '24px',
-            fontWeight: '600',
-            cursor: !running ? 'not-allowed' : 'pointer',
-            opacity: !running ? 0.5 : 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: !running
-              ? (window.innerWidth <= 768 ? '0 2px 8px rgba(85, 20, 219, 0.2)' : '0 4px 15px rgba(85, 20, 219, 0.2)')
-              : (window.innerWidth <= 768 ? '0 4px 12px rgba(85, 20, 219, 0.4)' : '0 6px 20px rgba(85, 20, 219, 0.4)'),
-            transition: 'all 0.3s ease'
-          }}
-          onMouseEnter={(e) => {
-            if (running) {
-              e.target.style.transform = 'scale(1.1)'
-              e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.6)'
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1)'
-            e.target.style.boxShadow = !running
-              ? '0 4px 15px rgba(0, 212, 255, 0.2)'
-              : '0 6px 20px rgba(85, 20, 219, 0.4)'
-          }}
-          title="Сделать фото"
-        >
-          📷
-        </button>
-
-        {/* Video Recording Controls */}
-        <div style={{
-          display: 'flex',
-          gap: window.innerWidth <= 768 ? '8px' : '12px',
-          alignItems: 'center'
-        }}>
-          {/* Stop Recording Button */}
-          <button
-            onClick={stopRecording}
-            disabled={!recOn}
-            style={{
-              padding: window.innerWidth <= 768 ? '8px 12px' : '12px 20px',
-              borderRadius: '25px',
-              border: window.innerWidth <= 768 ? '1.5px solid #ff4444' : '2px solid #ff4444',
-              background: !recOn ? 'rgba(255, 68, 68, 0.2)' : '#ff4444',
-              color: '#ffffff',
-              fontSize: window.innerWidth <= 768 ? '10px' : '12px',
-              fontWeight: '600',
-              cursor: !recOn ? 'not-allowed' : 'pointer',
-              opacity: !recOn ? 0.5 : 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: window.innerWidth <= 768 ? '4px' : '6px',
-              minHeight: window.innerWidth <= 768 ? '36px' : 'auto',
-              boxShadow: !recOn
-                ? (window.innerWidth <= 768 ? '0 2px 8px rgba(255, 68, 68, 0.2)' : '0 4px 15px rgba(255, 68, 68, 0.2)')
-                : (window.innerWidth <= 768 ? '0 4px 12px rgba(255, 68, 68, 0.4)' : '0 6px 20px rgba(255, 68, 68, 0.4)'),
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (recOn) {
-                e.target.style.transform = 'translateY(-2px)'
-                e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.6)'
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = !recOn
-                ? '0 4px 15px rgba(0, 212, 255, 0.2)'
-                : '0 6px 20px rgba(255, 68, 68, 0.4)'
-            }}
-            title="Остановить запись видео"
+      <div style={{
+        position: 'fixed',
+        bottom: window.innerWidth <= 768 ? '12px' : '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 20,
+        display: 'flex',
+        flexDirection: window.innerWidth <= 520 ? 'column' : 'row',
+        gap: window.innerWidth <= 768 ? '8px' : '16px',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Tooltip title="Сделать фото" enterDelay={200}>
+          <ShutterButton
+            aria-label="Сделать фото"
+            onClick={capturePhoto}
+            disabled={!running}
           >
-            ⏹️ Stop
-          </button>
+            <CameraAltRounded fontSize="large" />
+          </ShutterButton>
+        </Tooltip>
 
-          {/* Start Recording Button */}
-          <button
-            onClick={startRecording}
-            disabled={!running || recOn}
-            style={{
-              padding: window.innerWidth <= 768 ? '8px 12px' : '12px 20px',
-              borderRadius: '25px',
-              border: window.innerWidth <= 768 ? '1.5px solid #5514db' : '2px solid #5514db',
-              background: (!running || recOn) ? 'rgba(85, 20, 219, 0.2)' : '#5514db',
-              color: '#ffffff',
-              fontSize: window.innerWidth <= 768 ? '10px' : '12px',
-              fontWeight: '600',
-              cursor: (!running || recOn) ? 'not-allowed' : 'pointer',
-              opacity: (!running || recOn) ? 0.5 : 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: window.innerWidth <= 768 ? '4px' : '6px',
-              minHeight: window.innerWidth <= 768 ? '36px' : 'auto',
-              boxShadow: (!running || recOn)
-                ? (window.innerWidth <= 768 ? '0 2px 8px rgba(85, 20, 219, 0.2)' : '0 4px 15px rgba(85, 20, 219, 0.2)')
-                : (window.innerWidth <= 768 ? '0 4px 12px rgba(85, 20, 219, 0.4)' : '0 6px 20px rgba(85, 20, 219, 0.4)'),
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              if (running && !recOn) {
-                e.target.style.transform = 'translateY(-2px)'
-                e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.6)'
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)'
-              e.target.style.boxShadow = (!running || recOn)
-                ? '0 4px 15px rgba(0, 212, 255, 0.2)'
-                : '0 6px 20px rgba(85, 20, 219, 0.4)'
-            }}
-            title="Начать запись видео"
-          >
-            🎥 Rec
-          </button>
-        </div>
+        <Stack direction="row" spacing={window.innerWidth <= 768 ? 1 : 1.5} alignItems="center">
+          {recOn && (
+            <Tooltip title="Остановить запись" enterDelay={200}>
+              <RecordButton
+                aria-label="Остановить запись"
+                aria-pressed={recOn}
+                onClick={stopRecording}
+                recording={1}
+              >
+                <StopRounded fontSize="large" />
+              </RecordButton>
+            </Tooltip>
+          )}
+
+          {!recOn && (
+            <Tooltip title="Начать запись" enterDelay={200}>
+              <RecordButton
+                aria-label="Начать запись"
+                aria-pressed={recOn}
+                onClick={startRecording}
+                disabled={!running || recOn}
+                recording={0}
+              >
+                <VideocamRounded fontSize="large" />
+              </RecordButton>
+            </Tooltip>
+          )}
+        </Stack>
       </div>
 
       {/* Enhanced Canvas */}
@@ -2678,6 +2732,7 @@ function ARRecorder({ onShowLanding }) {
       `}</style>
 
     </div>
+    </ThemeProvider>
   )
 }
 
