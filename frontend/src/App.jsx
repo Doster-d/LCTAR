@@ -27,6 +27,7 @@ import {
   getHealth as apiGetHealth,
 } from './api/api'
 import { getAssetByDetection } from './data/assets'
+import { CoordinateTransformer } from './CoordinateTransformer'
 
 /**
  * @brief Ограничивает число указанным диапазоном.
@@ -184,6 +185,12 @@ function ARRecorder({ onShowLanding }) {
   const anchorDebugMapRef = useRef(new Map())
   const scenePlaneRef = useRef(new Map())
   const activeSceneIdRef = useRef(null)
+  // AprilTag state
+  const [aprilTagTransforms, setAprilTagTransforms] = useState([])
+  const aprilTagPipelineRef = useRef(null)
+
+  // Координатный трансформатор для стабилизации
+  const coordinateTransformerRef = useRef(null)
   const [activeSceneId, setActiveSceneId] = useState(null)
   const alvaRef = useRef(null)
   const lastAlvaUpdateRef = useRef(0)
@@ -213,10 +220,6 @@ function ARRecorder({ onShowLanding }) {
   const t0Ref = useRef(0)
   const tidRef = useRef(0)
 
-  // AprilTag state
-  const [aprilTagTransforms, setAprilTagTransforms] = useState([])
-  const aprilTagPipelineRef = useRef(null)
-
   // Backend integration state
   const [sessionId, setSessionId] = useState(null)
   const [sessionLoading, setSessionLoading] = useState(false)
@@ -231,6 +234,8 @@ function ARRecorder({ onShowLanding }) {
   const [emailSubmitting, setEmailSubmitting] = useState(false)
   const [lastViewEvent, setLastViewEvent] = useState(null)
   const [showStats, setShowStats] = useState(false)
+
+  const PROC_W = 640, PROC_H = 480; // единый рабочий размер для детекции/проекции
 
   // Прямая загрузка модели поезда
   const trainGltf = useGLTF('./models/Train-transformed.glb')
@@ -489,7 +494,19 @@ function ARRecorder({ onShowLanding }) {
         const pipeline = new ApriltagPipeline()
         await pipeline.init()
         aprilTagPipelineRef.current = pipeline
+
+        // Инициализируем координатный трансформатор после пайплайна
+        const transformer = new CoordinateTransformer({
+          positionDeadZone: 0.001, // 1мм
+          rotationDeadZone: 0.0017, // 0.1°
+          maxLerpSpeed: 0.3,
+          minLerpSpeed: 0.05,
+          stabilizationEnabled: true
+        })
+        coordinateTransformerRef.current = transformer
+
         setStatus("AprilTag pipeline готово")
+        console.log('✅ CoordinateTransformer инициализирован')
       } catch (error) {
         console.error("Failed to initialize AprilTag pipeline:", error)
         setStatus("Ошибка AprilTag pipeline")
@@ -501,6 +518,9 @@ function ARRecorder({ onShowLanding }) {
     return () => {
       if (aprilTagPipelineRef.current) {
         // Cleanup AprilTag pipeline if needed
+      }
+      if (coordinateTransformerRef.current) {
+        coordinateTransformerRef.current.reset()
       }
     }
   }, [])
@@ -1336,7 +1356,34 @@ function ARRecorder({ onShowLanding }) {
       assignAlvaPoints(null)
     }
 
-    const groupedDetections = updateSceneAnchors(latestTransforms)
+    // Применяем стабилизацию координат через CoordinateTransformer
+    let stabilizedTransforms = latestTransforms
+    if (coordinateTransformerRef.current && latestTransforms.length > 0) {
+      try {
+        // Получаем текущую позу камеры для трансформации
+        const currentCameraPose = alvaInstance?.getCameraPose ? alvaInstance.getCameraPose() : null
+
+        if (currentCameraPose) {
+          // Применяем трансформацию координат
+          const stabilizedMatrix = coordinateTransformerRef.current.transformCameraToWorld(
+            currentCameraPose,
+            latestTransforms
+          )
+
+          // Обновляем трансформации с учетом стабилизации
+          stabilizedTransforms = latestTransforms.map(transform => ({
+            ...transform,
+            matrix: stabilizedMatrix.toArray(),
+            confidence: coordinateTransformerRef.current.currentTransform.confidence
+          }))
+        }
+      } catch (stabilizationError) {
+        console.warn('⚠️ Ошибка стабилизации координат:', stabilizationError)
+        stabilizedTransforms = latestTransforms // Fallback к оригинальным трансформациям
+      }
+    }
+
+    const groupedDetections = updateSceneAnchors(stabilizedTransforms)
     const currentSceneId = activeSceneIdRef.current
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null
     const now = performance.now()
@@ -1345,7 +1392,7 @@ function ARRecorder({ onShowLanding }) {
     const lastSeen = anchorState?.lastSeen ?? 0
     const holding = anchorState ? (now - lastSeen <= APRILTAG_VISIBILITY_HOLD_MS) : false
     const hasDetections = Boolean(anchorState && (detectionActive || holding))
-    
+
     // Сброс инициализации при длительной потере детекции (>hold)
     if (detectionActive) {
       lastDetectionTime.current = now
@@ -1636,47 +1683,49 @@ function ARRecorder({ onShowLanding }) {
       await camRef.current.play()
       sizeAll()
 
-      let effectiveWidth = 640
-      let effectiveHeight = 480
+      let effectiveWidth = PROC_W
+      let effectiveHeight = PROC_H
 
       // Configure AprilTag pipeline with camera info
       if (aprilTagPipelineRef.current) {
         const videoTrack = camStream.getVideoTracks()[0]
-        const settings = videoTrack.getSettings()
-        const width = settings.width || 640
-        const height = settings.height || 480
-        effectiveWidth = width
-        effectiveHeight = height
-
-        // Try to request the camera deliver 640x480 directly to avoid heavy resizing artifacts.
+        // 1) Сначала просим 640x480
         try {
-          await videoTrack.applyConstraints({ width: 640, height: 480, frameRate: 30 })
-          const newSettings = videoTrack.getSettings()
-             console.log('Applied track constraints, new settings:', newSettings)
+          await videoTrack.applyConstraints({ width: PROC_W, height: PROC_H, frameRate: 30 })
         } catch (e) {
-          // not all browsers/devices allow changing track resolution ignore
-          console.warn('Could not apply 640x480 constraints to video track:', e)
+          console.warn('applyConstraints 640x480 не применился:', e)
         }
-
-        // Set camera intrinsics for AprilTag detection
-        // Using reasonable default values for focal length (can be adjusted based on camera specs)
-        const fx = width * 0.8 // Approximate focal length based on width
-        const fy = height * 0.8 // Approximate focal length based on height
-        const cx = width / 2   // Center x
-        const cy = height / 2  // Center y
-
+        // 2) Потом читаем фактические размеры и используем именно их
+        const s = videoTrack.getSettings ? videoTrack.getSettings() : {}
+        const width  = s.width  || PROC_W
+        const height = s.height || PROC_H
+        effectiveWidth  = width
+        effectiveHeight = height
+        // 3) Проставляем intrinsics под те же w,h
+        const fx = width * 0.8
+        const fy = height * 0.8
+        const cx = width / 2
+        const cy = height / 2
         try {
           aprilTagPipelineRef.current.set_camera_info(fx, fy, cx, cy)
-          console.log(`AprilTag camera info configured: ${fx}, ${fy}, ${cx}, ${cy}`)
+          console.log(`AprilTag intrinsics => fx=${fx} fy=${fy} cx=${cx} cy=${cy} w=${width} h=${height}`)
         } catch (error) {
-          console.warn("Failed to configure AprilTag camera info:", error)
+          console.warn('Failed to set AprilTag camera info:', error)
         }
+      }
+
+      // 4) Синхронизируем скрытый proc-canvas с теми же размерами кадра
+      if (procRef.current) {
+        procRef.current.width  = effectiveWidth
+        procRef.current.height = effectiveHeight
+        pctxRef.current = procRef.current.getContext('2d', { willReadFrequently: true })
       }
 
       try {
         const currentAlva = alvaRef.current
-        const currentWidth = currentAlva?.intrinsics?.width
+        const currentWidth  = currentAlva?.intrinsics?.width
         const currentHeight = currentAlva?.intrinsics?.height
+        // 5) Alva инициализируем ровно под те же w,h
         if (!currentAlva || currentWidth !== effectiveWidth || currentHeight !== effectiveHeight) {
           console.log(`Reinitializing AlvaAR with ${effectiveWidth}x${effectiveHeight}`)
           const newAlva = await loadAlva(effectiveWidth, effectiveHeight)
@@ -1739,6 +1788,11 @@ function ARRecorder({ onShowLanding }) {
 
     // Clear AprilTag transforms when camera stops
     setAprilTagTransforms([])
+
+    // Сбрасываем состояние трансформатора координат
+    if (coordinateTransformerRef.current) {
+      coordinateTransformerRef.current.reset()
+    }
 
     setRunning(false)
     setStatus("Камера остановлена")
