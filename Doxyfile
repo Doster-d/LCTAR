@@ -127,6 +127,7 @@ EXCLUDE_PATTERNS       = */__tests__/* \
                          *.spec.* \
                          */stories/* \
                          storybook-static/*
+                         */frontend/public/alva/alva_ar.js
 
 EXCLUDE_SYMBOLS        =
 EXAMPLE_PATH           =
