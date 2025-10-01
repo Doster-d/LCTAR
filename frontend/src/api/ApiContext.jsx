@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import {
   configureApi,
   normalizeBaseUrl,
@@ -11,6 +11,7 @@ import {
   getPromoByEmail,
   getStats,
   getHealth,
+  getApiBaseUrl,
 } from './api';
 
 const DEFAULT_BASE_URL = 'https://lctar2.duckdns.org/api';
@@ -60,9 +61,9 @@ export const ApiProvider = ({ baseUrl, children }) => {
     return normalizedProp || normalizedEnv || normalizeBaseUrl(DEFAULT_BASE_URL);
   }, [baseUrl]);
 
-  useEffect(() => {
+  if (getApiBaseUrl() !== effectiveBaseUrl) {
     configureApi({ baseUrl: effectiveBaseUrl });
-  }, [effectiveBaseUrl]);
+  }
 
   const value = useMemo(() => ({
     apiBaseUrl: effectiveBaseUrl,
