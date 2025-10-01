@@ -1,0 +1,1686 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Класс CoordinateTransformer</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classCoordinateTransformer.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="classCoordinateTransformer-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle"><div class="title">Класс CoordinateTransformer</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Основной координатный трансформатор с механизмами стабилизации  
+ <a href="classCoordinateTransformer.html#details">Подробнее...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:a03dcb27b248d5868363d54982db806da" id="r_a03dcb27b248d5868363d54982db806da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a03dcb27b248d5868363d54982db806da">constructor</a> (config={})</td></tr>
+<tr class="separator:a03dcb27b248d5868363d54982db806da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2db174d601ee993a07cfe1e9571787db" id="r_a2db174d601ee993a07cfe1e9571787db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db">getVector3</a> (x=0, y=0, z=0)</td></tr>
+<tr class="memdesc:a2db174d601ee993a07cfe1e9571787db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает Vector3 из пула или создает новый  <br /></td></tr>
+<tr class="separator:a2db174d601ee993a07cfe1e9571787db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d0ef2cd653219925753f946b3ca6de7" id="r_a3d0ef2cd653219925753f946b3ca6de7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7">returnVector3</a> (vec)</td></tr>
+<tr class="memdesc:a3d0ef2cd653219925753f946b3ca6de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает Vector3 в пул  <br /></td></tr>
+<tr class="separator:a3d0ef2cd653219925753f946b3ca6de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21d600b5f2113524d9410e19dbc38372" id="r_a21d600b5f2113524d9410e19dbc38372"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a21d600b5f2113524d9410e19dbc38372">getMatrix4</a> ()</td></tr>
+<tr class="memdesc:a21d600b5f2113524d9410e19dbc38372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает Matrix4 из пула или создает новый  <br /></td></tr>
+<tr class="separator:a21d600b5f2113524d9410e19dbc38372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f3ce251549edd839cdf85871f5912e8" id="r_a1f3ce251549edd839cdf85871f5912e8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a1f3ce251549edd839cdf85871f5912e8">returnMatrix4</a> (mat)</td></tr>
+<tr class="memdesc:a1f3ce251549edd839cdf85871f5912e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает Matrix4 в пул  <br /></td></tr>
+<tr class="separator:a1f3ce251549edd839cdf85871f5912e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3700ee3461543b9c4733e05b146855ac" id="r_a3700ee3461543b9c4733e05b146855ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac">getQuaternion</a> (x=0, y=0, z=0, w=1)</td></tr>
+<tr class="memdesc:a3700ee3461543b9c4733e05b146855ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает Quaternion из пула или создает новый  <br /></td></tr>
+<tr class="separator:a3700ee3461543b9c4733e05b146855ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2a156d3e2f3d40960012b0671a6cae" id="r_a9f2a156d3e2f3d40960012b0671a6cae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae">returnQuaternion</a> (quat)</td></tr>
+<tr class="memdesc:a9f2a156d3e2f3d40960012b0671a6cae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает Quaternion в пул  <br /></td></tr>
+<tr class="separator:a9f2a156d3e2f3d40960012b0671a6cae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74eed17aae50be1e85becfe5d8f4624a" id="r_a74eed17aae50be1e85becfe5d8f4624a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a">recordPerformance</a> (startTime, operation)</td></tr>
+<tr class="memdesc:a74eed17aae50be1e85becfe5d8f4624a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Записывает метрики производительности  <br /></td></tr>
+<tr class="separator:a74eed17aae50be1e85becfe5d8f4624a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8eeab7ad49807e89d9dd9841cc7d02f" id="r_ae8eeab7ad49807e89d9dd9841cc7d02f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f">startPeriodicReanchor</a> ()</td></tr>
+<tr class="memdesc:ae8eeab7ad49807e89d9dd9841cc7d02f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Запускает периодическое перезацепление  <br /></td></tr>
+<tr class="separator:ae8eeab7ad49807e89d9dd9841cc7d02f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a383a503daf5c12f893044842ec55c052" id="r_a383a503daf5c12f893044842ec55c052"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a383a503daf5c12f893044842ec55c052">stopPeriodicReanchor</a> ()</td></tr>
+<tr class="memdesc:a383a503daf5c12f893044842ec55c052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Останавливает периодическое перезацепление  <br /></td></tr>
+<tr class="separator:a383a503daf5c12f893044842ec55c052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb84e945e181d8095a8484d3183f1bd8" id="r_afb84e945e181d8095a8484d3183f1bd8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8">performPeriodicReanchor</a> ()</td></tr>
+<tr class="memdesc:afb84e945e181d8095a8484d3183f1bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выполняет периодическое перезацепление с проверками  <br /></td></tr>
+<tr class="separator:afb84e945e181d8095a8484d3183f1bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc0e6f1130b91c85d9e7a6d7fd2e28fd" id="r_abc0e6f1130b91c85d9e7a6d7fd2e28fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#abc0e6f1130b91c85d9e7a6d7fd2e28fd">hasValidDetections</a> ()</td></tr>
+<tr class="memdesc:abc0e6f1130b91c85d9e7a6d7fd2e28fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Проверяет наличие валидных детекций для перезацепления  <br /></td></tr>
+<tr class="separator:abc0e6f1130b91c85d9e7a6d7fd2e28fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48094c044806723116d158cb3fa087f3" id="r_a48094c044806723116d158cb3fa087f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3">executeReanchor</a> ()</td></tr>
+<tr class="memdesc:a48094c044806723116d158cb3fa087f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выполняет перезацепление с плавным переходом  <br /></td></tr>
+<tr class="separator:a48094c044806723116d158cb3fa087f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5322a5982fe46d71c12a3c8b5c01c228" id="r_a5322a5982fe46d71c12a3c8b5c01c228"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a5322a5982fe46d71c12a3c8b5c01c228">addReanchorCallback</a> (callback)</td></tr>
+<tr class="memdesc:a5322a5982fe46d71c12a3c8b5c01c228"><td class="mdescLeft">&#160;</td><td class="mdescRight">Добавляет коллбэк для уведомления о перезацеплении  <br /></td></tr>
+<tr class="separator:a5322a5982fe46d71c12a3c8b5c01c228"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accbbcc379d1669a6cec1352bf28507b9" id="r_accbbcc379d1669a6cec1352bf28507b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#accbbcc379d1669a6cec1352bf28507b9">removeReanchorCallback</a> (callback)</td></tr>
+<tr class="memdesc:accbbcc379d1669a6cec1352bf28507b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Удаляет коллбэк перезацепления  <br /></td></tr>
+<tr class="separator:accbbcc379d1669a6cec1352bf28507b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a297acbf21122184fca8fb86b240f0694" id="r_a297acbf21122184fca8fb86b240f0694"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694">notifyReanchorCallbacks</a> ()</td></tr>
+<tr class="memdesc:a297acbf21122184fca8fb86b240f0694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Уведомляет все коллбэки о перезацеплении  <br /></td></tr>
+<tr class="separator:a297acbf21122184fca8fb86b240f0694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceb6d5b7987faf2289318e67c8304176" id="r_aceb6d5b7987faf2289318e67c8304176"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176">logPerformanceMetrics</a> ()</td></tr>
+<tr class="memdesc:aceb6d5b7987faf2289318e67c8304176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Логирует метрики производительности  <br /></td></tr>
+<tr class="separator:aceb6d5b7987faf2289318e67c8304176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c680aa9cf859e81a77be483afd2a36" id="r_a37c680aa9cf859e81a77be483afd2a36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36">transformCameraToWorld</a> (cameraPose, aprilTagDetections)</td></tr>
+<tr class="memdesc:a37c680aa9cf859e81a77be483afd2a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Основной метод трансформации позы камеры в мировые координаты (оптимизированный)  <br /></td></tr>
+<tr class="separator:a37c680aa9cf859e81a77be483afd2a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a0c6c1acd5d6761c857cd72cafb97e" id="r_a96a0c6c1acd5d6761c857cd72cafb97e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e">calculateTargetTransform</a> (cameraPose, detections)</td></tr>
+<tr class="memdesc:a96a0c6c1acd5d6761c857cd72cafb97e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет целевую трансформацию на основе детекций  <br /></td></tr>
+<tr class="separator:a96a0c6c1acd5d6761c857cd72cafb97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1543debf9f08cbda7a6dae73b3c4a77c" id="r_a1543debf9f08cbda7a6dae73b3c4a77c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c">calculateCameraToWorldTransform</a> (cameraPose, detections)</td></tr>
+<tr class="memdesc:a1543debf9f08cbda7a6dae73b3c4a77c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)  <br /></td></tr>
+<tr class="separator:a1543debf9f08cbda7a6dae73b3c4a77c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e59181478ebea6b6145dbe915163bd" id="r_ab8e59181478ebea6b6145dbe915163bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd">calculateDetectionConfidence</a> (detection)</td></tr>
+<tr class="memdesc:ab8e59181478ebea6b6145dbe915163bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет уверенность детекции AprilTag.  <br /></td></tr>
+<tr class="separator:ab8e59181478ebea6b6145dbe915163bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5aba3f72df6aab2183eacebc8827f18" id="r_ae5aba3f72df6aab2183eacebc8827f18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18">calculateTransformConfidence</a> (detections)</td></tr>
+<tr class="memdesc:ae5aba3f72df6aab2183eacebc8827f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет общую уверенность трансформации  <br /></td></tr>
+<tr class="separator:ae5aba3f72df6aab2183eacebc8827f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7bf46a45128788e2205b325fd3bc109" id="r_ae7bf46a45128788e2205b325fd3bc109"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109">applyStabilization</a> (timestamp)</td></tr>
+<tr class="memdesc:ae7bf46a45128788e2205b325fd3bc109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Применяет стабилизацию к трансформации  <br /></td></tr>
+<tr class="separator:ae7bf46a45128788e2205b325fd3bc109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b3506fabbd43f1f242a8c86beeab091" id="r_a1b3506fabbd43f1f242a8c86beeab091"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a1b3506fabbd43f1f242a8c86beeab091">calculateAdaptiveLerpSpeed</a> (deltaTime)</td></tr>
+<tr class="memdesc:a1b3506fabbd43f1f242a8c86beeab091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет адаптивную скорость интерполяции на основе уверенности  <br /></td></tr>
+<tr class="separator:a1b3506fabbd43f1f242a8c86beeab091"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad86eff4f8ac42caab22866be074aba7e" id="r_ad86eff4f8ac42caab22866be074aba7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#ad86eff4f8ac42caab22866be074aba7e">applyPositionFiltering</a> (targetPosition)</td></tr>
+<tr class="memdesc:ad86eff4f8ac42caab22866be074aba7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Применяет фильтрацию к позиции  <br /></td></tr>
+<tr class="separator:ad86eff4f8ac42caab22866be074aba7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1575157b61a144de27f51b206b71e0cb" id="r_a1575157b61a144de27f51b206b71e0cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a1575157b61a144de27f51b206b71e0cb">applyRotationFiltering</a> (targetRotation)</td></tr>
+<tr class="memdesc:a1575157b61a144de27f51b206b71e0cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Применяет фильтрацию к вращению  <br /></td></tr>
+<tr class="separator:a1575157b61a144de27f51b206b71e0cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7734c79fff12fe17d2c7f40eb8bf34e6" id="r_a7734c79fff12fe17d2c7f40eb8bf34e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6">addToHistory</a> (transform)</td></tr>
+<tr class="memdesc:a7734c79fff12fe17d2c7f40eb8bf34e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)  <br /></td></tr>
+<tr class="separator:a7734c79fff12fe17d2c7f40eb8bf34e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91d21eff1223ef3584e518590128638c" id="r_a91d21eff1223ef3584e518590128638c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c">updateTransformMatrix</a> ()</td></tr>
+<tr class="memdesc:a91d21eff1223ef3584e518590128638c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Обновляет матрицу трансформации на основе текущего состояния  <br /></td></tr>
+<tr class="separator:a91d21eff1223ef3584e518590128638c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeaf0cf82a9615808dcebbc39382c0af" id="r_aeeaf0cf82a9615808dcebbc39382c0af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af">resetStabilization</a> ()</td></tr>
+<tr class="memdesc:aeeaf0cf82a9615808dcebbc39382c0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Сбрасывает стабилизацию координат без полной потери состояния  <br /></td></tr>
+<tr class="separator:aeeaf0cf82a9615808dcebbc39382c0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7de8636de219f6325b9f8f6c6f89a918" id="r_a7de8636de219f6325b9f8f6c6f89a918"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a7de8636de219f6325b9f8f6c6f89a918">reset</a> ()</td></tr>
+<tr class="memdesc:a7de8636de219f6325b9f8f6c6f89a918"><td class="mdescLeft">&#160;</td><td class="mdescRight">Сбрасывает состояние трансформатора (оптимизированный)  <br /></td></tr>
+<tr class="separator:a7de8636de219f6325b9f8f6c6f89a918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed1d5833835bc72f4e7a3cc3be413e30" id="r_aed1d5833835bc72f4e7a3cc3be413e30"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30">getCurrentTransform</a> ()</td></tr>
+<tr class="memdesc:aed1d5833835bc72f4e7a3cc3be413e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает текущее состояние трансформации  <br /></td></tr>
+<tr class="separator:aed1d5833835bc72f4e7a3cc3be413e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b279398d7396218d6deddb534505fe2" id="r_a8b279398d7396218d6deddb534505fe2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a8b279398d7396218d6deddb534505fe2">getWorldReference</a> ()</td></tr>
+<tr class="memdesc:a8b279398d7396218d6deddb534505fe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает мировую систему координат  <br /></td></tr>
+<tr class="separator:a8b279398d7396218d6deddb534505fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a644599e331005db5f744be1b4be62935" id="r_a644599e331005db5f744be1b4be62935"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a644599e331005db5f744be1b4be62935">getPerformanceMetrics</a> ()</td></tr>
+<tr class="memdesc:a644599e331005db5f744be1b4be62935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает текущие метрики производительности  <br /></td></tr>
+<tr class="separator:a644599e331005db5f744be1b4be62935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8768a43b91337e26e31ac606e18fcf87" id="r_a8768a43b91337e26e31ac606e18fcf87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinateTransformer.html#a8768a43b91337e26e31ac606e18fcf87">getDiagnostics</a> ()</td></tr>
+<tr class="memdesc:a8768a43b91337e26e31ac606e18fcf87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает диагностическую информацию о состоянии системы  <br /></td></tr>
+<tr class="separator:a8768a43b91337e26e31ac606e18fcf87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Основной координатный трансформатор с механизмами стабилизации </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00217">217</a></p>
+</div><h2 class="groupheader">Методы</h2>
+<a id="a5322a5982fe46d71c12a3c8b5c01c228" name="a5322a5982fe46d71c12a3c8b5c01c228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5322a5982fe46d71c12a3c8b5c01c228">&#9670;&#160;</a></span>addReanchorCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::addReanchorCallback </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Добавляет коллбэк для уведомления о перезацеплении </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>Функция обратного вызова </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00504">504</a></p>
+
+</div>
+</div>
+<a id="a7734c79fff12fe17d2c7f40eb8bf34e6" name="a7734c79fff12fe17d2c7f40eb8bf34e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7734c79fff12fe17d2c7f40eb8bf34e6">&#9670;&#160;</a></span>addToHistory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::addToHistory </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>transform</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный) </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00797">797</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_cgraph" id="aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_cgraph">
+<area shape="rect" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="5,101,176,141"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac" title="Получает Quaternion из пула или создает новый" alt="" coords="224,5,395,45"/>
+<area shape="poly" title=" " alt="" coords="130,99,223,55,239,48,241,53,225,60,133,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db" title="Получает Vector3 из пула или создает новый" alt="" coords="224,69,395,109"/>
+<area shape="poly" title=" " alt="" coords="176,106,210,101,211,106,177,112"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="224,133,395,173"/>
+<area shape="poly" title=" " alt="" coords="177,131,211,136,210,142,176,136"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="224,197,395,237"/>
+<area shape="poly" title=" " alt="" coords="133,139,225,183,241,190,239,195,223,188,130,144"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_icgraph" id="aclassCoordinateTransformer_a7734c79fff12fe17d2c7f40eb8bf34e6_icgraph">
+<area shape="rect" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="468,5,639,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad86eff4f8ac42caab22866be074aba7e" name="ad86eff4f8ac42caab22866be074aba7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad86eff4f8ac42caab22866be074aba7e">&#9670;&#160;</a></span>applyPositionFiltering()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::applyPositionFiltering </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>targetPosition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Применяет фильтрацию к позиции </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00766">766</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ad86eff4f8ac42caab22866be074aba7e_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_ad86eff4f8ac42caab22866be074aba7e_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ad86eff4f8ac42caab22866be074aba7e_icgraph" id="aclassCoordinateTransformer_ad86eff4f8ac42caab22866be074aba7e_icgraph">
+<area shape="rect" title="Применяет фильтрацию к позиции" alt="" coords="468,5,639,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1575157b61a144de27f51b206b71e0cb" name="a1575157b61a144de27f51b206b71e0cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1575157b61a144de27f51b206b71e0cb">&#9670;&#160;</a></span>applyRotationFiltering()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::applyRotationFiltering </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>targetRotation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Применяет фильтрацию к вращению </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00777">777</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a1575157b61a144de27f51b206b71e0cb_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a1575157b61a144de27f51b206b71e0cb_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a1575157b61a144de27f51b206b71e0cb_icgraph" id="aclassCoordinateTransformer_a1575157b61a144de27f51b206b71e0cb_icgraph">
+<area shape="rect" title="Применяет фильтрацию к вращению" alt="" coords="468,5,643,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae7bf46a45128788e2205b325fd3bc109" name="ae7bf46a45128788e2205b325fd3bc109"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7bf46a45128788e2205b325fd3bc109">&#9670;&#160;</a></span>applyStabilization()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::applyStabilization </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>timestamp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Применяет стабилизацию к трансформации </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00714">714</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_cgraph" id="aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_cgraph">
+<area shape="rect" title="Применяет стабилизацию к трансформации" alt="" coords="5,197,176,237"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="246,101,417,141"/>
+<area shape="poly" title=" " alt="" coords="128,195,223,151,244,143,246,148,225,156,131,200"/>
+<area shape="rect" href="classCoordinateTransformer.html#ad86eff4f8ac42caab22866be074aba7e" title="Применяет фильтрацию к позиции" alt="" coords="246,165,417,205"/>
+<area shape="poly" title=" " alt="" coords="176,203,232,196,233,201,177,209"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1575157b61a144de27f51b206b71e0cb" title="Применяет фильтрацию к вращению" alt="" coords="244,229,419,269"/>
+<area shape="poly" title=" " alt="" coords="177,226,231,233,230,239,176,231"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1b3506fabbd43f1f242a8c86beeab091" title="Вычисляет адаптивную скорость интерполяции на основе уверенности" alt="" coords="224,293,439,333"/>
+<area shape="poly" title=" " alt="" coords="131,235,225,279,246,286,244,291,223,284,128,240"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac" title="Получает Quaternion из пула или создает новый" alt="" coords="487,5,657,45"/>
+<area shape="poly" title=" " alt="" coords="379,99,486,55,504,48,506,53,488,60,381,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db" title="Получает Vector3 из пула или создает новый" alt="" coords="487,69,657,109"/>
+<area shape="poly" title=" " alt="" coords="417,107,473,100,473,105,417,113"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="487,133,657,173"/>
+<area shape="poly" title=" " alt="" coords="417,130,473,138,473,143,417,135"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="487,197,657,237"/>
+<area shape="poly" title=" " alt="" coords="410,139,440,151,464,167,488,183,502,190,499,194,485,188,461,171,437,156,408,144"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_icgraph" id="aclassCoordinateTransformer_ae7bf46a45128788e2205b325fd3bc109_icgraph">
+<area shape="rect" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1b3506fabbd43f1f242a8c86beeab091" name="a1b3506fabbd43f1f242a8c86beeab091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b3506fabbd43f1f242a8c86beeab091">&#9670;&#160;</a></span>calculateAdaptiveLerpSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::calculateAdaptiveLerpSpeed </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>deltaTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет адаптивную скорость интерполяции на основе уверенности </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00750">750</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a1b3506fabbd43f1f242a8c86beeab091_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a1b3506fabbd43f1f242a8c86beeab091_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a1b3506fabbd43f1f242a8c86beeab091_icgraph" id="aclassCoordinateTransformer_a1b3506fabbd43f1f242a8c86beeab091_icgraph">
+<area shape="rect" title="Вычисляет адаптивную скорость интерполяции на основе уверенности" alt="" coords="468,5,683,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1543debf9f08cbda7a6dae73b3c4a77c" name="a1543debf9f08cbda7a6dae73b3c4a77c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1543debf9f08cbda7a6dae73b3c4a77c">&#9670;&#160;</a></span>calculateCameraToWorldTransform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::calculateCameraToWorldTransform </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>cameraPose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>detections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный) </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cameraPose</td><td>Поза камеры {R, t} </td></tr>
+    <tr><td class="paramname">detections</td><td>Детекции AprilTag для расчета уверенности </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00631">631</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_cgraph" id="aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_cgraph">
+<area shape="rect" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="5,37,261,77"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18" title="Вычисляет общую уверенность трансформации" alt="" coords="309,5,536,45"/>
+<area shape="poly" title=" " alt="" coords="261,41,296,37,296,42,262,46"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="337,69,508,109"/>
+<area shape="poly" title=" " alt="" coords="262,69,324,76,323,81,261,74"/>
+<area shape="rect" href="classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="584,5,808,45"/>
+<area shape="poly" title=" " alt="" coords="536,23,570,23,570,28,536,28"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="605,69,787,109"/>
+<area shape="poly" title=" " alt="" coords="508,87,592,87,592,92,508,92"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_icgraph" id="aclassCoordinateTransformer_a1543debf9f08cbda7a6dae73b3c4a77c_icgraph">
+<area shape="rect" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="492,5,748,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,5,444,45"/>
+<area shape="poly" title=" " alt="" coords="478,28,444,28,444,23,478,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="236,28,201,28,201,23,236,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab8e59181478ebea6b6145dbe915163bd" name="ab8e59181478ebea6b6145dbe915163bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8e59181478ebea6b6145dbe915163bd">&#9670;&#160;</a></span>calculateDetectionConfidence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::calculateDetectionConfidence </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>detection</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет уверенность детекции AprilTag. </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00674">674</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ab8e59181478ebea6b6145dbe915163bd_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_ab8e59181478ebea6b6145dbe915163bd_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ab8e59181478ebea6b6145dbe915163bd_icgraph" id="aclassCoordinateTransformer_ab8e59181478ebea6b6145dbe915163bd_icgraph">
+<area shape="rect" title="Вычисляет уверенность детекции AprilTag." alt="" coords="1071,5,1295,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,5,444,45"/>
+<area shape="poly" title=" " alt="" coords="1057,25,1023,24,757,22,492,24,444,25,444,20,492,19,757,16,1023,19,1057,19"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18" title="Вычисляет общую уверенность трансформации" alt="" coords="796,33,1023,73"/>
+<area shape="poly" title=" " alt="" coords="1057,41,1023,44,1022,39,1057,36"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="236,28,201,28,201,23,236,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="492,33,748,73"/>
+<area shape="poly" title=" " alt="" coords="783,56,748,56,748,51,783,51"/>
+<area shape="poly" title=" " alt="" coords="478,41,444,38,445,33,478,36"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a96a0c6c1acd5d6761c857cd72cafb97e" name="a96a0c6c1acd5d6761c857cd72cafb97e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96a0c6c1acd5d6761c857cd72cafb97e">&#9670;&#160;</a></span>calculateTargetTransform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::calculateTargetTransform </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>cameraPose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>detections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет целевую трансформацию на основе детекций </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00602">602</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_cgraph" id="aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_cgraph">
+<area shape="rect" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="5,99,200,139"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="248,69,504,109"/>
+<area shape="poly" title=" " alt="" coords="200,106,234,102,234,107,200,111"/>
+<area shape="rect" href="classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="827,99,1051,139"/>
+<area shape="poly" title=" " alt="" coords="200,118,248,119,779,119,813,118,813,124,779,124,248,124,200,123"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18" title="Вычисляет общую уверенность трансформации" alt="" coords="552,69,779,109"/>
+<area shape="poly" title=" " alt="" coords="504,87,538,87,538,92,504,92"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="580,5,751,45"/>
+<area shape="poly" title=" " alt="" coords="467,67,566,44,567,50,468,72"/>
+<area shape="poly" title=" " alt="" coords="779,99,813,103,813,108,778,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="848,5,1029,45"/>
+<area shape="poly" title=" " alt="" coords="751,23,834,23,834,28,751,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_icgraph" id="aclassCoordinateTransformer_a96a0c6c1acd5d6761c857cd72cafb97e_icgraph">
+<area shape="rect" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,5,444,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="236,28,201,28,201,23,236,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae5aba3f72df6aab2183eacebc8827f18" name="ae5aba3f72df6aab2183eacebc8827f18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5aba3f72df6aab2183eacebc8827f18">&#9670;&#160;</a></span>calculateTransformConfidence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::calculateTransformConfidence </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>detections</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Вычисляет общую уверенность трансформации </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00693">693</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_cgraph" id="aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_cgraph">
+<area shape="rect" title="Вычисляет общую уверенность трансформации" alt="" coords="5,5,232,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="280,5,504,45"/>
+<area shape="poly" title=" " alt="" coords="232,23,266,23,266,28,232,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_icgraph" id="aclassCoordinateTransformer_ae5aba3f72df6aab2183eacebc8827f18_icgraph">
+<area shape="rect" title="Вычисляет общую уверенность трансформации" alt="" coords="796,5,1023,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="492,5,748,45"/>
+<area shape="poly" title=" " alt="" coords="783,28,748,28,748,23,783,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,5,444,45"/>
+<area shape="poly" title=" " alt="" coords="478,28,444,28,444,23,478,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="236,28,201,28,201,23,236,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a03dcb27b248d5868363d54982db806da" name="a03dcb27b248d5868363d54982db806da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03dcb27b248d5868363d54982db806da">&#9670;&#160;</a></span>constructor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::constructor </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>config</em> = <code>{}</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00218">218</a></p>
+
+</div>
+</div>
+<a id="a48094c044806723116d158cb3fa087f3" name="a48094c044806723116d158cb3fa087f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48094c044806723116d158cb3fa087f3">&#9670;&#160;</a></span>executeReanchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::executeReanchor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Выполняет перезацепление с плавным переходом </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00473">473</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a48094c044806723116d158cb3fa087f3_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_cgraph" id="aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_cgraph">
+<area shape="rect" title="Выполняет перезацепление с плавным переходом" alt="" coords="5,101,176,141"/>
+<area shape="rect" href="classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="224,21,415,61"/>
+<area shape="poly" title=" " alt="" coords="148,99,248,63,249,68,150,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="234,101,405,141"/>
+<area shape="poly" title=" " alt="" coords="176,119,220,119,220,124,176,124"/>
+<area shape="rect" href="classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="228,165,411,205"/>
+<area shape="poly" title=" " alt="" coords="164,139,235,159,234,164,162,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30" title="Возвращает текущее состояние трансформации" alt="" coords="463,5,633,45"/>
+<area shape="poly" title=" " alt="" coords="415,32,449,30,449,35,415,37"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="463,69,633,109"/>
+<area shape="poly" title=" " alt="" coords="404,107,449,101,449,106,405,112"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="463,133,633,173"/>
+<area shape="poly" title=" " alt="" coords="405,131,449,137,449,142,404,136"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="463,197,633,237"/>
+<area shape="poly" title=" " alt="" coords="388,139,416,151,440,167,464,183,478,190,475,194,461,188,437,171,413,156,386,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="681,69,863,109"/>
+<area shape="poly" title=" " alt="" coords="634,87,667,87,667,92,634,92"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a48094c044806723116d158cb3fa087f3_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_icgraph" id="aclassCoordinateTransformer_a48094c044806723116d158cb3fa087f3_icgraph">
+<area shape="rect" title="Выполняет перезацепление с плавным переходом" alt="" coords="469,5,640,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="455,28,422,28,422,23,455,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aed1d5833835bc72f4e7a3cc3be413e30" name="aed1d5833835bc72f4e7a3cc3be413e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed1d5833835bc72f4e7a3cc3be413e30">&#9670;&#160;</a></span>getCurrentTransform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getCurrentTransform </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает текущее состояние трансформации </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00917">917</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_aed1d5833835bc72f4e7a3cc3be413e30_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_aed1d5833835bc72f4e7a3cc3be413e30_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_aed1d5833835bc72f4e7a3cc3be413e30_icgraph" id="aclassCoordinateTransformer_aed1d5833835bc72f4e7a3cc3be413e30_icgraph">
+<area shape="rect" title="Возвращает текущее состояние трансформации" alt="" coords="927,5,1097,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="688,5,879,45"/>
+<area shape="poly" title=" " alt="" coords="913,28,879,28,879,23,913,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="469,5,640,45"/>
+<area shape="poly" title=" " alt="" coords="674,28,640,28,640,23,674,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="455,28,422,28,422,23,455,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8768a43b91337e26e31ac606e18fcf87" name="a8768a43b91337e26e31ac606e18fcf87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8768a43b91337e26e31ac606e18fcf87">&#9670;&#160;</a></span>getDiagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getDiagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает диагностическую информацию о состоянии системы </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00954">954</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a8768a43b91337e26e31ac606e18fcf87_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a8768a43b91337e26e31ac606e18fcf87_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a8768a43b91337e26e31ac606e18fcf87_cgraph" id="aclassCoordinateTransformer_a8768a43b91337e26e31ac606e18fcf87_cgraph">
+<area shape="rect" title="Возвращает диагностическую информацию о состоянии системы" alt="" coords="5,5,176,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a644599e331005db5f744be1b4be62935" title="Возвращает текущие метрики производительности" alt="" coords="224,5,407,45"/>
+<area shape="poly" title=" " alt="" coords="177,23,210,23,210,28,177,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a21d600b5f2113524d9410e19dbc38372" name="a21d600b5f2113524d9410e19dbc38372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21d600b5f2113524d9410e19dbc38372">&#9670;&#160;</a></span>getMatrix4()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getMatrix4 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Получает Matrix4 из пула или создает новый </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00331">331</a></p>
+
+</div>
+</div>
+<a id="a644599e331005db5f744be1b4be62935" name="a644599e331005db5f744be1b4be62935"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a644599e331005db5f744be1b4be62935">&#9670;&#160;</a></span>getPerformanceMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getPerformanceMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает текущие метрики производительности </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00938">938</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a644599e331005db5f744be1b4be62935_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a644599e331005db5f744be1b4be62935_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a644599e331005db5f744be1b4be62935_icgraph" id="aclassCoordinateTransformer_a644599e331005db5f744be1b4be62935_icgraph">
+<area shape="rect" title="Возвращает текущие метрики производительности" alt="" coords="224,5,407,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a8768a43b91337e26e31ac606e18fcf87" title="Возвращает диагностическую информацию о состоянии системы" alt="" coords="5,5,176,45"/>
+<area shape="poly" title=" " alt="" coords="210,28,176,28,176,23,210,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3700ee3461543b9c4733e05b146855ac" name="a3700ee3461543b9c4733e05b146855ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3700ee3461543b9c4733e05b146855ac">&#9670;&#160;</a></span>getQuaternion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getQuaternion </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>y</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>z</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>w</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Получает Quaternion из пула или создает новый </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00350">350</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a3700ee3461543b9c4733e05b146855ac_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a3700ee3461543b9c4733e05b146855ac_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a3700ee3461543b9c4733e05b146855ac_icgraph" id="aclassCoordinateTransformer_a3700ee3461543b9c4733e05b146855ac_icgraph">
+<area shape="rect" title="Получает Quaternion из пула или создает новый" alt="" coords="687,5,857,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="468,5,639,45"/>
+<area shape="poly" title=" " alt="" coords="673,28,639,28,639,23,673,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2db174d601ee993a07cfe1e9571787db" name="a2db174d601ee993a07cfe1e9571787db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2db174d601ee993a07cfe1e9571787db">&#9670;&#160;</a></span>getVector3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getVector3 </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>y</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>z</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Получает Vector3 из пула или создает новый </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00310">310</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a2db174d601ee993a07cfe1e9571787db_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a2db174d601ee993a07cfe1e9571787db_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a2db174d601ee993a07cfe1e9571787db_icgraph" id="aclassCoordinateTransformer_a2db174d601ee993a07cfe1e9571787db_icgraph">
+<area shape="rect" title="Получает Vector3 из пула или создает новый" alt="" coords="687,5,857,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="468,5,639,45"/>
+<area shape="poly" title=" " alt="" coords="673,28,639,28,639,23,673,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8b279398d7396218d6deddb534505fe2" name="a8b279398d7396218d6deddb534505fe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b279398d7396218d6deddb534505fe2">&#9670;&#160;</a></span>getWorldReference()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::getWorldReference </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает мировую систему координат </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00931">931</a></p>
+
+</div>
+</div>
+<a id="abc0e6f1130b91c85d9e7a6d7fd2e28fd" name="abc0e6f1130b91c85d9e7a6d7fd2e28fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc0e6f1130b91c85d9e7a6d7fd2e28fd">&#9670;&#160;</a></span>hasValidDetections()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::hasValidDetections </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Проверяет наличие валидных детекций для перезацепления </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00448">448</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_abc0e6f1130b91c85d9e7a6d7fd2e28fd_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_abc0e6f1130b91c85d9e7a6d7fd2e28fd_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_abc0e6f1130b91c85d9e7a6d7fd2e28fd_icgraph" id="aclassCoordinateTransformer_abc0e6f1130b91c85d9e7a6d7fd2e28fd_icgraph">
+<area shape="rect" title="Проверяет наличие валидных детекций для перезацепления" alt="" coords="469,5,640,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="455,28,422,28,422,23,455,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aceb6d5b7987faf2289318e67c8304176" name="aceb6d5b7987faf2289318e67c8304176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceb6d5b7987faf2289318e67c8304176">&#9670;&#160;</a></span>logPerformanceMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::logPerformanceMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Логирует метрики производительности </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00537">537</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_aceb6d5b7987faf2289318e67c8304176_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_aceb6d5b7987faf2289318e67c8304176_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_aceb6d5b7987faf2289318e67c8304176_icgraph" id="aclassCoordinateTransformer_aceb6d5b7987faf2289318e67c8304176_icgraph">
+<area shape="rect" title="Логирует метрики производительности" alt="" coords="1236,63,1417,103"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="1017,63,1188,103"/>
+<area shape="poly" title=" " alt="" coords="1223,85,1188,85,1188,80,1223,80"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="713,5,969,45"/>
+<area shape="poly" title=" " alt="" coords="1003,64,933,48,934,43,1004,58"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="227,31,423,71"/>
+<area shape="poly" title=" " alt="" coords="1004,82,471,60,423,58,423,53,471,55,1004,76"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="756,120,927,160"/>
+<area shape="poly" title=" " alt="" coords="1004,107,927,124,926,119,1003,102"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="471,5,665,45"/>
+<area shape="poly" title=" " alt="" coords="700,28,666,28,666,23,700,23"/>
+<area shape="poly" title=" " alt="" coords="457,40,423,43,423,38,457,34"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="483,120,653,160"/>
+<area shape="poly" title=" " alt="" coords="742,143,653,143,653,137,742,137"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,120,422,160"/>
+<area shape="poly" title=" " alt="" coords="469,143,422,143,422,137,469,137"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,120,179,160"/>
+<area shape="poly" title=" " alt="" coords="214,143,179,143,179,137,214,137"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a297acbf21122184fca8fb86b240f0694" name="a297acbf21122184fca8fb86b240f0694"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a297acbf21122184fca8fb86b240f0694">&#9670;&#160;</a></span>notifyReanchorCallbacks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::notifyReanchorCallbacks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Уведомляет все коллбэки о перезацеплении </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00524">524</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_cgraph" id="aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_cgraph">
+<area shape="rect" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="5,5,196,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30" title="Возвращает текущее состояние трансформации" alt="" coords="244,5,415,45"/>
+<area shape="poly" title=" " alt="" coords="197,23,230,23,230,28,197,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_icgraph" id="aclassCoordinateTransformer_a297acbf21122184fca8fb86b240f0694_icgraph">
+<area shape="rect" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="688,5,879,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="469,5,640,45"/>
+<area shape="poly" title=" " alt="" coords="674,28,640,28,640,23,674,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="455,28,422,28,422,23,455,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="afb84e945e181d8095a8484d3183f1bd8" name="afb84e945e181d8095a8484d3183f1bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb84e945e181d8095a8484d3183f1bd8">&#9670;&#160;</a></span>performPeriodicReanchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::performPeriodicReanchor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Выполняет периодическое перезацепление с проверками </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00425">425</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_cgraph" id="aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_cgraph">
+<area shape="rect" title="Выполняет периодическое перезацепление с проверками" alt="" coords="5,133,200,173"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="248,101,419,141"/>
+<area shape="poly" title=" " alt="" coords="200,137,234,132,235,138,200,142"/>
+<area shape="rect" href="classCoordinateTransformer.html#abc0e6f1130b91c85d9e7a6d7fd2e28fd" title="Проверяет наличие валидных детекций для перезацепления" alt="" coords="248,165,419,205"/>
+<area shape="poly" title=" " alt="" coords="200,164,235,169,234,174,200,169"/>
+<area shape="rect" href="classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="467,21,657,61"/>
+<area shape="poly" title=" " alt="" coords="391,99,490,63,492,68,393,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="477,101,647,141"/>
+<area shape="poly" title=" " alt="" coords="419,119,463,119,463,124,419,124"/>
+<area shape="rect" href="classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="471,165,653,205"/>
+<area shape="poly" title=" " alt="" coords="406,139,478,159,476,164,405,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30" title="Возвращает текущее состояние трансформации" alt="" coords="705,5,876,45"/>
+<area shape="poly" title=" " alt="" coords="658,32,692,30,692,35,658,37"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="705,69,876,109"/>
+<area shape="poly" title=" " alt="" coords="647,107,691,101,692,106,648,112"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="705,133,876,173"/>
+<area shape="poly" title=" " alt="" coords="648,131,692,137,691,142,647,136"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="705,197,876,237"/>
+<area shape="poly" title=" " alt="" coords="631,139,659,151,683,167,707,183,720,190,718,194,704,188,680,171,656,156,628,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="924,69,1105,109"/>
+<area shape="poly" title=" " alt="" coords="876,87,910,87,910,92,876,92"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_icgraph" id="aclassCoordinateTransformer_afb84e945e181d8095a8484d3183f1bd8_icgraph">
+<area shape="rect" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a74eed17aae50be1e85becfe5d8f4624a" name="a74eed17aae50be1e85becfe5d8f4624a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74eed17aae50be1e85becfe5d8f4624a">&#9670;&#160;</a></span>recordPerformance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::recordPerformance </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>startTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>operation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Записывает метрики производительности </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00371">371</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_cgraph" id="aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_cgraph">
+<area shape="rect" title="Записывает метрики производительности" alt="" coords="5,5,176,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="224,5,405,45"/>
+<area shape="poly" title=" " alt="" coords="176,23,210,23,210,28,176,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_icgraph" id="aclassCoordinateTransformer_a74eed17aae50be1e85becfe5d8f4624a_icgraph">
+<area shape="rect" title="Записывает метрики производительности" alt="" coords="1017,63,1188,103"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="713,5,969,45"/>
+<area shape="poly" title=" " alt="" coords="1003,64,933,48,934,43,1004,58"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="227,31,423,71"/>
+<area shape="poly" title=" " alt="" coords="1004,82,471,60,423,58,423,53,471,55,1004,76"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="756,120,927,160"/>
+<area shape="poly" title=" " alt="" coords="1004,107,927,124,926,119,1003,102"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="471,5,665,45"/>
+<area shape="poly" title=" " alt="" coords="700,28,666,28,666,23,700,23"/>
+<area shape="poly" title=" " alt="" coords="457,40,423,43,423,38,457,34"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="483,120,653,160"/>
+<area shape="poly" title=" " alt="" coords="742,143,653,143,653,137,742,137"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,120,422,160"/>
+<area shape="poly" title=" " alt="" coords="469,143,422,143,422,137,469,137"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,120,179,160"/>
+<area shape="poly" title=" " alt="" coords="214,143,179,143,179,137,214,137"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="accbbcc379d1669a6cec1352bf28507b9" name="accbbcc379d1669a6cec1352bf28507b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accbbcc379d1669a6cec1352bf28507b9">&#9670;&#160;</a></span>removeReanchorCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::removeReanchorCallback </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Удаляет коллбэк перезацепления </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>Функция обратного вызова для удаления </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00514">514</a></p>
+
+</div>
+</div>
+<a id="a7de8636de219f6325b9f8f6c6f89a918" name="a7de8636de219f6325b9f8f6c6f89a918"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7de8636de219f6325b9f8f6c6f89a918">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Сбрасывает состояние трансформатора (оптимизированный) </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00871">871</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a7de8636de219f6325b9f8f6c6f89a918_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a7de8636de219f6325b9f8f6c6f89a918_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a7de8636de219f6325b9f8f6c6f89a918_cgraph" id="aclassCoordinateTransformer_a7de8636de219f6325b9f8f6c6f89a918_cgraph">
+<area shape="rect" title="Сбрасывает состояние трансформатора (оптимизированный)" alt="" coords="5,69,176,109"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="224,5,395,45"/>
+<area shape="poly" title=" " alt="" coords="159,67,227,47,228,52,161,72"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="224,69,395,109"/>
+<area shape="poly" title=" " alt="" coords="176,87,210,87,210,92,176,92"/>
+<area shape="rect" href="classCoordinateTransformer.html#a383a503daf5c12f893044842ec55c052" title="Останавливает периодическое перезацепление" alt="" coords="224,133,395,173"/>
+<area shape="poly" title=" " alt="" coords="161,107,228,127,227,132,159,112"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aeeaf0cf82a9615808dcebbc39382c0af" name="aeeaf0cf82a9615808dcebbc39382c0af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeaf0cf82a9615808dcebbc39382c0af">&#9670;&#160;</a></span>resetStabilization()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::resetStabilization </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Сбрасывает стабилизацию координат без полной потери состояния </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00827">827</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_cgraph" id="aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_cgraph">
+<area shape="rect" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="5,69,176,109"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="224,5,395,45"/>
+<area shape="poly" title=" " alt="" coords="159,67,227,47,228,52,161,72"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="224,69,395,109"/>
+<area shape="poly" title=" " alt="" coords="176,87,210,87,210,92,176,92"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="224,133,395,173"/>
+<area shape="poly" title=" " alt="" coords="161,107,228,127,227,132,159,112"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="443,5,624,45"/>
+<area shape="poly" title=" " alt="" coords="395,23,429,23,429,28,395,28"/>
+</map>
+</div>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_icgraph" id="aclassCoordinateTransformer_aeeaf0cf82a9615808dcebbc39382c0af_icgraph">
+<area shape="rect" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="688,5,859,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="469,5,640,45"/>
+<area shape="poly" title=" " alt="" coords="674,28,640,28,640,23,674,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="455,28,422,28,422,23,455,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1f3ce251549edd839cdf85871f5912e8" name="a1f3ce251549edd839cdf85871f5912e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f3ce251549edd839cdf85871f5912e8">&#9670;&#160;</a></span>returnMatrix4()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::returnMatrix4 </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>mat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает Matrix4 в пул </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00341">341</a></p>
+
+</div>
+</div>
+<a id="a9f2a156d3e2f3d40960012b0671a6cae" name="a9f2a156d3e2f3d40960012b0671a6cae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f2a156d3e2f3d40960012b0671a6cae">&#9670;&#160;</a></span>returnQuaternion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::returnQuaternion </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>quat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает Quaternion в пул </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00362">362</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a9f2a156d3e2f3d40960012b0671a6cae_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a9f2a156d3e2f3d40960012b0671a6cae_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a9f2a156d3e2f3d40960012b0671a6cae_icgraph" id="aclassCoordinateTransformer_a9f2a156d3e2f3d40960012b0671a6cae_icgraph">
+<area shape="rect" title="Возвращает Quaternion в пул" alt="" coords="908,69,1079,109"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="689,5,860,45"/>
+<area shape="poly" title=" " alt="" coords="911,68,843,48,844,43,912,63"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7de8636de219f6325b9f8f6c6f89a918" title="Сбрасывает состояние трансформатора (оптимизированный)" alt="" coords="689,69,860,109"/>
+<area shape="poly" title=" " alt="" coords="894,92,860,92,860,87,894,87"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="689,133,860,173"/>
+<area shape="poly" title=" " alt="" coords="912,116,844,136,843,131,911,111"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="471,5,641,45"/>
+<area shape="poly" title=" " alt="" coords="676,28,642,28,642,23,676,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="227,5,423,45"/>
+<area shape="poly" title=" " alt="" coords="457,28,423,28,423,23,457,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="471,133,641,173"/>
+<area shape="poly" title=" " alt="" coords="676,156,642,156,642,151,676,151"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,133,422,173"/>
+<area shape="poly" title=" " alt="" coords="457,156,422,156,422,151,457,151"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,133,179,173"/>
+<area shape="poly" title=" " alt="" coords="214,156,179,156,179,151,214,151"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3d0ef2cd653219925753f946b3ca6de7" name="a3d0ef2cd653219925753f946b3ca6de7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0ef2cd653219925753f946b3ca6de7">&#9670;&#160;</a></span>returnVector3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::returnVector3 </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>vec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Возвращает Vector3 в пул </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00322">322</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a3d0ef2cd653219925753f946b3ca6de7_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a3d0ef2cd653219925753f946b3ca6de7_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a3d0ef2cd653219925753f946b3ca6de7_icgraph" id="aclassCoordinateTransformer_a3d0ef2cd653219925753f946b3ca6de7_icgraph">
+<area shape="rect" title="Возвращает Vector3 в пул" alt="" coords="908,69,1079,109"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="689,5,860,45"/>
+<area shape="poly" title=" " alt="" coords="911,68,843,48,844,43,912,63"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7de8636de219f6325b9f8f6c6f89a918" title="Сбрасывает состояние трансформатора (оптимизированный)" alt="" coords="689,69,860,109"/>
+<area shape="poly" title=" " alt="" coords="894,92,860,92,860,87,894,87"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="689,133,860,173"/>
+<area shape="poly" title=" " alt="" coords="912,116,844,136,843,131,911,111"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="471,5,641,45"/>
+<area shape="poly" title=" " alt="" coords="676,28,642,28,642,23,676,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="227,5,423,45"/>
+<area shape="poly" title=" " alt="" coords="457,28,423,28,423,23,457,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="471,133,641,173"/>
+<area shape="poly" title=" " alt="" coords="676,156,642,156,642,151,676,151"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,133,422,173"/>
+<area shape="poly" title=" " alt="" coords="457,156,422,156,422,151,457,151"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,133,179,173"/>
+<area shape="poly" title=" " alt="" coords="214,156,179,156,179,151,214,151"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ae8eeab7ad49807e89d9dd9841cc7d02f" name="ae8eeab7ad49807e89d9dd9841cc7d02f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8eeab7ad49807e89d9dd9841cc7d02f">&#9670;&#160;</a></span>startPeriodicReanchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::startPeriodicReanchor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Запускает периодическое перезацепление </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00399">399</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_ae8eeab7ad49807e89d9dd9841cc7d02f_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_ae8eeab7ad49807e89d9dd9841cc7d02f_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_ae8eeab7ad49807e89d9dd9841cc7d02f_cgraph" id="aclassCoordinateTransformer_ae8eeab7ad49807e89d9dd9841cc7d02f_cgraph">
+<area shape="rect" title="Запускает периодическое перезацепление" alt="" coords="5,133,179,173"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,133,421,173"/>
+<area shape="poly" title=" " alt="" coords="179,151,213,151,213,156,179,156"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="469,101,640,141"/>
+<area shape="poly" title=" " alt="" coords="421,137,455,132,456,138,422,142"/>
+<area shape="rect" href="classCoordinateTransformer.html#abc0e6f1130b91c85d9e7a6d7fd2e28fd" title="Проверяет наличие валидных детекций для перезацепления" alt="" coords="469,165,640,205"/>
+<area shape="poly" title=" " alt="" coords="422,164,456,169,455,174,421,169"/>
+<area shape="rect" href="classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="688,21,879,61"/>
+<area shape="poly" title=" " alt="" coords="612,99,712,63,713,68,614,104"/>
+<area shape="rect" href="classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="698,101,869,141"/>
+<area shape="poly" title=" " alt="" coords="640,119,684,119,684,124,640,124"/>
+<area shape="rect" href="classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="692,165,875,205"/>
+<area shape="poly" title=" " alt="" coords="628,139,699,159,698,164,626,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30" title="Возвращает текущее состояние трансформации" alt="" coords="927,5,1097,45"/>
+<area shape="poly" title=" " alt="" coords="879,32,913,30,913,35,879,37"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="927,69,1097,109"/>
+<area shape="poly" title=" " alt="" coords="868,107,913,101,913,106,869,112"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="927,133,1097,173"/>
+<area shape="poly" title=" " alt="" coords="869,131,913,137,913,142,868,136"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="927,197,1097,237"/>
+<area shape="poly" title=" " alt="" coords="852,139,880,151,904,167,928,183,942,190,939,194,925,188,901,171,877,156,850,144"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="1145,69,1327,109"/>
+<area shape="poly" title=" " alt="" coords="1098,87,1131,87,1131,92,1098,92"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a383a503daf5c12f893044842ec55c052" name="a383a503daf5c12f893044842ec55c052"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a383a503daf5c12f893044842ec55c052">&#9670;&#160;</a></span>stopPeriodicReanchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::stopPeriodicReanchor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Останавливает периодическое перезацепление </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00414">414</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a383a503daf5c12f893044842ec55c052_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a383a503daf5c12f893044842ec55c052_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a383a503daf5c12f893044842ec55c052_icgraph" id="aclassCoordinateTransformer_a383a503daf5c12f893044842ec55c052_icgraph">
+<area shape="rect" title="Останавливает периодическое перезацепление" alt="" coords="224,5,395,45"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7de8636de219f6325b9f8f6c6f89a918" title="Сбрасывает состояние трансформатора (оптимизированный)" alt="" coords="5,5,176,45"/>
+<area shape="poly" title=" " alt="" coords="210,28,176,28,176,23,210,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a37c680aa9cf859e81a77be483afd2a36" name="a37c680aa9cf859e81a77be483afd2a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c680aa9cf859e81a77be483afd2a36">&#9670;&#160;</a></span>transformCameraToWorld()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::transformCameraToWorld </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>cameraPose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>aprilTagDetections</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Основной метод трансформации позы камеры в мировые координаты (оптимизированный) </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cameraPose</td><td>Поза камеры {R, t} </td></tr>
+    <tr><td class="paramname">aprilTagDetections</td><td>Детекции AprilTag </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Стабилизированная матрица трансформации </dd></dl>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00563">563</a></p>
+<div class="dynheader">
+Граф вызовов:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a37c680aa9cf859e81a77be483afd2a36_cgraph.png" border="0" usemap="#aclassCoordinateTransformer_a37c680aa9cf859e81a77be483afd2a36_cgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a37c680aa9cf859e81a77be483afd2a36_cgraph" id="aclassCoordinateTransformer_a37c680aa9cf859e81a77be483afd2a36_cgraph">
+<area shape="rect" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,405,201,445"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="261,133,432,173"/>
+<area shape="poly" title=" " alt="" coords="120,404,317,182,321,185,124,407"/>
+<area shape="rect" href="classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,376,444,416"/>
+<area shape="poly" title=" " alt="" coords="201,411,235,407,236,412,202,416"/>
+<area shape="rect" href="classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="824,440,995,480"/>
+<area shape="poly" title=" " alt="" coords="202,427,810,453,810,458,201,432"/>
+<area shape="rect" href="classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="255,491,438,531"/>
+<area shape="poly" title=" " alt="" coords="162,443,277,484,275,489,160,448"/>
+<area shape="rect" href="classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="535,197,705,237"/>
+<area shape="poly" title=" " alt="" coords="433,171,522,192,521,197,432,176"/>
+<area shape="rect" href="classCoordinateTransformer.html#ad86eff4f8ac42caab22866be074aba7e" title="Применяет фильтрацию к позиции" alt="" coords="535,5,705,45"/>
+<area shape="poly" title=" " alt="" coords="371,131,424,92,491,55,521,44,523,49,493,60,427,97,374,135"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1575157b61a144de27f51b206b71e0cb" title="Применяет фильтрацию к вращению" alt="" coords="533,69,707,109"/>
+<area shape="poly" title=" " alt="" coords="432,131,520,110,521,115,433,136"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1b3506fabbd43f1f242a8c86beeab091" title="Вычисляет адаптивную скорость интерполяции на основе уверенности" alt="" coords="513,133,727,173"/>
+<area shape="poly" title=" " alt="" coords="432,151,499,151,499,156,432,156"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac" title="Получает Quaternion из пула или создает новый" alt="" coords="824,261,995,301"/>
+<area shape="poly" title=" " alt="" coords="706,234,811,257,810,262,705,239"/>
+<area shape="rect" href="classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db" title="Получает Vector3 из пула или создает новый" alt="" coords="824,69,995,109"/>
+<area shape="poly" title=" " alt="" coords="705,202,746,183,762,168,770,152,778,136,794,119,810,110,813,115,798,123,782,139,774,155,766,171,750,188,707,207"/>
+<area shape="rect" href="classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="824,133,995,173"/>
+<area shape="poly" title=" " alt="" coords="705,196,810,172,811,178,706,201"/>
+<area shape="rect" href="classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="824,197,995,237"/>
+<area shape="poly" title=" " alt="" coords="705,215,811,215,811,220,705,220"/>
+<area shape="rect" href="classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="492,376,748,416"/>
+<area shape="poly" title=" " alt="" coords="444,393,478,393,478,399,444,399"/>
+<area shape="rect" href="classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="1071,348,1295,388"/>
+<area shape="poly" title=" " alt="" coords="423,373,492,361,644,350,796,347,938,350,1057,356,1057,361,938,356,796,353,644,356,492,367,424,379"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18" title="Вычисляет общую уверенность трансформации" alt="" coords="796,376,1023,416"/>
+<area shape="poly" title=" " alt="" coords="748,393,782,393,782,399,748,399"/>
+<area shape="poly" title=" " alt="" coords="712,413,811,436,810,441,711,419"/>
+<area shape="poly" title=" " alt="" coords="1022,382,1057,378,1057,384,1023,387"/>
+<area shape="rect" href="classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="1092,440,1273,480"/>
+<area shape="poly" title=" " alt="" coords="995,457,1078,457,1078,463,995,463"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a91d21eff1223ef3584e518590128638c" name="a91d21eff1223ef3584e518590128638c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91d21eff1223ef3584e518590128638c">&#9670;&#160;</a></span>updateTransformMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CoordinateTransformer::updateTransformMatrix </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Обновляет матрицу трансформации на основе текущего состояния </p>
+
+<p class="definition">См. определение в файле <a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a> строка <a class="el" href="CoordinateTransformer_8jsx_source.html#l00819">819</a></p>
+<div class="dynheader">
+Граф вызова функции:</div>
+<div class="dyncontent">
+<div class="center"><img src="classCoordinateTransformer_a91d21eff1223ef3584e518590128638c_icgraph.png" border="0" usemap="#aclassCoordinateTransformer_a91d21eff1223ef3584e518590128638c_icgraph" alt=""/></div>
+<map name="aclassCoordinateTransformer_a91d21eff1223ef3584e518590128638c_icgraph" id="aclassCoordinateTransformer_a91d21eff1223ef3584e518590128638c_icgraph">
+<area shape="rect" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="713,37,896,77"/>
+<area shape="rect" href="classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="482,5,653,45"/>
+<area shape="poly" title=" " alt="" coords="699,46,652,39,653,34,700,41"/>
+<area shape="rect" href="classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="469,69,665,109"/>
+<area shape="poly" title=" " alt="" coords="700,74,666,79,665,73,700,69"/>
+<area shape="rect" href="classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" title=" " alt="" coords="468,28,421,28,421,23,468,23"/>
+<area shape="rect" href="classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>frontend/src/<a class="el" href="CoordinateTransformer_8jsx_source.html">CoordinateTransformer.jsx</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classCoordinateTransformer.html">CoordinateTransformer</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

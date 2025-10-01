@@ -1,6 +1,8 @@
 var hierarchy =
 [
     [ "ApriltagPipeline", "classApriltagPipeline.html", null ],
+    [ "AprilTagWorldReference", "classAprilTagWorldReference.html", null ],
+    [ "CoordinateTransformer", "classCoordinateTransformer.html", null ],
     [ "arb.models.Asset.Meta", "classarb_1_1models_1_1Asset_1_1Meta.html", null ],
     [ "arb.models.PromoCode.Meta", "classarb_1_1models_1_1PromoCode_1_1Meta.html", null ],
     [ "arb.models.Session.Meta", "classarb_1_1models_1_1Session_1_1Meta.html", null ],
@@ -27,6 +29,7 @@ var hierarchy =
       [ "arb.admin.UserAdmin", "classarb_1_1admin_1_1UserAdmin.html", null ],
       [ "arb.admin.ViewEventAdmin", "classarb_1_1admin_1_1ViewEventAdmin.html", null ]
     ] ],
+    [ "StabilizationFilter", "classStabilizationFilter.html", null ],
     [ "admin.TabularInline", null, [
       [ "arb.admin.SessionItemProgressInline", "classarb_1_1admin_1_1SessionItemProgressInline.html", null ],
       [ "arb.admin.ViewEventInline", "classarb_1_1admin_1_1ViewEventInline.html", null ]

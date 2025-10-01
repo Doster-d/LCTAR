@@ -2,8 +2,8 @@ var searchData=
 [
   ['all_5fassets_0',['ALL_ASSETS',['../assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850',1,'assets.js']]],
   ['allowed_5fhosts_1',['ALLOWED_HOSTS',['../namespacearb_1_1settings.html#a8a9505ee5d6cb9d0d6e6517b45943c76',1,'arb::settings']]],
-  ['api_5fbase_5furl_2',['API_BASE_URL',['../client_8js.html#a951736089168e22ec5096995fd400ab2',1,'client.js']]],
-  ['apibaseurl_3',['apiBaseUrl',['../client_8js.html#aeeb4b49b72dada9f340a9be56af5159c',1,'client.js']]],
+  ['apiprovider_2',['ApiProvider',['../ApiContext_8jsx.html#a50d9444b867336cb14c0aa2024325907',1,'ApiContext.jsx']]],
+  ['apistate_3',['apiState',['../api_8js.html#a60d3ea24e8b6b58dd302a12fe12f56b7',1,'api.js']]],
   ['app_4',['app',['../namespacearb_1_1celery.html#a453cce668e95eebd8fe8db3747207d4c',1,'arb::celery']]],
   ['appcontainer_5',['AppContainer',['../index_8jsx.html#ade53c8b517ffe6df9b3e7c02f37151c2',1,'index.jsx']]],
   ['application_6',['application',['../namespacearb_1_1asgi.html#a39bd34a5114f751b20f03aae3610aadb',1,'arb.asgi.application'],['../namespacearb_1_1wsgi.html#a1fb08139a7bea41d6588e878e968ea9c',1,'arb.wsgi.application']]],

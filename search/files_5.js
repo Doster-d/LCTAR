@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['debugcube_2ejsx_0',['DebugCube.jsx',['../DebugCube_8jsx.html',1,'']]]
+  ['hooks_2ejs_0',['hooks.js',['../hooks_8js.html',1,'']]]
 ];

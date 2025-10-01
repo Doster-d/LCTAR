@@ -114,12 +114,12 @@ $(document).ready(function(){initNavTree('SceneComponent_8jsx.html',''); initRes
 <tr class="memitem:a43eaf01af45ef0596e19a160fdaed33f" id="r_a43eaf01af45ef0596e19a160fdaed33f"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f">setProjectionFromIntrinsics</a> (camera, fx, fy, cx, cy, w, h, near=0.01, far=100)</td></tr>
 <tr class="memdesc:a43eaf01af45ef0596e19a160fdaed33f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Строит проекционную матрицу по внутренним параметрам камеры.  <br /></td></tr>
 <tr class="separator:a43eaf01af45ef0596e19a160fdaed33f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a930f6949edb2ff8f4c5f2a11971add05" id="r_a930f6949edb2ff8f4c5f2a11971add05"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05">Scene</a> ({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix })</td></tr>
-<tr class="memdesc:a930f6949edb2ff8f4c5f2a11971add05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag.  <br /></td></tr>
-<tr class="separator:a930f6949edb2ff8f4c5f2a11971add05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f46cdf831c4ff2a9e7950c1d3eba516" id="r_a0f46cdf831c4ff2a9e7950c1d3eba516"><td class="memItemLeft" align="right" valign="top">function default&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516">SceneComponent</a> (props)</td></tr>
-<tr class="memdesc:a0f46cdf831c4ff2a9e7950c1d3eba516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Адаптер, пробрасывающий пропсы во внутренний компонент Scene.  <br /></td></tr>
-<tr class="separator:a0f46cdf831c4ff2a9e7950c1d3eba516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b84c41fc9907cbd83cedb840107b761" id="r_a3b84c41fc9907cbd83cedb840107b761"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SceneComponent_8jsx.html#a3b84c41fc9907cbd83cedb840107b761">Scene</a> ({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix, showQualityIndicators=true, onQualityChange })</td></tr>
+<tr class="memdesc:a3b84c41fc9907cbd83cedb840107b761"><td class="mdescLeft">&#160;</td><td class="mdescRight">Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag.  <br /></td></tr>
+<tr class="separator:a3b84c41fc9907cbd83cedb840107b761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a872d180ee7e03e1cc08648bb36752c23" id="r_a872d180ee7e03e1cc08648bb36752c23"><td class="memItemLeft" align="right" valign="top">function default&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SceneComponent_8jsx.html#a872d180ee7e03e1cc08648bb36752c23">SceneComponent</a> ({ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix, showQualityIndicators=true, onQualityChange,...props })</td></tr>
+<tr class="memdesc:a872d180ee7e03e1cc08648bb36752c23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Адаптер, пробрасывающий пропсы во внутренний компонент Scene с поддержкой стабилизированных трансформаций.  <br /></td></tr>
+<tr class="separator:a872d180ee7e03e1cc08648bb36752c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Функции</h2>
 <a id="afd810085655f23cfd352660607890dd5" name="afd810085655f23cfd352660607890dd5"></a>
@@ -151,8 +151,8 @@ $(document).ready(function(){initNavTree('SceneComponent_8jsx.html',''); initRes
 
 </div>
 </div>
-<a id="a930f6949edb2ff8f4c5f2a11971add05" name="a930f6949edb2ff8f4c5f2a11971add05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a930f6949edb2ff8f4c5f2a11971add05">&#9670;&#160;</a></span>Scene()</h2>
+<a id="a3b84c41fc9907cbd83cedb840107b761" name="a3b84c41fc9907cbd83cedb840107b761"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b84c41fc9907cbd83cedb840107b761">&#9670;&#160;</a></span>Scene()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +161,7 @@ $(document).ready(function(){initNavTree('SceneComponent_8jsx.html',''); initRes
           <td class="memname">function Scene </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>{ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix }</em></td><td>)</td>
+          <td class="paramname"><em>{ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix, showQualityIndicators=true, onQualityChange }</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -170,32 +170,24 @@ $(document).ready(function(){initNavTree('SceneComponent_8jsx.html',''); initRes
 <p>Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
-    <tr><td class="paramname">props.transfers</td><td>Набор трансформаций для отрисовки (опционально). </td></tr>
+    <tr><td class="paramname">props.transforms</td><td>Набор трансформаций для отрисовки с поддержкой стабилизации. </td></tr>
     <tr><td class="paramname">props.pipelineRef</td><td>Ссылка на пайплайн AprilTag с интринзиками. </td></tr>
     <tr><td class="paramname">props.videoWidth</td><td>Ширина исходного видео. </td></tr>
     <tr><td class="paramname">props.videoHeight</td><td>Высота исходного видео. </td></tr>
     <tr><td class="paramname">props.anchorMatrix</td><td>Дополнительная матрица якоря. </td></tr>
+    <tr><td class="paramname">props.showQualityIndicators</td><td>Показывать индикаторы качества детекции. </td></tr>
+    <tr><td class="paramname">props.onQualityChange</td><td>Callback для изменений качества детекции. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Возвращает</dt><dd>{JSX.Element} Содержимое сцены с отображением якоря. </dd></dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{JSX.Element} Содержимое сцены с отображением якоря и индикаторов качества. </dd></dl>
 
-<p class="definition">См. определение в файле <a class="el" href="SceneComponent_8jsx_source.html">SceneComponent.jsx</a> строка <a class="el" href="SceneComponent_8jsx_source.html#l00053">53</a></p>
-<div class="dynheader">
-Граф вызова функции:</div>
-<div class="dyncontent">
-<div class="center"><img src="SceneComponent_8jsx_a930f6949edb2ff8f4c5f2a11971add05_icgraph.png" border="0" usemap="#aSceneComponent_8jsx_a930f6949edb2ff8f4c5f2a11971add05_icgraph" alt=""/></div>
-<map name="aSceneComponent_8jsx_a930f6949edb2ff8f4c5f2a11971add05_icgraph" id="aSceneComponent_8jsx_a930f6949edb2ff8f4c5f2a11971add05_icgraph">
-<area shape="rect" title="Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag." alt="" coords="189,5,251,31"/>
-<area shape="rect" href="SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516" title="Адаптер, пробрасывающий пропсы во внутренний компонент Scene." alt="" coords="5,5,141,31"/>
-<area shape="poly" title=" " alt="" coords="176,21,142,21,142,15,176,15"/>
-</map>
-</div>
+<p class="definition">См. определение в файле <a class="el" href="SceneComponent_8jsx_source.html">SceneComponent.jsx</a> строка <a class="el" href="SceneComponent_8jsx_source.html#l00055">55</a></p>
 
 </div>
 </div>
-<a id="a0f46cdf831c4ff2a9e7950c1d3eba516" name="a0f46cdf831c4ff2a9e7950c1d3eba516"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f46cdf831c4ff2a9e7950c1d3eba516">&#9670;&#160;</a></span>SceneComponent()</h2>
+<a id="a872d180ee7e03e1cc08648bb36752c23" name="a872d180ee7e03e1cc08648bb36752c23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a872d180ee7e03e1cc08648bb36752c23">&#9670;&#160;</a></span>SceneComponent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,32 +196,28 @@ $(document).ready(function(){initNavTree('SceneComponent_8jsx.html',''); initRes
           <td class="memname">function default SceneComponent </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>props</em></td><td>)</td>
+          <td class="paramname"><em>{ transforms, pipelineRef, videoWidth, videoHeight, anchorMatrix, showQualityIndicators=true, onQualityChange,...props }</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Адаптер, пробрасывающий пропсы во внутренний компонент Scene. </p>
+<p>Адаптер, пробрасывающий пропсы во внутренний компонент Scene с поддержкой стабилизированных трансформаций. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
-    <tr><td class="paramname">props</td><td>Параметры сцены. </td></tr>
+    <tr><td class="paramname">props.transforms</td><td>Стабилизированные трансформации маркеров. </td></tr>
+    <tr><td class="paramname">props.pipelineRef</td><td>Ссылка на пайплайн AprilTag. </td></tr>
+    <tr><td class="paramname">props.videoWidth</td><td>Ширина видео. </td></tr>
+    <tr><td class="paramname">props.videoHeight</td><td>Высота видео. </td></tr>
+    <tr><td class="paramname">props.anchorMatrix</td><td>Матрица якоря. </td></tr>
+    <tr><td class="paramname">props.showQualityIndicators</td><td>Показывать индикаторы качества (по умолчанию true). </td></tr>
+    <tr><td class="paramname">props.onQualityChange</td><td>Callback для изменений качества детекции. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Возвращает</dt><dd>{JSX.Element} Настроенный компонент Scene. </dd></dl>
+<dl class="section return"><dt>Возвращает</dt><dd>{JSX.Element} Настроенный компонент Scene с визуализацией качества. </dd></dl>
 
-<p class="definition">См. определение в файле <a class="el" href="SceneComponent_8jsx_source.html">SceneComponent.jsx</a> строка <a class="el" href="SceneComponent_8jsx_source.html#l00106">106</a></p>
-<div class="dynheader">
-Граф вызовов:</div>
-<div class="dyncontent">
-<div class="center"><img src="SceneComponent_8jsx_a0f46cdf831c4ff2a9e7950c1d3eba516_cgraph.png" border="0" usemap="#aSceneComponent_8jsx_a0f46cdf831c4ff2a9e7950c1d3eba516_cgraph" alt=""/></div>
-<map name="aSceneComponent_8jsx_a0f46cdf831c4ff2a9e7950c1d3eba516_cgraph" id="aSceneComponent_8jsx_a0f46cdf831c4ff2a9e7950c1d3eba516_cgraph">
-<area shape="rect" title="Адаптер, пробрасывающий пропсы во внутренний компонент Scene." alt="" coords="5,5,141,31"/>
-<area shape="rect" href="SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05" title="Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag." alt="" coords="189,5,251,31"/>
-<area shape="poly" title=" " alt="" coords="142,15,176,15,176,21,142,21"/>
-</map>
-</div>
+<p class="definition">См. определение в файле <a class="el" href="SceneComponent_8jsx_source.html">SceneComponent.jsx</a> строка <a class="el" href="SceneComponent_8jsx_source.html#l00301">301</a></p>
 
 </div>
 </div>

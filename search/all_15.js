@@ -14,5 +14,6 @@ var searchData=
   ['loadapriltagscript_11',['loadAprilTagScript',['../classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601',1,'ApriltagPipeline']]],
   ['loadconfig_12',['loadConfig',['../apriltagPipeline_8jsx.html#a3695532c9bfcab009a47939afd68b89f',1,'apriltagPipeline.jsx']]],
   ['logger_13',['logger',['../namespacearb_1_1views.html#a9c8988c8437bedf9564fca3d5c0767d2',1,'arb::views']]],
-  ['loop_14',['loop',['../classVideoCanvasManager.html#a8cdefa9025550de18f1d94818908d4d0',1,'VideoCanvasManager']]]
+  ['logperformancemetrics_14',['logPerformanceMetrics',['../classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176',1,'CoordinateTransformer']]],
+  ['loop_15',['loop',['../classVideoCanvasManager.html#a8cdefa9025550de18f1d94818908d4d0',1,'VideoCanvasManager']]]
 ];

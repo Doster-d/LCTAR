@@ -1,0 +1,9 @@
+<map id="ApriltagPipeline::calculateDetectionConfidence" name="ApriltagPipeline::calculateDetectionConfidence">
+<area shape="rect" id="Node000001" title="Вычисляет уверенность детекции маркера" alt="" coords="467,22,659,62"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,29,180,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="453,41,419,41,228,41,180,42,180,36,228,35,419,35,453,36"/>
+<area shape="rect" id="Node000003" href="$classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd" title="Оценивает качество детекции множественных маркеров" alt="" coords="228,50,419,90"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="453,57,419,62,419,56,453,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="134,20,123,11,93,8,68,10,55,15,52,20,59,27,55,31,47,21,51,11,67,5,93,3,125,7,137,16"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="214,59,180,55,180,50,215,54"/>
+</map>

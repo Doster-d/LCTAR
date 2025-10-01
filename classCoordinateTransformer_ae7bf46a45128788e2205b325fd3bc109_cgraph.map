@@ -1,0 +1,19 @@
+<map id="CoordinateTransformer::applyStabilization" name="CoordinateTransformer::applyStabilization">
+<area shape="rect" id="Node000001" title="Применяет стабилизацию к трансформации" alt="" coords="5,197,176,237"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="246,101,417,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,195,223,151,244,143,246,148,225,156,131,200"/>
+<area shape="rect" id="Node000007" href="$classCoordinateTransformer.html#ad86eff4f8ac42caab22866be074aba7e" title="Применяет фильтрацию к позиции" alt="" coords="246,165,417,205"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="176,203,232,196,233,201,177,209"/>
+<area shape="rect" id="Node000008" href="$classCoordinateTransformer.html#a1575157b61a144de27f51b206b71e0cb" title="Применяет фильтрацию к вращению" alt="" coords="244,229,419,269"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="177,226,231,233,230,239,176,231"/>
+<area shape="rect" id="Node000009" href="$classCoordinateTransformer.html#a1b3506fabbd43f1f242a8c86beeab091" title="Вычисляет адаптивную скорость интерполяции на основе уверенности" alt="" coords="224,293,439,333"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="131,235,225,279,246,286,244,291,223,284,128,240"/>
+<area shape="rect" id="Node000003" href="$classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac" title="Получает Quaternion из пула или создает новый" alt="" coords="487,5,657,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="379,99,486,55,504,48,506,53,488,60,381,104"/>
+<area shape="rect" id="Node000004" href="$classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db" title="Получает Vector3 из пула или создает новый" alt="" coords="487,69,657,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="417,107,473,100,473,105,417,113"/>
+<area shape="rect" id="Node000005" href="$classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="487,133,657,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="417,130,473,138,473,143,417,135"/>
+<area shape="rect" id="Node000006" href="$classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="487,197,657,237"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="410,139,440,151,464,167,488,183,502,190,499,194,485,188,461,171,437,156,408,144"/>
+</map>

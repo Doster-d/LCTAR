@@ -1,0 +1,6 @@
+<map id="ApriltagPipeline::applyRecoveryStrategies" name="ApriltagPipeline::applyRecoveryStrategies">
+<area shape="rect" id="Node000001" title="Применяет стратегии восстановления при потере детекции" alt="" coords="228,22,459,62"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8" title="Выполняет детекцию тегов по переданному RGBA&#45;буферу изображения." alt="" coords="5,29,180,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,45,180,45,180,39,214,39"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="137,20,135,15,127,12,93,8,66,10,51,15,49,20,56,27,52,31,43,21,48,11,65,5,93,3,128,7,138,11,142,17"/>
+</map>

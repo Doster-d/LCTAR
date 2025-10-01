@@ -1,0 +1,11 @@
+<map id="CoordinateTransformer::updateTransformMatrix" name="CoordinateTransformer::updateTransformMatrix">
+<area shape="rect" id="Node000001" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="713,37,896,77"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="482,5,653,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="699,46,652,39,653,34,700,41"/>
+<area shape="rect" id="Node000005" href="$classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="469,69,665,109"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="700,74,666,79,665,73,700,69"/>
+<area shape="rect" id="Node000003" href="$classCoordinateTransformer.html#afb84e945e181d8095a8484d3183f1bd8" title="Выполняет периодическое перезацепление с проверками" alt="" coords="227,5,421,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="468,28,421,28,421,23,468,23"/>
+<area shape="rect" id="Node000004" href="$classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f" title="Запускает периодическое перезацепление" alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="212,28,179,28,179,23,212,23"/>
+</map>

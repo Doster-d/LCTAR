@@ -1,0 +1,9 @@
+<map id="CoordinateTransformer::getQuaternion" name="CoordinateTransformer::getQuaternion">
+<area shape="rect" id="Node000001" title="Получает Quaternion из пула или создает новый" alt="" coords="687,5,857,45"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="468,5,639,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="673,28,639,28,639,23,673,23"/>
+<area shape="rect" id="Node000003" href="$classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="249,5,420,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="454,28,420,28,420,23,454,23"/>
+<area shape="rect" id="Node000004" href="$classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,5,201,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="235,28,202,28,202,23,235,23"/>
+</map>

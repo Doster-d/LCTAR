@@ -1,0 +1,23 @@
+<map id="CoordinateTransformer::performPeriodicReanchor" name="CoordinateTransformer::performPeriodicReanchor">
+<area shape="rect" id="Node000001" title="Выполняет периодическое перезацепление с проверками" alt="" coords="5,133,200,173"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3" title="Выполняет перезацепление с плавным переходом" alt="" coords="248,101,419,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,137,234,132,235,138,200,142"/>
+<area shape="rect" id="Node000011" href="$classCoordinateTransformer.html#abc0e6f1130b91c85d9e7a6d7fd2e28fd" title="Проверяет наличие валидных детекций для перезацепления" alt="" coords="248,165,419,205"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="200,164,235,169,234,174,200,169"/>
+<area shape="rect" id="Node000003" href="$classCoordinateTransformer.html#a297acbf21122184fca8fb86b240f0694" title="Уведомляет все коллбэки о перезацеплении" alt="" coords="467,21,657,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="391,99,490,63,492,68,393,104"/>
+<area shape="rect" id="Node000005" href="$classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af" title="Сбрасывает стабилизацию координат без полной потери состояния" alt="" coords="477,101,647,141"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="419,119,463,119,463,124,419,124"/>
+<area shape="rect" id="Node000010" href="$classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="471,165,653,205"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="406,139,478,159,476,164,405,144"/>
+<area shape="rect" id="Node000004" href="$classCoordinateTransformer.html#aed1d5833835bc72f4e7a3cc3be413e30" title="Возвращает текущее состояние трансформации" alt="" coords="705,5,876,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="658,32,692,30,692,35,658,37"/>
+<area shape="rect" id="Node000006" href="$classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="705,69,876,109"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="647,107,691,101,692,106,648,112"/>
+<area shape="rect" id="Node000008" href="$classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="705,133,876,173"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="648,131,692,137,691,142,647,136"/>
+<area shape="rect" id="Node000009" href="$classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="705,197,876,237"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="631,139,659,151,683,167,707,183,720,190,718,194,704,188,680,171,656,156,628,144"/>
+<area shape="rect" id="Node000007" href="$classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="924,69,1105,109"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="876,87,910,87,910,92,876,92"/>
+</map>

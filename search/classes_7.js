@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['user_0',['User',['../classarb_1_1models_1_1User.html',1,'arb::models']]],
-  ['useradmin_1',['UserAdmin',['../classarb_1_1admin_1_1UserAdmin.html',1,'arb::admin']]]
+  ['testmvpapi_0',['TestMvpApi',['../classarb_1_1tests_1_1TestMvpApi.html',1,'arb::tests']]]
 ];

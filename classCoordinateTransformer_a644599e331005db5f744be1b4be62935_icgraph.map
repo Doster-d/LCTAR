@@ -1,0 +1,5 @@
+<map id="CoordinateTransformer::getPerformanceMetrics" name="CoordinateTransformer::getPerformanceMetrics">
+<area shape="rect" id="Node000001" title="Возвращает текущие метрики производительности" alt="" coords="224,5,407,45"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#a8768a43b91337e26e31ac606e18fcf87" title="Возвращает диагностическую информацию о состоянии системы" alt="" coords="5,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,28,176,28,176,23,210,23"/>
+</map>

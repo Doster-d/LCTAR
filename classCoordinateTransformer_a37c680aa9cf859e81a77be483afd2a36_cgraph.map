@@ -1,0 +1,37 @@
+<map id="CoordinateTransformer::transformCameraToWorld" name="CoordinateTransformer::transformCameraToWorld">
+<area shape="rect" id="Node000001" title="Основной метод трансформации позы камеры в мировые координаты (оптимизированный)" alt="" coords="5,405,201,445"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#ae7bf46a45128788e2205b325fd3bc109" title="Применяет стабилизацию к трансформации" alt="" coords="261,133,432,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,404,317,182,321,185,124,407"/>
+<area shape="rect" id="Node000011" href="$classCoordinateTransformer.html#a96a0c6c1acd5d6761c857cd72cafb97e" title="Вычисляет целевую трансформацию на основе детекций" alt="" coords="249,376,444,416"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="201,411,235,407,236,412,202,416"/>
+<area shape="rect" id="Node000015" href="$classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a" title="Записывает метрики производительности" alt="" coords="824,440,995,480"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="202,427,810,453,810,458,201,432"/>
+<area shape="rect" id="Node000017" href="$classCoordinateTransformer.html#a91d21eff1223ef3584e518590128638c" title="Обновляет матрицу трансформации на основе текущего состояния" alt="" coords="255,491,438,531"/>
+<area shape="poly" id="edge18_Node000001_Node000017" title=" " alt="" coords="162,443,277,484,275,489,160,448"/>
+<area shape="rect" id="Node000003" href="$classCoordinateTransformer.html#a7734c79fff12fe17d2c7f40eb8bf34e6" title="Добавляет текущее состояние в историю для предиктивной стабилизации (оптимизированный)" alt="" coords="535,197,705,237"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="433,171,522,192,521,197,432,176"/>
+<area shape="rect" id="Node000008" href="$classCoordinateTransformer.html#ad86eff4f8ac42caab22866be074aba7e" title="Применяет фильтрацию к позиции" alt="" coords="535,5,705,45"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="371,131,424,92,491,55,521,44,523,49,493,60,427,97,374,135"/>
+<area shape="rect" id="Node000009" href="$classCoordinateTransformer.html#a1575157b61a144de27f51b206b71e0cb" title="Применяет фильтрацию к вращению" alt="" coords="533,69,707,109"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="432,131,520,110,521,115,433,136"/>
+<area shape="rect" id="Node000010" href="$classCoordinateTransformer.html#a1b3506fabbd43f1f242a8c86beeab091" title="Вычисляет адаптивную скорость интерполяции на основе уверенности" alt="" coords="513,133,727,173"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="432,151,499,151,499,156,432,156"/>
+<area shape="rect" id="Node000004" href="$classCoordinateTransformer.html#a3700ee3461543b9c4733e05b146855ac" title="Получает Quaternion из пула или создает новый" alt="" coords="824,261,995,301"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="706,234,811,257,810,262,705,239"/>
+<area shape="rect" id="Node000005" href="$classCoordinateTransformer.html#a2db174d601ee993a07cfe1e9571787db" title="Получает Vector3 из пула или создает новый" alt="" coords="824,69,995,109"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="705,202,746,183,762,168,770,152,778,136,794,119,810,110,813,115,798,123,782,139,774,155,766,171,750,188,707,207"/>
+<area shape="rect" id="Node000006" href="$classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae" title="Возвращает Quaternion в пул" alt="" coords="824,133,995,173"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="705,196,810,172,811,178,706,201"/>
+<area shape="rect" id="Node000007" href="$classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7" title="Возвращает Vector3 в пул" alt="" coords="824,197,995,237"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="705,215,811,215,811,220,705,220"/>
+<area shape="rect" id="Node000012" href="$classCoordinateTransformer.html#a1543debf9f08cbda7a6dae73b3c4a77c" title="Вычисляет трансформацию из системы координат камеры в мировую (оптимизированный)" alt="" coords="492,376,748,416"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="444,393,478,393,478,399,444,399"/>
+<area shape="rect" id="Node000014" href="$classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="1071,348,1295,388"/>
+<area shape="poly" id="edge16_Node000011_Node000014" title=" " alt="" coords="423,373,492,361,644,350,796,347,938,350,1057,356,1057,361,938,356,796,353,644,356,492,367,424,379"/>
+<area shape="rect" id="Node000013" href="$classCoordinateTransformer.html#ae5aba3f72df6aab2183eacebc8827f18" title="Вычисляет общую уверенность трансформации" alt="" coords="796,376,1023,416"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="748,393,782,393,782,399,748,399"/>
+<area shape="poly" id="edge14_Node000012_Node000015" title=" " alt="" coords="712,413,811,436,810,441,711,419"/>
+<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="1022,382,1057,378,1057,384,1023,387"/>
+<area shape="rect" id="Node000016" href="$classCoordinateTransformer.html#aceb6d5b7987faf2289318e67c8304176" title="Логирует метрики производительности" alt="" coords="1092,440,1273,480"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="995,457,1078,457,1078,463,995,463"/>
+</map>

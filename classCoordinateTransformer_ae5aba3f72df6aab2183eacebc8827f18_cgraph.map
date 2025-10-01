@@ -1,0 +1,5 @@
+<map id="CoordinateTransformer::calculateTransformConfidence" name="CoordinateTransformer::calculateTransformConfidence">
+<area shape="rect" id="Node000001" title="Вычисляет общую уверенность трансформации" alt="" coords="5,5,232,45"/>
+<area shape="rect" id="Node000002" href="$classCoordinateTransformer.html#ab8e59181478ebea6b6145dbe915163bd" title="Вычисляет уверенность детекции AprilTag." alt="" coords="280,5,504,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,23,266,23,266,28,232,28"/>
+</map>

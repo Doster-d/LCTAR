@@ -1,5 +1,0 @@
-<map id="Scene" name="Scene">
-<area shape="rect" id="Node000001" title="Лёгкая обёртка сцены, подстраивающая камеру под параметры AprilTag." alt="" coords="189,5,251,31"/>
-<area shape="rect" id="Node000002" href="$SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516" title="Адаптер, пробрасывающий пропсы во внутренний компонент Scene." alt="" coords="5,5,141,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,21,142,21,142,15,176,15"/>
-</map>

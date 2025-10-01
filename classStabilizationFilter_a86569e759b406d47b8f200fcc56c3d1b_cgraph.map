@@ -1,0 +1,9 @@
+<map id="StabilizationFilter::apply" name="StabilizationFilter::apply">
+<area shape="rect" id="Node000001" title="Применяет фильтр к входному значению" alt="" coords="5,69,141,109"/>
+<area shape="rect" id="Node000002" href="$classStabilizationFilter.html#aeafd1e92ec637f6cc262d51335c7b250" title="Экспоненциальное сглаживание" alt="" coords="189,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,67,199,47,201,52,139,72"/>
+<area shape="rect" id="Node000003" href="$classStabilizationFilter.html#a73e23a197166703721dd37953c058b6d" title="Калмановский фильтр" alt="" coords="203,69,352,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,87,189,87,189,92,142,92"/>
+<area shape="rect" id="Node000004" href="$classStabilizationFilter.html#a871e6a87718a58532c8e48d57cdcde3d" title="Медианный фильтр (оптимизированный)" alt="" coords="204,133,351,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="139,107,201,127,199,132,137,112"/>
+</map>

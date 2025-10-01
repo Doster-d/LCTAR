@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Исходный файл frontend/src/api/hooks.js</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('hooks_8js_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">hooks.js</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="hooks_8js.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> {</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>,</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  <a class="code hl_variable" href="api_8js.html#a6ed6ca5fc7bdf4300a23c4080b4e7397">useApiCall</a>,</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  <a class="code hl_variable" href="api_8js.html#a5c0848f5e93307a04460576814e2768a">startSession</a>,</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>  <a class="code hl_variable" href="api_8js.html#a7b650b51e79e9646e9d2f2e909f89254">sendViewEvent</a>,</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>  <a class="code hl_variable" href="api_8js.html#a2a4531d46e06d2a1174abc13235674fb">submitEmail</a>,</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>  <a class="code hl_variable" href="api_8js.html#a388712b10009bc2538dd64fba101e6d2">getSessionProgress</a>,</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <a class="code hl_variable" href="api_8js.html#a15a792ea5291b80a31cf3616ac6b9b44">getPromoBySession</a>,</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  <a class="code hl_variable" href="api_8js.html#a6ec717e852d794673bae08bc86de7762">getPromoByUser</a>,</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  <a class="code hl_variable" href="api_8js.html#a7871efec4f50862b8e0bd7ff96819f7c">getPromoByEmail</a>,</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  <a class="code hl_variable" href="api_8js.html#a507582cb801dc987f3a9f24c49b7c517">getStats</a>,</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <a class="code hl_variable" href="api_8js.html#ade1a3ffe547d5d16b779ecba11495934">getHealth</a>,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>} from <span class="stringliteral">&#39;./api&#39;</span>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="hooks_8js.html#a3792102132f46457a52ac8b2ec4e30f5">   18</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a3792102132f46457a52ac8b2ec4e30f5">useStartSession</a> = () =&gt; {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a5c0848f5e93307a04460576814e2768a">startSession</a>);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>};</div>
+</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="hooks_8js.html#acb4d68f4eff095b4309a50bb33ad6199">   25</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#acb4d68f4eff095b4309a50bb33ad6199">useSendViewEvent</a> = () =&gt; {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a6ed6ca5fc7bdf4300a23c4080b4e7397">useApiCall</a>(<a class="code hl_variable" href="api_8js.html#a7b650b51e79e9646e9d2f2e909f89254">sendViewEvent</a>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="hooks_8js.html#a10be77b854951e36bdd15f028033652d">   32</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a10be77b854951e36bdd15f028033652d">useSubmitEmail</a> = () =&gt; {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a6ed6ca5fc7bdf4300a23c4080b4e7397">useApiCall</a>(<a class="code hl_variable" href="api_8js.html#a2a4531d46e06d2a1174abc13235674fb">submitEmail</a>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>};</div>
+</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="hooks_8js.html#a4df8c447d56d2cf7798b52ce565037a0">   39</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a4df8c447d56d2cf7798b52ce565037a0">useSessionProgress</a> = () =&gt; {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a388712b10009bc2538dd64fba101e6d2">getSessionProgress</a>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="hooks_8js.html#abb96f086d96beaba494628323c148ab0">   46</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#abb96f086d96beaba494628323c148ab0">usePromoBySession</a> = () =&gt; {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a15a792ea5291b80a31cf3616ac6b9b44">getPromoBySession</a>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="};">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="hooks_8js.html#a90d1b6d8d021ebde4e1f9cfe058489a2">   53</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a90d1b6d8d021ebde4e1f9cfe058489a2">usePromoByUser</a> = () =&gt; {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a6ec717e852d794673bae08bc86de7762">getPromoByUser</a>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="};">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="hooks_8js.html#a344d46f021f85f66a7e342b63a35e745">   60</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a344d46f021f85f66a7e342b63a35e745">usePromoByEmail</a> = () =&gt; {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a7871efec4f50862b8e0bd7ff96819f7c">getPromoByEmail</a>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="};">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="hooks_8js.html#a35c4359639a356625fa1633dce74b80c">   67</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a35c4359639a356625fa1633dce74b80c">useStats</a> = () =&gt; {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#a507582cb801dc987f3a9f24c49b7c517">getStats</a>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="hooks_8js.html#a2bbaa438b68b7aca247638be6a077d40">   74</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="hooks_8js.html#a2bbaa438b68b7aca247638be6a077d40">useHealth</a> = () =&gt; {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keywordflow">return</span> <a class="code hl_variable" href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a>(<a class="code hl_variable" href="api_8js.html#ade1a3ffe547d5d16b779ecba11495934">getHealth</a>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
+</div>
+<div class="ttc" id="aapi_8js_html_a15a792ea5291b80a31cf3616ac6b9b44"><div class="ttname"><a href="api_8js.html#a15a792ea5291b80a31cf3616ac6b9b44">getPromoBySession</a></div><div class="ttdeci">export const getPromoBySession</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00201">api.js:201</a></div></div>
+<div class="ttc" id="aapi_8js_html_a183b2abf676d150d3b78da5be8c7c44d"><div class="ttname"><a href="api_8js.html#a183b2abf676d150d3b78da5be8c7c44d">useApi</a></div><div class="ttdeci">export const useApi</div><div class="ttdoc">Кастомный хук для управления состоянием API запросов</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00011">api.js:11</a></div></div>
+<div class="ttc" id="aapi_8js_html_a2a4531d46e06d2a1174abc13235674fb"><div class="ttname"><a href="api_8js.html#a2a4531d46e06d2a1174abc13235674fb">submitEmail</a></div><div class="ttdeci">export const submitEmail</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00192">api.js:192</a></div></div>
+<div class="ttc" id="aapi_8js_html_a388712b10009bc2538dd64fba101e6d2"><div class="ttname"><a href="api_8js.html#a388712b10009bc2538dd64fba101e6d2">getSessionProgress</a></div><div class="ttdeci">export const getSessionProgress</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00198">api.js:198</a></div></div>
+<div class="ttc" id="aapi_8js_html_a507582cb801dc987f3a9f24c49b7c517"><div class="ttname"><a href="api_8js.html#a507582cb801dc987f3a9f24c49b7c517">getStats</a></div><div class="ttdeci">export const getStats</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00210">api.js:210</a></div></div>
+<div class="ttc" id="aapi_8js_html_a5c0848f5e93307a04460576814e2768a"><div class="ttname"><a href="api_8js.html#a5c0848f5e93307a04460576814e2768a">startSession</a></div><div class="ttdeci">export const startSession</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00183">api.js:183</a></div></div>
+<div class="ttc" id="aapi_8js_html_a6ec717e852d794673bae08bc86de7762"><div class="ttname"><a href="api_8js.html#a6ec717e852d794673bae08bc86de7762">getPromoByUser</a></div><div class="ttdeci">export const getPromoByUser</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00204">api.js:204</a></div></div>
+<div class="ttc" id="aapi_8js_html_a6ed6ca5fc7bdf4300a23c4080b4e7397"><div class="ttname"><a href="api_8js.html#a6ed6ca5fc7bdf4300a23c4080b4e7397">useApiCall</a></div><div class="ttdeci">export const useApiCall</div><div class="ttdoc">Кастомный хук для выполнения API запросов без сохранения состояния</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00051">api.js:51</a></div></div>
+<div class="ttc" id="aapi_8js_html_a7871efec4f50862b8e0bd7ff96819f7c"><div class="ttname"><a href="api_8js.html#a7871efec4f50862b8e0bd7ff96819f7c">getPromoByEmail</a></div><div class="ttdeci">export const getPromoByEmail</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00207">api.js:207</a></div></div>
+<div class="ttc" id="aapi_8js_html_a7b650b51e79e9646e9d2f2e909f89254"><div class="ttname"><a href="api_8js.html#a7b650b51e79e9646e9d2f2e909f89254">sendViewEvent</a></div><div class="ttdeci">export const sendViewEvent</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00186">api.js:186</a></div></div>
+<div class="ttc" id="aapi_8js_html_ade1a3ffe547d5d16b779ecba11495934"><div class="ttname"><a href="api_8js.html#ade1a3ffe547d5d16b779ecba11495934">getHealth</a></div><div class="ttdeci">export const getHealth</div><div class="ttdef"><b>Definition</b> <a href="api_8js_source.html#l00212">api.js:212</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a10be77b854951e36bdd15f028033652d"><div class="ttname"><a href="hooks_8js.html#a10be77b854951e36bdd15f028033652d">useSubmitEmail</a></div><div class="ttdeci">export const useSubmitEmail</div><div class="ttdoc">Хук для отправки email.</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00032">hooks.js:32</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a2bbaa438b68b7aca247638be6a077d40"><div class="ttname"><a href="hooks_8js.html#a2bbaa438b68b7aca247638be6a077d40">useHealth</a></div><div class="ttdeci">export const useHealth</div><div class="ttdoc">Хук для проверки здоровья сервиса</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00074">hooks.js:74</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a344d46f021f85f66a7e342b63a35e745"><div class="ttname"><a href="hooks_8js.html#a344d46f021f85f66a7e342b63a35e745">usePromoByEmail</a></div><div class="ttdeci">export const usePromoByEmail</div><div class="ttdoc">Хук для получения промо по email.</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00060">hooks.js:60</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a35c4359639a356625fa1633dce74b80c"><div class="ttname"><a href="hooks_8js.html#a35c4359639a356625fa1633dce74b80c">useStats</a></div><div class="ttdeci">export const useStats</div><div class="ttdoc">Хук для получения статистики</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00067">hooks.js:67</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a3792102132f46457a52ac8b2ec4e30f5"><div class="ttname"><a href="hooks_8js.html#a3792102132f46457a52ac8b2ec4e30f5">useStartSession</a></div><div class="ttdeci">export const useStartSession</div><div class="ttdoc">Хук для запуска сессии</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00018">hooks.js:18</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a4df8c447d56d2cf7798b52ce565037a0"><div class="ttname"><a href="hooks_8js.html#a4df8c447d56d2cf7798b52ce565037a0">useSessionProgress</a></div><div class="ttdeci">export const useSessionProgress</div><div class="ttdoc">Хук для получения прогресса сессии</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00039">hooks.js:39</a></div></div>
+<div class="ttc" id="ahooks_8js_html_a90d1b6d8d021ebde4e1f9cfe058489a2"><div class="ttname"><a href="hooks_8js.html#a90d1b6d8d021ebde4e1f9cfe058489a2">usePromoByUser</a></div><div class="ttdeci">export const usePromoByUser</div><div class="ttdoc">Хук для получения промо по пользователю</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00053">hooks.js:53</a></div></div>
+<div class="ttc" id="ahooks_8js_html_abb96f086d96beaba494628323c148ab0"><div class="ttname"><a href="hooks_8js.html#abb96f086d96beaba494628323c148ab0">usePromoBySession</a></div><div class="ttdeci">export const usePromoBySession</div><div class="ttdoc">Хук для получения промо по сессии</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00046">hooks.js:46</a></div></div>
+<div class="ttc" id="ahooks_8js_html_acb4d68f4eff095b4309a50bb33ad6199"><div class="ttname"><a href="hooks_8js.html#acb4d68f4eff095b4309a50bb33ad6199">useSendViewEvent</a></div><div class="ttdeci">export const useSendViewEvent</div><div class="ttdoc">Хук для отправки события просмотра</div><div class="ttdef"><b>Definition</b> <a href="hooks_8js_source.html#l00025">hooks.js:25</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="dir_e5dce942e0c8b22d940e1cd5265ce9c9.html">api</a></li><li class="navelem"><a class="el" href="hooks_8js.html">hooks.js</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

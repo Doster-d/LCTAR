@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['frameaccuratevideorecording_0',['FrameAccurateVideoRecording',['../classFrameAccurateVideoRecording.html',1,'']]]
+  ['coordinatetransformer_0',['CoordinateTransformer',['../classCoordinateTransformer.html',1,'']]]
 ];

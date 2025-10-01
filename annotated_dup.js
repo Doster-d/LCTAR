@@ -32,8 +32,11 @@ var annotated_dup =
       ] ]
     ] ],
     [ "ApriltagPipeline", "classApriltagPipeline.html", "classApriltagPipeline" ],
+    [ "AprilTagWorldReference", "classAprilTagWorldReference.html", "classAprilTagWorldReference" ],
+    [ "CoordinateTransformer", "classCoordinateTransformer.html", "classCoordinateTransformer" ],
     [ "FrameAccurateVideoRecording", "classFrameAccurateVideoRecording.html", "classFrameAccurateVideoRecording" ],
     [ "RealtimeVideoRecording", "classRealtimeVideoRecording.html", "classRealtimeVideoRecording" ],
+    [ "StabilizationFilter", "classStabilizationFilter.html", "classStabilizationFilter" ],
     [ "VideoCanvasManager", "classVideoCanvasManager.html", "classVideoCanvasManager" ],
     [ "VideoRecording", "classVideoRecording.html", "classVideoRecording" ]
 ];

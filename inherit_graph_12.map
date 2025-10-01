@@ -1,3 +1,15 @@
 <map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
-<area shape="rect" id="Node000000" href="$classVideoCanvasManager.html" title="Координирует время воспроизведения и запись WebGL&#45;канваса." alt="" coords="5,5,169,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,129,120,155"/>
+<area shape="rect" id="Node000001" href="$classarb_1_1models_1_1Asset.html" title=" " alt="" coords="218,5,353,31"/>
+<area shape="poly" id="edge11_Node000000_Node000001" title=" " alt="" coords="80,116,117,77,141,56,167,40,192,29,217,22,219,28,193,34,169,44,144,61,121,80,84,120"/>
+<area shape="rect" id="Node000002" href="$classarb_1_1models_1_1PromoCode.html" title=" " alt="" coords="198,55,373,80"/>
+<area shape="poly" id="edge12_Node000000_Node000002" title=" " alt="" coords="97,120,167,89,208,78,209,83,169,94,99,125"/>
+<area shape="rect" id="Node000003" href="$classarb_1_1models_1_1Session.html" title=" " alt="" coords="211,104,360,129"/>
+<area shape="poly" id="edge13_Node000000_Node000003" title=" " alt="" coords="133,131,210,122,211,128,134,137"/>
+<area shape="rect" id="Node000004" href="$classarb_1_1models_1_1SessionItemProgress.html" title=" " alt="" coords="168,153,403,179"/>
+<area shape="poly" id="edge14_Node000000_Node000004" title=" " alt="" coords="134,147,168,151,167,156,133,152"/>
+<area shape="rect" id="Node000005" href="$classarb_1_1models_1_1User.html" title=" " alt="" coords="221,203,350,228"/>
+<area shape="poly" id="edge15_Node000000_Node000005" title=" " alt="" coords="101,158,169,187,221,201,219,207,167,193,99,163"/>
+<area shape="rect" id="Node000006" href="$classarb_1_1models_1_1ViewEvent.html" title=" " alt="" coords="201,252,369,277"/>
+<area shape="poly" id="edge16_Node000000_Node000006" title=" " alt="" coords="84,164,121,202,144,221,169,237,202,250,200,255,167,242,141,225,117,206,80,167"/>
 </map>

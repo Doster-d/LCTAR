@@ -13,12 +13,13 @@ var searchData=
   ['clampdecimals_10',['clampDecimals',['../AprilTagLayoutEditor_8jsx.html#aa7c158c4dd3141bf138b73eeb5ca8539',1,'AprilTagLayoutEditor.jsx']]],
   ['client_11',['client',['../classarb_1_1tests_1_1TestMvpApi.html#aa47e683320291b9d4bd7adf5d57cfd13',1,'arb.tests.TestMvpApi.client'],['../r3f-video-recorder_8jsx.html#a3c640cde7be51ef244e293a837be4c15',1,'client:&#160;r3f-video-recorder.jsx']]],
   ['code_12',['code',['../classarb_1_1models_1_1PromoCode.html#a40279f7f81cfc0ff590d2e33e4914135',1,'arb::models::PromoCode']]],
-  ['constraints_13',['constraints',['../classarb_1_1models_1_1SessionItemProgress_1_1Meta.html#a5d6199d347a43e1c6563f503a6b99571',1,'arb::models::SessionItemProgress::Meta']]],
-  ['container_14',['container',['../index_8jsx.html#aa53a17095dc5d4126359a912c2ae4393',1,'index.jsx']]],
-  ['cors_5fallow_5fcredentials_15',['CORS_ALLOW_CREDENTIALS',['../namespacearb_1_1settings.html#a911c1ee3c8ef1c998b6d6323b9a4eae8',1,'arb::settings']]],
-  ['cors_5fallowed_5forigins_16',['CORS_ALLOWED_ORIGINS',['../namespacearb_1_1settings.html#a04fa2af0f8b45eb35702789d63ac2346',1,'arb::settings']]],
-  ['created_5fat_17',['created_at',['../classarb_1_1models_1_1User.html#a38c20b5e9508f9a53e8a30d15bd0868b',1,'arb.models.User.created_at'],['../classarb_1_1models_1_1Session.html#ac0760c73f357ede7352877682d6aeb96',1,'arb.models.Session.created_at']]],
-  ['createemptyscene_18',['createEmptyScene',['../AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc',1,'AprilTagLayoutEditor.jsx']]],
-  ['createemptytag_19',['createEmptyTag',['../AprilTagLayoutEditor_8jsx.html#ab48fc72a20fecf7b2149ac2207aba3be',1,'AprilTagLayoutEditor.jsx']]],
-  ['csrf_5ftrusted_5forigins_20',['CSRF_TRUSTED_ORIGINS',['../namespacearb_1_1settings.html#a5aaf7b1e1903b4905b1e3b0ad77d42be',1,'arb::settings']]]
+  ['configureapi_13',['configureApi',['../api_8js.html#ae56ac0cf6428f1ab6e61ebded841521e',1,'api.js']]],
+  ['constraints_14',['constraints',['../classarb_1_1models_1_1SessionItemProgress_1_1Meta.html#a5d6199d347a43e1c6563f503a6b99571',1,'arb::models::SessionItemProgress::Meta']]],
+  ['container_15',['container',['../index_8jsx.html#aa53a17095dc5d4126359a912c2ae4393',1,'index.jsx']]],
+  ['cors_5fallow_5fcredentials_16',['CORS_ALLOW_CREDENTIALS',['../namespacearb_1_1settings.html#a911c1ee3c8ef1c998b6d6323b9a4eae8',1,'arb::settings']]],
+  ['cors_5fallowed_5forigins_17',['CORS_ALLOWED_ORIGINS',['../namespacearb_1_1settings.html#a04fa2af0f8b45eb35702789d63ac2346',1,'arb::settings']]],
+  ['created_5fat_18',['created_at',['../classarb_1_1models_1_1Session.html#ac0760c73f357ede7352877682d6aeb96',1,'arb.models.Session.created_at'],['../classarb_1_1models_1_1User.html#a38c20b5e9508f9a53e8a30d15bd0868b',1,'arb.models.User.created_at']]],
+  ['createemptyscene_19',['createEmptyScene',['../AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc',1,'AprilTagLayoutEditor.jsx']]],
+  ['createemptytag_20',['createEmptyTag',['../AprilTagLayoutEditor_8jsx.html#ab48fc72a20fecf7b2149ac2207aba3be',1,'AprilTagLayoutEditor.jsx']]],
+  ['csrf_5ftrusted_5forigins_21',['CSRF_TRUSTED_ORIGINS',['../namespacearb_1_1settings.html#a5aaf7b1e1903b4905b1e3b0ad77d42be',1,'arb::settings']]]
 ];

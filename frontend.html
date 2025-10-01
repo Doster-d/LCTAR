@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('frontend.html',''); initResizable(); }
 <li>**<code><a class="el" href="App_8jsx.html">App.jsx</a></code>** - центральный компонент, управляющий камерой, детекцией и UI</li>
 <li>**<code><a class="el" href="apriltagPipeline_8jsx.html">apriltagPipeline.jsx</a></code>** - обертка над WebAssembly AprilTag детектором</li>
 <li>**<code><a class="el" href="SceneComponent_8jsx.html">SceneComponent.jsx</a></code>** - интеграция React Three Fiber с Three.js сценой</li>
-<li>**<code><a class="el" href="backend_8js.html">api/backend.js</a></code>** - функции взаимодействия с Django API</li>
+<li>**<code>api/backend.js</code>** - функции взаимодействия с Django API</li>
 </ul>
 <p><b>Система детекции:</b></p><ul>
 <li><b>AprilTag Pipeline</b> - детекция маркеров с субпиксельной точностью</li>
@@ -363,11 +363,12 @@ Webpack конфигурация</h2>
 <div class="line">    cacheGroups: {</div>
 <div class="line">      vendor: { test: /[\\/]node_modules[\\/]/, priority: 10 },</div>
 <div class="line">      opencv: { test: /[\\/]node_modules[\\/]@techstark[\\/]opencv-js[\\/]/, priority: 20 },</div>
-<div class="line">      three: { test: /[\\/]node_modules[\\/]three[\\/]/, priority: 20 },</div>
-<div class="line">      reactThree: { test: /[\\/]node_modules[\\/]@react-three[\\/]/, priority: 20 }</div>
+<div class="line">      <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a8c39577c50da88789ada483a2b7e78c9">three</a>: { test: /[\\/]node_modules[\\/]<a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a8c39577c50da88789ada483a2b7e78c9">three</a>[\\/]/, priority: 20 },</div>
+<div class="line">      reactThree: { test: /[\\/]node_modules[\\/]@react-<a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a8c39577c50da88789ada483a2b7e78c9">three</a>[\\/]/, priority: 20 }</div>
 <div class="line">    }</div>
 <div class="line">  }</div>
 <div class="line">}</div>
+<div class="ttc" id="aCoordinateTransformer_8jsx_html_a8c39577c50da88789ada483a2b7e78c9"><div class="ttname"><a href="CoordinateTransformer_8jsx.html#a8c39577c50da88789ada483a2b7e78c9">three</a></div><div class="ttdeci">Quaternion from three</div><div class="ttdef"><b>Definition</b> <a href="CoordinateTransformer_8jsx_source.html#l00979">CoordinateTransformer.jsx:979</a></div></div>
 </div><!-- fragment --><p><b>Плагины сборки:</b></p><ul>
 <li><b>HtmlWebpackPlugin</b> - генерация index.html с внедренными скриптами</li>
 <li><b>CopyWebpackPlugin</b> - копирование WASM файлов и других ресурсов</li>
@@ -467,7 +468,7 @@ Webpack конфигурация</h2>
 <div class="line">useEffect(() =&gt; {</div>
 <div class="line">  initAprilTag().then(setPipeline);</div>
 <div class="line">}, []);</div>
-<div class="ttc" id="aclassApriltagPipeline_html"><div class="ttname"><a href="classApriltagPipeline.html">ApriltagPipeline</a></div><div class="ttdoc">Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00046">apriltagPipeline.jsx:46</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html"><div class="ttname"><a href="classApriltagPipeline.html">ApriltagPipeline</a></div><div class="ttdoc">Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00047">apriltagPipeline.jsx:47</a></div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md27"></a>
 Оптимизация рендеринга</h2>
 <p><b>Three.js оптимизации:</b></p><ul>
@@ -582,8 +583,7 @@ Django API интеграция</h2>
 <li><b>Пользовательские данные</b> - привязка email адресов к сессиям</li>
 </ul>
 <p><b>Конфигурация API:</b> </p><div class="fragment"><div class="line"><span class="comment">// src/api/client.js</span></div>
-<div class="line"><span class="keyword">const</span> <a class="code hl_variable" href="client_8js.html#a951736089168e22ec5096995fd400ab2">API_BASE_URL</a> = <span class="stringliteral">&#39;http://localhost:8087&#39;</span>;</div>
-<div class="ttc" id="aclient_8js_html_a951736089168e22ec5096995fd400ab2"><div class="ttname"><a href="client_8js.html#a951736089168e22ec5096995fd400ab2">API_BASE_URL</a></div><div class="ttdeci">const API_BASE_URL</div><div class="ttdef"><b>Definition</b> <a href="client_8js_source.html#l00006">client.js:6</a></div></div>
+<div class="line"><span class="keyword">const</span> API_BASE_URL = <span class="stringliteral">&#39;http://localhost:8087&#39;</span>;</div>
 </div><!-- fragment --><p><b>Доступные эндпоинты:</b></p><ul>
 <li><code>POST /session/start/</code> - создание новой сессии</li>
 <li><code>POST /view/</code> - отправка события просмотра актива</li>

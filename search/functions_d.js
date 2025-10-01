@@ -1,19 +1,13 @@
 var searchData=
 [
-  ['scene_0',['Scene',['../SceneComponent_8jsx.html#a930f6949edb2ff8f4c5f2a11971add05',1,'SceneComponent.jsx']]],
-  ['scenecomponent_1',['SceneComponent',['../SceneComponent_8jsx.html#a0f46cdf831c4ff2a9e7950c1d3eba516',1,'SceneComponent.jsx']]],
-  ['send_5fpromocode_5femail_2',['send_promocode_email',['../namespacearb_1_1tasks.html#aa80bdae69cec8c8c3f210bd34ac3f890',1,'arb::tasks']]],
-  ['session_5fstart_3',['session_start',['../namespacearb_1_1views.html#ae8a05126432f17a87e63324baa176a92',1,'arb::views']]],
-  ['set_5fcamera_5finfo_4',['set_camera_info',['../classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67',1,'ApriltagPipeline']]],
-  ['set_5ftag_5fsize_5',['set_tag_size',['../classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3',1,'ApriltagPipeline']]],
-  ['setfps_6',['setFps',['../classVideoCanvasManager.html#a034426af417935d215659d8bdf3a1b9e',1,'VideoCanvasManager']]],
-  ['setframe_7',['setFrame',['../classVideoCanvasManager.html#aa850fc60a7ba0efdefd1f17fac8ff5fe',1,'VideoCanvasManager']]],
-  ['setprojectionfromintrinsics_8',['setProjectionFromIntrinsics',['../SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f',1,'SceneComponent.jsx']]],
-  ['setstatus_9',['setStatus',['../classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad',1,'VideoRecording']]],
-  ['settime_10',['setTime',['../classVideoCanvasManager.html#adaa235bc388ba27dc49c44a3e7399a57',1,'VideoCanvasManager']]],
-  ['setup_11',['setUp',['../classarb_1_1tests_1_1TestMvpApi.html#ae2a0272da991602e74b193bc8d77d4fb',1,'arb::tests::TestMvpApi']]],
-  ['softenangle_12',['softenAngle',['../anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46',1,'anchorMath.js']]],
-  ['softensmallanglequaternion_13',['softenSmallAngleQuaternion',['../anchorMath_8js.html#a28decfe80be356ebb9782ad629b4fcc2',1,'anchorMath.js']]],
-  ['starttrainanimation_14',['startTrainAnimation',['../trainAnimation_8js.html#aebbad011f1735b470ef879e06169921c',1,'trainAnimation.js']]],
-  ['stats_15',['stats',['../namespacearb_1_1views.html#a93773621fe9a5a1d8efa020d57926a97',1,'arb::views']]]
+  ['record_0',['record',['../classVideoCanvasManager.html#a2481ce46b58537d5e5004f1bea6e0861',1,'VideoCanvasManager']]],
+  ['recordperformance_1',['recordPerformance',['../classCoordinateTransformer.html#a74eed17aae50be1e85becfe5d8f4624a',1,'CoordinateTransformer']]],
+  ['removereanchorcallback_2',['removeReanchorCallback',['../classCoordinateTransformer.html#accbbcc379d1669a6cec1352bf28507b9',1,'CoordinateTransformer']]],
+  ['request_3',['request',['../api_8js.html#ab9ea3232c6802cd0423272bacbfd8dba',1,'api.js']]],
+  ['reset_4',['reset',['../classStabilizationFilter.html#ad0562262af94972faf450e59819997e7',1,'StabilizationFilter::reset()'],['../classCoordinateTransformer.html#a7de8636de219f6325b9f8f6c6f89a918',1,'CoordinateTransformer::reset()']]],
+  ['resetcoordinatetransformer_5',['resetCoordinateTransformer',['../classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee',1,'ApriltagPipeline']]],
+  ['resetstabilization_6',['resetStabilization',['../classCoordinateTransformer.html#aeeaf0cf82a9615808dcebbc39382c0af',1,'CoordinateTransformer']]],
+  ['returnmatrix4_7',['returnMatrix4',['../classCoordinateTransformer.html#a1f3ce251549edd839cdf85871f5912e8',1,'CoordinateTransformer']]],
+  ['returnquaternion_8',['returnQuaternion',['../classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae',1,'CoordinateTransformer']]],
+  ['returnvector3_9',['returnVector3',['../classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7',1,'CoordinateTransformer']]]
 ];

@@ -1,0 +1,5 @@
+<map id="ApriltagPipeline::evaluateMultiTagQuality" name="ApriltagPipeline::evaluateMultiTagQuality">
+<area shape="rect" id="Node000001" title="Оценивает качество детекции множественных маркеров" alt="" coords="5,5,196,45"/>
+<area shape="rect" id="Node000002" href="$classApriltagPipeline.html#a4405ce79318f3301b8ed9cd973059267" title="Вычисляет уверенность детекции маркера" alt="" coords="244,5,436,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,23,230,23,230,28,196,28"/>
+</map>

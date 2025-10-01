@@ -1,0 +1,5 @@
+<map id="AprilTagWorldReference::calculateOptimalOrigin" name="AprilTagWorldReference::calculateOptimalOrigin">
+<area shape="rect" id="Node000001" title="Вычисляет оптимальное начало координат" alt="" coords="231,5,411,45"/>
+<area shape="rect" id="Node000002" href="$classAprilTagWorldReference.html#ab74b91249a020278c34f104cbc62cd10" title="Обновляет мировую систему координат на основе якорей" alt="" coords="5,5,183,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,28,183,28,183,23,216,23"/>
+</map>

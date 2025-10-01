@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('alvaBridge_8jsx_source.html',''); init
   <div class="headertitle"><div class="title">alvaBridge.jsx</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="alvaBridge_8jsx.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> { Matrix4 } from <span class="stringliteral">&#39;three&#39;</span>;</div>
+<a href="alvaBridge_8jsx.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> { <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a> } from <span class="stringliteral">&#39;three&#39;</span>;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="foldopen" id="foldopen00009" data-start="{" data-end="}">
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">    9</a></span>export async <span class="keyword">function</span> <a class="code hl_function" href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">loadAlva</a>(width, height) {</div>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('alvaBridge_8jsx_source.html',''); init
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    console.log(<span class="stringliteral">&#39;[DEBUG poseToMatrix4] Invalid R or t: rf.length=&#39;</span> + (rf ? rf.length : <span class="stringliteral">&#39;null&#39;</span>) + <span class="stringliteral">&#39;, t.length=&#39;</span> + (t ? t.length : <span class="stringliteral">&#39;null&#39;</span>));</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  }</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keyword">const</span> M = <span class="keyword">new</span> Matrix4().set(</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keyword">const</span> M = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().set(</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    rf[0], rf[1], rf[2], t[0],</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    rf[3], rf[4], rf[5], t[1],</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    rf[6], rf[7], rf[8], t[2],</div>
@@ -137,6 +137,7 @@ $(document).ready(function(){initNavTree('alvaBridge_8jsx_source.html',''); init
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordflow">return</span> M;</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
 </div>
+<div class="ttc" id="aCoordinateTransformer_8jsx_html_a082bfb40ddee9a831d0573331d37a327"><div class="ttname"><a href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a></div><div class="ttdeci">Matrix4</div><div class="ttdef"><b>Definition</b> <a href="CoordinateTransformer_8jsx_source.html#l00979">CoordinateTransformer.jsx:979</a></div></div>
 <div class="ttc" id="aalvaBridge_8jsx_html_a1fbfecd629739a9ebdf808ecb54d4a04"><div class="ttname"><a href="alvaBridge_8jsx.html#a1fbfecd629739a9ebdf808ecb54d4a04">poseToMatrix4</a></div><div class="ttdeci">function export poseToMatrix4(pose)</div><div class="ttdoc">Конвертирует позу AlvaAR в матрицу Three.js.</div><div class="ttdef"><b>Definition</b> <a href="alvaBridge_8jsx_source.html#l00022">alvaBridge.jsx:22</a></div></div>
 <div class="ttc" id="aalvaBridge_8jsx_html_afa07edfafef20ed0d3e462c4aadc5ee5"><div class="ttname"><a href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">loadAlva</a></div><div class="ttdeci">function async loadAlva(width, height)</div><div class="ttdoc">Динамически загружает и инициализирует модуль AlvaAR WASM.</div><div class="ttdef"><b>Definition</b> <a href="alvaBridge_8jsx_source.html#l00009">alvaBridge.jsx:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
