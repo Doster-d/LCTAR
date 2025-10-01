@@ -401,5 +401,5 @@ LATEX_EMOJI_DIRECTORY  =
 
 LOOKUP_CACHE_SIZE      = 0
 
-# Финальные настройки из backend конфигурации для совместимости
+#  Финальные настройки из backend конфигурации для совместимости
 PYTHON_SOURCE_BROWSER  = YES
