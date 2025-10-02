@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Попытаться установить через Poetry (если есть pyproject.toml)
+      # Если есть pyproject.toml — ставим через Poetry и ДОустанавливаем celery
       - name: Install deps via Poetry (if present)
         if: hashFiles('pyproject.toml') != ''
         run: |
@@ -30,13 +30,9 @@ jobs:
           pip install poetry
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-root
-          # подстраховка: если в зависимостях нет celery — доставим
-          python - <<'PY'
-import pkgutil, sys, subprocess
-sys.exit(0) if pkgutil.find_loader("celery") else subprocess.check_call([sys.executable, "-m", "pip", "install", "celery"])
-PY
+          pip install celery
 
-      # Иначе — requirements (arb/requirements.txt приоритетнее)
+      # Если Poetry нет — ставим из requirements и ДОустанавливаем celery
       - name: Install deps via requirements
         if: hashFiles('pyproject.toml') == ''
         run: |
@@ -48,7 +44,6 @@ PY
           else
             pip install django djangorestframework
           fi
-          # подстраховка: celery нужен для импорта arb/arb/__init__.py
           pip install celery
 
       - name: Prepare .env (optional)
@@ -57,16 +52,18 @@ PY
           echo "DJANGO_SECRET_KEY=test_ci_secret" >> .env
           echo "DEBUG=1" >> .env
 
-      # Запускаем тесты сразу: Django сам поднимет тестовую БД
-      - name: Run tests (only arb/arb/tests.py)
+      # Запускаем ровно файл arb/arb/tests.py (dotted-path: arb.tests)
+      - name: Run tests (arb/arb/tests.py)
         working-directory: arb
         env:
           DJANGO_SETTINGS_MODULE: arb.settings
-          # не даём Celery стучаться наружу
+          # чтобы Celery не пытался коннектиться к брокеру
           CELERY_BROKER_URL: "memory://"
           CELERY_RESULT_BACKEND: "cache+memory://"
-          # если в settings читаются кастомные переменные БД — форсим SQLite
+          # форсим SQLite для CI
           DJANGO_DB_ENGINE: sqlite3
           DJANGO_DB_NAME: ":memory:"
+          # помогаем Python найти пакет arb при импортах
+          PYTHONPATH: ${{ github.workspace }}/arb
         run: |
           python manage.py test arb.tests --verbosity=2
