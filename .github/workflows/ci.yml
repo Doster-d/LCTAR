@@ -52,6 +52,7 @@ jobs:
           echo "DJANGO_SECRET_KEY=test_ci_secret" >> .env
           echo "DEBUG=1" >> .env
 
+
       # Запускаем ровно файл arb/arb/tests.py (dotted-path: arb.tests)
       - name: Run tests (arb/arb/tests.py)
         working-directory: arb
