@@ -85,7 +85,7 @@ export const Model = forwardRef((props, ref) => {
       <group>
         <group name="Null">
           {/* Модель поезда */}
-          <group name="Train" position={[0, 0.26, 0]}>
+          <group name="Train" position={[0, 0.26, 0]} rotation={[0, Math.PI / 2, 0]}>
             {trainBodyNode && (
               <mesh
                 name={trainBodyNode.name ?? 'Train-Mat.2'}
@@ -122,7 +122,7 @@ export const Model = forwardRef((props, ref) => {
 
           {/* Коробка с апельсинами рядом с точкой спавна поезда */}
           {orangesBoxNode && (
-            <group name="Orangebox_Stationary" position={[0 + 2, 0.26, 0 + 2]}>
+            <group name="Orangebox_Stationary" position={[0.25, 0, 0]}>
               <group name="Oranges_Box" position={[0.016, 0.1, 0]} rotation={[0, -0.01, 0.008]}>
                 <mesh name="Orange6" geometry={orangesBoxNode.children[0]?.geometry} material={orangeboxMaterials.Mat} position={[0.017, 0.023, -0.076]} rotation={[0.326, 0, -0.544]} />
                 <mesh name="Orange4" geometry={orangesBoxNode.children[1]?.geometry} material={orangeboxMaterials.Mat} position={[-0.024, 0.029, 0.018]} rotation={[1.126, 0.001, -0.045]} />
