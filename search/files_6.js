@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['icecreams_2ejsx_0',['IceCreams.jsx',['../IceCreams_8jsx.html',1,'']]],
-  ['index_2ejsx_1',['index.jsx',['../index_8jsx.html',1,'']]]
+  ['landing_2ejsx_0',['Landing.jsx',['../Landing_8jsx.html',1,'']]],
+  ['landingpagetemplate_2ejsx_1',['LandingPageTemplate.jsx',['../LandingPageTemplate_8jsx.html',1,'']]]
 ];

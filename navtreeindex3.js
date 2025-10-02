@@ -1,10 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"namespacearb_1_1views.html#a5e599b8ed90c3b72ba2ed946841f2675":[1,0,0,9,8],
-"namespacearb_1_1views.html#a6019b86cf7f3207de1daababecf3fd05":[1,0,0,9,9],
-"namespacearb_1_1views.html#a826304bffc5d3442e1d63605579cad46":[1,0,0,9,5],
-"namespacearb_1_1views.html#a93773621fe9a5a1d8efa020d57926a97":[1,0,0,9,7],
-"namespacearb_1_1views.html#a9c8988c8437bedf9564fca3d5c0767d2":[1,0,0,9,11],
 "namespacearb_1_1views.html#ac3da9a1ba3cf4a705077bb9c80860902":[1,0,0,9,4],
 "namespacearb_1_1views.html#ad88af802e68434b14102c85e279899cd":[1,0,0,9,3],
 "namespacearb_1_1views.html#ae8a05126432f17a87e63324baa176a92":[1,0,0,9,6],
@@ -84,8 +79,8 @@ var NAVTREEINDEX3 =
 "tasks_8py_source.html":[3,0,0,0,7],
 "tests_8py.html":[3,0,0,0,8],
 "tests_8py_source.html":[3,0,0,0,8],
-"trainAnimation_8js.html":[3,0,1,0,17],
-"trainAnimation_8js_source.html":[3,0,1,0,17],
+"trainAnimation_8js.html":[3,0,1,0,15],
+"trainAnimation_8js_source.html":[3,0,1,0,15],
 "urls_8py.html":[3,0,0,0,9],
 "urls_8py.html#ab5845a6d0cd7d4b0215108b7df37b7e3":[3,0,0,0,9,0],
 "urls_8py_source.html":[3,0,0,0,9],
