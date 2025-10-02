@@ -8,7 +8,6 @@ import { SkeletonUtils } from 'three-stdlib'
 import { useGLTF } from '@react-three/drei'
 import { averageQuaternion, bestFitPointFromRays, toVector3, clampQuaternion, softenSmallAngleQuaternion } from './lib/anchorMath'
 import { loadAlva } from './alvaBridge'
-import { startTrainAnimation } from './trainAnimation'
 import Landing from './Landing'
 import AprilTagLayoutEditor from './AprilTagLayoutEditor'
 import { createTheme, ThemeProvider, styled, keyframes } from '@mui/material/styles'
@@ -57,13 +56,35 @@ function pickMime() {
   const list = [
     "video/mp4;codecs=h264,aac",
     "video/mp4",
-    "video/webm;codecs=vp9,opus",
-    "video/webm;codecs=vp8,opus",
-    "video/webm"
   ]
   if (typeof MediaRecorder === "undefined") return ""
   for (const t of list) if (MediaRecorder.isTypeSupported?.(t)) return t
   return ""
+}
+
+function getDisplayOrientationSnapshot() {
+  if (typeof window === 'undefined') {
+    return { type: null, angle: 0, isPortrait: false }
+  }
+
+  const screenOrientation = window.screen?.orientation
+  const rawAngle = Number.isFinite(screenOrientation?.angle)
+    ? screenOrientation.angle
+    : (typeof window.orientation === 'number' ? window.orientation : 0)
+  const normalizedAngle = ((rawAngle % 360) + 360) % 360
+
+  let type = typeof screenOrientation?.type === 'string' ? screenOrientation.type : null
+  if (!type) {
+    if (normalizedAngle === 90 || normalizedAngle === 270) {
+      type = 'landscape-primary'
+    } else {
+      type = 'portrait-primary'
+    }
+  }
+
+  const isPortrait = type.startsWith('portrait') || (window.innerHeight >= window.innerWidth)
+
+  return { type, angle: normalizedAngle, isPortrait }
 }
 
 const APRILTAG_POINT_TOLERANCE_PX = 6
@@ -130,7 +151,7 @@ function isPointNearPolygon(point, polygon, tolerancePx = 0) {
   })
 
   if (point.x < minX - tolerancePx || point.x > maxX + tolerancePx ||
-      point.y < minY - tolerancePx || point.y > maxY + tolerancePx) {
+    point.y < minY - tolerancePx || point.y > maxY + tolerancePx) {
     return false
   }
 
@@ -188,9 +209,9 @@ const SMALL_ANGLE_DEADZONE = 0.08
 const SMALL_ANGLE_SOFT_ZONE = 0.24
 const APRILTAG_VISIBILITY_HOLD_MS = 3000
 const CV_TO_GL_MATRIX3 = new THREE.Matrix3().set(
-  1,  0,  0,
-  0, -1,  0,
-  0,  0, -1
+  1, 0, 0,
+  0, -1, 0,
+  0, 0, -1
 )
 const ALVA_RESET_COOLDOWN_MS = 2000
 const FRUSTUM_SAFETY_MARGIN = 0.15
@@ -280,6 +301,7 @@ function ARRecorder({ onShowLanding }) {
   const pyramidGeoRef = useRef(null)
   const pyramidMatRef = useRef(null)
   const trainPrefabRef = useRef(null) // Train model prefab captured from R3F scene
+  const trainAnimationsRef = useRef([])
   const trainInstanceRef = useRef(null)
   const trainSmoothPosition = useRef(new THREE.Vector3())
   const trainSmoothQuaternion = useRef(new THREE.Quaternion())
@@ -290,6 +312,7 @@ function ARRecorder({ onShowLanding }) {
   const anchorDebugMapRef = useRef(new Map())
   const scenePlaneRef = useRef(new Map())
   const activeSceneIdRef = useRef(null)
+  const componentActiveRef = useRef(true)
   // AprilTag state
   const [aprilTagTransforms, setAprilTagTransforms] = useState([])
   const aprilTagPipelineRef = useRef(null)
@@ -310,6 +333,9 @@ function ARRecorder({ onShowLanding }) {
     sphere: new THREE.Sphere()
   })
   const lastAlvaResetRef = useRef(0)
+  const frameOrientationRef = useRef(null)
+
+  const [displayOrientation, setDisplayOrientation] = useState(getDisplayOrientationSnapshot())
 
   // Streams / recorder
   const camStreamRef = useRef(null)
@@ -361,16 +387,21 @@ function ARRecorder({ onShowLanding }) {
 
   // Прямая загрузка модели поезда
   const trainGltf = useGLTF('./models/Train-transformed.glb')
-  
+
   useEffect(() => {
     if (trainGltf && trainGltf.scene) {
       console.log('🚂 Direct GLTF load success:', trainGltf)
-      
+
       // Создаем группу из загруженной сцены
       const trainGroup = new THREE.Group()
-      trainGroup.add(trainGltf.scene.clone())
+      const clonedScene = SkeletonUtils.clone(trainGltf.scene)
+      trainGroup.add(clonedScene)
       trainGroup.name = 'DirectTrainPrefab'
-      
+
+      const animations = Array.isArray(trainGltf.animations) ? trainGltf.animations : []
+      trainGroup.userData.animations = animations
+      trainAnimationsRef.current = animations
+
       // Настраиваем группу как префаб
       trainGroup.traverse((obj) => {
         if (obj.isMesh) {
@@ -378,39 +409,47 @@ function ARRecorder({ onShowLanding }) {
           obj.receiveShadow = true
         }
       })
-      
+
       trainPrefabRef.current = trainGroup
       console.log('✅ Direct train prefab set from GLTF')
     } else if (trainGltf === null) {
       // Fallback: создаем простой тестовый куб, если GLTF не загружается
       console.log('⚠️ GLTF failed, creating fallback cube')
       const fallbackGeometry = new THREE.BoxGeometry(0.2, 0.1, 0.4)
-      const fallbackMaterial = new THREE.MeshStandardMaterial({ 
+      const fallbackMaterial = new THREE.MeshStandardMaterial({
         color: 0xff6600,
         metalness: 0.3,
         roughness: 0.7
       })
       const fallbackMesh = new THREE.Mesh(fallbackGeometry, fallbackMaterial)
       fallbackMesh.name = 'FallbackTrain'
-      
+
       const fallbackGroup = new THREE.Group()
       fallbackGroup.add(fallbackMesh)
       fallbackGroup.position.set(0, 0.05, 0)
-      
+
+      trainAnimationsRef.current = []
       trainPrefabRef.current = fallbackGroup
       console.log('✅ Fallback train cube created')
     }
   }, [trainGltf])
+
+  useEffect(() => {
+    componentActiveRef.current = true
+    return () => {
+      componentActiveRef.current = false
+    }
+  }, [])
 
   /**
    * @brief Создает DebugCube напрямую через Three.js для размещения в центре AR-сцены.
    */
   const createDebugCube = () => {
     console.log('🎯 Creating DebugCube directly with Three.js')
-    
+
     const size = 0.15
     const geometry = new THREE.BoxGeometry(size, size, size)
-    
+
     // Создаем цветные грани как в оригинальном компоненте
     const colors = new Float32Array(geometry.attributes.position.count * 3)
     const palette = [
@@ -450,7 +489,7 @@ function ARRecorder({ onShowLanding }) {
     // Добавляем мини-оси для лучшей ориентации
     const axesHelper = new THREE.AxesHelper(size * 2)
     debugCube.add(axesHelper)
-    
+
     debugCubeInstanceRef.current = debugCube
     console.log('✅ DebugCube created directly with axes:', debugCube)
   }
@@ -575,15 +614,11 @@ function ARRecorder({ onShowLanding }) {
     // Создаем DebugCube для AR-сцены
     createDebugCube()
 
-    // Запускаем анимацию поезда
-    const stopAnimation = startTrainAnimation(trainInstanceRef)
-
     return () => {
-      stopAnimation && stopAnimation()
-      try { anchorGroup.removeFromParent() } catch {}
-      try { gl.dispose() } catch {}
-      try { gl.domElement.remove() } catch {}
-      try { procRef.current?.remove() } catch {}
+      try { anchorGroup.removeFromParent() } catch { }
+      try { gl.dispose() } catch { }
+      try { gl.domElement.remove() } catch { }
+      try { procRef.current?.remove() } catch { }
     }
   }, [])
 
@@ -597,6 +632,10 @@ function ARRecorder({ onShowLanding }) {
       return
     }
     trainPrefabRef.current = node
+    const animations = Array.isArray(node?.userData?.animations) ? node.userData.animations : []
+    if (animations.length) {
+      trainAnimationsRef.current = animations
+    }
     node.visible = false
     // Отладочная информация о модели
     let meshCount = 0
@@ -615,6 +654,7 @@ function ARRecorder({ onShowLanding }) {
       try {
         const pipeline = new ApriltagPipeline()
         await pipeline.init()
+        pipeline.setDisplayOrientation?.(getDisplayOrientationSnapshot())
         aprilTagPipelineRef.current = pipeline
         setStatus("AprilTag pipeline готово")
         console.log('✅ AprilTag pipeline initialized with internal stabilizer')
@@ -632,6 +672,31 @@ function ARRecorder({ onShowLanding }) {
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const updateOrientation = () => {
+      setDisplayOrientation(getDisplayOrientationSnapshot())
+    }
+
+    const screenOrientation = window.screen?.orientation
+    screenOrientation?.addEventListener?.('change', updateOrientation)
+    window.addEventListener('orientationchange', updateOrientation)
+    window.addEventListener('resize', updateOrientation)
+
+    return () => {
+      screenOrientation?.removeEventListener?.('change', updateOrientation)
+      window.removeEventListener('orientationchange', updateOrientation)
+      window.removeEventListener('resize', updateOrientation)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (aprilTagPipelineRef.current?.setDisplayOrientation) {
+      aprilTagPipelineRef.current.setDisplayOrientation(displayOrientation)
+    }
+  }, [displayOrientation])
 
   const handleApiError = useCallback((error, fallbackMessage) => {
     if (!error) {
@@ -929,6 +994,7 @@ function ARRecorder({ onShowLanding }) {
 
     const anchors = sceneAnchorsRef.current
     const now = performance.now()
+    const nowSec = now * 0.001
 
     grouped.forEach((list, sceneId) => {
       let state = anchors.get(sceneId)
@@ -1261,6 +1327,14 @@ function ARRecorder({ onShowLanding }) {
     }
 
     if (trainInstanceRef.current) {
+      const mixer = trainInstanceRef.current.userData?.mixer
+      if (mixer) {
+        trainInstanceRef.current.userData?.mixerActions?.forEach(action => action?.stop?.())
+        mixer.stopAllAction?.()
+      }
+      trainInstanceRef.current.userData.mixer = null
+      trainInstanceRef.current.userData.mixerActions = null
+      trainInstanceRef.current.userData.mixerLastTime = undefined
       trainInstanceRef.current.visible = false
     }
 
@@ -1358,7 +1432,7 @@ function ARRecorder({ onShowLanding }) {
           console.debug('Multi-tag anchor estimation skipped', multiErr)
         }
       }
-    assignAlvaPoints(alva.getFramePoints(), tagPolygonsRef.current)
+      assignAlvaPoints(alva.getFramePoints(), tagPolygonsRef.current)
     } catch (err) {
       console.warn('⚠️ Ошибка обновления AlvaAR:', err)
     }
@@ -1433,7 +1507,7 @@ function ARRecorder({ onShowLanding }) {
           try {
             pctx.imageSmoothingEnabled = true
             pctx.imageSmoothingQuality = 'high'
-          } catch (e) {}
+          } catch (e) { }
         }
         try {
           imageDataForAlva = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight)
@@ -1455,6 +1529,18 @@ function ARRecorder({ onShowLanding }) {
     const sourceHeight = proc?.height || PROC_H
     const videoWidth = video.videoWidth || sourceWidth
     const videoHeight = video.videoHeight || sourceHeight
+    const isPortraitFrame = videoHeight > videoWidth
+
+    if (pipeline?.setDisplayOrientation) {
+      const flag = isPortraitFrame ? 1 : 0
+      if (frameOrientationRef.current !== flag) {
+        frameOrientationRef.current = flag
+        pipeline.setDisplayOrientation({
+          ...displayOrientation,
+          isPortrait: isPortraitFrame
+        })
+      }
+    }
     const cornerScaleX = videoWidth > 0 ? videoWidth / sourceWidth : 1
     const cornerScaleY = videoHeight > 0 ? videoHeight / sourceHeight : 1
 
@@ -1567,15 +1653,16 @@ function ARRecorder({ onShowLanding }) {
       assignAlvaPoints(null)
     }
 
-  // Важно: ApriltagPipeline.detect() уже конвертирует детекции в мировые координаты.
-  // Не переиспользуйте позу камеры для повторного преобразования — иначе якорь
-  // снова станет «прилипать» к мобильной камере при движении.
-  const groupedDetections = updateSceneAnchors(latestTransforms)
+    // Важно: ApriltagPipeline.detect() уже конвертирует детекции в мировые координаты.
+    // Не переиспользуйте позу камеры для повторного преобразования — иначе якорь
+    // снова станет «прилипать» к мобильной камере при движении.
+    const groupedDetections = updateSceneAnchors(latestTransforms)
     const currentSceneId = activeSceneIdRef.current
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null
     const now = performance.now()
+    const nowSec = now * 0.001
     const activeDetections = currentSceneId && groupedDetections ? (groupedDetections.get(currentSceneId) || []) : []
-  const detectionCount = latestTransforms.length
+    const detectionCount = latestTransforms.length
     let detectionActive = Array.isArray(activeDetections) && activeDetections.length > 0
     const lastSeen = anchorState?.lastSeen ?? 0
     const holding = anchorState ? (now - lastSeen <= APRILTAG_VISIBILITY_HOLD_MS) : false
@@ -1609,7 +1696,7 @@ function ARRecorder({ onShowLanding }) {
     } else if (trainInitialized.current && (now - lastDetectionTime.current > APRILTAG_VISIBILITY_HOLD_MS)) {
       trainInitialized.current = false
     }
-    
+
     // Отладочное логирование состояния детекции
     if (detectionActive && !hasDetections) {
       console.warn(`⚠️ Tags detected (${activeDetections.length}) but hasDetections=false. Scene:${currentSceneId}, AnchorVisible:${anchorState?.visible}`)
@@ -1629,12 +1716,17 @@ function ARRecorder({ onShowLanding }) {
         try {
           const instance = SkeletonUtils.clone(trainPrefabRef.current)
           instance.name = 'TrainSceneInstance'
-          
+
+          const animationsSource = Array.isArray(trainPrefabRef.current?.userData?.animations)
+            ? trainPrefabRef.current.userData.animations
+            : trainAnimationsRef.current
+          const animations = Array.isArray(animationsSource) ? animationsSource : []
+
           // Улучшенное позиционирование и масштабирование поезда
           instance.position.set(0, 0.1, 0) // Поднимаем поезд над плоскостью
           instance.quaternion.identity()
           instance.scale.set(0.3, 0.3, 0.3) // Делаем поезд более заметным
-          
+
           // Убеждаемся что все объекты видимы и правильно настроены
           instance.traverse(obj => {
             if (obj && 'matrixAutoUpdate' in obj) {
@@ -1653,34 +1745,58 @@ function ARRecorder({ onShowLanding }) {
               }
             }
           })
-          
+
+          if (animations.length) {
+            const mixer = new THREE.AnimationMixer(instance)
+            const mixerActions = animations
+              .map(clip => {
+                const action = mixer.clipAction(clip)
+                if (!action) return null
+                action.setLoop(THREE.LoopRepeat, Infinity)
+                action.clampWhenFinished = false
+                action.enabled = true
+                action.reset().play()
+                return action
+              })
+              .filter(Boolean)
+
+            instance.userData.mixer = mixer
+            instance.userData.mixerActions = mixerActions
+            instance.userData.mixerLastTime = nowSec
+            instance.userData.animations = animations
+          }
+
           cube.add(instance)
           trainInstanceRef.current = instance
-          
-          // Инициализируем данные для анимации
-          instance.userData.lastTime = performance.now() * 0.001
         } catch (cloneErr) {
           console.warn('Failed to clone Train prefab', cloneErr)
         }
       }
-      
+
       if (trainInstanceRef.current) {
-        const wasVisible = trainInstanceRef.current.visible
         trainInstanceRef.current.visible = hasDetections
-        
+
         if (hasDetections && !trainInstanceRef.current.parent) {
           cube.add(trainInstanceRef.current)
         }
-        
+
+        const mixer = trainInstanceRef.current.userData?.mixer
+        if (mixer) {
+          const last = trainInstanceRef.current.userData.mixerLastTime ?? nowSec
+          const deltaSec = Math.min(0.1, Math.max(0, nowSec - last))
+          mixer.update(deltaSec)
+          trainInstanceRef.current.userData.mixerLastTime = nowSec
+        }
+
         // Убрана анимация покачивания для уменьшения тряски
       }
-      
+
       // Добавление/управление DebugCube в центре сцены
       if (debugCubeInstanceRef.current) {
         const debugCube = debugCubeInstanceRef.current
         const wasVisible = debugCube.visible
         debugCube.visible = hasDetections
-        
+
         if (hasDetections && !debugCube.parent) {
           console.log('🎯 Adding DebugCube to scene center', {
             position: debugCube.position,
@@ -1699,7 +1815,7 @@ function ARRecorder({ onShowLanding }) {
       // Дополнительное сглаживание для поезда
       const TRAIN_SMOOTH_FACTOR = 0.08
       const POSITION_THRESHOLD = 0.001 // минимальное движение в метрах для обновления
-      
+
       // При первой детекции сразу устанавливаем правильные значения без интерполяции
       if (!trainInitialized.current) {
         trainSmoothPosition.current.copy(anchorState.position)
@@ -1711,10 +1827,10 @@ function ARRecorder({ onShowLanding }) {
         if (positionDistance > POSITION_THRESHOLD) {
           trainSmoothPosition.current.lerp(anchorState.position, TRAIN_SMOOTH_FACTOR)
         }
-        
+
         trainSmoothQuaternion.current.slerp(anchorState.rotation, TRAIN_SMOOTH_FACTOR)
       }
-      
+
       cube.position.copy(trainSmoothPosition.current)
       cube.quaternion.copy(trainSmoothQuaternion.current)
     }
@@ -1769,7 +1885,7 @@ function ARRecorder({ onShowLanding }) {
     }
 
     rafIdRef.current = requestAnimationFrame(renderLoop)
-  }, [updateSceneAnchors, updateRayHelpers, updateAlvaTracking, assignAlvaPoints, extractPlaneState, resetAlvaTracking])
+  }, [updateSceneAnchors, updateRayHelpers, updateAlvaTracking, assignAlvaPoints, extractPlaneState, resetAlvaTracking, displayOrientation])
 
   // camera control
   /**
@@ -1914,7 +2030,7 @@ function ARRecorder({ onShowLanding }) {
     let fy = fyCandidates.length ? fyCandidates[0] : null
 
     if (fx && !fy) fy = fx
-    if (!fx && fy) fx = fy * aspect
+    if (!fx && fy) fx = fy
 
     let verticalFovDeg = fovCandidates.length ? clamp(fovCandidates[0], 20, 120) : null
     if (!verticalFovDeg && fy) {
@@ -1929,7 +2045,7 @@ function ARRecorder({ onShowLanding }) {
       const verticalFovRad = THREE.MathUtils.degToRad(verticalFovDeg)
       const resolvedFy = (height / 2) / Math.tan(verticalFovRad / 2)
       fy = Number.isFinite(resolvedFy) ? resolvedFy : (fallbackIntrinsics.fy ?? safeHeight * 0.8)
-      fx = fy * aspect
+      fx = fy
     }
 
     const cx = Number.isFinite(settings?.pointOfInterestX) ? settings.pointOfInterestX : width / 2
@@ -1949,38 +2065,91 @@ function ARRecorder({ onShowLanding }) {
     }
   }, [])
 
+  const stopStreamTracks = useCallback((stream) => {
+    if (!stream || typeof stream.getTracks !== 'function') return
+    stream.getTracks().forEach((track) => {
+      try {
+        track.stop()
+      } catch (trackError) {
+        console.warn('Не удалось остановить медиатрек:', trackError)
+      }
+    })
+  }, [])
+
   /**
    * @brief Запрашивает доступ к камере и настраивает поток для AprilTag.
    * @returns {Promise<void>}
    */
   const startCamera = useCallback(async () => {
+    let camStream = null
+    let micStream = null
     try {
-      // stop previous
       cancelAnimationFrame(rafIdRef.current)
-      if (camStreamRef.current) { camStreamRef.current.getTracks().forEach(t => t.stop()); camStreamRef.current = null; }
-      if (micStreamRef.current) { micStreamRef.current.getTracks().forEach(t => t.stop()); micStreamRef.current = null; }
+      stopStreamTracks(camStreamRef.current)
+      camStreamRef.current = null
+      stopStreamTracks(micStreamRef.current)
+      micStreamRef.current = null
 
-      let camStream = null
-      let micStream = null
-      // Try exact 640x480 first to avoid browser up/down-scaling artifacts
       try {
-        camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { exact: 640 }, height: { exact: 480 }, frameRate: 30 }, audio: false });
+        camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { exact: 640 }, height: { exact: 480 }, frameRate: 30 }, audio: false })
         console.log('Acquired exact 640x480 stream')
       } catch (err) {
         console.warn('Exact 640x480 failed, falling back to ideal 1280x720:', err)
         camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30 } }, audio: false })
       }
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        micStreamRef.current = micStream
-        console.log('Microphone stream acquired for recording')
-      } catch (micErr) {
-        console.warn('Could not get separate microphone stream:', micErr)
+
+      if (!componentActiveRef.current) {
+        stopStreamTracks(camStream)
+        return
       }
+
+      if (withMic) {
+        try {
+          micStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+          console.log('Microphone stream acquired for recording')
+        } catch (micErr) {
+          console.warn('Could not get separate microphone stream:', micErr)
+        }
+      }
+
+      if (!componentActiveRef.current) {
+        stopStreamTracks(camStream)
+        stopStreamTracks(micStream)
+        return
+      }
+
+      const videoElement = camRef.current
+      if (!videoElement) {
+        console.warn('Видео элемент камеры недоступен, прерываем запуск камеры')
+        stopStreamTracks(camStream)
+        stopStreamTracks(micStream)
+        return
+      }
+
       camStreamRef.current = camStream
-      camRef.current.srcObject = camStream
-      try { camRef.current.setAttribute('playsinline', 'true') } catch (e) {}
-      await camRef.current.play()
+      if (micStream) {
+        micStreamRef.current = micStream
+      }
+
+      try {
+        videoElement.setAttribute('playsinline', 'true')
+      } catch (e) {
+        /* ignore attribute errors */
+      }
+      videoElement.srcObject = camStream
+      await videoElement.play()
+
+      if (!componentActiveRef.current) {
+        stopStreamTracks(camStreamRef.current)
+        camStreamRef.current = null
+        if (micStreamRef.current) {
+          stopStreamTracks(micStreamRef.current)
+          micStreamRef.current = null
+        }
+        videoElement.srcObject = null
+        return
+      }
+
       sizeAll()
 
       let effectiveWidth = PROC_W
@@ -2078,6 +2247,9 @@ function ARRecorder({ onShowLanding }) {
             fov: targetIntrinsics.fov,
             intrinsics: targetIntrinsics
           })
+          if (!componentActiveRef.current) {
+            return
+          }
           alvaRef.current = newAlva
           lastAlvaUpdateRef.current = 0
           assignAlvaPoints(null)
@@ -2101,11 +2273,24 @@ function ARRecorder({ onShowLanding }) {
         console.error('Failed to initialize AlvaAR with camera dimensions:', err)
       }
 
+      if (!componentActiveRef.current) {
+        return
+      }
+
       rafIdRef.current = requestAnimationFrame(renderLoop)
       setRunning(true)
       setStatus("Камера активна")
 
     } catch (e) {
+      stopStreamTracks(camStream)
+      stopStreamTracks(micStream)
+      stopStreamTracks(camStreamRef.current)
+      camStreamRef.current = null
+      stopStreamTracks(micStreamRef.current)
+      micStreamRef.current = null
+      if (camRef.current) {
+        camRef.current.srcObject = null
+      }
       console.error('❌ Критическая ошибка запуска камеры:', e)
 
       // Детализированная обработка ошибок медиа-устройств
@@ -2132,7 +2317,7 @@ function ARRecorder({ onShowLanding }) {
       setStatus(userFriendlyMessage)
       throw new Error(userFriendlyMessage)
     }
-  }, [renderLoop, sizeAll, withMic, assignAlvaPoints, tryStartCamera, startCameraWithFallback])
+  }, [renderLoop, sizeAll, withMic, assignAlvaPoints, tryStartCamera, startCameraWithFallback, stopStreamTracks])
 
   /**
    * @brief Останавливает все активные медиа-потоки и очищает состояние детекции.
@@ -2250,7 +2435,11 @@ function ARRecorder({ onShowLanding }) {
       const cube = cubeRef.current
       if (!cube) return
       const factor = Math.exp(-e.deltaY * 0.001)
-      cube.scale.z = clamp(cube.scale.z * factor, 0.05, 10)
+      const currentScale = (cube.scale.x === cube.scale.y && cube.scale.y === cube.scale.z)
+        ? cube.scale.x
+        : (cube.scale.x + cube.scale.y + cube.scale.z) / 3
+      const nextScale = clamp(currentScale * factor, 0.05, 10)
+      cube.scale.setScalar(nextScale)
     }
 
     mix.addEventListener("pointerdown", onPointerDown)
@@ -2380,197 +2569,15 @@ function ARRecorder({ onShowLanding }) {
         overflow: "hidden"
       }}>
 
-      {/* Кнопка статистики - левый верхний угол */}
-      <button
-        type="button"
-        onClick={() => setShowStats(!showStats)}
-        style={{
-          position: 'fixed',
-          top: window.innerWidth <= 768 ? 12 : 18,
-          left: window.innerWidth <= 768 ? 12 : 18,
-          zIndex: 17,
-          background: 'rgba(85, 20, 219, 0.15)',
-          color: '#fff',
-          border: '1px solid rgba(85, 20, 219, 0.3)',
-          borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
-          padding: window.innerWidth <= 768 ? '6px 10px' : '8px 14px',
-          fontSize: window.innerWidth <= 768 ? '11px' : '12px',
-          fontWeight: 600,
-          cursor: 'pointer',
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.background = 'rgba(85, 20, 219, 0.25)'
-          e.target.style.transform = 'scale(1.05)'
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.background = 'rgba(85, 20, 219, 0.15)'
-          e.target.style.transform = 'scale(1)'
-        }}
-        title="Показать/скрыть статистику"
-      >
-        📊
-      </button>
-
-      {/* Блок статистики - левый верхний угол */}
-      {showStats && statsState && (
-        <div
-          style={{
-            position: 'fixed',
-            top: window.innerWidth <= 768 ? 60 : 70,
-            left: window.innerWidth <= 768 ? 12 : 18,
-            zIndex: 16,
-            background: 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
-            color: '#fff',
-            borderRadius: window.innerWidth <= 768 ? '8px' : '12px',
-            padding: window.innerWidth <= 768 ? '12px' : '16px',
-            fontSize: window.innerWidth <= 768 ? '10px' : '11px',
-            fontWeight: 600,
-            boxShadow: '0 8px 32px rgba(85, 20, 219, 0.4)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-            minWidth: window.innerWidth <= 768 ? '200px' : '250px',
-            maxWidth: window.innerWidth <= 768 ? '280px' : '320px',
-            animation: 'statsFadeIn 0.3s ease-in-out',
-            transform: 'translateY(0)',
-            transition: 'all 0.3s ease'
-          }}
-        >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: window.innerWidth <= 768 ? '6px' : '8px',
-            marginBottom: window.innerWidth <= 768 ? '8px' : '10px',
-            justifyContent: 'space-between'
-          }}>
-            <span style={{ fontSize: window.innerWidth <= 768 ? '11px' : '12px', fontWeight: 700 }}>
-              📊 Статистика
-            </span>
-            <button
-              onClick={() => setShowStats(false)}
-              style={{
-                background: 'rgba(255, 255, 255, 0.2)',
-                border: 'none',
-                borderRadius: '50%',
-                width: window.innerWidth <= 768 ? '20px' : '24px',
-                height: window.innerWidth <= 768 ? '20px' : '24px',
-                color: '#fff',
-                fontSize: window.innerWidth <= 768 ? '12px' : '14px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = 'rgba(255, 255, 255, 0.3)'
-                e.target.style.transform = 'scale(1.1)'
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'rgba(255, 255, 255, 0.2)'
-                e.target.style.transform = 'scale(1)'
-              }}
-              title="Закрыть статистику"
-            >
-              ×
-            </button>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gap: window.innerWidth <= 768 ? '6px' : '8px'
-          }}>
-            {statsState.best_asset?.name && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: window.innerWidth <= 768 ? '4px 0' : '6px 0',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <span style={{ opacity: 0.9 }}>Лучший актив:</span>
-                <span style={{
-                  fontWeight: 700,
-                  color: '#00d4ff',
-                  textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
-                }}>
-                  {statsState.best_asset.name}
-                </span>
-              </div>
-            )}
-
-            {statsState.views_today !== undefined && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: window.innerWidth <= 768 ? '4px 0' : '6px 0',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <span style={{ opacity: 0.9 }}>Просмотры сегодня:</span>
-                <span style={{
-                  fontWeight: 700,
-                  color: '#00d4ff',
-                  textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
-                }}>
-                  {statsState.views_today.toLocaleString()}
-                </span>
-              </div>
-            )}
-
-            {statsState.views_all_time !== undefined && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: window.innerWidth <= 768 ? '4px 0' : '6px 0'
-              }}>
-                <span style={{ opacity: 0.9 }}>Просмотры за все время:</span>
-                <span style={{
-                  fontWeight: 700,
-                  color: '#00d4ff',
-                  textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
-                }}>
-                  {statsState.views_all_time.toLocaleString()}
-                </span>
-              </div>
-            )}
-
-            {statsLoading && (
-              <div style={{
-                textAlign: 'center',
-                opacity: 0.8,
-                fontStyle: 'italic',
-                padding: window.innerWidth <= 768 ? '8px 0' : '12px 0'
-              }}>
-                Загрузка статистики...
-              </div>
-            )}
-
-            {/* Показываем сообщение об ошибке загрузки только если statsState равен null и не загружается */}
-            {statsState === null && !statsLoading && (
-              <div style={{
-                textAlign: 'center',
-                opacity: 0.8,
-                fontStyle: 'italic',
-                padding: window.innerWidth <= 768 ? '8px 0' : '12px 0'
-              }}>
-                Данные статистики недоступны
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {onShowLanding && (
+        {/* Кнопка статистики - левый верхний угол */}
         <button
           type="button"
-          onClick={onShowLanding}
+          onClick={() => setShowStats(!showStats)}
           style={{
             position: 'fixed',
             top: window.innerWidth <= 768 ? 12 : 18,
-            right: window.innerWidth <= 768 ? 12 : 18,
-            zIndex: 15,
+            left: window.innerWidth <= 768 ? 12 : 18,
+            zIndex: 17,
             background: 'rgba(85, 20, 219, 0.15)',
             color: '#fff',
             border: '1px solid rgba(85, 20, 219, 0.3)',
@@ -2578,468 +2585,650 @@ function ARRecorder({ onShowLanding }) {
             padding: window.innerWidth <= 768 ? '6px 10px' : '8px 14px',
             fontSize: window.innerWidth <= 768 ? '11px' : '12px',
             fontWeight: 600,
-            cursor: 'pointer'
-          }}
-        >
-          Landing
-        </button>
-      )}
-
-      {/* Промокод блок - правый верхний угол */}
-      {promoState?.promo_code && (
-        <div
-          style={{
-            position: 'fixed',
-            top: window.innerWidth <= 768 ? 12 : 18,
-            right: onShowLanding ? (window.innerWidth <= 768 ? 80 : 100) : (window.innerWidth <= 768 ? 12 : 18),
-            zIndex: 16,
-            background: 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
-            color: '#fff',
-            borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
-            padding: window.innerWidth <= 768 ? '8px 12px' : '10px 16px',
-            fontSize: window.innerWidth <= 768 ? '10px' : '11px',
-            fontWeight: 700,
-            boxShadow: '0 4px 20px rgba(85, 20, 219, 0.4)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            animation: 'promoFadeIn 0.5s ease-in-out',
-            maxWidth: window.innerWidth <= 768 ? '200px' : '250px',
-            wordWrap: 'break-word',
-            textAlign: 'center',
-            backdropFilter: 'blur(10px)',
-            transform: 'translateY(0)',
+            cursor: 'pointer',
             transition: 'all 0.3s ease'
           }}
           onMouseEnter={(e) => {
-            e.target.style.transform = 'translateY(-2px) scale(1.05)'
-            e.target.style.boxShadow = '0 8px 30px rgba(0, 212, 255, 0.6)'
+            e.target.style.background = 'rgba(85, 20, 219, 0.25)'
+            e.target.style.transform = 'scale(1.05)'
           }}
           onMouseLeave={(e) => {
-            e.target.style.transform = 'translateY(0) scale(1)'
-            e.target.style.boxShadow = '0 4px 20px rgba(85, 20, 219, 0.4)'
+            e.target.style.background = 'rgba(85, 20, 219, 0.15)'
+            e.target.style.transform = 'scale(1)'
           }}
-          title="Ваш промокод получен!"
+          title="Показать/скрыть статистику"
         >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: window.innerWidth <= 768 ? '4px' : '6px',
-            justifyContent: 'center',
-            flexWrap: 'wrap'
-          }}>
-            <span style={{ fontSize: window.innerWidth <= 768 ? '10px' : '11px', opacity: 0.9 }}>🎉</span>
-            <span style={{ fontSize: window.innerWidth <= 768 ? '9px' : '10px', opacity: 0.8 }}>Промокод:</span>
-            <span style={{
-              fontSize: window.innerWidth <= 768 ? '11px' : '12px',
-              fontWeight: 800,
-              color: '#00d4ff',
-              textShadow: '0 0 10px rgba(0, 212, 255, 0.5)',
-              letterSpacing: '0.5px'
-            }}>
-              {promoState.promo_code}
-            </span>
-          </div>
-        </div>
-      )}
+          📊
+        </button>
 
-      {/* Форма ввода email после получения промокода */}
-      {promoState?.promo_code && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            zIndex: 25,
-            background: 'rgba(0, 0, 0, 0.95)',
-            borderRadius: window.innerWidth <= 768 ? '12px' : '16px',
-            padding: window.innerWidth <= 768 ? '20px' : '24px',
-            minWidth: window.innerWidth <= 768 ? '300px' : '400px',
-            maxWidth: window.innerWidth <= 768 ? '90vw' : '500px',
-            border: '1px solid rgba(85, 20, 219, 0.3)',
-            boxShadow: '0 20px 60px rgba(85, 20, 219, 0.4)',
-            backdropFilter: 'blur(20px)',
-            animation: 'emailFormFadeIn 0.4s ease-out',
-            transition: 'all 0.3s ease'
-          }}
-        >
-          <div style={{
-            textAlign: 'center',
-            marginBottom: window.innerWidth <= 768 ? '16px' : '20px'
-          }}>
-            <div style={{
-              fontSize: window.innerWidth <= 768 ? '18px' : '20px',
-              fontWeight: 700,
+        {/* Блок статистики - левый верхний угол */}
+        {showStats && statsState && (
+          <div
+            style={{
+              position: 'fixed',
+              top: window.innerWidth <= 768 ? 60 : 70,
+              left: window.innerWidth <= 768 ? 12 : 18,
+              zIndex: 16,
+              background: 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
               color: '#fff',
-              marginBottom: window.innerWidth <= 768 ? '8px' : '12px'
-            }}>
-              📧 Получите промокод на email
-            </div>
+              borderRadius: window.innerWidth <= 768 ? '8px' : '12px',
+              padding: window.innerWidth <= 768 ? '12px' : '16px',
+              fontSize: window.innerWidth <= 768 ? '10px' : '11px',
+              fontWeight: 600,
+              boxShadow: '0 8px 32px rgba(85, 20, 219, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(10px)',
+              minWidth: window.innerWidth <= 768 ? '200px' : '250px',
+              maxWidth: window.innerWidth <= 768 ? '280px' : '320px',
+              animation: 'statsFadeIn 0.3s ease-in-out',
+              transform: 'translateY(0)',
+              transition: 'all 0.3s ease'
+            }}
+          >
             <div style={{
-              fontSize: window.innerWidth <= 768 ? '12px' : '14px',
-              color: '#b794f6',
-              opacity: 0.8,
-              lineHeight: 1.4
+              display: 'flex',
+              alignItems: 'center',
+              gap: window.innerWidth <= 768 ? '6px' : '8px',
+              marginBottom: window.innerWidth <= 768 ? '8px' : '10px',
+              justifyContent: 'space-between'
             }}>
-              Введите ваш email адрес, чтобы получить промокод <span style={{ color: '#00d4ff', fontWeight: 600 }}>{promoState.promo_code}</span>
+              <span style={{ fontSize: window.innerWidth <= 768 ? '11px' : '12px', fontWeight: 700 }}>
+                📊 Статистика
+              </span>
+              <button
+                onClick={() => setShowStats(false)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: window.innerWidth <= 768 ? '20px' : '24px',
+                  height: window.innerWidth <= 768 ? '20px' : '24px',
+                  color: '#fff',
+                  fontSize: window.innerWidth <= 768 ? '12px' : '14px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.3)'
+                  e.target.style.transform = 'scale(1.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.2)'
+                  e.target.style.transform = 'scale(1)'
+                }}
+                title="Закрыть статистику"
+              >
+                ×
+              </button>
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gap: window.innerWidth <= 768 ? '6px' : '8px'
+            }}>
+              {statsState.best_asset?.name && (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: window.innerWidth <= 768 ? '4px 0' : '6px 0',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <span style={{ opacity: 0.9 }}>Лучший актив:</span>
+                  <span style={{
+                    fontWeight: 700,
+                    color: '#00d4ff',
+                    textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
+                  }}>
+                    {statsState.best_asset.name}
+                  </span>
+                </div>
+              )}
+
+              {statsState.views_today !== undefined && (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: window.innerWidth <= 768 ? '4px 0' : '6px 0',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <span style={{ opacity: 0.9 }}>Просмотры сегодня:</span>
+                  <span style={{
+                    fontWeight: 700,
+                    color: '#00d4ff',
+                    textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
+                  }}>
+                    {statsState.views_today.toLocaleString()}
+                  </span>
+                </div>
+              )}
+
+              {statsState.views_all_time !== undefined && (
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: window.innerWidth <= 768 ? '4px 0' : '6px 0'
+                }}>
+                  <span style={{ opacity: 0.9 }}>Просмотры за все время:</span>
+                  <span style={{
+                    fontWeight: 700,
+                    color: '#00d4ff',
+                    textShadow: '0 0 8px rgba(0, 212, 255, 0.5)'
+                  }}>
+                    {statsState.views_all_time.toLocaleString()}
+                  </span>
+                </div>
+              )}
+
+              {statsLoading && (
+                <div style={{
+                  textAlign: 'center',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  padding: window.innerWidth <= 768 ? '8px 0' : '12px 0'
+                }}>
+                  Загрузка статистики...
+                </div>
+              )}
+
+              {/* Показываем сообщение об ошибке загрузки только если statsState равен null и не загружается */}
+              {statsState === null && !statsLoading && (
+                <div style={{
+                  textAlign: 'center',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  padding: window.innerWidth <= 768 ? '8px 0' : '12px 0'
+                }}>
+                  Данные статистики недоступны
+                </div>
+              )}
             </div>
           </div>
+        )}
 
-          <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: window.innerWidth <= 768 ? '12px' : '16px' }}>
-            <div>
-              <input
-                type="email"
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                placeholder="your@email.com"
-                disabled={emailSubmitting}
-                required
+        {onShowLanding && (
+          <button
+            type="button"
+            onClick={onShowLanding}
+            style={{
+              position: 'fixed',
+              top: window.innerWidth <= 768 ? 12 : 18,
+              right: window.innerWidth <= 768 ? 12 : 18,
+              zIndex: 15,
+              background: 'rgba(85, 20, 219, 0.15)',
+              color: '#fff',
+              border: '1px solid rgba(85, 20, 219, 0.3)',
+              borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
+              padding: window.innerWidth <= 768 ? '6px 10px' : '8px 14px',
+              fontSize: window.innerWidth <= 768 ? '11px' : '12px',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            Landing
+          </button>
+        )}
+
+        {/* Промокод блок - правый верхний угол */}
+        {promoState?.promo_code && (
+          <div
+            style={{
+              position: 'fixed',
+              top: window.innerWidth <= 768 ? 12 : 18,
+              right: onShowLanding ? (window.innerWidth <= 768 ? 80 : 100) : (window.innerWidth <= 768 ? 12 : 18),
+              zIndex: 16,
+              background: 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
+              color: '#fff',
+              borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
+              padding: window.innerWidth <= 768 ? '8px 12px' : '10px 16px',
+              fontSize: window.innerWidth <= 768 ? '10px' : '11px',
+              fontWeight: 700,
+              boxShadow: '0 4px 20px rgba(85, 20, 219, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              animation: 'promoFadeIn 0.5s ease-in-out',
+              maxWidth: window.innerWidth <= 768 ? '200px' : '250px',
+              wordWrap: 'break-word',
+              textAlign: 'center',
+              backdropFilter: 'blur(10px)',
+              transform: 'translateY(0)',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px) scale(1.05)'
+              e.target.style.boxShadow = '0 8px 30px rgba(0, 212, 255, 0.6)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0) scale(1)'
+              e.target.style.boxShadow = '0 4px 20px rgba(85, 20, 219, 0.4)'
+            }}
+            title="Ваш промокод получен!"
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: window.innerWidth <= 768 ? '4px' : '6px',
+              justifyContent: 'center',
+              flexWrap: 'wrap'
+            }}>
+              <span style={{ fontSize: window.innerWidth <= 768 ? '10px' : '11px', opacity: 0.9 }}>🎉</span>
+              <span style={{ fontSize: window.innerWidth <= 768 ? '9px' : '10px', opacity: 0.8 }}>Промокод:</span>
+              <span style={{
+                fontSize: window.innerWidth <= 768 ? '11px' : '12px',
+                fontWeight: 800,
+                color: '#00d4ff',
+                textShadow: '0 0 10px rgba(0, 212, 255, 0.5)',
+                letterSpacing: '0.5px'
+              }}>
+                {promoState.promo_code}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Форма ввода email после получения промокода */}
+        {promoState?.promo_code && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 25,
+              background: 'rgba(0, 0, 0, 0.95)',
+              borderRadius: window.innerWidth <= 768 ? '12px' : '16px',
+              padding: window.innerWidth <= 768 ? '20px' : '24px',
+              minWidth: window.innerWidth <= 768 ? '300px' : '400px',
+              maxWidth: window.innerWidth <= 768 ? '90vw' : '500px',
+              border: '1px solid rgba(85, 20, 219, 0.3)',
+              boxShadow: '0 20px 60px rgba(85, 20, 219, 0.4)',
+              backdropFilter: 'blur(20px)',
+              animation: 'emailFormFadeIn 0.4s ease-out',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div style={{
+              textAlign: 'center',
+              marginBottom: window.innerWidth <= 768 ? '16px' : '20px'
+            }}>
+              <div style={{
+                fontSize: window.innerWidth <= 768 ? '18px' : '20px',
+                fontWeight: 700,
+                color: '#fff',
+                marginBottom: window.innerWidth <= 768 ? '8px' : '12px'
+              }}>
+                📧 Получите промокод на email
+              </div>
+              <div style={{
+                fontSize: window.innerWidth <= 768 ? '12px' : '14px',
+                color: '#b794f6',
+                opacity: 0.8,
+                lineHeight: 1.4
+              }}>
+                Введите ваш email адрес, чтобы получить промокод <span style={{ color: '#00d4ff', fontWeight: 600 }}>{promoState.promo_code}</span>
+              </div>
+            </div>
+
+            <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: window.innerWidth <= 768 ? '12px' : '16px' }}>
+              <div>
+                <input
+                  type="email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="your@email.com"
+                  disabled={emailSubmitting}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: window.innerWidth <= 768 ? '12px 16px' : '14px 18px',
+                    borderRadius: window.innerWidth <= 768 ? '8px' : '10px',
+                    border: '1px solid rgba(85, 20, 219, 0.3)',
+                    background: 'rgba(85, 20, 219, 0.1)',
+                    color: '#fff',
+                    fontSize: window.innerWidth <= 768 ? '14px' : '16px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    transition: 'all 0.3s ease',
+                    opacity: emailSubmitting ? 0.7 : 1
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 212, 255, 0.6)'
+                    e.target.style.boxShadow = '0 0 0 3px rgba(0, 212, 255, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(85, 20, 219, 0.3)'
+                    e.target.style.boxShadow = 'none'
+                  }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={emailSubmitting || !emailInput.trim()}
                 style={{
-                  width: '100%',
-                  padding: window.innerWidth <= 768 ? '12px 16px' : '14px 18px',
+                  padding: window.innerWidth <= 768 ? '12px 20px' : '14px 24px',
                   borderRadius: window.innerWidth <= 768 ? '8px' : '10px',
-                  border: '1px solid rgba(85, 20, 219, 0.3)',
-                  background: 'rgba(85, 20, 219, 0.1)',
+                  border: 'none',
+                  background: (emailSubmitting || !emailInput.trim())
+                    ? 'rgba(85, 20, 219, 0.3)'
+                    : 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
                   color: '#fff',
                   fontSize: window.innerWidth <= 768 ? '14px' : '16px',
-                  outline: 'none',
-                  boxSizing: 'border-box',
+                  fontWeight: 600,
+                  cursor: (emailSubmitting || !emailInput.trim()) ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: window.innerWidth <= 768 ? '8px' : '10px',
+                  minHeight: window.innerWidth <= 768 ? '44px' : '48px',
                   transition: 'all 0.3s ease',
-                  opacity: emailSubmitting ? 0.7 : 1
+                  opacity: emailSubmitting ? 0.8 : 1
                 }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = 'rgba(0, 212, 255, 0.6)'
-                  e.target.style.boxShadow = '0 0 0 3px rgba(0, 212, 255, 0.1)'
+                onMouseEnter={(e) => {
+                  if (!emailSubmitting && emailInput.trim()) {
+                    e.target.style.transform = 'translateY(-2px)'
+                    e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)'
+                  }
                 }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = 'rgba(85, 20, 219, 0.3)'
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)'
                   e.target.style.boxShadow = 'none'
                 }}
-              />
-            </div>
+              >
+                {emailSubmitting ? (
+                  <>
+                    <span style={{
+                      width: window.innerWidth <= 768 ? '16px' : '18px',
+                      height: window.innerWidth <= 768 ? '16px' : '18px',
+                      border: '2px solid rgba(255, 255, 255, 0.3)',
+                      borderTop: '2px solid #fff',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }}></span>
+                    Отправляем...
+                  </>
+                ) : (
+                  <>
+                    📨 Отправить на email
+                  </>
+                )}
+              </button>
+            </form>
+
+            {apiError && (
+              <div style={{
+                marginTop: window.innerWidth <= 768 ? '12px' : '16px',
+                padding: window.innerWidth <= 768 ? '8px 12px' : '10px 14px',
+                borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
+                background: 'rgba(255, 85, 85, 0.2)',
+                border: '1px solid rgba(255, 85, 85, 0.3)',
+                color: '#ff9595',
+                fontSize: window.innerWidth <= 768 ? '12px' : '14px',
+                textAlign: 'center'
+              }}>
+                {apiError}
+              </div>
+            )}
 
             <button
-              type="submit"
-              disabled={emailSubmitting || !emailInput.trim()}
+              onClick={() => {
+                setPromoState(null)
+                setEmailInput('')
+                setApiError(null)
+              }}
+              disabled={emailSubmitting}
               style={{
-                padding: window.innerWidth <= 768 ? '12px 20px' : '14px 24px',
-                borderRadius: window.innerWidth <= 768 ? '8px' : '10px',
+                position: 'absolute',
+                top: window.innerWidth <= 768 ? '12px' : '16px',
+                right: window.innerWidth <= 768 ? '12px' : '16px',
+                background: 'rgba(255, 255, 255, 0.1)',
                 border: 'none',
-                background: (emailSubmitting || !emailInput.trim())
-                  ? 'rgba(85, 20, 219, 0.3)'
-                  : 'linear-gradient(135deg, #5514db 0%, #00d4ff 100%)',
+                borderRadius: '50%',
+                width: window.innerWidth <= 768 ? '28px' : '32px',
+                height: window.innerWidth <= 768 ? '28px' : '32px',
                 color: '#fff',
-                fontSize: window.innerWidth <= 768 ? '14px' : '16px',
-                fontWeight: 600,
-                cursor: (emailSubmitting || !emailInput.trim()) ? 'not-allowed' : 'pointer',
+                fontSize: window.innerWidth <= 768 ? '16px' : '18px',
+                cursor: emailSubmitting ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: window.innerWidth <= 768 ? '8px' : '10px',
-                minHeight: window.innerWidth <= 768 ? '44px' : '48px',
-                transition: 'all 0.3s ease',
-                opacity: emailSubmitting ? 0.8 : 1
+                transition: 'all 0.2s ease',
+                opacity: emailSubmitting ? 0.5 : 1
               }}
               onMouseEnter={(e) => {
-                if (!emailSubmitting && emailInput.trim()) {
-                  e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4)'
+                if (!emailSubmitting) {
+                  e.target.style.background = 'rgba(255, 255, 255, 0.2)'
+                  e.target.style.transform = 'scale(1.1)'
                 }
               }}
               onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)'
-                e.target.style.boxShadow = 'none'
+                e.target.style.background = 'rgba(255, 255, 255, 0.1)'
+                e.target.style.transform = 'scale(1)'
               }}
+              title="Закрыть форму"
             >
-              {emailSubmitting ? (
-                <>
-                  <span style={{
-                    width: window.innerWidth <= 768 ? '16px' : '18px',
-                    height: window.innerWidth <= 768 ? '16px' : '18px',
-                    border: '2px solid rgba(255, 255, 255, 0.3)',
-                    borderTop: '2px solid #fff',
-                    borderRadius: '50%',
-                    animation: 'spin 1s linear infinite'
-                  }}></span>
-                  Отправляем...
-                </>
-              ) : (
-                <>
-                  📨 Отправить на email
-                </>
-              )}
+              ×
             </button>
-          </form>
+          </div>
+        )}
+
+        {/* Enhanced UI Container - Bottom positioned */}
+        <div id="ui" style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 10,
+          background: "rgba(0, 0, 0, 0.95)",
+          borderTop: "1px solid rgba(85, 20, 219, 0.3)",
+          padding: window.innerWidth <= 768 ? "8px 10px" : "10px",
+          display: "flex",
+          flexDirection: "column",
+          gap: window.innerWidth <= 768 ? "6px" : "10px"
+        }}>
+          {/* Status Bar */}
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            color: "#fff",
+            fontSize: "12px",
+            fontWeight: "500"
+          }}>
+            <div style={{
+              display: "flex",
+              gap: "20px",
+              alignItems: "center"
+            }}>
+              {/* Timer */}
+              <div style={{
+                padding: window.innerWidth <= 768 ? "3px 6px" : "4px 8px",
+                borderRadius: window.innerWidth <= 768 ? "6px" : "8px",
+                background: "rgba(255, 255, 255, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                fontSize: window.innerWidth <= 768 ? "11px" : "12px",
+                fontWeight: "600",
+                color: "#fff",
+                fontFamily: "monospace"
+              }}>
+                {time}
+              </div>
+
+              {/* Download Link */}
+              {dl && (
+                <a href={dl.url} download={dl.name} style={{
+                  padding: "6px 12px",
+                  borderRadius: "8px",
+                  background: "#5514db",
+                  color: "#fff",
+                  textDecoration: "none",
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px"
+                }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = "translateY(-2px)"
+                    e.target.style.boxShadow = "0 8px 25px rgba(0, 212, 255, 0.6)"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = "translateY(0)"
+                    e.target.style.boxShadow = "0 6px 20px rgba(85, 20, 219, 0.4)"
+                  }}
+                >
+                  Download {dl.name} ({dl.size} MB)
+                </a>
+              )}
+            </div>
+
+            {/* Status */}
+            <div style={{
+              padding: window.innerWidth <= 768 ? "3px 6px" : "4px 8px",
+              borderRadius: window.innerWidth <= 768 ? "6px" : "8px",
+              background: "rgba(85, 20, 219, 0.2)",
+              border: "1px solid rgba(85, 20, 219, 0.3)",
+              color: "#b794f6",
+              fontSize: window.innerWidth <= 768 ? "10px" : "11px",
+              fontWeight: "500"
+            }}>
+              {status}
+            </div>
+
+            <div style={{
+              display: "flex",
+              gap: "8px",
+              alignItems: "center",
+              fontSize: window.innerWidth <= 768 ? "10px" : "11px",
+              color: "#fff"
+            }}>
+              {/* Детекции */}
+              <div style={{
+                padding: window.innerWidth <= 768 ? "2px 4px" : "3px 6px",
+                borderRadius: window.innerWidth <= 768 ? "4px" : "6px",
+                background: aprilTagTransforms.length > 0 ? "rgba(138, 43, 226, 0.2)" : "rgba(108, 117, 125, 0.2)",
+                border: `1px solid ${aprilTagTransforms.length > 0 ? "rgba(138, 43, 226, 0.3)" : "rgba(108, 117, 125, 0.3)"}`,
+                color: aprilTagTransforms.length > 0 ? "#8a2be2" : "#6c757d",
+                fontWeight: "600",
+                fontFamily: "monospace",
+                minWidth: window.innerWidth <= 768 ? "30px" : "35px",
+                textAlign: "center"
+              }}>
+                {aprilTagTransforms.length} детекций
+              </div>
+            </div>
+          </div>
+          {/* Control Groups */}
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap"
+          }}>
+          </div>
 
           {apiError && (
             <div style={{
-              marginTop: window.innerWidth <= 768 ? '12px' : '16px',
-              padding: window.innerWidth <= 768 ? '8px 12px' : '10px 14px',
+              marginTop: window.innerWidth <= 768 ? '6px' : '8px',
+              padding: window.innerWidth <= 768 ? '6px 8px' : '8px 12px',
               borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
               background: 'rgba(255, 85, 85, 0.2)',
               border: '1px solid rgba(255, 85, 85, 0.3)',
               color: '#ff9595',
-              fontSize: window.innerWidth <= 768 ? '12px' : '14px',
-              textAlign: 'center'
+              fontSize: window.innerWidth <= 768 ? '11px' : '12px'
             }}>
               {apiError}
             </div>
           )}
-
-          <button
-            onClick={() => {
-              setPromoState(null)
-              setEmailInput('')
-              setApiError(null)
-            }}
-            disabled={emailSubmitting}
-            style={{
-              position: 'absolute',
-              top: window.innerWidth <= 768 ? '12px' : '16px',
-              right: window.innerWidth <= 768 ? '12px' : '16px',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: 'none',
-              borderRadius: '50%',
-              width: window.innerWidth <= 768 ? '28px' : '32px',
-              height: window.innerWidth <= 768 ? '28px' : '32px',
-              color: '#fff',
-              fontSize: window.innerWidth <= 768 ? '16px' : '18px',
-              cursor: emailSubmitting ? 'not-allowed' : 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s ease',
-              opacity: emailSubmitting ? 0.5 : 1
-            }}
-            onMouseEnter={(e) => {
-              if (!emailSubmitting) {
-                e.target.style.background = 'rgba(255, 255, 255, 0.2)'
-                e.target.style.transform = 'scale(1.1)'
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.1)'
-              e.target.style.transform = 'scale(1)'
-            }}
-            title="Закрыть форму"
-          >
-            ×
-          </button>
         </div>
-      )}
 
-      {/* Enhanced UI Container - Bottom positioned */}
-      <div id="ui" style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10,
-        background: "rgba(0, 0, 0, 0.95)",
-        borderTop: "1px solid rgba(85, 20, 219, 0.3)",
-        padding: window.innerWidth <= 768 ? "8px 10px" : "10px",
-        display: "flex",
-        flexDirection: "column",
-        gap: window.innerWidth <= 768 ? "6px" : "10px"
-      }}>
-        {/* Status Bar */}
+        {/* Recording Controls - Right Bottom Corner */}
         <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          color: "#fff",
-          fontSize: "12px",
-          fontWeight: "500"
+          position: 'fixed',
+          bottom: window.innerWidth <= 768 ? '12px' : '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 20,
+          display: 'flex',
+          flexDirection: window.innerWidth <= 520 ? 'column' : 'row',
+          gap: window.innerWidth <= 768 ? '8px' : '16px',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-          <div style={{
-            display: "flex",
-            gap: "20px",
-            alignItems: "center"
-          }}>
-            {/* Timer */}
-            <div style={{
-              padding: window.innerWidth <= 768 ? "3px 6px" : "4px 8px",
-              borderRadius: window.innerWidth <= 768 ? "6px" : "8px",
-              background: "rgba(255, 255, 255, 0.1)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              fontSize: window.innerWidth <= 768 ? "11px" : "12px",
-              fontWeight: "600",
-              color: "#fff",
-              fontFamily: "monospace"
-            }}>
-              {time}
-            </div>
+          <Tooltip title="Сделать фото" enterDelay={200}>
+            <ShutterButton
+              aria-label="Сделать фото"
+              onClick={capturePhoto}
+              disabled={!running}
+            >
+              <CameraAltRounded fontSize="large" />
+            </ShutterButton>
+          </Tooltip>
 
-            {/* Download Link */}
-            {dl && (
-              <a href={dl.url} download={dl.name} style={{
-                padding: "6px 12px",
-                borderRadius: "8px",
-                background: "#5514db",
-                color: "#fff",
-                textDecoration: "none",
-                fontSize: "11px",
-                fontWeight: "600",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: "4px"
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-2px)"
-                e.target.style.boxShadow = "0 8px 25px rgba(0, 212, 255, 0.6)"
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0)"
-                e.target.style.boxShadow = "0 6px 20px rgba(85, 20, 219, 0.4)"
-              }}
-              >
-                Download {dl.name} ({dl.size} MB)
-              </a>
+          <Stack direction="row" spacing={window.innerWidth <= 768 ? 1 : 1.5} alignItems="center">
+            {recOn && (
+              <Tooltip title="Остановить запись" enterDelay={200}>
+                <RecordButton
+                  aria-label="Остановить запись"
+                  aria-pressed={recOn}
+                  onClick={stopRecording}
+                  recording={1}
+                >
+                  <StopRounded fontSize="large" />
+                </RecordButton>
+              </Tooltip>
             )}
-          </div>
 
-          {/* Status */}
-          <div style={{
-            padding: window.innerWidth <= 768 ? "3px 6px" : "4px 8px",
-            borderRadius: window.innerWidth <= 768 ? "6px" : "8px",
-            background: "rgba(85, 20, 219, 0.2)",
-            border: "1px solid rgba(85, 20, 219, 0.3)",
-            color: "#b794f6",
-            fontSize: window.innerWidth <= 768 ? "10px" : "11px",
-            fontWeight: "500"
-          }}>
-            {status}
-          </div>
-
-        <div style={{
-          display: "flex",
-          gap: "8px",
-          alignItems: "center",
-          fontSize: window.innerWidth <= 768 ? "10px" : "11px",
-          color: "#fff"
-        }}>
-          {/* Детекции */}
-          <div style={{
-            padding: window.innerWidth <= 768 ? "2px 4px" : "3px 6px",
-            borderRadius: window.innerWidth <= 768 ? "4px" : "6px",
-            background: aprilTagTransforms.length > 0 ? "rgba(138, 43, 226, 0.2)" : "rgba(108, 117, 125, 0.2)",
-            border: `1px solid ${aprilTagTransforms.length > 0 ? "rgba(138, 43, 226, 0.3)" : "rgba(108, 117, 125, 0.3)"}`,
-            color: aprilTagTransforms.length > 0 ? "#8a2be2" : "#6c757d",
-            fontWeight: "600",
-            fontFamily: "monospace",
-            minWidth: window.innerWidth <= 768 ? "30px" : "35px",
-            textAlign: "center"
-          }}>
-            {aprilTagTransforms.length} детекций
-          </div>
-        </div>
-        </div>
-        {/* Control Groups */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          flexWrap: "wrap"
-        }}>
+            {!recOn && (
+              <Tooltip title="Начать запись" enterDelay={200}>
+                <RecordButton
+                  aria-label="Начать запись"
+                  aria-pressed={recOn}
+                  onClick={startRecording}
+                  disabled={!running || recOn}
+                  recording={0}
+                >
+                  <VideocamRounded fontSize="large" />
+                </RecordButton>
+              </Tooltip>
+            )}
+          </Stack>
         </div>
 
-        {apiError && (
-          <div style={{
-            marginTop: window.innerWidth <= 768 ? '6px' : '8px',
-            padding: window.innerWidth <= 768 ? '6px 8px' : '8px 12px',
-            borderRadius: window.innerWidth <= 768 ? '6px' : '8px',
-            background: 'rgba(255, 85, 85, 0.2)',
-            border: '1px solid rgba(255, 85, 85, 0.3)',
-            color: '#ff9595',
-            fontSize: window.innerWidth <= 768 ? '11px' : '12px'
-          }}>
-            {apiError}
-          </div>
-        )}
-      </div>
+        {/* Enhanced Canvas */}
+        {/* Hidden R3F Canvas: captures TrainModel prefab for cloning */}
+        <div style={{ position: 'absolute', top: '-1000px', left: '-1000px', width: '100px', height: '100px', pointerEvents: 'none' }} aria-hidden>
+          <Canvas>
+            <ambientLight intensity={0.5} />
+            <TrainModel ref={captureTrainPrefab} />
+          </Canvas>
+        </div>
+        <canvas
+          id="mix"
+          ref={mixRef}
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "block",
+            position: "relative",
+            zIndex: 1
+          }}
+        />
+        <video
+          id="cam"
+          ref={camRef}
+          playsInline
+          muted
+          style={{ display: "none" }}
+        />
 
-      {/* Recording Controls - Right Bottom Corner */}
-      <div style={{
-        position: 'fixed',
-        bottom: window.innerWidth <= 768 ? '12px' : '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 20,
-        display: 'flex',
-        flexDirection: window.innerWidth <= 520 ? 'column' : 'row',
-        gap: window.innerWidth <= 768 ? '8px' : '16px',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <Tooltip title="Сделать фото" enterDelay={200}>
-          <ShutterButton
-            aria-label="Сделать фото"
-            onClick={capturePhoto}
-            disabled={!running}
-          >
-            <CameraAltRounded fontSize="large" />
-          </ShutterButton>
-        </Tooltip>
-
-        <Stack direction="row" spacing={window.innerWidth <= 768 ? 1 : 1.5} alignItems="center">
-          {recOn && (
-            <Tooltip title="Остановить запись" enterDelay={200}>
-              <RecordButton
-                aria-label="Остановить запись"
-                aria-pressed={recOn}
-                onClick={stopRecording}
-                recording={1}
-              >
-                <StopRounded fontSize="large" />
-              </RecordButton>
-            </Tooltip>
-          )}
-
-          {!recOn && (
-            <Tooltip title="Начать запись" enterDelay={200}>
-              <RecordButton
-                aria-label="Начать запись"
-                aria-pressed={recOn}
-                onClick={startRecording}
-                disabled={!running || recOn}
-                recording={0}
-              >
-                <VideocamRounded fontSize="large" />
-              </RecordButton>
-            </Tooltip>
-          )}
-        </Stack>
-      </div>
-
-      {/* Enhanced Canvas */}
-      {/* Hidden R3F Canvas: captures TrainModel prefab for cloning */}
-      <div style={{ position: 'absolute', top: '-1000px', left: '-1000px', width: '100px', height: '100px', pointerEvents: 'none' }} aria-hidden>
-        <Canvas>
-          <ambientLight intensity={0.5} />
-          <TrainModel ref={captureTrainPrefab} />
-        </Canvas>
-      </div>
-      <canvas
-        id="mix"
-        ref={mixRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "block",
-          position: "relative",
-          zIndex: 1
-        }}
-      />
-      <video
-        id="cam"
-        ref={camRef}
-        playsInline
-        muted
-        style={{ display: "none" }}
-      />
-
-      {/* CSS Animations */}
-      <style>{`
+        {/* CSS Animations */}
+        <style>{`
         select:focus { border-color: #5514db !important }
 
         @keyframes promoFadeIn {
@@ -3095,7 +3284,7 @@ function ARRecorder({ onShowLanding }) {
         }
       `}</style>
 
-    </div>
+      </div>
     </ThemeProvider>
   )
 }

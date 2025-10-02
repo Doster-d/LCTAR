@@ -68,6 +68,7 @@ class ApriltagPipeline {
     this.tagConfigById = new Map();
     this.scenesById = new Map();
     this.tagSizeById = new Map();
+    this.displayOrientationInfo = { type: null, angle: 0, isPortrait: false };
 
     // Координатный трансформатор для стабилизации
     this.coordinateTransformer = new CoordinateTransformer({
@@ -258,11 +259,11 @@ class ApriltagPipeline {
    * @returns {Promise<void>}
    */
   async initializeAprilTagDetector() {
-   try {
-     if (typeof window.AprilTagWasm !== 'function') {
-       console.error('❌ window.AprilTagWasm не доступен');
-       throw new Error('AprilTagWasm not available');
-     }
+    try {
+      if (typeof window.AprilTagWasm !== 'function') {
+        console.error('❌ window.AprilTagWasm не доступен');
+        throw new Error('AprilTagWasm not available');
+      }
 
       // Инициализируем WASM модуль
       const Module = await window.AprilTagWasm({
@@ -324,7 +325,7 @@ class ApriltagPipeline {
     // Определяем режим на основе количества маркеров и уверенности
     let mode = 'single';
     if (detections.length >= this.multiTagConfig.minTagsForMultiMode &&
-        avgConfidence >= this.multiTagConfig.confidenceThreshold) {
+      avgConfidence >= this.multiTagConfig.confidenceThreshold) {
       mode = 'multi';
     }
 
@@ -419,6 +420,62 @@ class ApriltagPipeline {
   }
 
   /**
+   * @brief Сообщает пайплайну текущую ориентацию экрана/кадра
+   * @param {{type?:string, angle?:number, isPortrait?:boolean}} info
+   */
+  setDisplayOrientation(info = {}) {
+    const type = typeof info.type === 'string' ? info.type : this.displayOrientationInfo.type;
+    const angle = Number.isFinite(info.angle) ? info.angle : this.displayOrientationInfo.angle;
+    const isPortrait = typeof info.isPortrait === 'boolean'
+      ? info.isPortrait
+      : (type ? type.startsWith('portrait') : this.displayOrientationInfo.isPortrait);
+
+    this.displayOrientationInfo = {
+      type,
+      angle,
+      isPortrait
+    };
+  }
+
+  /**
+   * @brief Возвращает кватернион коррекции ориентации для портретного режима
+   * @returns {Quaternion|null}
+   */
+  getOrientationCorrectionQuaternion() {
+    const info = this.displayOrientationInfo;
+    if (!info) return null;
+
+    let radians = 0;
+    if (typeof info.type === 'string') {
+      if (info.type.startsWith('portrait')) {
+        radians = -Math.PI / 2;
+        if (info.type === 'portrait-secondary') {
+          radians = Math.PI / 2;
+        }
+      } else if (info.type === 'landscape-secondary') {
+        radians = Math.PI;
+      }
+    }
+
+    if (radians === 0 && Number.isFinite(info.angle)) {
+      const normalized = ((info.angle % 360) + 360) % 360;
+      if (normalized === 90) radians = Math.PI / 2;
+      else if (normalized === 180) radians = Math.PI;
+      else if (normalized === 270) radians = -Math.PI / 2;
+    }
+
+    if (radians === 0 && info.isPortrait === true) {
+      radians = -Math.PI / 2;
+    }
+
+    if (Math.abs(radians) < 1e-4) {
+      return null;
+    }
+
+    return new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), radians);
+  }
+
+  /**
    * @brief Выполняет детекцию тегов по переданному RGBA-буферу изображения.
    * @param imageData Объект ImageData, подготовленный для анализа AprilTag.
    * @returns {Array<object>} Обработанные детекции с данными о позе.
@@ -435,7 +492,7 @@ class ApriltagPipeline {
 
     // Проверяем, что все WASM функции инициализированы
     if (!this._init || !this._destroy || !this._set_detector_options ||
-        !this._set_pose_info || !this._set_img_buffer || !this._set_tag_size || !this._detect) {
+      !this._set_pose_info || !this._set_img_buffer || !this._set_tag_size || !this._detect) {
       console.error('❌ [detect] WASM функции не инициализированы');
       return this.applyRecoveryStrategies([], now);
     }
@@ -523,7 +580,7 @@ class ApriltagPipeline {
           R_flat[0], R_flat[1], R_flat[2], t[0],
           R_flat[3], R_flat[4], R_flat[5], t[1],
           R_flat[6], R_flat[7], R_flat[8], t[2],
-          0,         0,         0,         1
+          0, 0, 0, 1
         );
 
         const Cv2Gl = new Matrix4().makeScale(1, -1, -1);
@@ -641,9 +698,19 @@ class ApriltagPipeline {
           );
 
           // Преобразуем детекции из камеры в мир с сохранением индивидуальной ориентации
-          const cameraWorldMatrix = stabilizedMatrix.clone();
+          let cameraWorldMatrix = stabilizedMatrix.clone();
           const cameraWorldPosition = new Vector3().setFromMatrixPosition(cameraWorldMatrix);
-          const cameraWorldQuaternion = new Quaternion().setFromRotationMatrix(cameraWorldMatrix);
+          let cameraWorldQuaternion = new Quaternion().setFromRotationMatrix(cameraWorldMatrix);
+
+          const orientationCorrection = this.getOrientationCorrectionQuaternion();
+          if (orientationCorrection) {
+            cameraWorldQuaternion = cameraWorldQuaternion.multiply(orientationCorrection);
+            cameraWorldMatrix = new Matrix4().compose(
+              cameraWorldPosition.clone(),
+              cameraWorldQuaternion.clone(),
+              new Vector3(1, 1, 1)
+            );
+          }
 
           enhancedTransforms.forEach(transform => {
             // Сохраняем камерыное представление для отладки
@@ -679,10 +746,21 @@ class ApriltagPipeline {
             const tagQuaternionCamera = new Quaternion();
             matrixWithOffsetCamera.decompose(tagPositionCamera, tagQuaternionCamera, tagScale);
 
+            const normalizeScale = (scaleVec) => {
+              if (!scaleVec) return 1;
+              const avg = (Math.abs(scaleVec.x) + Math.abs(scaleVec.y) + Math.abs(scaleVec.z)) / 3;
+              const safe = Number.isFinite(avg) && avg > 1e-6 ? avg : 1;
+              scaleVec.setScalar(safe);
+              return scaleVec;
+            };
+
+            normalizeScale(tagScale);
+
             const baseScale = new Vector3();
             const basePositionCamera = new Vector3();
             const baseQuaternionCamera = new Quaternion();
             matrixBaseCamera.decompose(basePositionCamera, baseQuaternionCamera, baseScale);
+            normalizeScale(baseScale);
 
             const worldPosition = tagPositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
             const worldBasePosition = basePositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);

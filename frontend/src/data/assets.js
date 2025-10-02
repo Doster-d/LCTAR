@@ -3,8 +3,14 @@ const ASSETS_BY_SCENE = {
     0: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
     1: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
     2: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
+    3: { slug: 'cheburashka_company', name: 'Чебурашка и компания' },
+    4: { slug: 'cheburashka_company', name: 'Чебурашка и компания' }
   },
-  volk: {},
+  volk: {
+    5: { slug: 'volk', name: 'Волк из ну погоди' },
+    6: { slug: 'volk', name: 'Волк из ну погоди' },
+    7: { slug: 'volk', name: 'Волк из ну погоди' }
+  },
 };
 
 export const ALL_ASSETS = Object.entries(ASSETS_BY_SCENE).flatMap(([sceneId, sceneAssets]) =>

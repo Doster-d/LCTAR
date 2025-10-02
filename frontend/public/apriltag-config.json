@@ -5,17 +5,49 @@
     },
     "volk": {
       "diameter": 0.5
+    },
+    "gena": {
+      "diameter": 0.5
+    },
+    "shaplya": {
+      "diameter": 0.5
     }
   },
   "tags": [
     {
-      "id": 1,
-      "sceneId": "cheburashka_company",
+      "id": 3,
+      "sceneId": "gena",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        -0.25,
+        0.08,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        -0.9,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        -0.25,
+        0.08,
+        -0.2
+      ]
+    },
+    {
+      "id": 5,
+      "sceneId": "volk",
       "size": 0.15,
       "normalOffsetMm": 10,
       "position": [
         0,
-        0.03,
+        0.02,
         0
       ],
       "rotation": [
@@ -29,24 +61,154 @@
         0.1
       ],
       "fallbackCenter": [
-        0.01,
-        0.01,
-        0.01
+        0,
+        0.02,
+        0
+      ]
+    },
+    {
+      "id": 7,
+      "sceneId": "volk",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        -0.4,
+        0.02,
+        0
+      ],
+      "rotation": [
+        0,
+        -0.7,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        -0.4,
+        0.02,
+        0
+      ]
+    },
+    {
+      "id": 1,
+      "sceneId": "gena",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        0,
+        0.08,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        0,
+        0.08,
+        0
+      ]
+    },
+    {
+      "id": 6,
+      "sceneId": "volk",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        0.4,
+        0.02,
+        0
+      ],
+      "rotation": [
+        0,
+        0.7,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        0.4,
+        0.02,
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "sceneId": "shaplya",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        0.25,
+        0.02,
+        -0.2
+      ],
+      "rotation": [
+        0,
+        0.9,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        0.25,
+        0.02,
+        -0.2
+      ]
+    },
+    {
+      "id": 4,
+      "sceneId": "shaplya",
+      "size": 0.15,
+      "normalOffsetMm": 10,
+      "position": [
+        0,
+        0.02,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "sphereOffset": [
+        0,
+        0,
+        0.1
+      ],
+      "fallbackCenter": [
+        0,
+        0.02,
+        0
       ]
     },
     {
       "id": 0,
       "sceneId": "cheburashka_company",
       "size": 0.15,
-      "normalOffsetMm": -100,
+      "normalOffsetMm": 10,
       "position": [
-        -0.13,
-        0.03,
-        -0.2
+        0,
+        0.02,
+        0
       ],
       "rotation": [
         0,
-        -0.5,
+        0,
         0
       ],
       "sphereOffset": [
@@ -55,35 +217,9 @@
         0.1
       ],
       "fallbackCenter": [
-        -0.13,
-        0.05,
-        -0.2
-      ]
-    },
-    {
-      "id": 2,
-      "sceneId": "cheburashka_company",
-      "size": 0.15,
-      "normalOffsetMm": -100,
-      "position": [
-        0.13,
-        0.03,
-        -0.2
-      ],
-      "rotation": [
         0,
-        0.5,
+        0.02,
         0
-      ],
-      "sphereOffset": [
-        0,
-        0,
-        0.1
-      ],
-      "fallbackCenter": [
-        0.13,
-        0.05,
-        -0.2
       ]
     }
   ]
