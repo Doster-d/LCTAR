@@ -18,6 +18,7 @@ import { SkeletonUtils } from 'three-stdlib'
  */
 export const Model = forwardRef((props, ref) => {
   const group = useRef()
+  const trainGroup = useRef()
 
   // Загрузка моделей
   const { scene: trainScene, animations: trainAnimations } = useGLTF('./models/Train-transformed.glb')
@@ -32,8 +33,8 @@ export const Model = forwardRef((props, ref) => {
   const { nodes: orangeboxNodes, materials: orangeboxMaterials } = useGraph(clonedOrangeboxScene)
 
   // Анимации для обеих моделей
-  const { actions: trainActions } = useAnimations(trainAnimations, group)
-  const { actions: orangeboxActions } = useAnimations(orangeboxAnimations, group)
+  const { actions: trainActions } = useAnimations(trainAnimations, trainGroup)
+  const { actions: orangeboxActions } = useAnimations(orangeboxAnimations, trainGroup)
 
   // Ref forwarding
   useEffect(() => {
@@ -82,10 +83,10 @@ export const Model = forwardRef((props, ref) => {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group>
+      <group ref={trainGroup} rotation={[0, Math.PI / 2, 0]}>
         <group name="Null">
           {/* Модель поезда */}
-          <group name="Train" position={[0, 0.26, 0]} rotation={[0, Math.PI / 2, 0]}>
+          <group name="Train" position={[0, 0.26, 0]}>
             {trainBodyNode && (
               <mesh
                 name={trainBodyNode.name ?? 'Train-Mat.2'}
