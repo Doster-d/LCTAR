@@ -8,7 +8,7 @@ import './LandingPageTemplate.css';
  */
 const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
   const [theme, setTheme] = useState('light');
-  const [lang, setLang] = useState('en');
+  const [lang, setLang] = useState('ru');
 
   /**
    * @brief Переключает светлую и тёмную тему.
@@ -19,7 +19,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
    * @brief Переключает язык интерфейса между EN и RU.
    * @returns {void}
    */
-  const toggleLang = () => setLang(lang === 'en' ? 'ru' : 'ru');
+  const toggleLang = () => setLang(lang === 'en' ? 'ru' : 'en');
 
   const translations = {
     en: {
