@@ -27,7 +27,6 @@ import {
   getHealth as apiGetHealth,
 } from './api/api'
 import { getAssetByDetection } from './data/assets'
-import { CoordinateTransformer } from './CoordinateTransformer'
 
 /**
  * @brief Ограничивает число указанным диапазоном.
@@ -67,6 +66,110 @@ function pickMime() {
   return ""
 }
 
+const APRILTAG_POINT_TOLERANCE_PX = 6
+
+function toXY(pointLike) {
+  if (!pointLike) return null
+  if (Array.isArray(pointLike) && pointLike.length >= 2) {
+    const x = Number(pointLike[0])
+    const y = Number(pointLike[1])
+    if (Number.isFinite(x) && Number.isFinite(y)) return { x, y }
+    return null
+  }
+  if (typeof pointLike === 'object') {
+    const x = Number(pointLike.x ?? pointLike[0])
+    const y = Number(pointLike.y ?? pointLike[1])
+    if (Number.isFinite(x) && Number.isFinite(y)) return { x, y }
+  }
+  return null
+}
+
+function pointDistanceToSegment(px, py, x1, y1, x2, y2) {
+  const dx = x2 - x1
+  const dy = y2 - y1
+  if (dx === 0 && dy === 0) {
+    const distX = px - x1
+    const distY = py - y1
+    return Math.hypot(distX, distY)
+  }
+  const t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)
+  const clampedT = Math.max(0, Math.min(1, t))
+  const projX = x1 + clampedT * dx
+  const projY = y1 + clampedT * dy
+  return Math.hypot(px - projX, py - projY)
+}
+
+function isPointInsidePolygon(point, polygon) {
+  let inside = false
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i].x
+    const yi = polygon[i].y
+    const xj = polygon[j].x
+    const yj = polygon[j].y
+    const intersects = ((yi > point.y) !== (yj > point.y)) &&
+      (point.x < ((xj - xi) * (point.y - yi)) / ((yj - yi) || 1e-9) + xi)
+    if (intersects) inside = !inside
+  }
+  return inside
+}
+
+function isPointNearPolygon(point, polygon, tolerancePx = 0) {
+  if (!Array.isArray(polygon) || polygon.length < 3) return false
+  if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return false
+
+  let minX = Infinity
+  let maxX = -Infinity
+  let minY = Infinity
+  let maxY = -Infinity
+  polygon.forEach(({ x, y }) => {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return
+    if (x < minX) minX = x
+    if (x > maxX) maxX = x
+    if (y < minY) minY = y
+    if (y > maxY) maxY = y
+  })
+
+  if (point.x < minX - tolerancePx || point.x > maxX + tolerancePx ||
+      point.y < minY - tolerancePx || point.y > maxY + tolerancePx) {
+    return false
+  }
+
+  if (isPointInsidePolygon(point, polygon)) {
+    return true
+  }
+
+  if (tolerancePx <= 0) {
+    return false
+  }
+
+  let minDist = Infinity
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const dist = pointDistanceToSegment(
+      point.x,
+      point.y,
+      polygon[j].x,
+      polygon[j].y,
+      polygon[i].x,
+      polygon[i].y
+    )
+    if (dist < minDist) minDist = dist
+    if (minDist <= tolerancePx) return true
+  }
+
+  return minDist <= tolerancePx
+}
+
+function mapCornersToVideoPolygon(corners, scaleX, scaleY) {
+  if (!Array.isArray(corners)) return null
+  const polygon = []
+  corners.forEach(corner => {
+    const xy = toXY(corner)
+    if (!xy) return
+    polygon.push({ x: xy.x * scaleX, y: xy.y * scaleY })
+  })
+  return polygon.length >= 3 ? polygon : null
+}
+
 /**
  * @brief Коэффициент интерполяции позиции якоря между кадрами.
  */
@@ -89,6 +192,8 @@ const CV_TO_GL_MATRIX3 = new THREE.Matrix3().set(
   0, -1,  0,
   0,  0, -1
 )
+const ALVA_RESET_COOLDOWN_MS = 2000
+const FRUSTUM_SAFETY_MARGIN = 0.15
 /**
  * @brief Генерирует насыщенный цвет для указанного идентификатора тега.
  * @param tagId Идентификатор AprilTag.
@@ -189,8 +294,6 @@ function ARRecorder({ onShowLanding }) {
   const [aprilTagTransforms, setAprilTagTransforms] = useState([])
   const aprilTagPipelineRef = useRef(null)
 
-  // Координатный трансформатор для стабилизации
-  const coordinateTransformerRef = useRef(null)
   const [activeSceneId, setActiveSceneId] = useState(null)
   const alvaRef = useRef(null)
   const lastAlvaUpdateRef = useRef(0)
@@ -200,6 +303,13 @@ function ARRecorder({ onShowLanding }) {
   const detectedAssetsRef = useRef(new Set())
   const pendingAssetsRef = useRef(new Set())
   const submittedAssetsRef = useRef(new Set())
+  const tagPolygonsRef = useRef([])
+  const frustumCacheRef = useRef({
+    frustum: new THREE.Frustum(),
+    projScreenMatrix: new THREE.Matrix4(),
+    sphere: new THREE.Sphere()
+  })
+  const lastAlvaResetRef = useRef(0)
 
   // Streams / recorder
   const camStreamRef = useRef(null)
@@ -236,6 +346,18 @@ function ARRecorder({ onShowLanding }) {
   const [showStats, setShowStats] = useState(false)
 
   const PROC_W = 640, PROC_H = 480; // единый рабочий размер для детекции/проекции
+  const cameraIntrinsicsRef = useRef({
+    width: PROC_W,
+    height: PROC_H,
+    fx: PROC_W * 0.8,
+    fy: PROC_H * 0.8,
+    cx: PROC_W / 2,
+    cy: PROC_H / 2,
+    fov: 60,
+    aspect: PROC_W / PROC_H,
+    near: 0.01,
+    far: 100
+  })
 
   // Прямая загрузка модели поезда
   const trainGltf = useGLTF('./models/Train-transformed.glb')
@@ -494,19 +616,8 @@ function ARRecorder({ onShowLanding }) {
         const pipeline = new ApriltagPipeline()
         await pipeline.init()
         aprilTagPipelineRef.current = pipeline
-
-        // Инициализируем координатный трансформатор после пайплайна
-        const transformer = new CoordinateTransformer({
-          positionDeadZone: 0.001, // 1мм
-          rotationDeadZone: 0.0017, // 0.1°
-          maxLerpSpeed: 0.3,
-          minLerpSpeed: 0.05,
-          stabilizationEnabled: true
-        })
-        coordinateTransformerRef.current = transformer
-
         setStatus("AprilTag pipeline готово")
-        console.log('✅ CoordinateTransformer инициализирован')
+        console.log('✅ AprilTag pipeline initialized with internal stabilizer')
       } catch (error) {
         console.error("Failed to initialize AprilTag pipeline:", error)
         setStatus("Ошибка AprilTag pipeline")
@@ -516,11 +627,8 @@ function ARRecorder({ onShowLanding }) {
     initAprilTag()
 
     return () => {
-      if (aprilTagPipelineRef.current) {
-        // Cleanup AprilTag pipeline if needed
-      }
-      if (coordinateTransformerRef.current) {
-        coordinateTransformerRef.current.reset()
+      if (aprilTagPipelineRef.current?.resetCoordinateTransformer) {
+        aprilTagPipelineRef.current.resetCoordinateTransformer()
       }
     }
   }, [])
@@ -758,6 +866,24 @@ function ARRecorder({ onShowLanding }) {
 
     // WebGL-канвас рендерим в том же размере, что и видимая область видео
     gl.setSize(drawW, drawH, false)
+
+    const intr = cameraIntrinsicsRef.current
+    if (intr) {
+      const { fy, height, near, far } = intr
+      if (Number.isFinite(fy) && Number.isFinite(height) && fy > 0 && height > 0) {
+        const derivedFov = THREE.MathUtils.radToDeg(2 * Math.atan((height / 2) / fy))
+        if (Number.isFinite(derivedFov)) {
+          cam.fov = derivedFov
+        }
+      }
+      if (Number.isFinite(near)) {
+        cam.near = Math.max(near, 0.001)
+      }
+      if (Number.isFinite(far) && far > cam.near) {
+        cam.far = far
+      }
+    }
+
     cam.aspect = srcW / srcH // аспект видео
     cam.updateProjectionMatrix()
   }, [])
@@ -1042,7 +1168,7 @@ function ARRecorder({ onShowLanding }) {
     })
   }, [])
 
-  const assignAlvaPoints = useCallback((rawPoints) => {
+  const assignAlvaPoints = useCallback((rawPoints, filterPolygons = null) => {
     const normalizedPoints = []
 
     const pushPoint = (p) => {
@@ -1078,10 +1204,77 @@ function ARRecorder({ onShowLanding }) {
       }
     }
 
-    alvaPointsRef.current = normalizedPoints
+    let resultPoints = normalizedPoints
+    if (Array.isArray(filterPolygons) && filterPolygons.length > 0) {
+      resultPoints = normalizedPoints.filter(point =>
+        filterPolygons.some(polygon => isPointNearPolygon(point, polygon, APRILTAG_POINT_TOLERANCE_PX))
+      )
+    }
+
+    alvaPointsRef.current = resultPoints
     alvaRef.current?.__debugPoints?.clear?.()
-    return normalizedPoints
+    if (Array.isArray(filterPolygons) && alvaRef.current) {
+      alvaRef.current.__tagPolygons = filterPolygons
+      alvaRef.current.__filteredPoints = resultPoints
+    }
+    return resultPoints
   }, [])
+
+  const resetAlvaTracking = useCallback((reason) => {
+    const now = performance.now()
+    lastAlvaResetRef.current = now
+    console.warn('🔁 Resetting AlvaAR tracking:', reason)
+
+    try {
+      alvaRef.current?.reset?.()
+    } catch (err) {
+      console.warn('Failed to reset AlvaAR instance', err)
+    }
+
+    if (aprilTagPipelineRef.current?.resetCoordinateTransformer) {
+      aprilTagPipelineRef.current.resetCoordinateTransformer()
+    }
+
+    sceneAnchorsRef.current.clear()
+    scenePlaneRef.current.clear()
+
+    const scene = sceneRef.current
+    anchorDebugMapRef.current.forEach((line) => {
+      scene?.remove(line)
+      line.geometry.dispose()
+      line.material.dispose()
+    })
+    anchorDebugMapRef.current.clear()
+
+    if (cubeRef.current) {
+      cubeRef.current.visible = false
+      cubeRef.current.position.set(0, 0, 0)
+      cubeRef.current.quaternion.identity()
+    }
+
+    if (debugCubeRef.current) {
+      debugCubeRef.current.visible = false
+    }
+
+    if (debugCubeInstanceRef.current) {
+      debugCubeInstanceRef.current.visible = false
+    }
+
+    if (trainInstanceRef.current) {
+      trainInstanceRef.current.visible = false
+    }
+
+    trainSmoothPosition.current.set(0, 0, 0)
+    trainSmoothQuaternion.current.identity()
+    trainInitialized.current = false
+    lastDetectionTime.current = 0
+
+    activeSceneIdRef.current = null
+    setActiveSceneId(null)
+
+    assignAlvaPoints(null)
+    setAprilTagTransforms([])
+  }, [assignAlvaPoints, setActiveSceneId, setAprilTagTransforms])
 
   useEffect(() => {
     const currentSlugs = new Set()
@@ -1165,7 +1358,7 @@ function ARRecorder({ onShowLanding }) {
           console.debug('Multi-tag anchor estimation skipped', multiErr)
         }
       }
-      assignAlvaPoints(alva.getFramePoints())
+    assignAlvaPoints(alva.getFramePoints(), tagPolygonsRef.current)
     } catch (err) {
       console.warn('⚠️ Ошибка обновления AlvaAR:', err)
     }
@@ -1246,7 +1439,7 @@ function ARRecorder({ onShowLanding }) {
           imageDataForAlva = pctx ? pctx.getImageData(0, 0, proc.width, proc.height) : ctx.getImageData(0, 0, video.videoWidth, video.videoHeight)
           const detected = pipeline.detect(imageDataForAlva)
           latestTransforms = Array.isArray(detected) ? detected : []
-          
+
           setAprilTagTransforms(latestTransforms)
 
         } catch (err) {
@@ -1257,6 +1450,24 @@ function ARRecorder({ onShowLanding }) {
       console.error("AprilTag detection error:", error)
     }
 
+    const proc = procRef.current
+    const sourceWidth = proc?.width || PROC_W
+    const sourceHeight = proc?.height || PROC_H
+    const videoWidth = video.videoWidth || sourceWidth
+    const videoHeight = video.videoHeight || sourceHeight
+    const cornerScaleX = videoWidth > 0 ? videoWidth / sourceWidth : 1
+    const cornerScaleY = videoHeight > 0 ? videoHeight / sourceHeight : 1
+
+    const detectionPolygons = []
+    latestTransforms.forEach(transform => {
+      const corners = transform?.rawDetection?.corners
+      const polygon = mapCornersToVideoPolygon(corners, cornerScaleX, cornerScaleY)
+      if (polygon) {
+        detectionPolygons.push(polygon)
+      }
+    })
+    tagPolygonsRef.current = detectionPolygons
+
     const alvaInstance = alvaRef.current
     if (alvaInstance && imageDataForAlva) {
       try {
@@ -1266,7 +1477,7 @@ function ARRecorder({ onShowLanding }) {
       }
       let currentPoints = []
       try {
-        currentPoints = assignAlvaPoints(alvaInstance.getFramePoints()) || []
+        currentPoints = assignAlvaPoints(alvaInstance.getFramePoints(), detectionPolygons) || []
       } catch (err) {
         console.debug('AlvaAR getFramePoints failed', err)
         currentPoints = []
@@ -1356,42 +1567,41 @@ function ARRecorder({ onShowLanding }) {
       assignAlvaPoints(null)
     }
 
-    // Применяем стабилизацию координат через CoordinateTransformer
-    let stabilizedTransforms = latestTransforms
-    if (coordinateTransformerRef.current && latestTransforms.length > 0) {
-      try {
-        // Получаем текущую позу камеры для трансформации
-        const currentCameraPose = alvaInstance?.getCameraPose ? alvaInstance.getCameraPose() : null
-
-        if (currentCameraPose) {
-          // Применяем трансформацию координат
-          const stabilizedMatrix = coordinateTransformerRef.current.transformCameraToWorld(
-            currentCameraPose,
-            latestTransforms
-          )
-
-          // Обновляем трансформации с учетом стабилизации
-          stabilizedTransforms = latestTransforms.map(transform => ({
-            ...transform,
-            matrix: stabilizedMatrix.toArray(),
-            confidence: coordinateTransformerRef.current.currentTransform.confidence
-          }))
-        }
-      } catch (stabilizationError) {
-        console.warn('⚠️ Ошибка стабилизации координат:', stabilizationError)
-        stabilizedTransforms = latestTransforms // Fallback к оригинальным трансформациям
-      }
-    }
-
-    const groupedDetections = updateSceneAnchors(stabilizedTransforms)
+  // Важно: ApriltagPipeline.detect() уже конвертирует детекции в мировые координаты.
+  // Не переиспользуйте позу камеры для повторного преобразования — иначе якорь
+  // снова станет «прилипать» к мобильной камере при движении.
+  const groupedDetections = updateSceneAnchors(latestTransforms)
     const currentSceneId = activeSceneIdRef.current
     const anchorState = currentSceneId ? sceneAnchorsRef.current.get(currentSceneId) : null
     const now = performance.now()
     const activeDetections = currentSceneId && groupedDetections ? (groupedDetections.get(currentSceneId) || []) : []
-    const detectionActive = Array.isArray(activeDetections) && activeDetections.length > 0
+  const detectionCount = latestTransforms.length
+    let detectionActive = Array.isArray(activeDetections) && activeDetections.length > 0
     const lastSeen = anchorState?.lastSeen ?? 0
     const holding = anchorState ? (now - lastSeen <= APRILTAG_VISIBILITY_HOLD_MS) : false
-    const hasDetections = Boolean(anchorState && (detectionActive || holding))
+    let hasDetections = Boolean(anchorState && (detectionActive || holding))
+
+    let anchorOutOfView = false
+    if (detectionCount > 0 && anchorState?.position && cam) {
+      cam.updateMatrixWorld?.()
+      const { frustum, projScreenMatrix, sphere } = frustumCacheRef.current
+      projScreenMatrix.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse)
+      frustum.setFromProjectionMatrix(projScreenMatrix)
+      sphere.center.copy(anchorState.position)
+      const sphereRadius = Math.max(anchorState.radius ?? 0.25, 0.05) + FRUSTUM_SAFETY_MARGIN
+      sphere.radius = sphereRadius
+      anchorOutOfView = !frustum.intersectsSphere(sphere)
+    }
+
+    if (anchorOutOfView && (now - lastAlvaResetRef.current) > ALVA_RESET_COOLDOWN_MS) {
+      resetAlvaTracking({
+        sceneId: currentSceneId,
+        detectionCount,
+        reason: 'anchor_out_of_view'
+      })
+      rafIdRef.current = requestAnimationFrame(renderLoop)
+      return
+    }
 
     // Сброс инициализации при длительной потере детекции (>hold)
     if (detectionActive) {
@@ -1559,7 +1769,7 @@ function ARRecorder({ onShowLanding }) {
     }
 
     rafIdRef.current = requestAnimationFrame(renderLoop)
-  }, [updateSceneAnchors, updateRayHelpers, updateAlvaTracking, assignAlvaPoints, extractPlaneState])
+  }, [updateSceneAnchors, updateRayHelpers, updateAlvaTracking, assignAlvaPoints, extractPlaneState, resetAlvaTracking])
 
   // camera control
   /**
@@ -1649,6 +1859,96 @@ function ARRecorder({ onShowLanding }) {
     }
   }, [tryStartCamera])
 
+  const computeCameraIntrinsics = useCallback((videoTrack, fallbackWidth = PROC_W, fallbackHeight = PROC_H) => {
+    const fallbackIntrinsics = cameraIntrinsicsRef.current || {}
+    const safeWidth = Number.isFinite(fallbackWidth) ? fallbackWidth : (fallbackIntrinsics.width ?? PROC_W)
+    const safeHeight = Number.isFinite(fallbackHeight) ? fallbackHeight : (fallbackIntrinsics.height ?? PROC_H)
+
+    if (!videoTrack) {
+      const aspectFallback = safeWidth / Math.max(safeHeight || 1, 1)
+      return {
+        width: safeWidth,
+        height: safeHeight,
+        fx: fallbackIntrinsics.fx ?? safeWidth * 0.8,
+        fy: fallbackIntrinsics.fy ?? safeHeight * 0.8,
+        cx: fallbackIntrinsics.cx ?? safeWidth / 2,
+        cy: fallbackIntrinsics.cy ?? safeHeight / 2,
+        aspect: fallbackIntrinsics.aspect ?? aspectFallback,
+        fov: fallbackIntrinsics.fov ?? 60,
+        near: fallbackIntrinsics.near ?? 0.01,
+        far: fallbackIntrinsics.far ?? 1000
+      }
+    }
+
+    const settings = typeof videoTrack.getSettings === 'function' ? videoTrack.getSettings() : {}
+    const capabilities = typeof videoTrack.getCapabilities === 'function' ? videoTrack.getCapabilities() : {}
+
+    const width = Number(settings?.width) || Number(capabilities?.width) || safeWidth
+    const height = Number(settings?.height) || Number(capabilities?.height) || safeHeight
+    const aspect = width > 0 && height > 0
+      ? width / height
+      : (fallbackIntrinsics.aspect ?? (safeWidth / Math.max(safeHeight || 1, 1)))
+
+    const fovCandidates = [
+      Number(settings?.fov),
+      Number(settings?.fieldOfView),
+      Number(capabilities?.fieldOfView),
+      Number(capabilities?.fov)
+    ].filter((value) => Number.isFinite(value) && value > 0)
+
+    const fxCandidates = [
+      Number(settings?.focalLengthX),
+      Number(capabilities?.focalLengthX),
+      Number(settings?.focalLength),
+      Number(capabilities?.focalLength)
+    ].filter((value) => Number.isFinite(value) && value > 0)
+
+    const fyCandidates = [
+      Number(settings?.focalLengthY),
+      Number(capabilities?.focalLengthY),
+      Number(settings?.focalLength),
+      Number(capabilities?.focalLength)
+    ].filter((value) => Number.isFinite(value) && value > 0)
+
+    let fx = fxCandidates.length ? fxCandidates[0] : null
+    let fy = fyCandidates.length ? fyCandidates[0] : null
+
+    if (fx && !fy) fy = fx
+    if (!fx && fy) fx = fy * aspect
+
+    let verticalFovDeg = fovCandidates.length ? clamp(fovCandidates[0], 20, 120) : null
+    if (!verticalFovDeg && fy) {
+      verticalFovDeg = THREE.MathUtils.radToDeg(2 * Math.atan((height / 2) / fy))
+    }
+
+    if (!verticalFovDeg || !Number.isFinite(verticalFovDeg)) {
+      verticalFovDeg = clamp(fallbackIntrinsics.fov ?? 60, 20, 120)
+    }
+
+    if (!fx || !fy || !Number.isFinite(fx) || !Number.isFinite(fy)) {
+      const verticalFovRad = THREE.MathUtils.degToRad(verticalFovDeg)
+      const resolvedFy = (height / 2) / Math.tan(verticalFovRad / 2)
+      fy = Number.isFinite(resolvedFy) ? resolvedFy : (fallbackIntrinsics.fy ?? safeHeight * 0.8)
+      fx = fy * aspect
+    }
+
+    const cx = Number.isFinite(settings?.pointOfInterestX) ? settings.pointOfInterestX : width / 2
+    const cy = Number.isFinite(settings?.pointOfInterestY) ? settings.pointOfInterestY : height / 2
+
+    return {
+      width,
+      height,
+      fx,
+      fy,
+      cx,
+      cy,
+      aspect,
+      fov: verticalFovDeg,
+      near: fallbackIntrinsics.near ?? 0.01,
+      far: fallbackIntrinsics.far ?? 1000
+    }
+  }, [])
+
   /**
    * @brief Запрашивает доступ к камере и настраивает поток для AprilTag.
    * @returns {Promise<void>}
@@ -1685,53 +1985,117 @@ function ARRecorder({ onShowLanding }) {
 
       let effectiveWidth = PROC_W
       let effectiveHeight = PROC_H
+      let derivedIntrinsics = cameraIntrinsicsRef.current
 
-      // Configure AprilTag pipeline with camera info
-      if (aprilTagPipelineRef.current) {
-        const videoTrack = camStream.getVideoTracks()[0]
-        // 1) Сначала просим 640x480
+      const videoTrack = camStream?.getVideoTracks ? camStream.getVideoTracks()[0] : null
+      if (videoTrack) {
         try {
           await videoTrack.applyConstraints({ width: PROC_W, height: PROC_H, frameRate: 30 })
         } catch (e) {
           console.warn('applyConstraints 640x480 не применился:', e)
         }
-        // 2) Потом читаем фактические размеры и используем именно их
-        const s = videoTrack.getSettings ? videoTrack.getSettings() : {}
-        const width  = s.width  || PROC_W
-        const height = s.height || PROC_H
-        effectiveWidth  = width
-        effectiveHeight = height
-        // 3) Проставляем intrinsics под те же w,h
-        const fx = width * 0.8
-        const fy = height * 0.8
-        const cx = width / 2
-        const cy = height / 2
-        try {
-          aprilTagPipelineRef.current.set_camera_info(fx, fy, cx, cy)
-          console.log(`AprilTag intrinsics => fx=${fx} fy=${fy} cx=${cx} cy=${cy} w=${width} h=${height}`)
-        } catch (error) {
-          console.warn('Failed to set AprilTag camera info:', error)
+
+        derivedIntrinsics = computeCameraIntrinsics(videoTrack, PROC_W, PROC_H)
+        effectiveWidth = derivedIntrinsics.width
+        effectiveHeight = derivedIntrinsics.height
+
+        cameraIntrinsicsRef.current = {
+          ...cameraIntrinsicsRef.current,
+          ...derivedIntrinsics
         }
+
+        if (aprilTagPipelineRef.current) {
+          try {
+            aprilTagPipelineRef.current.set_camera_info(
+              derivedIntrinsics.fx,
+              derivedIntrinsics.fy,
+              derivedIntrinsics.cx,
+              derivedIntrinsics.cy
+            )
+            console.log('[AprilTag] Camera intrinsics set:', {
+              width: derivedIntrinsics.width,
+              height: derivedIntrinsics.height,
+              fx: derivedIntrinsics.fx,
+              fy: derivedIntrinsics.fy,
+              cx: derivedIntrinsics.cx,
+              cy: derivedIntrinsics.cy
+            })
+          } catch (error) {
+            console.warn('Failed to set AprilTag camera info:', error)
+          }
+        }
+
+        if (cameraRef.current) {
+          const cam = cameraRef.current
+          if (Number.isFinite(derivedIntrinsics.fov)) {
+            cam.fov = derivedIntrinsics.fov
+          }
+          if (Number.isFinite(derivedIntrinsics.aspect)) {
+            cam.aspect = derivedIntrinsics.aspect
+          }
+          if (Number.isFinite(derivedIntrinsics.near)) {
+            cam.near = Math.max(derivedIntrinsics.near, 0.001)
+          }
+          if (Number.isFinite(derivedIntrinsics.far) && derivedIntrinsics.far > cam.near) {
+            cam.far = derivedIntrinsics.far
+          }
+          cam.updateProjectionMatrix()
+        }
+      } else {
+        console.warn('⚠️ Не удалось получить видеотрек, используем сохранённые intrinsics')
+        effectiveWidth = derivedIntrinsics?.width ?? PROC_W
+        effectiveHeight = derivedIntrinsics?.height ?? PROC_H
       }
 
-      // 4) Синхронизируем скрытый proc-canvas с теми же размерами кадра
       if (procRef.current) {
-        procRef.current.width  = effectiveWidth
+        procRef.current.width = effectiveWidth
         procRef.current.height = effectiveHeight
         pctxRef.current = procRef.current.getContext('2d', { willReadFrequently: true })
       }
 
       try {
+        const targetIntrinsics = {
+          width: effectiveWidth,
+          height: effectiveHeight,
+          fx: cameraIntrinsicsRef.current.fx,
+          fy: cameraIntrinsicsRef.current.fy,
+          cx: cameraIntrinsicsRef.current.cx,
+          cy: cameraIntrinsicsRef.current.cy,
+          fov: cameraIntrinsicsRef.current.fov,
+          near: cameraIntrinsicsRef.current.near,
+          far: cameraIntrinsicsRef.current.far
+        }
+
         const currentAlva = alvaRef.current
-        const currentWidth  = currentAlva?.intrinsics?.width
-        const currentHeight = currentAlva?.intrinsics?.height
-        // 5) Alva инициализируем ровно под те же w,h
-        if (!currentAlva || currentWidth !== effectiveWidth || currentHeight !== effectiveHeight) {
-          console.log(`Reinitializing AlvaAR with ${effectiveWidth}x${effectiveHeight}`)
-          const newAlva = await loadAlva(effectiveWidth, effectiveHeight)
+        const widthChanged = Math.abs((currentAlva?.intrinsics?.width ?? 0) - targetIntrinsics.width) > 0.5
+        const heightChanged = Math.abs((currentAlva?.intrinsics?.height ?? 0) - targetIntrinsics.height) > 0.5
+        const fxChanged = Math.abs((currentAlva?.intrinsics?.fx ?? 0) - targetIntrinsics.fx) > 1
+        const fyChanged = Math.abs((currentAlva?.intrinsics?.fy ?? 0) - targetIntrinsics.fy) > 1
+
+        if (!currentAlva || widthChanged || heightChanged || fxChanged || fyChanged) {
+          console.log(`Reinitializing AlvaAR with ${targetIntrinsics.width}x${targetIntrinsics.height}`)
+          const newAlva = await loadAlva(targetIntrinsics.width, targetIntrinsics.height, {
+            fov: targetIntrinsics.fov,
+            intrinsics: targetIntrinsics
+          })
           alvaRef.current = newAlva
           lastAlvaUpdateRef.current = 0
           assignAlvaPoints(null)
+        } else if (currentAlva?.system?.configure) {
+          try {
+            currentAlva.intrinsics = { ...currentAlva.intrinsics, ...targetIntrinsics }
+            currentAlva.system.configure(
+              targetIntrinsics.width,
+              targetIntrinsics.height,
+              targetIntrinsics.fx,
+              targetIntrinsics.fy,
+              targetIntrinsics.cx,
+              targetIntrinsics.cy,
+              0, 0, 0, 0
+            )
+          } catch (cfgErr) {
+            console.warn('Failed to update existing AlvaAR intrinsics:', cfgErr)
+          }
         }
       } catch (err) {
         console.error('Failed to initialize AlvaAR with camera dimensions:', err)
@@ -1790,8 +2154,8 @@ function ARRecorder({ onShowLanding }) {
     setAprilTagTransforms([])
 
     // Сбрасываем состояние трансформатора координат
-    if (coordinateTransformerRef.current) {
-      coordinateTransformerRef.current.reset()
+    if (aprilTagPipelineRef.current?.resetCoordinateTransformer) {
+      aprilTagPipelineRef.current.resetCoordinateTransformer()
     }
 
     setRunning(false)

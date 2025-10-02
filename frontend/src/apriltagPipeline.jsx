@@ -1,4 +1,4 @@
-import { Matrix4, Vector3 } from 'three';
+import { Matrix4, Vector3, Quaternion } from 'three';
 import cv from '@techstark/opencv-js';
 import { CoordinateTransformer } from './CoordinateTransformer.jsx';
 
@@ -553,6 +553,8 @@ class ApriltagPipeline {
         }
         const originCamVec = new Vector3(t[0], t[1], t[2]);
         const anchorCamVec = originCamVec.clone().addScaledVector(normalCamVec, offsetMeters);
+        const cameraDistance = originCamVec.length();
+        const anchorDistance = anchorCamVec.length();
 
         const sceneConfig = this.getSceneConfig(tagConfig.sceneId);
 
@@ -583,9 +585,12 @@ class ApriltagPipeline {
           },
           anchorCamera: anchorCamVec.toArray(),
           normalCamera: normalCamVec.toArray(),
+          distanceCamera: cameraDistance,
+          distanceMeters: anchorDistance,
           pose: {
             R: R_flat.slice(),
-            t: [t[0], t[1], t[2]]
+            t: [t[0], t[1], t[2]],
+            distance: cameraDistance
           },
           rawDetection: detection
         });
@@ -635,16 +640,101 @@ class ApriltagPipeline {
             aprilTagDetections
           );
 
-          // Обновляем матрицу якоря в трансформациях
+          // Преобразуем детекции из камеры в мир с сохранением индивидуальной ориентации
+          const cameraWorldMatrix = stabilizedMatrix.clone();
+          const cameraWorldPosition = new Vector3().setFromMatrixPosition(cameraWorldMatrix);
+          const cameraWorldQuaternion = new Quaternion().setFromRotationMatrix(cameraWorldMatrix);
+
           enhancedTransforms.forEach(transform => {
-            if (transform.id === enhancedTransforms[0].id) { // Используем первую детекцию как якорь
-              transform.stabilizedMatrix = stabilizedMatrix.toArray();
-              transform.stabilizedPosition = [
-                stabilizedMatrix.elements[12],
-                stabilizedMatrix.elements[13],
-                stabilizedMatrix.elements[14]
-              ];
-            }
+            // Сохраняем камерыное представление для отладки
+            const cameraSpaceSnapshot = {
+              matrix: Array.isArray(transform.matrix) ? transform.matrix.slice() : null,
+              matrixBase: Array.isArray(transform.matrixBase) ? transform.matrixBase.slice() : null,
+              rotationMatrix: Array.isArray(transform.rotationMatrix) ? transform.rotationMatrix.slice() : null,
+              position: Array.isArray(transform.position) ? transform.position.slice() : null,
+              normal: Array.isArray(transform.normal) ? transform.normal.slice() : null,
+              anchorPoint: Array.isArray(transform.anchorPoint) ? transform.anchorPoint.slice() : null,
+              ray: transform.ray ? {
+                origin: Array.isArray(transform.ray.origin) ? transform.ray.origin.slice() : null,
+                direction: Array.isArray(transform.ray.direction) ? transform.ray.direction.slice() : null,
+                end: Array.isArray(transform.ray.end) ? transform.ray.end.slice() : null,
+                length: transform.ray.length
+              } : null
+            };
+
+            transform.cameraSpace = cameraSpaceSnapshot;
+
+            const matrixWithOffsetCamera = (cameraSpaceSnapshot.matrix && cameraSpaceSnapshot.matrix.length === 16)
+              ? new Matrix4().fromArray(cameraSpaceSnapshot.matrix)
+              : new Matrix4();
+            const matrixBaseCamera = (cameraSpaceSnapshot.matrixBase && cameraSpaceSnapshot.matrixBase.length === 16)
+              ? new Matrix4().fromArray(cameraSpaceSnapshot.matrixBase)
+              : new Matrix4();
+            const rotationMatrixCamera = (cameraSpaceSnapshot.rotationMatrix && cameraSpaceSnapshot.rotationMatrix.length === 16)
+              ? new Matrix4().fromArray(cameraSpaceSnapshot.rotationMatrix)
+              : new Matrix4();
+
+            const tagScale = new Vector3();
+            const tagPositionCamera = new Vector3();
+            const tagQuaternionCamera = new Quaternion();
+            matrixWithOffsetCamera.decompose(tagPositionCamera, tagQuaternionCamera, tagScale);
+
+            const baseScale = new Vector3();
+            const basePositionCamera = new Vector3();
+            const baseQuaternionCamera = new Quaternion();
+            matrixBaseCamera.decompose(basePositionCamera, baseQuaternionCamera, baseScale);
+
+            const worldPosition = tagPositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
+            const worldBasePosition = basePositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
+
+            const worldQuaternion = cameraWorldQuaternion.clone().multiply(tagQuaternionCamera);
+            const worldBaseQuaternion = cameraWorldQuaternion.clone().multiply(baseQuaternionCamera);
+
+            const worldMatrix = new Matrix4().compose(worldPosition, worldQuaternion, tagScale);
+            const worldMatrixBase = new Matrix4().compose(worldBasePosition, worldBaseQuaternion, baseScale);
+            const worldRotationMatrix = new Matrix4().makeRotationFromQuaternion(worldBaseQuaternion);
+
+            const normalCamera = new Vector3().fromArray(cameraSpaceSnapshot.normal || [0, 1, 0]);
+            const worldNormal = normalCamera.clone().applyQuaternion(cameraWorldQuaternion).normalize();
+
+            const anchorCamera = new Vector3().fromArray(cameraSpaceSnapshot.anchorPoint || [0, 0, 0]);
+            const anchorWorld = anchorCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
+
+            const rayOriginCamera = new Vector3().fromArray(cameraSpaceSnapshot.ray?.origin || [0, 0, 0]);
+            const rayEndCamera = new Vector3().fromArray(cameraSpaceSnapshot.ray?.end || [0, 0, 0]);
+            const rayDirectionCamera = new Vector3().fromArray(cameraSpaceSnapshot.ray?.direction || [0, 0, 1]);
+
+            const rayOriginWorld = rayOriginCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
+            const rayEndWorld = rayEndCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);
+            const rayDirectionWorld = rayDirectionCamera.clone().applyQuaternion(cameraWorldQuaternion).normalize();
+
+            transform.matrix = worldMatrix.toArray();
+            transform.matrixBase = worldMatrixBase.toArray();
+            transform.rotationMatrix = worldRotationMatrix.toArray();
+            transform.position = worldBasePosition.toArray();
+            transform.normal = worldNormal.toArray();
+            transform.anchorPoint = anchorWorld.toArray();
+            transform.ray = {
+              origin: rayOriginWorld.toArray(),
+              end: rayEndWorld.toArray(),
+              direction: rayDirectionWorld.toArray(),
+              length: cameraSpaceSnapshot.ray?.length ?? null
+            };
+
+            transform.anchorWorld = anchorWorld.toArray();
+            transform.cameraPose = {
+              matrix: cameraWorldMatrix.toArray(),
+              position: cameraWorldPosition.toArray(),
+              quaternion: [
+                cameraWorldQuaternion.x,
+                cameraWorldQuaternion.y,
+                cameraWorldQuaternion.z,
+                cameraWorldQuaternion.w
+              ]
+            };
+
+            transform.stabilizedMatrix = worldMatrixBase.toArray();
+            transform.stabilizedPosition = worldBasePosition.toArray();
           });
 
           console.debug('[detect] Coordinate stabilization applied');

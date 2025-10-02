@@ -84,8 +84,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        API_URL: ${API_URL?https://lctar2.duckdns.org/api}
-        NODE_ENV: production
+        - API_URL
+        - NODE_ENV=production
     ports:
       - "443:80"
     restart: always

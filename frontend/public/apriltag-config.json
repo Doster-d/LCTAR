@@ -9,7 +9,7 @@
   },
   "tags": [
     {
-      "id": 0,
+      "id": 1,
       "sceneId": "cheburashka_company",
       "size": 0.15,
       "normalOffsetMm": 10,
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "id": 1,
+      "id": 0,
       "sceneId": "cheburashka_company",
       "size": 0.15,
       "normalOffsetMm": -100,
