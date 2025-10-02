@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('apriltagPipeline_8jsx_source.html','')
   <div class="headertitle"><div class="title">apriltagPipeline.jsx</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="apriltagPipeline_8jsx.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> { <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>, <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a> } from <span class="stringliteral">&#39;three&#39;</span>;</div>
+<a href="apriltagPipeline_8jsx.html">См. документацию.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">import</span> { <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>, <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>, Quaternion } from <span class="stringliteral">&#39;three&#39;</span>;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">import</span> cv from <span class="stringliteral">&#39;@techstark/opencv-js&#39;</span>;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">import</span> { <a class="code hl_class" href="classCoordinateTransformer.html">CoordinateTransformer</a> } from <span class="stringliteral">&#39;./CoordinateTransformer.jsx&#39;</span>;</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
@@ -613,221 +613,311 @@ $(document).ready(function(){initNavTree('apriltagPipeline_8jsx_source.html','')
 <div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>        }</div>
 <div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>        <span class="keyword">const</span> originCamVec = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>(t[0], t[1], t[2]);</div>
 <div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>        <span class="keyword">const</span> anchorCamVec = originCamVec.clone().addScaledVector(normalCamVec, offsetMeters);</div>
-<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span> </div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>        <span class="keyword">const</span> sceneConfig = this.<a class="code hl_function" href="classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7">getSceneConfig</a>(tagConfig.sceneId);</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>        <span class="keyword">const</span> cameraDistance = originCamVec.length();</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>        <span class="keyword">const</span> anchorDistance = anchorCamVec.length();</div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span> </div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>        transforms.push({</div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>          id: detection.id,</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>          sceneId: tagConfig.sceneId || <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>          matrix: matrixWithSphereOffset.toArray(),</div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>          matrixBase: matrixBase.toArray(),</div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>          rotationMatrix: orientationMatrix.toArray(),</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>          position: originVec.toArray(),</div>
-<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>          normal: normalVec.toArray(),</div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>          anchorPoint: anchorVec.toArray(),</div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>          normalLength: offsetMeters,</div>
-<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>          ray: {</div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>            origin: originVec.toArray(),</div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>            direction: normalVec.toArray(),</div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>            end: anchorVec.toArray(),</div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>            length: offsetMeters</div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>          },</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>          config: {</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>            size: tagConfig.size ?? <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            normalOffsetMm: tagConfig.normalOffsetMm ?? <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>            sphereOffset: sphereOffset.slice(0, 3),</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>            fallbackCenter: Array.isArray(tagConfig?.fallbackCenter)</div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>              ? tagConfig.fallbackCenter.slice(0, 3)</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>              : <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>            diameter: typeof sceneConfig?.diameter === <span class="stringliteral">&#39;number&#39;</span> ? sceneConfig.diameter : <span class="keyword">null</span></div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>          },</div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>          anchorCamera: anchorCamVec.toArray(),</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>          normalCamera: normalCamVec.toArray(),</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>          pose: {</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>            R: R_flat.slice(),</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>            t: [t[0], t[1], t[2]]</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>          },</div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>          rawDetection: detection</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>        });</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>      });</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span> </div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>      <span class="keywordflow">if</span> (transforms.length &gt; 0) {</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>        this.lastDetectionTime = now;</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        console.debug(<span class="stringliteral">&#39;[detect] Transforms prepared:&#39;</span>, transforms);</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>      }</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>        <span class="keyword">const</span> sceneConfig = this.<a class="code hl_function" href="classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7">getSceneConfig</a>(tagConfig.sceneId);</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span> </div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>        transforms.push({</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>          id: detection.id,</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>          sceneId: tagConfig.sceneId || <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>          matrix: matrixWithSphereOffset.toArray(),</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>          matrixBase: matrixBase.toArray(),</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>          rotationMatrix: orientationMatrix.toArray(),</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>          position: originVec.toArray(),</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>          normal: normalVec.toArray(),</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>          anchorPoint: anchorVec.toArray(),</div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>          normalLength: offsetMeters,</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>          ray: {</div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>            origin: originVec.toArray(),</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>            direction: normalVec.toArray(),</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>            end: anchorVec.toArray(),</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>            length: offsetMeters</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>          },</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>          config: {</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>            size: tagConfig.size ?? <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>            normalOffsetMm: tagConfig.normalOffsetMm ?? <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>            sphereOffset: sphereOffset.slice(0, 3),</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>            fallbackCenter: Array.isArray(tagConfig?.fallbackCenter)</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>              ? tagConfig.fallbackCenter.slice(0, 3)</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>              : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>            diameter: typeof sceneConfig?.diameter === <span class="stringliteral">&#39;number&#39;</span> ? sceneConfig.diameter : <span class="keyword">null</span></div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>          },</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>          anchorCamera: anchorCamVec.toArray(),</div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>          normalCamera: normalCamVec.toArray(),</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>          distanceCamera: cameraDistance,</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>          distanceMeters: anchorDistance,</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>          pose: {</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>            R: R_flat.slice(),</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>            t: [t[0], t[1], t[2]],</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>            distance: cameraDistance</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>          },</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>          rawDetection: detection</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        });</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>      });</div>
 <div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span> </div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>      <span class="comment">// Применяем стратегии восстановления при потере детекции</span></div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>      <span class="keyword">const</span> transformsWithRecovery = this.<a class="code hl_function" href="classApriltagPipeline.html#a13d3b7d79cffaddb5ed9846656ad22b1">applyRecoveryStrategies</a>(transforms, now);</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span> </div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      <span class="comment">// Оцениваем качество множественных маркеров</span></div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>      <span class="keyword">const</span> qualityAssessment = this.<a class="code hl_function" href="classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd">evaluateMultiTagQuality</a>(transformsWithRecovery);</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span> </div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>      console.debug(<span class="stringliteral">&#39;[detect] Quality assessment:&#39;</span>, qualityAssessment);</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>      <span class="keywordflow">if</span> (transforms.length &gt; 0) {</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        this.lastDetectionTime = now;</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        console.debug(<span class="stringliteral">&#39;[detect] Transforms prepared:&#39;</span>, transforms);</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>      }</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span> </div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>      <span class="comment">// Применяем стратегии восстановления при потере детекции</span></div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>      <span class="keyword">const</span> transformsWithRecovery = this.<a class="code hl_function" href="classApriltagPipeline.html#a13d3b7d79cffaddb5ed9846656ad22b1">applyRecoveryStrategies</a>(transforms, now);</div>
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span> </div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>      <span class="comment">// Добавляем метаданные качества к трансформациям</span></div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>      <span class="keyword">const</span> enhancedTransforms = transformsWithRecovery.map(transform =&gt; ({</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>        ...transform,</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>        qualityInfo: {</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>          overall: qualityAssessment,</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>          individual: this.<a class="code hl_function" href="classApriltagPipeline.html#a4405ce79318f3301b8ed9cd973059267">calculateDetectionConfidence</a>(transform)</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>        },</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>        stabilized: <span class="keyword">true</span>,</div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>        timestamp: now,</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>        frameCount: this.frameCount</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>      }));</div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span> </div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>      <span class="comment">// Применяем стабилизацию координат через CoordinateTransformer</span></div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>      <span class="keywordflow">if</span> (enhancedTransforms.length &gt; 0 &amp;&amp; <span class="keyword">this</span>.coordinateTransformer) {</div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>          <span class="comment">// Подготавливаем данные для трансформатора координат</span></div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>          <span class="keyword">const</span> cameraPose = this.<a class="code hl_function" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">extractCameraPoseFromTransforms</a>(enhancedTransforms);</div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>          <span class="keyword">const</span> aprilTagDetections = enhancedTransforms.map(transform =&gt; ({</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>            id: transform.id,</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>            anchorPoint: transform.anchorPoint,</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>            normal: transform.normal,</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>            position: transform.position,</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>            confidence: transform.qualityInfo.individual</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>          }));</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span> </div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>          <span class="comment">// Применяем трансформацию координат</span></div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>          <span class="keyword">const</span> stabilizedMatrix = this.coordinateTransformer.transformCameraToWorld(</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            cameraPose,</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>            aprilTagDetections</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>          );</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span> </div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>          <span class="comment">// Обновляем матрицу якоря в трансформациях</span></div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>          enhancedTransforms.forEach(transform =&gt; {</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            <span class="keywordflow">if</span> (transform.id === enhancedTransforms[0].id) { <span class="comment">// Используем первую детекцию как якорь</span></div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>              transform.stabilizedMatrix = stabilizedMatrix.toArray();</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>              transform.stabilizedPosition = [</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                stabilizedMatrix.elements[12],</div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                stabilizedMatrix.elements[13],</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                stabilizedMatrix.elements[14]</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>              ];</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>            }</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>          });</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span> </div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>          console.debug(<span class="stringliteral">&#39;[detect] Coordinate stabilization applied&#39;</span>);</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        } <span class="keywordflow">catch</span> (stabilizationError) {</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>          console.warn(<span class="stringliteral">&#39;⚠️ [detect] Error applying coordinate stabilization:&#39;</span>, stabilizationError);</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>        }</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>      }</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span> </div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>      <span class="keywordflow">return</span> enhancedTransforms;</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>    } <span class="keywordflow">catch</span> (error) {</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>      console.error(`❌ [Кадр ${this.frameCount}] Ошибка в методе <a class="code hl_function" href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8">detect</a>:`, error);</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>      <span class="keywordflow">return</span> this.<a class="code hl_function" href="classApriltagPipeline.html#a13d3b7d79cffaddb5ed9846656ad22b1">applyRecoveryStrategies</a>([], now);</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>    }</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>  }</div>
-</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span> </div>
-<div class="foldopen" id="foldopen00668" data-start="{" data-end="}">
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">  668</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">extractCameraPoseFromTransforms</a>(transforms) {</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>    <span class="keywordflow">if</span> (!transforms || transforms.length === 0) {</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>      <span class="keywordflow">return</span> { R: [1, 0, 0, 0, 1, 0, 0, 0, 1], t: [0, 0, 0] };</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>    }</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span> </div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>    <span class="comment">// Используем первую трансформацию для извлечения позы камеры</span></div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>    <span class="keyword">const</span> firstTransform = transforms[0];</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>    <span class="keyword">const</span> { R, t } = firstTransform.pose;</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>      <span class="comment">// Оцениваем качество множественных маркеров</span></div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>      <span class="keyword">const</span> qualityAssessment = this.<a class="code hl_function" href="classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd">evaluateMultiTagQuality</a>(transformsWithRecovery);</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span> </div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>      console.debug(<span class="stringliteral">&#39;[detect] Quality assessment:&#39;</span>, qualityAssessment);</div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span> </div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>      <span class="comment">// Добавляем метаданные качества к трансформациям</span></div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>      <span class="keyword">const</span> enhancedTransforms = transformsWithRecovery.map(transform =&gt; ({</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>        ...transform,</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>        qualityInfo: {</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>          overall: qualityAssessment,</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>          individual: this.<a class="code hl_function" href="classApriltagPipeline.html#a4405ce79318f3301b8ed9cd973059267">calculateDetectionConfidence</a>(transform)</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>        },</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>        stabilized: <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>        timestamp: now,</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        frameCount: this.frameCount</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>      }));</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span> </div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>      <span class="comment">// Применяем стабилизацию координат через CoordinateTransformer</span></div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>      <span class="keywordflow">if</span> (enhancedTransforms.length &gt; 0 &amp;&amp; <span class="keyword">this</span>.coordinateTransformer) {</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>          <span class="comment">// Подготавливаем данные для трансформатора координат</span></div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>          <span class="keyword">const</span> cameraPose = this.<a class="code hl_function" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">extractCameraPoseFromTransforms</a>(enhancedTransforms);</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>          <span class="keyword">const</span> aprilTagDetections = enhancedTransforms.map(transform =&gt; ({</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>            id: transform.id,</div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>            anchorPoint: transform.anchorPoint,</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>            normal: transform.normal,</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            position: transform.position,</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            confidence: transform.qualityInfo.individual</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>          }));</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span> </div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>          <span class="comment">// Применяем трансформацию координат</span></div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>          <span class="keyword">const</span> stabilizedMatrix = this.coordinateTransformer.transformCameraToWorld(</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>            cameraPose,</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            aprilTagDetections</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>          );</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span> </div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>          <span class="comment">// Преобразуем детекции из камеры в мир с сохранением индивидуальной ориентации</span></div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>          <span class="keyword">const</span> cameraWorldMatrix = stabilizedMatrix.clone();</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>          <span class="keyword">const</span> cameraWorldPosition = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().setFromMatrixPosition(cameraWorldMatrix);</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>          <span class="keyword">const</span> cameraWorldQuaternion = <span class="keyword">new</span> Quaternion().setFromRotationMatrix(cameraWorldMatrix);</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>          enhancedTransforms.forEach(transform =&gt; {</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>            <span class="comment">// Сохраняем камерыное представление для отладки</span></div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>            <span class="keyword">const</span> cameraSpaceSnapshot = {</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>              matrix: Array.isArray(transform.matrix) ? transform.matrix.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>              matrixBase: Array.isArray(transform.matrixBase) ? transform.matrixBase.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>              rotationMatrix: Array.isArray(transform.rotationMatrix) ? transform.rotationMatrix.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>              position: Array.isArray(transform.position) ? transform.position.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>              normal: Array.isArray(transform.normal) ? transform.normal.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>              anchorPoint: Array.isArray(transform.anchorPoint) ? transform.anchorPoint.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>              ray: transform.ray ? {</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                origin: Array.isArray(transform.ray.origin) ? transform.ray.origin.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>                direction: Array.isArray(transform.ray.direction) ? transform.ray.direction.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                end: Array.isArray(transform.ray.end) ? transform.ray.end.slice() : <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                length: transform.ray.length</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>              } : <span class="keyword">null</span></div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            };</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span> </div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            transform.cameraSpace = cameraSpaceSnapshot;</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span> </div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keyword">const</span> matrixWithOffsetCamera = (cameraSpaceSnapshot.matrix &amp;&amp; cameraSpaceSnapshot.matrix.length === 16)</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>              ? <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().fromArray(cameraSpaceSnapshot.matrix)</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>              : <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>();</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>            <span class="keyword">const</span> matrixBaseCamera = (cameraSpaceSnapshot.matrixBase &amp;&amp; cameraSpaceSnapshot.matrixBase.length === 16)</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>              ? <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().fromArray(cameraSpaceSnapshot.matrixBase)</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>              : <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>();</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            <span class="keyword">const</span> rotationMatrixCamera = (cameraSpaceSnapshot.rotationMatrix &amp;&amp; cameraSpaceSnapshot.rotationMatrix.length === 16)</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>              ? <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().fromArray(cameraSpaceSnapshot.rotationMatrix)</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>              : <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>();</div>
 <div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span> </div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>    <span class="keywordflow">return</span> {</div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>      R: Array.isArray(R) ? R : [1, 0, 0, 0, 1, 0, 0, 0, 1],</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>      t: Array.isArray(t) &amp;&amp; t.length &gt;= 3 ? t : [0, 0, 0]</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>    };</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>  }</div>
-</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span> </div>
-<div class="foldopen" id="foldopen00686" data-start="{" data-end="}">
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">  686</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">resetCoordinateTransformer</a>() {</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>    <span class="keywordflow">if</span> (this.coordinateTransformer) {</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>      this.coordinateTransformer.reset();</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>    }</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>  }</div>
-</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
-<div class="foldopen" id="foldopen00696" data-start="{" data-end="}">
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">  696</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">getCoordinateTransformerState</a>() {</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>    <span class="keywordflow">if</span> (this.coordinateTransformer) {</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>      <span class="keywordflow">return</span> this.coordinateTransformer.getCurrentTransform();</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>    }</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>  }</div>
-</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>            <span class="keyword">const</span> tagScale = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>();</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            <span class="keyword">const</span> tagPositionCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>();</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            <span class="keyword">const</span> tagQuaternionCamera = <span class="keyword">new</span> Quaternion();</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            matrixWithOffsetCamera.decompose(tagPositionCamera, tagQuaternionCamera, tagScale);</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span> </div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>            <span class="keyword">const</span> baseScale = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>();</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>            <span class="keyword">const</span> basePositionCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>();</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            <span class="keyword">const</span> baseQuaternionCamera = <span class="keyword">new</span> Quaternion();</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            matrixBaseCamera.decompose(basePositionCamera, baseQuaternionCamera, baseScale);</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span> </div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="keyword">const</span> worldPosition = tagPositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            <span class="keyword">const</span> worldBasePosition = basePositionCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>            <span class="keyword">const</span> worldQuaternion = cameraWorldQuaternion.clone().multiply(tagQuaternionCamera);</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>            <span class="keyword">const</span> worldBaseQuaternion = cameraWorldQuaternion.clone().multiply(baseQuaternionCamera);</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            <span class="keyword">const</span> worldMatrix = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().compose(worldPosition, worldQuaternion, tagScale);</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>            <span class="keyword">const</span> worldMatrixBase = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().compose(worldBasePosition, worldBaseQuaternion, baseScale);</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            <span class="keyword">const</span> worldRotationMatrix = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a>().makeRotationFromQuaternion(worldBaseQuaternion);</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span> </div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>            <span class="keyword">const</span> normalCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().fromArray(cameraSpaceSnapshot.normal || [0, 1, 0]);</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>            <span class="keyword">const</span> worldNormal = normalCamera.clone().applyQuaternion(cameraWorldQuaternion).normalize();</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span> </div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            <span class="keyword">const</span> anchorCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().fromArray(cameraSpaceSnapshot.anchorPoint || [0, 0, 0]);</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>            <span class="keyword">const</span> anchorWorld = anchorCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);</div>
 <div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span> </div>
-<div class="foldopen" id="foldopen00708" data-start="{" data-end="}">
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">  708</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">convertImageDataToGrayscale</a>(imageData) {</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>    <span class="keyword">const</span> data = imageData.data;</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>    <span class="keyword">const</span> grayscale = <span class="keyword">new</span> Uint8Array(data.length / 4);</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span> </div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>    <span class="keywordflow">for</span> (let i = 0; i &lt; data.length; i += 4) {</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>      <span class="comment">// Convert RGB to grayscale using standard formula</span></div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>      <span class="keyword">const</span> gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>      grayscale[i / 4] = gray;</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>    }</div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span> </div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>    <span class="keywordflow">return</span> grayscale;</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>  }</div>
-</div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span> </div>
-<div class="foldopen" id="foldopen00729" data-start="{" data-end="}">
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">  729</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">set_camera_info</a>(fx, fy, cx, cy) {</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>    <span class="keywordflow">if</span> (!this._Module || typeof this._set_pose_info !== <span class="stringliteral">&#39;function&#39;</span>) {</div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>      console.error(<span class="stringliteral">&#39;AprilTag not properly initialized&#39;</span>);</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    }</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span> </div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>    <span class="comment">// Сохраняем текущие intrinsics</span></div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>    this.currentIntrinsics = { fx, fy, cx, cy };</div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span> </div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>    <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>      <span class="keywordflow">return</span> this._set_pose_info(fx, fy, cx, cy);</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>    } <span class="keywordflow">catch</span> (error) {</div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>      console.error(<span class="stringliteral">&#39;Error setting camera info:&#39;</span>, error);</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>      <span class="keywordflow">throw</span> error;</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>    }</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>  }</div>
-</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>            <span class="keyword">const</span> rayOriginCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().fromArray(cameraSpaceSnapshot.ray?.origin || [0, 0, 0]);</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            <span class="keyword">const</span> rayEndCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().fromArray(cameraSpaceSnapshot.ray?.end || [0, 0, 0]);</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            <span class="keyword">const</span> rayDirectionCamera = <span class="keyword">new</span> <a class="code hl_variable" href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a>().fromArray(cameraSpaceSnapshot.ray?.direction || [0, 0, 1]);</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span> </div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            <span class="keyword">const</span> rayOriginWorld = rayOriginCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            <span class="keyword">const</span> rayEndWorld = rayEndCamera.clone().applyQuaternion(cameraWorldQuaternion).add(cameraWorldPosition);</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            <span class="keyword">const</span> rayDirectionWorld = rayDirectionCamera.clone().applyQuaternion(cameraWorldQuaternion).normalize();</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span> </div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            transform.matrix = worldMatrix.toArray();</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            transform.matrixBase = worldMatrixBase.toArray();</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            transform.rotationMatrix = worldRotationMatrix.toArray();</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>            transform.position = worldBasePosition.toArray();</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>            transform.normal = worldNormal.toArray();</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            transform.anchorPoint = anchorWorld.toArray();</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            transform.ray = {</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>              origin: rayOriginWorld.toArray(),</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>              end: rayEndWorld.toArray(),</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>              direction: rayDirectionWorld.toArray(),</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>              length: cameraSpaceSnapshot.ray?.length ?? <span class="keyword">null</span></div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            };</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span> </div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>            transform.anchorWorld = anchorWorld.toArray();</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            transform.cameraPose = {</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>              matrix: cameraWorldMatrix.toArray(),</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>              position: cameraWorldPosition.toArray(),</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>              quaternion: [</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                cameraWorldQuaternion.x,</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>                cameraWorldQuaternion.y,</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                cameraWorldQuaternion.z,</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                cameraWorldQuaternion.w</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>              ]</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>            };</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span> </div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>            transform.stabilizedMatrix = worldMatrixBase.toArray();</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>            transform.stabilizedPosition = worldBasePosition.toArray();</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>          });</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span> </div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>          console.debug(<span class="stringliteral">&#39;[detect] Coordinate stabilization applied&#39;</span>);</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>        } <span class="keywordflow">catch</span> (stabilizationError) {</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>          console.warn(<span class="stringliteral">&#39;⚠️ [detect] Error applying coordinate stabilization:&#39;</span>, stabilizationError);</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>        }</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>      }</div>
 <div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span> </div>
-<div class="foldopen" id="foldopen00750" data-start="{" data-end="}">
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">  750</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">getCameraInfo</a>() {</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>    <span class="keywordflow">return</span> this.currentIntrinsics || { fx: 800, fy: 800, cx: 320, cy: 240 };</div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>  }</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>      <span class="keywordflow">return</span> enhancedTransforms;</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>    } <span class="keywordflow">catch</span> (error) {</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>      console.error(`❌ [Кадр ${this.frameCount}] Ошибка в методе <a class="code hl_function" href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8">detect</a>:`, error);</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>      <span class="keywordflow">return</span> this.<a class="code hl_function" href="classApriltagPipeline.html#a13d3b7d79cffaddb5ed9846656ad22b1">applyRecoveryStrategies</a>([], now);</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>    }</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>  }</div>
 </div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span> </div>
-<div class="foldopen" id="foldopen00760" data-start="{" data-end="}">
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">  760</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">set_tag_size</a>(tagid, size) {</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>    <span class="keywordflow">if</span> (!this._Module || typeof this._set_tag_size !== <span class="stringliteral">&#39;function&#39;</span>) {</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>      console.error(<span class="stringliteral">&#39;AprilTag not properly initialized&#39;</span>);</div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>      <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>    }</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span> </div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>    <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>      <span class="keywordflow">return</span> this._set_tag_size(tagid, size);</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>    } <span class="keywordflow">catch</span> (error) {</div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>      console.error(<span class="stringliteral">&#39;Error setting tag size:&#39;</span>, error);</div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>      <span class="keywordflow">throw</span> error;</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    }</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>  }</div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span> </div>
+<div class="foldopen" id="foldopen00758" data-start="{" data-end="}">
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">  758</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">extractCameraPoseFromTransforms</a>(transforms) {</div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>    <span class="keywordflow">if</span> (!transforms || transforms.length === 0) {</div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>      <span class="keywordflow">return</span> { R: [1, 0, 0, 0, 1, 0, 0, 0, 1], t: [0, 0, 0] };</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>    }</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>    <span class="comment">// Используем первую трансформацию для извлечения позы камеры</span></div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>    <span class="keyword">const</span> firstTransform = transforms[0];</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>    <span class="keyword">const</span> { R, t } = firstTransform.pose;</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span> </div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>    <span class="keywordflow">return</span> {</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>      R: Array.isArray(R) ? R : [1, 0, 0, 0, 1, 0, 0, 0, 1],</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>      t: Array.isArray(t) &amp;&amp; t.length &gt;= 3 ? t : [0, 0, 0]</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>    };</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>  }</div>
 </div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>}</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span> </div>
+<div class="foldopen" id="foldopen00776" data-start="{" data-end="}">
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">  776</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">resetCoordinateTransformer</a>() {</div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>    <span class="keywordflow">if</span> (this.coordinateTransformer) {</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>      this.coordinateTransformer.reset();</div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>    }</div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>  }</div>
 </div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span> </div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno"><a class="line" href="apriltagPipeline_8jsx.html#a60642a3ae6e601c39d6fc2da500080a9">  775</a></span>export <span class="keywordflow">default</span> <a class="code hl_class" href="classApriltagPipeline.html">ApriltagPipeline</a>;</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span> </div>
+<div class="foldopen" id="foldopen00786" data-start="{" data-end="}">
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">  786</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">getCoordinateTransformerState</a>() {</div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>    <span class="keywordflow">if</span> (this.coordinateTransformer) {</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>      <span class="keywordflow">return</span> this.coordinateTransformer.getCurrentTransform();</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>    }</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>  }</div>
+</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span> </div>
+<div class="foldopen" id="foldopen00798" data-start="{" data-end="}">
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">  798</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">convertImageDataToGrayscale</a>(imageData) {</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>    <span class="keyword">const</span> data = imageData.data;</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="keyword">const</span> grayscale = <span class="keyword">new</span> Uint8Array(data.length / 4);</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span> </div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>    <span class="keywordflow">for</span> (let i = 0; i &lt; data.length; i += 4) {</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>      <span class="comment">// Convert RGB to grayscale using standard formula</span></div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>      <span class="keyword">const</span> gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>      grayscale[i / 4] = gray;</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>    }</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span> </div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>    <span class="keywordflow">return</span> grayscale;</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>  }</div>
+</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span> </div>
+<div class="foldopen" id="foldopen00819" data-start="{" data-end="}">
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">  819</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">set_camera_info</a>(fx, fy, cx, cy) {</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>    <span class="keywordflow">if</span> (!this._Module || typeof this._set_pose_info !== <span class="stringliteral">&#39;function&#39;</span>) {</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>      console.error(<span class="stringliteral">&#39;AprilTag not properly initialized&#39;</span>);</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>    }</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span> </div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    <span class="comment">// Сохраняем текущие intrinsics</span></div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>    this.currentIntrinsics = { fx, fy, cx, cy };</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span> </div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>      <span class="keywordflow">return</span> this._set_pose_info(fx, fy, cx, cy);</div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>    } <span class="keywordflow">catch</span> (error) {</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>      console.error(<span class="stringliteral">&#39;Error setting camera info:&#39;</span>, error);</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>      <span class="keywordflow">throw</span> error;</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>    }</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>  }</div>
+</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span> </div>
+<div class="foldopen" id="foldopen00840" data-start="{" data-end="}">
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">  840</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">getCameraInfo</a>() {</div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>    <span class="keywordflow">return</span> this.currentIntrinsics || { fx: 800, fy: 800, cx: 320, cy: 240 };</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>  }</div>
+</div>
+<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span> </div>
+<div class="foldopen" id="foldopen00850" data-start="{" data-end="}">
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno"><a class="line" href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">  850</a></span>  <a class="code hl_function" href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">set_tag_size</a>(tagid, size) {</div>
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>    <span class="keywordflow">if</span> (!this._Module || typeof this._set_tag_size !== <span class="stringliteral">&#39;function&#39;</span>) {</div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>      console.error(<span class="stringliteral">&#39;AprilTag not properly initialized&#39;</span>);</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>    }</div>
+<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span> </div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>      <span class="keywordflow">return</span> this._set_tag_size(tagid, size);</div>
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>    } <span class="keywordflow">catch</span> (error) {</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>      console.error(<span class="stringliteral">&#39;Error setting tag size:&#39;</span>, error);</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>      <span class="keywordflow">throw</span> error;</div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>    }</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>  }</div>
+</div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>}</div>
+</div>
+<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span> </div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno"><a class="line" href="apriltagPipeline_8jsx.html#a60642a3ae6e601c39d6fc2da500080a9">  865</a></span>export <span class="keywordflow">default</span> <a class="code hl_class" href="classApriltagPipeline.html">ApriltagPipeline</a>;</div>
 <div class="ttc" id="aCoordinateTransformer_8jsx_html_a082bfb40ddee9a831d0573331d37a327"><div class="ttname"><a href="CoordinateTransformer_8jsx.html#a082bfb40ddee9a831d0573331d37a327">Matrix4</a></div><div class="ttdeci">Matrix4</div><div class="ttdef"><b>Definition</b> <a href="CoordinateTransformer_8jsx_source.html#l00979">CoordinateTransformer.jsx:979</a></div></div>
 <div class="ttc" id="aCoordinateTransformer_8jsx_html_a77b3476838590cb29143eb8716ad6399"><div class="ttname"><a href="CoordinateTransformer_8jsx.html#a77b3476838590cb29143eb8716ad6399">Vector3</a></div><div class="ttdeci">Vector3</div><div class="ttdef"><b>Definition</b> <a href="CoordinateTransformer_8jsx_source.html#l00979">CoordinateTransformer.jsx:979</a></div></div>
 <div class="ttc" id="aapriltagPipeline_8jsx_html_a3695532c9bfcab009a47939afd68b89f"><div class="ttname"><a href="apriltagPipeline_8jsx.html#a3695532c9bfcab009a47939afd68b89f">loadConfig</a></div><div class="ttdeci">const loadConfig</div><div class="ttdoc">Загружает конфигурацию пайплайна AprilTag с диска.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00009">apriltagPipeline.jsx:9</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html"><div class="ttname"><a href="classApriltagPipeline.html">ApriltagPipeline</a></div><div class="ttdoc">Предоставляет обнаружение AprilTag, управление конфигурацией и утилиты позы.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00047">apriltagPipeline.jsx:47</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a0251dfb2108dc55946b25f3e9505b020"><div class="ttname"><a href="classApriltagPipeline.html#a0251dfb2108dc55946b25f3e9505b020">ApriltagPipeline::configureRecoveryStrategies</a></div><div class="ttdeci">configureRecoveryStrategies(strategies)</div><div class="ttdoc">Конфигурирует стратегии восстановления</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00417">apriltagPipeline.jsx:417</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a13d3b7d79cffaddb5ed9846656ad22b1"><div class="ttname"><a href="classApriltagPipeline.html#a13d3b7d79cffaddb5ed9846656ad22b1">ApriltagPipeline::applyRecoveryStrategies</a></div><div class="ttdeci">applyRecoveryStrategies(currentDetections, timestamp)</div><div class="ttdoc">Применяет стратегии восстановления при потере детекции</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00366">apriltagPipeline.jsx:366</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_a33ee1ae2da0ac822b5c0a5265b4570b3"><div class="ttname"><a href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">ApriltagPipeline::getCoordinateTransformerState</a></div><div class="ttdeci">getCoordinateTransformerState()</div><div class="ttdoc">Получает текущее состояние трансформатора координат</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00696">apriltagPipeline.jsx:696</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_a3ec516cefad8b330f79a38e00e77c71c"><div class="ttname"><a href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">ApriltagPipeline::convertImageDataToGrayscale</a></div><div class="ttdeci">convertImageDataToGrayscale(imageData)</div><div class="ttdoc">Преобразует RGBA-данные изображения в ожидаемый детектором градационный буфер.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00708">apriltagPipeline.jsx:708</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_a33ee1ae2da0ac822b5c0a5265b4570b3"><div class="ttname"><a href="classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3">ApriltagPipeline::getCoordinateTransformerState</a></div><div class="ttdeci">getCoordinateTransformerState()</div><div class="ttdoc">Получает текущее состояние трансформатора координат</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00786">apriltagPipeline.jsx:786</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_a3ec516cefad8b330f79a38e00e77c71c"><div class="ttname"><a href="classApriltagPipeline.html#a3ec516cefad8b330f79a38e00e77c71c">ApriltagPipeline::convertImageDataToGrayscale</a></div><div class="ttdeci">convertImageDataToGrayscale(imageData)</div><div class="ttdoc">Преобразует RGBA-данные изображения в ожидаемый детектором градационный буфер.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00798">apriltagPipeline.jsx:798</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a4405ce79318f3301b8ed9cd973059267"><div class="ttname"><a href="classApriltagPipeline.html#a4405ce79318f3301b8ed9cd973059267">ApriltagPipeline::calculateDetectionConfidence</a></div><div class="ttdeci">calculateDetectionConfidence(detection)</div><div class="ttdoc">Вычисляет уверенность детекции маркера</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00344">apriltagPipeline.jsx:344</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_a4e859d94ed7a9721a72775d0ce24ac54"><div class="ttname"><a href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">ApriltagPipeline::getCameraInfo</a></div><div class="ttdeci">getCameraInfo()</div><div class="ttdoc">Возвращает последние параметры внутренней калибровки, переданные детектору.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00750">apriltagPipeline.jsx:750</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_a4e859d94ed7a9721a72775d0ce24ac54"><div class="ttname"><a href="classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54">ApriltagPipeline::getCameraInfo</a></div><div class="ttdeci">getCameraInfo()</div><div class="ttdoc">Возвращает последние параметры внутренней калибровки, переданные детектору.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00840">apriltagPipeline.jsx:840</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a52f3b422f293a7b9423d32f48d80257d"><div class="ttname"><a href="classApriltagPipeline.html#a52f3b422f293a7b9423d32f48d80257d">ApriltagPipeline::getTagConfig</a></div><div class="ttdeci">getTagConfig(id)</div><div class="ttdoc">Получает подготовленную запись конфигурации тега.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00201">apriltagPipeline.jsx:201</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_a5939011b9439d99e0130416236631ce3"><div class="ttname"><a href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">ApriltagPipeline::extractCameraPoseFromTransforms</a></div><div class="ttdeci">extractCameraPoseFromTransforms(transforms)</div><div class="ttdoc">Извлекает позу камеры из трансформаций маркеров</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00668">apriltagPipeline.jsx:668</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_a5939011b9439d99e0130416236631ce3"><div class="ttname"><a href="classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3">ApriltagPipeline::extractCameraPoseFromTransforms</a></div><div class="ttdeci">extractCameraPoseFromTransforms(transforms)</div><div class="ttdoc">Извлекает позу камеры из трансформаций маркеров</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00758">apriltagPipeline.jsx:758</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a5ea4288958a7d5f976c473277ed3c9e7"><div class="ttname"><a href="classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7">ApriltagPipeline::getSceneConfig</a></div><div class="ttdeci">getSceneConfig(sceneId)</div><div class="ttdoc">Возвращает закэшированную конфигурацию конкретной сцены.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00183">apriltagPipeline.jsx:183</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_a610cfd0cdcfd6e3aca7f3fbf64ca2dee"><div class="ttname"><a href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">ApriltagPipeline::resetCoordinateTransformer</a></div><div class="ttdeci">resetCoordinateTransformer()</div><div class="ttdoc">Сбрасывает состояние трансформатора координат</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00686">apriltagPipeline.jsx:686</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_a610cfd0cdcfd6e3aca7f3fbf64ca2dee"><div class="ttname"><a href="classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee">ApriltagPipeline::resetCoordinateTransformer</a></div><div class="ttdeci">resetCoordinateTransformer()</div><div class="ttdoc">Сбрасывает состояние трансформатора координат</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00776">apriltagPipeline.jsx:776</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a6c30ab64cf6450d83cd108fc4d876b9a"><div class="ttname"><a href="classApriltagPipeline.html#a6c30ab64cf6450d83cd108fc4d876b9a">ApriltagPipeline::configureMultiTag</a></div><div class="ttdeci">configureMultiTag(config)</div><div class="ttdoc">Конфигурирует поддержку множественных маркеров</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00409">apriltagPipeline.jsx:409</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a762864d5d9d1475189b8e7214ef35de8"><div class="ttname"><a href="classApriltagPipeline.html#a762864d5d9d1475189b8e7214ef35de8">ApriltagPipeline::detect</a></div><div class="ttdeci">detect(imageData)</div><div class="ttdoc">Выполняет детекцию тегов по переданному RGBA-буферу изображения.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00426">apriltagPipeline.jsx:426</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_a771074a21afa6da145de715717469c13"><div class="ttname"><a href="classApriltagPipeline.html#a771074a21afa6da145de715717469c13">ApriltagPipeline::initializeAprilTagDetector</a></div><div class="ttdeci">async initializeAprilTagDetector()</div><div class="ttdoc">Настраивает привязки WASM и инициализирует параметры детектора.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00260">apriltagPipeline.jsx:260</a></div></div>
@@ -835,11 +925,11 @@ $(document).ready(function(){initNavTree('apriltagPipeline_8jsx_source.html','')
 <div class="ttc" id="aclassApriltagPipeline_html_aa8cc0c00ef99ce6c8261838bb8969efd"><div class="ttname"><a href="classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd">ApriltagPipeline::evaluateMultiTagQuality</a></div><div class="ttdeci">evaluateMultiTagQuality(detections)</div><div class="ttdoc">Оценивает качество детекции множественных маркеров</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00316">apriltagPipeline.jsx:316</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_aac610b6bd17b08a1e6354ef61d5fd601"><div class="ttname"><a href="classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601">ApriltagPipeline::loadAprilTagScript</a></div><div class="ttdeci">async loadAprilTagScript()</div><div class="ttdoc">Встраивает скрипт загрузчика AprilTag WASM в документ.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00209">apriltagPipeline.jsx:209</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_ab659d4a61ad08f46a91ea4e3dcf8e313"><div class="ttname"><a href="classApriltagPipeline.html#ab659d4a61ad08f46a91ea4e3dcf8e313">ApriltagPipeline::constructor</a></div><div class="ttdeci">constructor()</div><div class="ttdoc">Создаёт новый экземпляр пайплайна с контейнерами состояния по умолчанию.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00051">apriltagPipeline.jsx:51</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_ac1e94b5478fa7e791c500c3651115b67"><div class="ttname"><a href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">ApriltagPipeline::set_camera_info</a></div><div class="ttdeci">set_camera_info(fx, fy, cx, cy)</div><div class="ttdoc">Обновляет детектор параметрами внутренней калибровки камеры.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00729">apriltagPipeline.jsx:729</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_ac1e94b5478fa7e791c500c3651115b67"><div class="ttname"><a href="classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67">ApriltagPipeline::set_camera_info</a></div><div class="ttdeci">set_camera_info(fx, fy, cx, cy)</div><div class="ttdoc">Обновляет детектор параметрами внутренней калибровки камеры.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00819">apriltagPipeline.jsx:819</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_ad441d4da1a0ca7efc04690e95fdea8b1"><div class="ttname"><a href="classApriltagPipeline.html#ad441d4da1a0ca7efc04690e95fdea8b1">ApriltagPipeline::applyConfig</a></div><div class="ttdeci">applyConfig(config)</div><div class="ttdoc">Кэширует метаданные сцен и тегов для быстрого доступа при детекции.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00130">apriltagPipeline.jsx:130</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_aec5d95893c68f79173dc0b7d1ea4cc2b"><div class="ttname"><a href="classApriltagPipeline.html#aec5d95893c68f79173dc0b7d1ea4cc2b">ApriltagPipeline::init</a></div><div class="ttdeci">async init()</div><div class="ttdoc">Инициализирует конфигурацию, OpenCV и ядро AprilTag WASM.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00103">apriltagPipeline.jsx:103</a></div></div>
 <div class="ttc" id="aclassApriltagPipeline_html_af55562ac0ef004f601a5fb17323fa3c6"><div class="ttname"><a href="classApriltagPipeline.html#af55562ac0ef004f601a5fb17323fa3c6">ApriltagPipeline::getTagSizeById</a></div><div class="ttdeci">getTagSizeById()</div><div class="ttdoc">Предоставляет отображение идентификаторов тегов на их физический размер.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00192">apriltagPipeline.jsx:192</a></div></div>
-<div class="ttc" id="aclassApriltagPipeline_html_af55bc7bb21846a70c136b86d48a567c3"><div class="ttname"><a href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">ApriltagPipeline::set_tag_size</a></div><div class="ttdeci">set_tag_size(tagid, size)</div><div class="ttdoc">Сообщает детектору физический размер тега.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00760">apriltagPipeline.jsx:760</a></div></div>
+<div class="ttc" id="aclassApriltagPipeline_html_af55bc7bb21846a70c136b86d48a567c3"><div class="ttname"><a href="classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3">ApriltagPipeline::set_tag_size</a></div><div class="ttdeci">set_tag_size(tagid, size)</div><div class="ttdoc">Сообщает детектору физический размер тега.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00850">apriltagPipeline.jsx:850</a></div></div>
 <div class="ttc" id="aclassCoordinateTransformer_html"><div class="ttname"><a href="classCoordinateTransformer.html">CoordinateTransformer</a></div><div class="ttdoc">Основной координатный трансформатор с механизмами стабилизации</div><div class="ttdef"><b>Definition</b> <a href="CoordinateTransformer_8jsx_source.html#l00217">CoordinateTransformer.jsx:217</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

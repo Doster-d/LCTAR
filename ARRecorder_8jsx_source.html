@@ -105,7 +105,7 @@ $(document).ready(function(){initNavTree('ARRecorder_8jsx_source.html',''); init
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">import</span> ControlPanel from <span class="stringliteral">&#39;./components/ui/ControlPanel.jsx&#39;</span>;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">import</span> ARRenderer from <span class="stringliteral">&#39;./components/ar/ARRenderer.jsx&#39;</span>;</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">import</span> { useCamera, useRecording, useAprilTag, useAlvaAR } from <span class="stringliteral">&#39;./hooks/index.js&#39;</span>;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">import</span> { <a class="code hl_function" href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">loadAlva</a> } from <span class="stringliteral">&#39;./alvaBridge&#39;</span>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">import</span> { <a class="code hl_function" href="alvaBridge_8jsx.html#a087c86865ba39b9bd557f17cad3f72cd">loadAlva</a> } from <span class="stringliteral">&#39;./alvaBridge&#39;</span>;</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="ARRecorder_8jsx.html#ac80e84e7a9385f8933bcbc28b4b0ae1e">   10</a></span><span class="keyword">const</span> <a class="code hl_variable" href="ARRecorder_8jsx.html#ac80e84e7a9385f8933bcbc28b4b0ae1e">ARRecorder</a> = ({ onShowLanding }) =&gt; {</div>
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('ARRecorder_8jsx_source.html',''); init
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      aprilTag.aprilTagPipelineRef.current,</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      alvaAR.alvaRef,</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      alvaAR.assignAlvaPoints,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      <a class="code hl_function" href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">loadAlva</a>,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      <a class="code hl_function" href="alvaBridge_8jsx.html#a087c86865ba39b9bd557f17cad3f72cd">loadAlva</a>,</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>      () =&gt; {</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// Callback для обновления размеров после инициализации камеры</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        console.log(<span class="stringliteral">&#39;Camera ready, triggering size update&#39;</span>);</div>
@@ -284,7 +284,7 @@ $(document).ready(function(){initNavTree('ARRecorder_8jsx_source.html',''); init
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>export <span class="keywordflow">default</span> <a class="code hl_variable" href="ARRecorder_8jsx.html#ac80e84e7a9385f8933bcbc28b4b0ae1e">ARRecorder</a>;</div>
 <div class="ttc" id="aARRecorder_8jsx_html_ac80e84e7a9385f8933bcbc28b4b0ae1e"><div class="ttname"><a href="ARRecorder_8jsx.html#ac80e84e7a9385f8933bcbc28b4b0ae1e">ARRecorder</a></div><div class="ttdeci">const ARRecorder</div><div class="ttdef"><b>Definition</b> <a href="ARRecorder_8jsx_source.html#l00010">ARRecorder.jsx:10</a></div></div>
-<div class="ttc" id="aalvaBridge_8jsx_html_afa07edfafef20ed0d3e462c4aadc5ee5"><div class="ttname"><a href="alvaBridge_8jsx.html#afa07edfafef20ed0d3e462c4aadc5ee5">loadAlva</a></div><div class="ttdeci">function async loadAlva(width, height)</div><div class="ttdoc">Динамически загружает и инициализирует модуль AlvaAR WASM.</div><div class="ttdef"><b>Definition</b> <a href="alvaBridge_8jsx_source.html#l00009">alvaBridge.jsx:9</a></div></div>
+<div class="ttc" id="aalvaBridge_8jsx_html_a087c86865ba39b9bd557f17cad3f72cd"><div class="ttname"><a href="alvaBridge_8jsx.html#a087c86865ba39b9bd557f17cad3f72cd">loadAlva</a></div><div class="ttdeci">function async loadAlva(width, height, options={})</div><div class="ttdoc">Динамически загружает и инициализирует модуль AlvaAR WASM.</div><div class="ttdef"><b>Definition</b> <a href="alvaBridge_8jsx_source.html#l00009">alvaBridge.jsx:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
