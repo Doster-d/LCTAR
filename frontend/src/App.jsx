@@ -307,7 +307,6 @@ function ARRecorder({ onShowLanding }) {
   const trainSmoothQuaternion = useRef(new THREE.Quaternion())
   const trainInitialized = useRef(false)
   const lastDetectionTime = useRef(0)
-  const debugCubeInstanceRef = useRef(null) // Debug cube instance
   const sceneAnchorsRef = useRef(new Map())
   const anchorDebugMapRef = useRef(new Map())
   const scenePlaneRef = useRef(new Map())
@@ -321,7 +320,6 @@ function ARRecorder({ onShowLanding }) {
   const alvaRef = useRef(null)
   const lastAlvaUpdateRef = useRef(0)
   const alvaPointsRef = useRef([])
-  const debugCubeRef = useRef(null)
   const sessionIdRef = useRef(null)
   const detectedAssetsRef = useRef(new Set())
   const pendingAssetsRef = useRef(new Set())
@@ -441,58 +439,7 @@ function ARRecorder({ onShowLanding }) {
     }
   }, [])
 
-  /**
-   * @brief Создает DebugCube напрямую через Three.js для размещения в центре AR-сцены.
-   */
-  const createDebugCube = () => {
-    console.log('🎯 Creating DebugCube directly with Three.js')
 
-    const size = 0.15
-    const geometry = new THREE.BoxGeometry(size, size, size)
-
-    // Создаем цветные грани как в оригинальном компоненте
-    const colors = new Float32Array(geometry.attributes.position.count * 3)
-    const palette = [
-      new THREE.Color('#ff4d4f'), // +X (красный)
-      new THREE.Color('#8c1c1d'), // -X (темно-красный)
-      new THREE.Color('#52c41a'), // +Y (зеленый)
-      new THREE.Color('#1f6f1a'), // -Y (темно-зеленый)
-      new THREE.Color('#1890ff'), // +Z (синий)
-      new THREE.Color('#152773')  // -Z (темно-синий)
-    ]
-
-    for (let face = 0; face < 6; face += 1) {
-      const color = palette[face]
-      for (let vertex = 0; vertex < 6; vertex += 1) {
-        const index = (face * 6 + vertex) * 3
-        colors[index] = color.r
-        colors[index + 1] = color.g
-        colors[index + 2] = color.b
-      }
-    }
-
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-
-    const material = new THREE.MeshStandardMaterial({
-      vertexColors: true,
-      metalness: 0.1,
-      roughness: 0.35
-    })
-
-    const debugCube = new THREE.Mesh(geometry, material)
-    debugCube.name = 'CenterDebugCube'
-    debugCube.position.set(0, 0, 0) // Центр сцены
-    debugCube.scale.set(1.5, 1.5, 1.5) // Чуть больше для лучшей видимости
-    debugCube.castShadow = true
-    debugCube.receiveShadow = true
-
-    // Добавляем мини-оси для лучшей ориентации
-    const axesHelper = new THREE.AxesHelper(size * 2)
-    debugCube.add(axesHelper)
-
-    debugCubeInstanceRef.current = debugCube
-    console.log('✅ DebugCube created directly with axes:', debugCube)
-  }
 
   useEffect(() => {
     let cancelled = false
@@ -528,31 +475,6 @@ function ARRecorder({ onShowLanding }) {
     const anchorGroup = new THREE.Group()
     anchorGroup.name = 'AnchorRoot'
     anchorGroup.visible = false
-
-    const debugGeometry = new THREE.BoxGeometry(0.12, 0.12, 0.12)
-    const debugColors = []
-    const debugPalette = [
-      new THREE.Color('#ff4d4f'),
-      new THREE.Color('#36cfc9'),
-      new THREE.Color('#40a9ff'),
-      new THREE.Color('#fadb14'),
-      new THREE.Color('#9254de'),
-      new THREE.Color('#73d13d')
-    ]
-    const vertexCount = debugGeometry.getAttribute('position').count
-    for (let i = 0; i < vertexCount; i += 1) {
-      const faceColor = debugPalette[Math.floor(i / 6) % debugPalette.length]
-      debugColors.push(faceColor.r, faceColor.g, faceColor.b)
-    }
-    debugGeometry.setAttribute('color', new THREE.Float32BufferAttribute(debugColors, 3))
-    const debugMaterial = new THREE.MeshStandardMaterial({ vertexColors: true, metalness: 0.2, roughness: 0.45 })
-    const debugCube = new THREE.Mesh(debugGeometry, debugMaterial)
-    debugCube.name = 'SceneDebugCube'
-    const debugEdges = new THREE.LineSegments(new THREE.EdgesGeometry(debugGeometry), new THREE.LineBasicMaterial({ color: 0x111111 }))
-    debugCube.add(debugEdges)
-    debugCube.visible = false
-    anchorGroup.add(debugCube)
-    debugCubeRef.current = debugCube
 
     scene.add(anchorGroup)
     cubeRef.current = anchorGroup
@@ -610,9 +532,6 @@ function ARRecorder({ onShowLanding }) {
       }
     }
     checkTrainModel()
-
-    // Создаем DebugCube для AR-сцены
-    createDebugCube()
 
     return () => {
       try { anchorGroup.removeFromParent() } catch { }
@@ -1318,14 +1237,6 @@ function ARRecorder({ onShowLanding }) {
       cubeRef.current.quaternion.identity()
     }
 
-    if (debugCubeRef.current) {
-      debugCubeRef.current.visible = false
-    }
-
-    if (debugCubeInstanceRef.current) {
-      debugCubeInstanceRef.current.visible = false
-    }
-
     if (trainInstanceRef.current) {
       const mixer = trainInstanceRef.current.userData?.mixer
       if (mixer) {
@@ -1704,9 +1615,6 @@ function ARRecorder({ onShowLanding }) {
 
     if (cube) {
       cube.visible = hasDetections
-      if (debugCubeRef.current) {
-        debugCubeRef.current.visible = hasDetections
-      }
       if (hasDetections && trainPrefabRef.current && !trainInstanceRef.current) {
         console.log('🚂 Creating train instance...', {
           hasDetections,
@@ -1791,23 +1699,6 @@ function ARRecorder({ onShowLanding }) {
         // Убрана анимация покачивания для уменьшения тряски
       }
 
-      // Добавление/управление DebugCube в центре сцены
-      if (debugCubeInstanceRef.current) {
-        const debugCube = debugCubeInstanceRef.current
-        const wasVisible = debugCube.visible
-        debugCube.visible = hasDetections
-
-        if (hasDetections && !debugCube.parent) {
-          console.log('🎯 Adding DebugCube to scene center', {
-            position: debugCube.position,
-            scale: debugCube.scale,
-            parent: cube.name
-          })
-          cube.add(debugCube)
-        }
-      } else if (hasDetections) {
-        console.warn('⚠️ DebugCube instance is null but detections are active')
-      }
     }
 
     if (cube && anchorState?.position && anchorState?.rotation) {
