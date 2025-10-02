@@ -58,9 +58,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "0001__initial_8py.html",
-"classFrameAccurateVideoRecording.html#acb06b77a31af223962c9d66c7952f8e2",
-"classarb_1_1models_1_1ViewEvent.html#ae715133ca517b6c3322ff9b354f91dc5",
-"r3f-video-recorder_8jsx_source.html"
+"classFrameAccurateVideoRecording.html",
+"classarb_1_1models_1_1ViewEvent.html#ac87668c2f32733ceaa1ada778cd2ea44",
+"r3f-video-recorder_8jsx.html#ac1c4d7ecc36af2f86bf4a012b07b3386"
 ];
 
 var SYNCONMSG = 'нажмите на выключить для синхронизации панелей';

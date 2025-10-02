@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"r3f-video-recorder_8jsx.html#ac1c4d7ecc36af2f86bf4a012b07b3386":[3,0,1,0,2,1,10],
+"r3f-video-recorder_8jsx.html#ac2a0d737e20a7739de4f181103a9cfa6":[3,0,1,0,2,1,5],
 "r3f-video-recorder_8jsx_source.html":[3,0,1,0,2,1],
 "settings_8py.html":[3,0,0,0,6],
 "settings_8py.html#a04fa2af0f8b45eb35702789d63ac2346":[3,0,0,0,6,10],
