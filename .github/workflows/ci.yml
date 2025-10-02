@@ -1,59 +1,59 @@
-name: CI — Django tests (arb)
+name: Backend tests (arb)
 
 on:
   push:
-    branches: [ master, main ]
+    paths:
+      - "arb/**"
+      - ".github/workflows/backend-tests.yml"
   pull_request:
-
-permissions:
-  contents: read
+    paths:
+      - "arb/**"
 
 jobs:
-  tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            pip-${{ runner.os }}-
-
-      - name: Install deps
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then
+          if [ -f arb/requirements.txt ]; then
+            pip install -r arb/requirements.txt
+          elif [ -f requirements.txt ]; then
             pip install -r requirements.txt
           else
-            # минимальный набор, чтобы settings.py корректно импортировался
-            pip install \
-              "Django>=4.2,<5" \
-              "djangorestframework>=3.14,<4" \
-              "celery>=5,<6" \
-              "python-decouple>=3.8,<4" \
-              "django-cors-headers>=4,<5"
+            pip install django
           fi
 
-      - name: Show Django version
-        run: python -c "import django; print('Django', django.get_version())"
+      - name: Prepare env (optional)
+        run: |
+          cp -f .env.example .env 2>/dev/null || true
+          echo "DJANGO_SECRET_KEY=test_ci_secret" >> .env
+          echo "DEBUG=1" >> .env
 
-      - name: Run tests (arb)
+      - name: Migrate (SQLite, in-memory)
+        working-directory: arb
         env:
           DJANGO_SETTINGS_MODULE: arb.settings
-          # безопасные дефолты, если decouple запросит переменные
-          SECRET_KEY: ci-secret-key
-          DEBUG: "0"
-          ALLOWED_HOSTS: "*"
+          DJANGO_DB_ENGINE: sqlite3
+          DJANGO_DB_NAME: ":memory:"
         run: |
-          # прогоняем все тесты приложения arb (файл arb/arb/tests.py включится)
-          python arb/manage.py test arb -v 2
+          python manage.py migrate --noinput
+
+      - name: Run tests (only arb/arb/tests.py)
+        working-directory: arb
+        env:
+          DJANGO_SETTINGS_MODULE: arb.settings
+          DJANGO_DB_ENGINE: sqlite3
+          DJANGO_DB_NAME: ":memory:"
+        run: |
+          # Dotted-path на файл tests.py внутри приложения "arb"
+          python manage.py test arb.tests --verbosity=2
