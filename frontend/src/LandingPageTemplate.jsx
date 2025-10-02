@@ -120,6 +120,28 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
           <img src="/img/k1.png" alt="Logo" className="logo"/>
           <h1>{t.hero.title}</h1>
           <p>{t.hero.description}</p>
+          <button
+            type="button"
+            aria-label={t.cta.buttonText}
+            className="cta-button hero-cta"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onSwitchToApp && onSwitchToApp();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSwitchToApp && onSwitchToApp();
+              }
+            }}
+            style={{
+              pointerEvents: 'auto',
+              marginTop: '2rem'
+            }}
+          >
+            {t.cta.buttonText}
+          </button>
         </div>
       </section>
 
