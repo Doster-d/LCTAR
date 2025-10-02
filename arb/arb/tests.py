@@ -23,7 +23,7 @@ class TestMvpApi(TestCase):
         Asset.objects.create(slug="a3", name="Asset 3", type="model")
 
     def _start_session(self):
-        resp = self.client.post("/session/start/", {}, format="json")
+        resp = self.client.post("/api/session/start/", {}, format="json")
         assert resp.status_code == 201
         session_id = resp.data["session_id"]
         UUID(session_id)
@@ -31,7 +31,7 @@ class TestMvpApi(TestCase):
 
     def _view(self, session_id: str, slug: str):
         return self.client.post(
-            "/view/", {"session_id": session_id, "asset_slug": slug}, format="json"
+            "/api/view/", {"session_id": session_id, "asset_slug": slug}, format="json"
         )
 
     def test_session_start(self):
@@ -80,7 +80,7 @@ class TestMvpApi(TestCase):
         session_id = self._start_session()
         self._view(session_id, "a1")
         resp = self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "test@example.com"},
             format="json",
         )
@@ -99,7 +99,7 @@ class TestMvpApi(TestCase):
     def test_progress_endpoints(self):
         session_id = self._start_session()
         self._view(session_id, "a1")
-        pr = self.client.get(f"/progress/?session_id={session_id}")
+        pr = self.client.get(f"/api/progress/?session_id={session_id}")
         assert pr.status_code == 200
         assert pr.data["total_assets"] == 3
         assert pr.data["viewed_assets"] == 1
@@ -113,7 +113,7 @@ class TestMvpApi(TestCase):
         )
 
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "u@example.com"},
             format="json",
         )
@@ -121,12 +121,12 @@ class TestMvpApi(TestCase):
 
         session2 = self._start_session()
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session2, "email": "u@example.com"},
             format="json",
         )
         self._view(session2, "a2")
-        upr = self.client.get(f"/progress/?user_id={user.id}")
+        upr = self.client.get(f"/api/progress/?user_id={user.id}")
         assert upr.status_code == 200
         assert upr.data["total_assets"] == 3
         assert upr.data["viewed_assets"] == 2
@@ -134,21 +134,23 @@ class TestMvpApi(TestCase):
         assert upr.data["total_score"] == 20
 
     def test_view_missing_params(self):
-        r = self.client.post("/view/", {"session_id": ""}, format="json")
+        r = self.client.post("/api/view/", {"session_id": ""}, format="json")
         assert r.status_code == 400
-        r = self.client.post("/view/", {"asset_slug": "a1"}, format="json")
+        r = self.client.post("/api/view/", {"asset_slug": "a1"}, format="json")
         assert r.status_code == 400
 
     def test_view_invalid_ids(self):
         r = self.client.post(
-            "/view/",
+            "/api/view/",
             {"session_id": "00000000-0000-0000-0000-000000000000", "asset_slug": "a1"},
             format="json",
         )
         assert r.status_code == 404
         session_id = self._start_session()
         r2 = self.client.post(
-            "/view/", {"session_id": session_id, "asset_slug": "nope"}, format="json"
+            "/api/view/",
+            {"session_id": session_id, "asset_slug": "nope"},
+            format="json",
         )
         assert r2.status_code == 404
 
@@ -163,22 +165,24 @@ class TestMvpApi(TestCase):
         assert sip.times_viewed == 2
 
     def test_user_email_missing_params(self):
-        r = self.client.post("/user/email/", {"session_id": ""}, format="json")
+        r = self.client.post("/api/user/email/", {"session_id": ""}, format="json")
         assert r.status_code == 400
-        r2 = self.client.post("/user/email/", {"email": "e@example.com"}, format="json")
+        r2 = self.client.post(
+            "/api/user/email/", {"email": "e@example.com"}, format="json"
+        )
         assert r2.status_code == 400
 
     def test_user_email_idempotent_link(self):
         session_id = self._start_session()
         self._view(session_id, "a1")
         r1 = self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "x@example.com"},
             format="json",
         )
         assert r1.status_code == 200
         r2 = self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "x@example.com"},
             format="json",
         )
@@ -196,7 +200,7 @@ class TestMvpApi(TestCase):
         r2 = self._view(session_id, "a3")
         assert "promo_code" not in r2.data
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "bind@example.com"},
             format="json",
         )
@@ -205,12 +209,12 @@ class TestMvpApi(TestCase):
 
     def test_promo_endpoint_by_session_and_user(self):
         session_id = self._start_session()
-        r = self.client.get(f"/promo/?session_id={session_id}")
+        r = self.client.get(f"/api/promo/?session_id={session_id}")
         assert r.status_code == 404
         self._view(session_id, "a1")
         self._view(session_id, "a2")
         self._view(session_id, "a3")
-        r2 = self.client.get(f"/promo/?session_id={session_id}")
+        r2 = self.client.get(f"/api/promo/?session_id={session_id}")
         assert r2.status_code == 200
         assert "promo_code" in r2.data
         code = r2.data["promo_code"]
@@ -223,12 +227,12 @@ class TestMvpApi(TestCase):
             == 1
         )
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session_id, "email": "pp@example.com"},
             format="json",
         )
         user = User.objects.get(email="pp@example.com")
-        r3 = self.client.get(f"/promo/?user_id={user.id}")
+        r3 = self.client.get(f"/api/promo/?user_id={user.id}")
         assert r3.status_code == 200
         assert r3.data["promo_code"] == code
 
@@ -237,12 +241,12 @@ class TestMvpApi(TestCase):
         session2 = self._start_session()
         self._view(session1, "a1")
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session1, "email": "u2@example.com"},
             format="json",
         )
         self.client.post(
-            "/user/email/",
+            "/api/user/email/",
             {"session_id": session2, "email": "u2@example.com"},
             format="json",
         )
@@ -251,7 +255,7 @@ class TestMvpApi(TestCase):
         assert user.total_score == 10
 
     def test_stats_empty(self):
-        r = self.client.get("/stats/")
+        r = self.client.get("/api/stats/")
         assert r.status_code == 200
         assert r.data["views_today"] == 0
         assert r.data["views_all_time"] == 0
@@ -265,7 +269,7 @@ class TestMvpApi(TestCase):
         self._view(s2, "a2")
         s3 = self._start_session()
         self._view(s3, "a2")
-        r = self.client.get("/stats/")
+        r = self.client.get("/api/stats/")
         assert r.status_code == 200
         assert r.data["views_today"] == 4
         assert r.data["views_all_time"] == 4
@@ -282,7 +286,7 @@ class TestMvpApi(TestCase):
             timestamp=yesterday,
         )
         self._view(s, "a1")
-        r = self.client.get("/stats/")
+        r = self.client.get("/api/stats/")
         assert r.status_code == 200
         assert r.data["views_today"] == 1
         assert r.data["views_all_time"] == 2
