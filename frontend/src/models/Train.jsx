@@ -39,9 +39,6 @@ export const Model = forwardRef((props, ref) => {
     const actionList = Object.values(actions)
     if (!actionList.length) return
     actionList.forEach(action => action.reset().play())
-    return () => {
-      actionList.forEach(action => action.stop())
-    }
   }, [actions])
 
   const trainBodyNode = nodes['Train-Mat.2'] ?? nodes['Train-Mat2'] ?? nodes['Train_Mat.2'] ?? nodes['Train_Mat2']

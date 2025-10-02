@@ -19,7 +19,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
    * @brief Переключает язык интерфейса между EN и RU.
    * @returns {void}
    */
-  const toggleLang = () => setLang(lang === 'en' ? 'ru' : 'en');
+  const toggleLang = () => setLang(lang === 'en' ? 'ru' : 'ru');
 
   const translations = {
     en: {

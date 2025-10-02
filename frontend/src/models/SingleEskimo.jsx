@@ -28,11 +28,6 @@ export const Model = forwardRef((props, ref) => {
     actionList.forEach(action => {
       action.reset().play()
     })
-    return () => {
-      actionList.forEach(action => {
-        action.stop()
-      })
-    }
   }, [actions])
 
   return (

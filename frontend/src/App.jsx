@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react"
 import * as THREE from "three"
 import ApriltagPipeline from "./apriltagPipeline"
 import { Canvas } from '@react-three/fiber'
-import { Model as TrainModel } from './models/Train'
+import { Model as TrainModel } from './models/CombinedModel'
 import { SkeletonUtils } from 'three-stdlib'
 import { useGLTF } from '@react-three/drei'
 import { averageQuaternion, bestFitPointFromRays, toVector3, clampQuaternion, softenSmallAngleQuaternion } from './lib/anchorMath'
