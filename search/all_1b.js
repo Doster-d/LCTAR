@@ -21,6 +21,5 @@ var searchData=
   ['returnquaternion_18',['returnQuaternion',['../classCoordinateTransformer.html#a9f2a156d3e2f3d40960012b0671a6cae',1,'CoordinateTransformer']]],
   ['returnvector3_19',['returnVector3',['../classCoordinateTransformer.html#a3d0ef2cd653219925753f946b3ca6de7',1,'CoordinateTransformer']]],
   ['root_20',['root',['../index_8jsx.html#a7f9af059d5709ec492c54f245cb1da99',1,'index.jsx']]],
-  ['root_5furlconf_21',['ROOT_URLCONF',['../namespacearb_1_1settings.html#a449040969e1a91a0ebe1bb57f0fe4bb4',1,'arb::settings']]],
-  ['run_22',['run',['../namespacearb_1_1tests.html#a4829cd6c8433a8c7206435f08666615d',1,'arb::tests']]]
+  ['root_5furlconf_21',['ROOT_URLCONF',['../namespacearb_1_1settings.html#a449040969e1a91a0ebe1bb57f0fe4bb4',1,'arb::settings']]]
 ];

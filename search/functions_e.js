@@ -12,9 +12,10 @@ var searchData=
   ['setprojectionfromintrinsics_9',['setProjectionFromIntrinsics',['../SceneComponent_8jsx.html#a43eaf01af45ef0596e19a160fdaed33f',1,'SceneComponent.jsx']]],
   ['setstatus_10',['setStatus',['../classVideoRecording.html#ad18781677c4514b6dc000c8398d931ad',1,'VideoRecording']]],
   ['settime_11',['setTime',['../classVideoCanvasManager.html#adaa235bc388ba27dc49c44a3e7399a57',1,'VideoCanvasManager']]],
-  ['softenangle_12',['softenAngle',['../anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46',1,'anchorMath.js']]],
-  ['softensmallanglequaternion_13',['softenSmallAngleQuaternion',['../anchorMath_8js.html#a28decfe80be356ebb9782ad629b4fcc2',1,'anchorMath.js']]],
-  ['startperiodicreanchor_14',['startPeriodicReanchor',['../classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f',1,'CoordinateTransformer']]],
-  ['stats_15',['stats',['../namespacearb_1_1views.html#a93773621fe9a5a1d8efa020d57926a97',1,'arb::views']]],
-  ['stopperiodicreanchor_16',['stopPeriodicReanchor',['../classCoordinateTransformer.html#a383a503daf5c12f893044842ec55c052',1,'CoordinateTransformer']]]
+  ['setup_12',['setUp',['../classarb_1_1tests_1_1TestMvpApi.html#ae2a0272da991602e74b193bc8d77d4fb',1,'arb::tests::TestMvpApi']]],
+  ['softenangle_13',['softenAngle',['../anchorMath_8js.html#a550a1fa2856f9ba44124d2b83732ea46',1,'anchorMath.js']]],
+  ['softensmallanglequaternion_14',['softenSmallAngleQuaternion',['../anchorMath_8js.html#a28decfe80be356ebb9782ad629b4fcc2',1,'anchorMath.js']]],
+  ['startperiodicreanchor_15',['startPeriodicReanchor',['../classCoordinateTransformer.html#ae8eeab7ad49807e89d9dd9841cc7d02f',1,'CoordinateTransformer']]],
+  ['stats_16',['stats',['../namespacearb_1_1views.html#a93773621fe9a5a1d8efa020d57926a97',1,'arb::views']]],
+  ['stopperiodicreanchor_17',['stopPeriodicReanchor',['../classCoordinateTransformer.html#a383a503daf5c12f893044842ec55c052',1,'CoordinateTransformer']]]
 ];

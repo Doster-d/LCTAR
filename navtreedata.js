@@ -39,7 +39,7 @@ var NAVTREE =
       [ "Алфавитный указатель классов", "classes.html", null ],
       [ "Иерархия классов", "hierarchy.html", "hierarchy" ],
       [ "Члены классов", "functions.html", [
-        [ "Указатель", "functions.html", null ],
+        [ "Указатель", "functions.html", "functions_dup" ],
         [ "Функции", "functions_func.html", null ],
         [ "Переменные", "functions_vars.html", null ]
       ] ]
@@ -60,7 +60,7 @@ var NAVTREEINDEX =
 "0001__initial_8py.html",
 "classFrameAccurateVideoRecording.html",
 "classarb_1_1models_1_1ViewEvent.html#ac87668c2f32733ceaa1ada778cd2ea44",
-"r3f-video-recorder_8jsx.html#ac1c4d7ecc36af2f86bf4a012b07b3386"
+"namespacearb_1_1views.html#a5e599b8ed90c3b72ba2ed946841f2675"
 ];
 
 var SYNCONMSG = 'нажмите на выключить для синхронизации панелей';

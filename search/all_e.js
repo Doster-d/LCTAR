@@ -14,9 +14,6 @@ var searchData=
   ['django_20admin_20panel_11',['Django Admin Panel',['../backend.html#autotoc_md96',1,'']]],
   ['django_20api_20интеграция_12',['Django API интеграция',['../frontend.html#autotoc_md34',1,'']]],
   ['django_20rest_20api_13',['django rest api',['../backend.html',1,'Документация по бэкенду (Django REST API)'],['../index.html#autotoc_md110',1,'Backend (Django REST API)']]],
-  ['django_5fdb_5fengine_14',['DJANGO_DB_ENGINE',['../namespacearb_1_1tests.html#aab01bcc25084d75c8ee4b75c0eb0cc1e',1,'arb::tests']]],
-  ['django_5fdb_5fname_15',['DJANGO_DB_NAME',['../namespacearb_1_1tests.html#a276209f607bff383c5f15c7bea3c283c',1,'arb::tests']]],
-  ['django_5fsettings_5fmodule_16',['DJANGO_SETTINGS_MODULE',['../namespacearb_1_1tests.html#ae99561e341e8b9dca6111ab0872ac878',1,'arb::tests']]],
-  ['docker_17',['Продакшн сборка с Docker',['../backend.html#autotoc_md93',1,'']]],
-  ['docker_20compose_20рекомендуется_18',['docker compose рекомендуется',['../backend.html#autotoc_md65',1,'Через Docker Compose (рекомендуется)'],['../index.html#autotoc_md106',1,'Через Docker Compose (рекомендуется)']]]
+  ['docker_14',['Продакшн сборка с Docker',['../backend.html#autotoc_md93',1,'']]],
+  ['docker_20compose_20рекомендуется_15',['docker compose рекомендуется',['../backend.html#autotoc_md65',1,'Через Docker Compose (рекомендуется)'],['../index.html#autotoc_md106',1,'Через Docker Compose (рекомендуется)']]]
 ];

@@ -26,6 +26,9 @@ var annotated_dup =
         [ "SessionItemProgress", "classarb_1_1models_1_1SessionItemProgress.html", "classarb_1_1models_1_1SessionItemProgress" ],
         [ "User", "classarb_1_1models_1_1User.html", "classarb_1_1models_1_1User" ],
         [ "ViewEvent", "classarb_1_1models_1_1ViewEvent.html", "classarb_1_1models_1_1ViewEvent" ]
+      ] ],
+      [ "tests", "namespacearb_1_1tests.html", [
+        [ "TestMvpApi", "classarb_1_1tests_1_1TestMvpApi.html", "classarb_1_1tests_1_1TestMvpApi" ]
       ] ]
     ] ],
     [ "ApriltagPipeline", "classApriltagPipeline.html", "classApriltagPipeline" ],

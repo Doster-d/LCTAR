@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['name_0',['name',['../classarb_1_1models_1_1Asset.html#a4408438fc3c48d7b56c8cee19ef4b28e',1,'arb.models.Asset.name'],['../namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c',1,'arb.tests.name']]],
-  ['namespace_1',['namespace',['../namespacearb_1_1celery.html#aec0133b8cb9871c0fe86f655390f8469',1,'arb::celery']]],
-  ['normalizebaseurl_2',['normalizeBaseUrl',['../api_8js.html#a96dd5eb13dfed2c25bee534ad53dc2ce',1,'api.js']]]
+  ['operations_0',['operations',['../classarb_1_1migrations_1_10001__initial_1_1Migration.html#afabba2c30d185abefeb831d82e61a1c5',1,'arb.migrations.0001_initial.Migration.operations'],['../classarb_1_1migrations_1_10002__delete__emailverificationtoken_1_1Migration.html#a896e9596f72c8724128836d920525ed3',1,'arb.migrations.0002_delete_emailverificationtoken.Migration.operations']]]
 ];

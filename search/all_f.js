@@ -9,12 +9,11 @@ var searchData=
   ['email_5fuse_5fssl_6',['EMAIL_USE_SSL',['../namespacearb_1_1settings.html#aa6e3faf065da3bbc76155ae76995e54e',1,'arb::settings']]],
   ['email_5fuse_5ftls_7',['EMAIL_USE_TLS',['../namespacearb_1_1settings.html#a72e455d45149df2a27777c64f525240d',1,'arb::settings']]],
   ['endpoints_8',['endpoints',['../backend.html#autotoc_md72',1,'API Endpoints'],['../index.html#autotoc_md119',1,'API Endpoints']]],
-  ['env_9',['env',['../namespacearb_1_1tests.html#a13caf026358e9d5e21a42c68ef3a5864',1,'arb::tests']]],
-  ['epsilon_10',['EPSILON',['../r3f-video-recorder_8jsx.html#a5593e0e1975e8ecac4f4b64ffe42d984',1,'r3f-video-recorder.jsx']]],
-  ['evaluatemultitagquality_11',['evaluateMultiTagQuality',['../classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd',1,'ApriltagPipeline']]],
-  ['even_12',['even',['../r3f-video-recorder_8jsx.html#a49d070d6bdd30e880534ff95fb759723',1,'r3f-video-recorder.jsx']]],
-  ['event_5ftype_13',['event_type',['../classarb_1_1models_1_1ViewEvent.html#a3f7b247d0f3fec7e5c4bfcfd00f535c7',1,'arb::models::ViewEvent']]],
-  ['executereanchor_14',['executeReanchor',['../classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3',1,'CoordinateTransformer']]],
-  ['extra_15',['extra',['../classarb_1_1admin_1_1ViewEventInline.html#a9a2a98ccdd72a47f5d4fe59c80416e64',1,'arb.admin.ViewEventInline.extra'],['../classarb_1_1admin_1_1SessionItemProgressInline.html#afc1364e06ed5a344c66691b390bce8ef',1,'arb.admin.SessionItemProgressInline.extra']]],
-  ['extractcameraposefromtransforms_16',['extractCameraPoseFromTransforms',['../classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3',1,'ApriltagPipeline']]]
+  ['epsilon_9',['EPSILON',['../r3f-video-recorder_8jsx.html#a5593e0e1975e8ecac4f4b64ffe42d984',1,'r3f-video-recorder.jsx']]],
+  ['evaluatemultitagquality_10',['evaluateMultiTagQuality',['../classApriltagPipeline.html#aa8cc0c00ef99ce6c8261838bb8969efd',1,'ApriltagPipeline']]],
+  ['even_11',['even',['../r3f-video-recorder_8jsx.html#a49d070d6bdd30e880534ff95fb759723',1,'r3f-video-recorder.jsx']]],
+  ['event_5ftype_12',['event_type',['../classarb_1_1models_1_1ViewEvent.html#a3f7b247d0f3fec7e5c4bfcfd00f535c7',1,'arb::models::ViewEvent']]],
+  ['executereanchor_13',['executeReanchor',['../classCoordinateTransformer.html#a48094c044806723116d158cb3fa087f3',1,'CoordinateTransformer']]],
+  ['extra_14',['extra',['../classarb_1_1admin_1_1ViewEventInline.html#a9a2a98ccdd72a47f5d4fe59c80416e64',1,'arb.admin.ViewEventInline.extra'],['../classarb_1_1admin_1_1SessionItemProgressInline.html#afc1364e06ed5a344c66691b390bce8ef',1,'arb.admin.SessionItemProgressInline.extra']]],
+  ['extractcameraposefromtransforms_15',['extractCameraPoseFromTransforms',['../classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3',1,'ApriltagPipeline']]]
 ];

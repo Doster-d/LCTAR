@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('SingleEskimo_8jsx_source.html',''); in
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  useEffect(() =&gt; {</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">if</span> (!actions) <span class="keywordflow">return</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">const</span> actionList = Object.values(actions)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_variable" href="namespacearb_1_1tests.html#aabb87dbe99c92785bae9929e41028b63">if</a> (!actionList.length) <span class="keywordflow">return</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    if (!actionList.length) <span class="keywordflow">return</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    actionList.forEach(action =&gt; {</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      action.reset().play()</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    })</div>
@@ -141,7 +141,6 @@ $(document).ready(function(){initNavTree('SingleEskimo_8jsx_source.html',''); in
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>})</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>useGLTF.preload(<span class="stringliteral">&#39;./models/singleEskimo-transformed.glb&#39;</span>)</div>
-<div class="ttc" id="anamespacearb_1_1tests_html_aabb87dbe99c92785bae9929e41028b63"><div class="ttname"><a href="namespacearb_1_1tests.html#aabb87dbe99c92785bae9929e41028b63">arb.tests.if</a></div><div class="ttdeci">hashFiles if</div><div class="ttdef"><b>Definition</b> <a href="tests_8py_source.html#l00027">tests.py:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

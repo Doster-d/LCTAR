@@ -19,12 +19,11 @@ var searchData=
   ['user_20пользователь_16',['User (Пользователь)',['../backend.html#autotoc_md79',1,'']]],
   ['user_5femail_17',['user_email',['../namespacearb_1_1views.html#a5e599b8ed90c3b72ba2ed946841f2675',1,'arb::views']]],
   ['useradmin_18',['UserAdmin',['../classarb_1_1admin_1_1UserAdmin.html',1,'arb::admin']]],
-  ['uses_19',['uses',['../namespacearb_1_1tests.html#adee1a1b8f62775423424ddc1a3549b2d',1,'arb::tests']]],
-  ['usesendviewevent_20',['useSendViewEvent',['../hooks_8js.html#acb4d68f4eff095b4309a50bb33ad6199',1,'hooks.js']]],
-  ['usesessionprogress_21',['useSessionProgress',['../hooks_8js.html#a4df8c447d56d2cf7798b52ce565037a0',1,'hooks.js']]],
-  ['usestartsession_22',['useStartSession',['../hooks_8js.html#a3792102132f46457a52ac8b2ec4e30f5',1,'hooks.js']]],
-  ['usestats_23',['useStats',['../hooks_8js.html#a35c4359639a356625fa1633dce74b80c',1,'hooks.js']]],
-  ['usesubmitemail_24',['useSubmitEmail',['../hooks_8js.html#a10be77b854951e36bdd15f028033652d',1,'hooks.js']]],
-  ['usevideocanvas_25',['useVideoCanvas',['../r3f-video-recorder_8jsx.html#a891d6cc51427c536641dd3030412c969',1,'r3f-video-recorder.jsx']]],
-  ['ux_26',['8. Процессы и UX',['../plan.html#autotoc_md134',1,'']]]
+  ['usesendviewevent_19',['useSendViewEvent',['../hooks_8js.html#acb4d68f4eff095b4309a50bb33ad6199',1,'hooks.js']]],
+  ['usesessionprogress_20',['useSessionProgress',['../hooks_8js.html#a4df8c447d56d2cf7798b52ce565037a0',1,'hooks.js']]],
+  ['usestartsession_21',['useStartSession',['../hooks_8js.html#a3792102132f46457a52ac8b2ec4e30f5',1,'hooks.js']]],
+  ['usestats_22',['useStats',['../hooks_8js.html#a35c4359639a356625fa1633dce74b80c',1,'hooks.js']]],
+  ['usesubmitemail_23',['useSubmitEmail',['../hooks_8js.html#a10be77b854951e36bdd15f028033652d',1,'hooks.js']]],
+  ['usevideocanvas_24',['useVideoCanvas',['../r3f-video-recorder_8jsx.html#a891d6cc51427c536641dd3030412c969',1,'r3f-video-recorder.jsx']]],
+  ['ux_25',['8. Процессы и UX',['../plan.html#autotoc_md134',1,'']]]
 ];
