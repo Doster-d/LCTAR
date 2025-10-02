@@ -98,7 +98,7 @@ const LandingPageTemplate = ({ onSwitchToApp, onOpenEditor }) => {
         description: "Клиентоориентированность строится на искреннем желании сделать вас счастливыми и мурчащими от удовольствия"
       },
       cta: {
-        buttonText: "Вернуться к AR",
+        buttonText: "Вперед к AR",
         editorButtonText: "Редактор макета AprilTag"
       }
     }
