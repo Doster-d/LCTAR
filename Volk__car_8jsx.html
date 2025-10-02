@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>LCTAR Full-Stack: Файл frontend/src/models/Volk_car.jsx</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+  $(document).ready(function() { init_search(); });
+/* @license-end */
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="k1-logo.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">LCTAR Full-Stack<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Документация полного стека (Django Backend + React Frontend)</div>
+  </td>
+    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect"                onmouseover="return searchBox.OnSearchSelectShow()"                onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+          <input type="text" id="MSearchField" value="" placeholder="Поиск" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.svg" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Volk__car_8jsx.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Файл Volk_car.jsx</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>import React;</code><br />
+<code>import &lt;group ref={group} {...props} dispose={null}&gt;;</code><br />
+<code>import &lt;group&gt;;</code><br />
+<code>import &lt;group name=&quot;Null&quot;&gt;;</code><br />
+<code>import &lt;group name=&quot;scene&quot;&gt;;</code><br />
+<code>import &lt;group name=&quot;Meshes&quot; scale={0.614}&gt;;</code><br />
+<code>import &lt;group name=&quot;Sketchfab_model&quot; position={[-0.022, 0.072, 0.101]} rotation={[-Math.PI / 2, 0, 0]}&gt;;</code><br />
+<code>import &lt;group name=&quot;_7c5e2f5638e4de89509ce1edababfd1_fbx&quot; rotation={[Math.PI / 2, 0, 0]}&gt;;</code><br />
+<code>import &lt;group name=&quot;RootNode&quot; position={[0, -0.058, 0]}&gt;;</code><br />
+<code>import &lt;group name=&quot;Exhaust_pipe&quot; position={[2.434, 0.279, 0.979]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Exhaust_pipe_Exhaust_pipe_0&quot; position={[0, 0, 0.011]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Exhaust_pipe_Exhaust_pipe_0_1&quot; geometry={nodes.Exhaust_pipe_Exhaust_pipe_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;/group&gt;;</code><br />
+<code>import &lt;group name=&quot;Exhaust_pipe_Exhaust_pipe_2_0&quot; position={[0, 0, 0.011]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Exhaust_pipe_Exhaust_pipe_2_0_1&quot; geometry={nodes.Exhaust_pipe_Exhaust_pipe_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Awn&quot; position={[1.071, 1.325, -0.018]}&gt;;</code><br />
+<code>import &lt;group name=&quot;Awning&quot; position={[-0.205, 0.178, 0.035]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Awning_Awning_0&quot; position={[0.003, 0.012, 0.005]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Awning_Awning_0_1&quot; geometry={nodes.Awning_Awning_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Awning_support&quot; position={[-1.71, 2.12, 0.599]} rotation={[0, -0.388, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Awning_support_Handles_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Awning_support_Handles_0_1&quot; geometry={nodes.Awning_support_Handles_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels&quot; position={[1.548, 0.585, -0.427]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_Bumper_0&quot; position={[0, 0, -0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_Bumper_0_1&quot; geometry={nodes.Back_wheels_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_Bumper_2_0&quot; position={[0, 0, -0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_Bumper_2_0_1&quot; geometry={nodes.Back_wheels_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_Tire_0&quot; position={[0, 0, -0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_Tire_0_1&quot; geometry={nodes.Back_wheels_Tire_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_1&quot; position={[-1.768, 0.4, 0.477]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_1_Tire_0&quot; position={[0, 0, 0.005]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_1_Tire_0_1&quot; geometry={nodes.Front_wheel_1_Tire_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_1_Tire_2_0&quot; position={[0, 0, 0.005]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_1_Tire_2_0_1&quot; geometry={nodes.Front_wheel_1_Tire_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_1_Bumper_2_0&quot; position={[0, 0, 0.005]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_1_Bumper_2_0_1&quot; geometry={nodes.Front_wheel_1_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} position={[0, 0, -0.002]} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_2&quot; position={[-1.768, 0.413, -0.672]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_2_Bumper_0&quot; position={[0, 0, -0.004]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_2_Bumper_0_1&quot; geometry={nodes.Front_wheel_2_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_2_Bumper_2_0&quot; position={[0, 0, -0.004]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_2_Bumper_2_0_1&quot; geometry={nodes.Front_wheel_2_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_wheel_2_Tire_0&quot; position={[0, 0, -0.004]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_wheel_2_Tire_0_1&quot; geometry={nodes.Front_wheel_2_Tire_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_001&quot; position={[1.548, 0.579, 0.39]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_001_Bumper_0&quot; position={[0, 0, 0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_001_Bumper_0_1&quot; geometry={nodes.Back_wheels_001_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_001_Bumper_2_0&quot; position={[0, 0, 0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_001_Bumper_2_0_1&quot; geometry={nodes.Back_wheels_001_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_wheels_001_Tire_0&quot; position={[0, 0, 0.006]}&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_wheels_001_Tire_0_1&quot; geometry={nodes.Back_wheels_001_Tire_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Bottom&quot; position={[0, 0.453, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Bottom_Bottom_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Bottom_Bottom_0_1&quot; geometry={nodes.Bottom_Bottom_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Radiator_grille&quot; position={[-1.464, 1.575, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Radiator_grille_Radiator_grille_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Radiator_grille_Radiator_grille_0_1&quot; geometry={nodes.Radiator_grille_Radiator_grille_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_bumper&quot; position={[-2.593, 0.486, 0.733]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_bumper_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_bumper_Bumper_0_1&quot; geometry={nodes.Front_bumper_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_bumper_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_bumper_Bumper_2_0_1&quot; geometry={nodes.Front_bumper_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Hood&quot; position={[-1.801, 1.262, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Hood_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Hood_Bumper_0_1&quot; geometry={nodes.Hood_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Hood_Body_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Hood_Body_0_1&quot; geometry={nodes.Hood_Body_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Hood_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Hood_Bumper_2_0_1&quot; geometry={nodes.Hood_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Handles&quot; position={[0.268, 1.339, 0.818]} rotation={[0, -0.035, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Handles_Handles_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Handles_Handles_0_1&quot; geometry={nodes.Handles_Handles_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Seats&quot; position={[0.404, 1.301, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Seats_Seats_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Seats_Seats_0_1&quot; geometry={nodes.Seats_Seats_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Seats_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Seats_Bumper_2_0_1&quot; geometry={nodes.Seats_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Body&quot; position={[2.653, 0.761, 0]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={87.803}&gt;;</code><br />
+<code>import &lt;group name=&quot;Body_Body_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Body_Body_0_1&quot; geometry={nodes.Body_Body_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Trunk&quot; position={[2.7, 0.752, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Trunk_Trunk_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Trunk_Trunk_0_1&quot; geometry={nodes.Trunk_Trunk_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_bumper&quot; position={[2.714, 0.517, 0.747]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_bumper_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_bumper_Bumper_0_1&quot; geometry={nodes.Back_bumper_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Back_bumper_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Back_bumper_Bumper_2_0_1&quot; geometry={nodes.Back_bumper_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Panel&quot; position={[-1.801, 1.262, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Panel_Panel_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Panel_Panel_0_1&quot; geometry={nodes.Panel_Panel_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Steering&quot; position={[-0.798, 1.232, 0.362]} rotation={[-Math.PI / 2, -0.552, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Steering_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Steering_Bumper_2_0_1&quot; geometry={nodes.Steering_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Steering_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Steering_Bumper_0_1&quot; geometry={nodes.Steering_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Steering_Radiator_grille_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Steering_Radiator_grille_0_1&quot; geometry={nodes.Steering_Radiator_grille_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Pedals&quot; position={[-0.587, 0.663, 0.542]} rotation={[-Math.PI / 2, -0.294, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Pedals_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Pedals_Bumper_2_0_1&quot; geometry={nodes.Pedals_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Pedals_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Pedals_Bumper_0_1&quot; geometry={nodes.Pedals_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Levers&quot; position={[-0.491, 0.539, 0.421]} rotation={[-Math.PI / 2, 0.195, 0]} scale={26.495}&gt;;</code><br />
+<code>import &lt;group name=&quot;Levers_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Levers_Bumper_0_1&quot; geometry={nodes.Levers_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Levers_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Levers_Bumper_2_0_1&quot; geometry={nodes.Levers_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Rivets&quot; position={[2.783, 1.149, 0.498]} rotation={[0, 0.244, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Rivets_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Rivets_Bumper_0_1&quot; geometry={nodes.Rivets_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Ignition&quot; position={[-2.672, 0.492, 0.203]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Ignition_Bottom_0_2&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Ignition_Bottom_0&quot; geometry={nodes.Ignition_Bottom_0.geometry} material={materials.PaletteMaterial001} rotation={[0, 0, -0.023]} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Antennas__1&quot; position={[-2.484, 1.423, 0.371]} rotation={[-Math.PI / 2, 0, 0]} scale={[1.497, 1.497, 45.959]}&gt;;</code><br />
+<code>import &lt;group name=&quot;Antennas__1_Antennas_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Antennas__1_Antennas_0_1&quot; geometry={nodes.Antennas__1_Antennas_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Emblem&quot; position={[-2.476, 1.563, 0]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={54.912}&gt;;</code><br />
+<code>import &lt;group name=&quot;Emblem_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Emblem_Bumper_2_0_1&quot; geometry={nodes.Emblem_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_frame&quot; position={[-0.866, 1.732, 0.675]} rotation={[-Math.PI / 2, 0.265, 0]} scale={[1.497, 1.497, 45.959]}&gt;;</code><br />
+<code>import &lt;group name=&quot;Front_frame_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Front_frame_Bumper_0_1&quot; geometry={nodes.Front_frame_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Headlight&quot; position={[-2.622, 1.484, -0.692]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={100}&gt;;</code><br />
+<code>import &lt;group name=&quot;Headlight_Bumper_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Headlight_Bumper_0_1&quot; geometry={nodes.Headlight_Bumper_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Headlight_Bumper_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Headlight_Bumper_2_0_1&quot; geometry={nodes.Headlight_Bumper_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Headlight_support&quot; position={[-2.483, 0.662, -0.692]} rotation={[-Math.PI / 2, 0, 0]} scale={[132.157, 132.157, 302.631]}&gt;;</code><br />
+<code>import &lt;group name=&quot;Headlight_support_Bottom_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Headlight_support_Bottom_0_1&quot; geometry={nodes.Headlight_support_Bottom_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Lamp&quot; position={[-2.65, 1.484, -0.692]} rotation={[-Math.PI / 2, Math.PI / 2, 0]} scale={132.157}&gt;;</code><br />
+<code>import &lt;group name=&quot;Lamp_Lamp_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Lamp_Lamp_0_1&quot; geometry={nodes.Lamp_Lamp_0_1.geometry} material={materials.PaletteMaterial002} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Ram&quot; position={[-2.572, 0.978, 0]} rotation={[-Math.PI / 2, 1.571, 0]} scale={77.915}&gt;;</code><br />
+<code>import &lt;group name=&quot;Ram_Ram_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Ram_Ram_0_1&quot; geometry={nodes.Ram_Ram_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_1&quot; position={[-0.991, 1.561, 0.363]} rotation={[2.099, 1.334, 1.908]} scale={9.793}&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_1_Hair_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Brush_1_Hair_0_1&quot; geometry={nodes.Brush_1_Hair_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_1_Brush_1_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Brush_1_Brush_1_0_1&quot; geometry={nodes.Brush_1_Brush_1_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_2&quot; position={[-0.992, 1.571, -0.325]} rotation={[1.028, 1.308, 2.67]} scale={9.412}&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_2_Hair_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Brush_2_Hair_0_1&quot; geometry={nodes.Brush_2_Hair_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+<code>import &lt;group name=&quot;Brush_2_Brush_2_0&quot;&gt;;</code><br />
+<code>import &lt;mesh name=&quot;Brush_2_Brush_2_0_1&quot; geometry={nodes.Brush_2_Brush_2_0_1.geometry} material={materials.PaletteMaterial001} /&gt;;</code><br />
+</div>
+<p><a href="Volk__car_8jsx_source.html">См. исходные тексты.</a></p>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_ca0386ec887ae6362f93b0d653b52e0c.html">frontend</a></li><li class="navelem"><a class="el" href="dir_debbd63f1d8db984f7ce6be7690dc411.html">src</a></li><li class="navelem"><a class="el" href="dir_a5ba150872adbd589846e56175a33386.html">models</a></li><li class="navelem"><a class="el" href="Volk__car_8jsx.html">Volk_car.jsx</a></li>
+    <li class="footer">Создано системой <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

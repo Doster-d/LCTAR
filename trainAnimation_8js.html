@@ -97,112 +97,11 @@ $(document).ready(function(){initNavTree('trainAnimation_8js.html',''); initResi
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Функции</a>  </div>
   <div class="headertitle"><div class="title">Файл trainAnimation.js</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p><a href="trainAnimation_8js_source.html">См. исходные тексты.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Функции</h2></td></tr>
-<tr class="memitem:ae8d6f060c5814c720c2d7501596bbae1" id="r_ae8d6f060c5814c720c2d7501596bbae1"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="trainAnimation_8js.html#ae8d6f060c5814c720c2d7501596bbae1">updateTrainAnimation</a> (train, deltaTime)</td></tr>
-<tr class="memdesc:ae8d6f060c5814c720c2d7501596bbae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Система анимации для Train модели в AR сцене через Three.js RAF.  <br /></td></tr>
-<tr class="separator:ae8d6f060c5814c720c2d7501596bbae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebbad011f1735b470ef879e06169921c" id="r_aebbad011f1735b470ef879e06169921c"><td class="memItemLeft" align="right" valign="top">function export&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="trainAnimation_8js.html#aebbad011f1735b470ef879e06169921c">startTrainAnimation</a> (trainRef)</td></tr>
-<tr class="memdesc:aebbad011f1735b470ef879e06169921c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Запускает цикл анимации для поезда  <br /></td></tr>
-<tr class="separator:aebbad011f1735b470ef879e06169921c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Функции</h2>
-<a id="aebbad011f1735b470ef879e06169921c" name="aebbad011f1735b470ef879e06169921c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebbad011f1735b470ef879e06169921c">&#9670;&#160;</a></span>startTrainAnimation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function export startTrainAnimation </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>trainRef</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Запускает цикл анимации для поезда </p>
-<dl class="params"><dt>Аргументы</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">trainRef</td><td>Ref к экземпляру поезда </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Возвращает</dt><dd>{function} Функция для остановки анимации </dd></dl>
-
-<p class="definition">См. определение в файле <a class="el" href="trainAnimation_8js_source.html">trainAnimation.js</a> строка <a class="el" href="trainAnimation_8js_source.html#l00071">71</a></p>
-<div class="dynheader">
-Граф вызовов:</div>
-<div class="dyncontent">
-<div class="center"><img src="trainAnimation_8js_aebbad011f1735b470ef879e06169921c_cgraph.png" border="0" usemap="#atrainAnimation_8js_aebbad011f1735b470ef879e06169921c_cgraph" alt=""/></div>
-<map name="atrainAnimation_8js_aebbad011f1735b470ef879e06169921c_cgraph" id="atrainAnimation_8js_aebbad011f1735b470ef879e06169921c_cgraph">
-<area shape="rect" title="Запускает цикл анимации для поезда" alt="" coords="5,5,156,31"/>
-<area shape="rect" href="trainAnimation_8js.html#ae8d6f060c5814c720c2d7501596bbae1" title="Система анимации для Train модели в AR сцене через Three.js RAF." alt="" coords="204,5,369,31"/>
-<area shape="poly" title=" " alt="" coords="157,15,190,15,190,21,157,21"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ae8d6f060c5814c720c2d7501596bbae1" name="ae8d6f060c5814c720c2d7501596bbae1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8d6f060c5814c720c2d7501596bbae1">&#9670;&#160;</a></span>updateTrainAnimation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">function export updateTrainAnimation </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>train</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>deltaTime</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Система анимации для Train модели в AR сцене через Three.js RAF. </p>
-<p>Обновляет анимацию Train модели через requestAnimationFrame. </p><dl class="params"><dt>Аргументы</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">train</td><td>Экземпляр поезда для анимации. </td></tr>
-    <tr><td class="paramname">deltaTime</td><td>Время с последнего кадра в секундах. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">См. определение в файле <a class="el" href="trainAnimation_8js_source.html">trainAnimation.js</a> строка <a class="el" href="trainAnimation_8js_source.html#l00010">10</a></p>
-<div class="dynheader">
-Граф вызова функции:</div>
-<div class="dyncontent">
-<div class="center"><img src="trainAnimation_8js_ae8d6f060c5814c720c2d7501596bbae1_icgraph.png" border="0" usemap="#atrainAnimation_8js_ae8d6f060c5814c720c2d7501596bbae1_icgraph" alt=""/></div>
-<map name="atrainAnimation_8js_ae8d6f060c5814c720c2d7501596bbae1_icgraph" id="atrainAnimation_8js_ae8d6f060c5814c720c2d7501596bbae1_icgraph">
-<area shape="rect" title="Система анимации для Train модели в AR сцене через Three.js RAF." alt="" coords="204,5,369,31"/>
-<area shape="rect" href="trainAnimation_8js.html#aebbad011f1735b470ef879e06169921c" title="Запускает цикл анимации для поезда" alt="" coords="5,5,156,31"/>
-<area shape="poly" title=" " alt="" coords="190,21,156,21,156,15,190,15"/>
-</map>
-</div>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

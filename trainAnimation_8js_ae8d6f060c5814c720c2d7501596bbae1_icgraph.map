@@ -1,5 +1,0 @@
-<map id="updateTrainAnimation" name="updateTrainAnimation">
-<area shape="rect" id="Node000001" title="Система анимации для Train модели в AR сцене через Three.js RAF." alt="" coords="204,5,369,31"/>
-<area shape="rect" id="Node000002" href="$trainAnimation_8js.html#aebbad011f1735b470ef879e06169921c" title="Запускает цикл анимации для поезда" alt="" coords="5,5,156,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,21,156,21,156,15,190,15"/>
-</map>

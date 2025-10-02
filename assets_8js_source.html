@@ -106,41 +106,47 @@ $(document).ready(function(){initNavTree('assets_8js_source.html',''); initResiz
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    0: { slug: <span class="stringliteral">&#39;cheburashka_company&#39;</span>, name: <span class="stringliteral">&#39;Чебурашка и компания&#39;</span> },</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>    1: { slug: <span class="stringliteral">&#39;cheburashka_company&#39;</span>, name: <span class="stringliteral">&#39;Чебурашка и компания&#39;</span> },</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    2: { slug: <span class="stringliteral">&#39;cheburashka_company&#39;</span>, name: <span class="stringliteral">&#39;Чебурашка и компания&#39;</span> },</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>  },</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>  volk: {},</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>};</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    3: { slug: <span class="stringliteral">&#39;cheburashka_company&#39;</span>, name: <span class="stringliteral">&#39;Чебурашка и компания&#39;</span> },</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    4: { slug: <span class="stringliteral">&#39;cheburashka_company&#39;</span>, name: <span class="stringliteral">&#39;Чебурашка и компания&#39;</span> }</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  },</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  volk: {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    5: { slug: <span class="stringliteral">&#39;volk&#39;</span>, name: <span class="stringliteral">&#39;Волк из ну погоди&#39;</span> },</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    6: { slug: <span class="stringliteral">&#39;volk&#39;</span>, name: <span class="stringliteral">&#39;Волк из ну погоди&#39;</span> },</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    7: { slug: <span class="stringliteral">&#39;volk&#39;</span>, name: <span class="stringliteral">&#39;Волк из ну погоди&#39;</span> }</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  },</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>};</div>
 </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">   10</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">ALL_ASSETS</a> = Object.entries(<a class="code hl_variable" href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a>).flatMap(([sceneId, sceneAssets]) =&gt;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  Object.entries(sceneAssets).map(([tagId, asset]) =&gt; ({</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    sceneId,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    tagId: Number(tagId),</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    ...asset,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  })),</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">   18</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a> = (sceneId, tagId) =&gt; {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <span class="keywordflow">if</span> (!sceneId &amp;&amp; sceneId !== 0) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <span class="keyword">const</span> sceneAssets = <a class="code hl_variable" href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a>[sceneId];</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <span class="keywordflow">if</span> (!sceneAssets) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="keywordflow">return</span> sceneAssets[tagId] || <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>};</div>
-</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">   25</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">getSceneAssets</a> = (sceneId) =&gt; {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">   16</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">ALL_ASSETS</a> = Object.entries(<a class="code hl_variable" href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a>).flatMap(([sceneId, sceneAssets]) =&gt;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  Object.entries(sceneAssets).map(([tagId, asset]) =&gt; ({</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    sceneId,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    tagId: Number(tagId),</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    ...asset,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  })),</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">   24</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a> = (sceneId, tagId) =&gt; {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="keywordflow">if</span> (!sceneId &amp;&amp; sceneId !== 0) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="keyword">const</span> sceneAssets = <a class="code hl_variable" href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a>[sceneId];</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordflow">if</span> (!sceneAssets) <span class="keywordflow">return</span> [];</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keywordflow">return</span> Object.entries(sceneAssets).map(([tagId, asset]) =&gt; ({</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    tagId: Number(tagId),</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    ...asset,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  }));</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>};</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordflow">if</span> (!sceneAssets) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keywordflow">return</span> sceneAssets[tagId] || <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
 </div>
-<div class="ttc" id="aassets_8js_html_a47e99633da2788fc3ff2d45f4aa58850"><div class="ttname"><a href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">ALL_ASSETS</a></div><div class="ttdeci">export const ALL_ASSETS</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00010">assets.js:10</a></div></div>
-<div class="ttc" id="aassets_8js_html_a971f10532c7dfde1b290cf83c25b1af0"><div class="ttname"><a href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a></div><div class="ttdeci">export const getAssetByDetection</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00018">assets.js:18</a></div></div>
-<div class="ttc" id="aassets_8js_html_ae2555d92f648c6d808569198e42c3f38"><div class="ttname"><a href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">getSceneAssets</a></div><div class="ttdeci">export const getSceneAssets</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00025">assets.js:25</a></div></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">   31</a></span>export <span class="keyword">const</span> <a class="code hl_variable" href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">getSceneAssets</a> = (sceneId) =&gt; {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keyword">const</span> sceneAssets = <a class="code hl_variable" href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a>[sceneId];</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keywordflow">if</span> (!sceneAssets) <span class="keywordflow">return</span> [];</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keywordflow">return</span> Object.entries(sceneAssets).map(([tagId, asset]) =&gt; ({</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    tagId: Number(tagId),</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    ...asset,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  }));</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>};</div>
+</div>
+<div class="ttc" id="aassets_8js_html_a47e99633da2788fc3ff2d45f4aa58850"><div class="ttname"><a href="assets_8js.html#a47e99633da2788fc3ff2d45f4aa58850">ALL_ASSETS</a></div><div class="ttdeci">export const ALL_ASSETS</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00016">assets.js:16</a></div></div>
+<div class="ttc" id="aassets_8js_html_a971f10532c7dfde1b290cf83c25b1af0"><div class="ttname"><a href="assets_8js.html#a971f10532c7dfde1b290cf83c25b1af0">getAssetByDetection</a></div><div class="ttdeci">export const getAssetByDetection</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00024">assets.js:24</a></div></div>
+<div class="ttc" id="aassets_8js_html_ae2555d92f648c6d808569198e42c3f38"><div class="ttname"><a href="assets_8js.html#ae2555d92f648c6d808569198e42c3f38">getSceneAssets</a></div><div class="ttdeci">export const getSceneAssets</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00031">assets.js:31</a></div></div>
 <div class="ttc" id="aassets_8js_html_aeba9f0c199c0ba4ab72e3dd151ff0baa"><div class="ttname"><a href="assets_8js.html#aeba9f0c199c0ba4ab72e3dd151ff0baa">ASSETS_BY_SCENE</a></div><div class="ttdeci">const ASSETS_BY_SCENE</div><div class="ttdef"><b>Definition</b> <a href="assets_8js_source.html#l00001">assets.js:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

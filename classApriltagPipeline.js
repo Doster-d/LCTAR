@@ -12,6 +12,7 @@ var classApriltagPipeline =
     [ "extractCameraPoseFromTransforms", "classApriltagPipeline.html#a5939011b9439d99e0130416236631ce3", null ],
     [ "getCameraInfo", "classApriltagPipeline.html#a4e859d94ed7a9721a72775d0ce24ac54", null ],
     [ "getCoordinateTransformerState", "classApriltagPipeline.html#a33ee1ae2da0ac822b5c0a5265b4570b3", null ],
+    [ "getOrientationCorrectionQuaternion", "classApriltagPipeline.html#a5db2cb9dd40c25f5743c1f754ccfa9da", null ],
     [ "getSceneConfig", "classApriltagPipeline.html#a5ea4288958a7d5f976c473277ed3c9e7", null ],
     [ "getTagConfig", "classApriltagPipeline.html#a52f3b422f293a7b9423d32f48d80257d", null ],
     [ "getTagSizeById", "classApriltagPipeline.html#af55562ac0ef004f601a5fb17323fa3c6", null ],
@@ -21,5 +22,6 @@ var classApriltagPipeline =
     [ "loadAprilTagScript", "classApriltagPipeline.html#aac610b6bd17b08a1e6354ef61d5fd601", null ],
     [ "resetCoordinateTransformer", "classApriltagPipeline.html#a610cfd0cdcfd6e3aca7f3fbf64ca2dee", null ],
     [ "set_camera_info", "classApriltagPipeline.html#ac1e94b5478fa7e791c500c3651115b67", null ],
-    [ "set_tag_size", "classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3", null ]
+    [ "set_tag_size", "classApriltagPipeline.html#af55bc7bb21846a70c136b86d48a567c3", null ],
+    [ "setDisplayOrientation", "classApriltagPipeline.html#a8d12afdc73326665835d87640b7c4ace", null ]
 ];
