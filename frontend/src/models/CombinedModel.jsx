@@ -81,11 +81,11 @@ export const Model = forwardRef((props, ref) => {
   }
 
   return (
-    <group ref={group} {...props} dispose={null} rotation={[0, Math.PI / 2, 0]}>
+    <group ref={group} {...props} dispose={null}>
       <group>
         <group name="Null">
           {/* Модель поезда */}
-          <group name="Train" position={[0, 0.26, 0]}>
+          <group name="Train" position={[0, 0.26, 0]} rotation={[0, Math.PI / 2, 0]}>
             {trainBodyNode && (
               <mesh
                 name={trainBodyNode.name ?? 'Train-Mat.2'}
