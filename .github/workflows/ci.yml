@@ -22,7 +22,23 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
+      # Попытаться установить через Poetry (если есть pyproject.toml)
+      - name: Install deps via Poetry (if present)
+        if: hashFiles('pyproject.toml') != ''
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install --no-interaction --no-root
+          # подстраховка: если в зависимостях нет celery — доставим
+          python - <<'PY'
+import pkgutil, sys, subprocess
+sys.exit(0) if pkgutil.find_loader("celery") else subprocess.check_call([sys.executable, "-m", "pip", "install", "celery"])
+PY
+
+      # Иначе — requirements (arb/requirements.txt приоритетнее)
+      - name: Install deps via requirements
+        if: hashFiles('pyproject.toml') == ''
         run: |
           python -m pip install --upgrade pip
           if [ -f arb/requirements.txt ]; then
@@ -30,30 +46,27 @@ jobs:
           elif [ -f requirements.txt ]; then
             pip install -r requirements.txt
           else
-            pip install django
+            pip install django djangorestframework
           fi
+          # подстраховка: celery нужен для импорта arb/arb/__init__.py
+          pip install celery
 
-      - name: Prepare env (optional)
+      - name: Prepare .env (optional)
         run: |
           cp -f .env.example .env 2>/dev/null || true
           echo "DJANGO_SECRET_KEY=test_ci_secret" >> .env
           echo "DEBUG=1" >> .env
 
-      - name: Migrate (SQLite, in-memory)
-        working-directory: arb
-        env:
-          DJANGO_SETTINGS_MODULE: arb.settings
-          DJANGO_DB_ENGINE: sqlite3
-          DJANGO_DB_NAME: ":memory:"
-        run: |
-          python manage.py migrate --noinput
-
+      # Запускаем тесты сразу: Django сам поднимет тестовую БД
       - name: Run tests (only arb/arb/tests.py)
         working-directory: arb
         env:
           DJANGO_SETTINGS_MODULE: arb.settings
+          # не даём Celery стучаться наружу
+          CELERY_BROKER_URL: "memory://"
+          CELERY_RESULT_BACKEND: "cache+memory://"
+          # если в settings читаются кастомные переменные БД — форсим SQLite
           DJANGO_DB_ENGINE: sqlite3
           DJANGO_DB_NAME: ":memory:"
         run: |
-          # Dotted-path на файл tests.py внутри приложения "arb"
           python manage.py test arb.tests --verbosity=2
