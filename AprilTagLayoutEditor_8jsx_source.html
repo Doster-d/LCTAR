@@ -314,8 +314,8 @@ $(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx_source.html'
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keyword">const</span> parsedScenes = Object.entries(data.scenes || {}).reduce(</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>          (acc, [name, desc]) =&gt; {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            acc[name] = <a class="code hl_variable" href="AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc">createEmptyScene</a>(name);</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            acc[name].diameter = Number(desc.diameter) || 1;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            acc[<a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>] = <a class="code hl_variable" href="AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc">createEmptyScene</a>(name);</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            acc[<a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>].diameter = Number(desc.diameter) || 1;</div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keywordflow">return</span> acc;</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>          },</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>          {}</div>
@@ -454,12 +454,12 @@ $(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx_source.html'
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>  <span class="keyword">const</span> handleAddScene = () =&gt; {</div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    let suffix = 1;</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    let name = `scene_${suffix}`;</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    let <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a> = `scene_${suffix}`;</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keywordflow">while</span> (scenes[name]) {</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>      suffix += 1;</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>      name = `scene_${suffix}`;</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>      <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a> = `scene_${suffix}`;</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    }</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    setScenes((prev) =&gt; ({ ...prev, [name]: <a class="code hl_variable" href="AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc">createEmptyScene</a>(name) }));</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    setScenes((prev) =&gt; ({ ...prev, [<a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>]: <a class="code hl_variable" href="AprilTagLayoutEditor_8jsx.html#a788f9a0fb893d641b7dff0040a97b6dc">createEmptyScene</a>(name) }));</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    setSelectedSceneId(name);</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    setSelectedTagId(<span class="keyword">null</span>);</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>  };</div>
@@ -467,7 +467,7 @@ $(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx_source.html'
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  <span class="keyword">const</span> handleRemoveScene = () =&gt; {</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keywordflow">if</span> (!selectedSceneId) <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keyword">const</span> remainingScenes = Object.keys(scenes).filter(</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>      (name) =&gt; name !== selectedSceneId</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>      (name) =&gt; <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a> !== selectedSceneId</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    );</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    <span class="keywordflow">if</span> (remainingScenes.length === 0) <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
@@ -663,7 +663,7 @@ $(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx_source.html'
 <div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>                /&gt;</div>
 <div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>              &lt;/label&gt;</div>
 <div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>              &lt;div style={{ fontSize: <span class="stringliteral">&#39;12px&#39;</span>, color: <span class="stringliteral">&#39;rgba(255,255,255,0.55)&#39;</span> }}&gt;</div>
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>                Fallback offset to anchors is configured per tag in the panel on the right.</div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>                Fallback offset to anchors is configured per tag in the panel <a class="code hl_variable" href="namespacearb_1_1tests.html#a0d0da5b71fcf32b93b72ab19c5dd5502">on</a> the right.</div>
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>              &lt;/div&gt;</div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>            &lt;/div&gt;</div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>          )}</div>
@@ -955,6 +955,8 @@ $(document).ready(function(){initNavTree('AprilTagLayoutEditor_8jsx_source.html'
 <div class="ttc" id="aAprilTagLayoutEditor_8jsx_html_afe45e9600113735f6051eadcf2591db7"><div class="ttname"><a href="AprilTagLayoutEditor_8jsx.html#afe45e9600113735f6051eadcf2591db7">labelStyle</a></div><div class="ttdeci">const labelStyle</div><div class="ttdef"><b>Definition</b> <a href="AprilTagLayoutEditor_8jsx_source.html#l00791">AprilTagLayoutEditor.jsx:791</a></div></div>
 <div class="ttc" id="aLanding_8jsx_html_a58b760244a43fd3b58f21c8a3a38fffa"><div class="ttname"><a href="Landing_8jsx.html#a58b760244a43fd3b58f21c8a3a38fffa">Landing</a></div><div class="ttdeci">const Landing</div><div class="ttdoc">Компонует маркетинговый лендинг.</div><div class="ttdef"><b>Definition</b> <a href="Landing_8jsx_source.html#l00010">Landing.jsx:10</a></div></div>
 <div class="ttc" id="aapriltagPipeline_8jsx_html_a3695532c9bfcab009a47939afd68b89f"><div class="ttname"><a href="apriltagPipeline_8jsx.html#a3695532c9bfcab009a47939afd68b89f">loadConfig</a></div><div class="ttdeci">const loadConfig</div><div class="ttdoc">Загружает конфигурацию пайплайна AprilTag с диска.</div><div class="ttdef"><b>Definition</b> <a href="apriltagPipeline_8jsx_source.html#l00009">apriltagPipeline.jsx:9</a></div></div>
+<div class="ttc" id="anamespacearb_1_1tests_html_a0d0da5b71fcf32b93b72ab19c5dd5502"><div class="ttname"><a href="namespacearb_1_1tests.html#a0d0da5b71fcf32b93b72ab19c5dd5502">arb.tests.on</a></div><div class="ttdeci">on</div><div class="ttdef"><b>Definition</b> <a href="tests_8py_source.html#l00003">tests.py:3</a></div></div>
+<div class="ttc" id="anamespacearb_1_1tests_html_a1eb8eec1a03182cb396ce057db62a54c"><div class="ttname"><a href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">arb.tests.name</a></div><div class="ttdeci">Backend name</div><div class="ttdef"><b>Definition</b> <a href="tests_8py_source.html#l00001">tests.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

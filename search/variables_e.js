@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['parseresponsebody_0',['parseResponseBody',['../api_8js.html#a45f3924ada62882468d4bbe8352f1186',1,'api.js']]],
-  ['pending_5femail_1',['pending_email',['../classarb_1_1models_1_1Session.html#a4bbae36f43f85b5a792b55f41c174275',1,'arb::models::Session']]],
-  ['processed_2',['processed',['../classarb_1_1models_1_1ViewEvent.html#a1836eb77bd9762790d9f5cbe13a32345',1,'arb::models::ViewEvent']]],
-  ['promopopup_3',['PromoPopup',['../PromoPopup_8jsx.html#a2e6b70cbc8a06915adebd73355f442c9',1,'PromoPopup.jsx']]]
+  ['on_0',['on',['../namespacearb_1_1tests.html#a0d0da5b71fcf32b93b72ab19c5dd5502',1,'arb::tests']]],
+  ['operations_1',['operations',['../classarb_1_1migrations_1_10001__initial_1_1Migration.html#afabba2c30d185abefeb831d82e61a1c5',1,'arb.migrations.0001_initial.Migration.operations'],['../classarb_1_1migrations_1_10002__delete__emailverificationtoken_1_1Migration.html#a896e9596f72c8724128836d920525ed3',1,'arb.migrations.0002_delete_emailverificationtoken.Migration.operations']]]
 ];

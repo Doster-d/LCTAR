@@ -146,32 +146,32 @@ $(document).ready(function(){initNavTree('Train_8jsx_source.html',''); initResiz
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="keyword">const</span> trainWheelsNode = nodes[<span class="stringliteral">&#39;Train-Wheels&#39;</span>]</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keyword">const</span> railsNode = nodes.Rails</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  if (!trainBodyNode) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <a class="code hl_variable" href="namespacearb_1_1tests.html#aabb87dbe99c92785bae9929e41028b63">if</a> (!trainBodyNode) {</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    console.error(<span class="stringliteral">&#39;Train model mesh &quot;Train-Mat.2&quot; not found. Available nodes:&#39;</span>, Object.keys(nodes))</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordflow">return</span> (</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    &lt;group ref={group} {...props} dispose={<span class="keyword">null</span>}&gt;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      &lt;group&gt;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        &lt;group name=<span class="stringliteral">&quot;Null&quot;</span>&gt;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>          &lt;group name=<span class="stringliteral">&quot;Train&quot;</span> position={[0.001, 0.26, -9.888]}&gt;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        &lt;group <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>=<span class="stringliteral">&quot;Null&quot;</span>&gt;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>          &lt;group <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>=<span class="stringliteral">&quot;Train&quot;</span> position={[0.001, 0.26, -9.888]}&gt;</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            {trainBodyNode &amp;&amp; (</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>              &lt;mesh</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                name={trainBodyNode.name ?? <span class="stringliteral">&#39;Train-Mat.2&#39;</span>}</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>={trainBodyNode.name ?? <span class="stringliteral">&#39;Train-Mat.2&#39;</span>}</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                geometry={trainBodyNode.geometry}</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                material={materials[<span class="stringliteral">&#39;Mat.2&#39;</span>]}</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>              /&gt;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            )}</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            {trainWagonNode &amp;&amp; (</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>              &lt;mesh</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                name={trainWagonNode.name ?? <span class="stringliteral">&#39;Train-Wagon&#39;</span>}</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>={trainWagonNode.name ?? <span class="stringliteral">&#39;Train-Wagon&#39;</span>}</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                geometry={trainWagonNode.geometry}</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                material={materials.Wagon}</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>              /&gt;</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            )}</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            {trainWheelsNode &amp;&amp; (</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>              &lt;mesh</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                name={trainWheelsNode.name ?? <span class="stringliteral">&#39;Train-Wheels&#39;</span>}</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>={trainWheelsNode.name ?? <span class="stringliteral">&#39;Train-Wheels&#39;</span>}</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                geometry={trainWheelsNode.geometry}</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                material={materials.Wheels}</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>              /&gt;</div>
@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('Train_8jsx_source.html',''); initResiz
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>          &lt;/group&gt;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>          {railsNode &amp;&amp; (</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            &lt;mesh</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>              name={railsNode.name ?? <span class="stringliteral">&#39;Rails&#39;</span>}</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>              <a class="code hl_variable" href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">name</a>={railsNode.name ?? <span class="stringliteral">&#39;Rails&#39;</span>}</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>              geometry={railsNode.geometry}</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>              material={materials[<span class="stringliteral">&#39;Mat.5&#39;</span>]}</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>              position={[-0.001, -0.114, -10.932]}</div>
@@ -192,6 +192,8 @@ $(document).ready(function(){initNavTree('Train_8jsx_source.html',''); initResiz
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>})</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>useGLTF.preload(<span class="stringliteral">&#39;./models/Train-transformed.glb&#39;</span>)</div>
+<div class="ttc" id="anamespacearb_1_1tests_html_a1eb8eec1a03182cb396ce057db62a54c"><div class="ttname"><a href="namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c">arb.tests.name</a></div><div class="ttdeci">Backend name</div><div class="ttdef"><b>Definition</b> <a href="tests_8py_source.html#l00001">tests.py:1</a></div></div>
+<div class="ttc" id="anamespacearb_1_1tests_html_aabb87dbe99c92785bae9929e41028b63"><div class="ttname"><a href="namespacearb_1_1tests.html#aabb87dbe99c92785bae9929e41028b63">arb.tests.if</a></div><div class="ttdeci">hashFiles if</div><div class="ttdef"><b>Definition</b> <a href="tests_8py_source.html#l00027">tests.py:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

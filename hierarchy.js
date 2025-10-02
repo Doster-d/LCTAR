@@ -38,8 +38,5 @@ var hierarchy =
     [ "VideoRecording", "classVideoRecording.html", [
       [ "FrameAccurateVideoRecording", "classFrameAccurateVideoRecording.html", null ],
       [ "RealtimeVideoRecording", "classRealtimeVideoRecording.html", null ]
-    ] ],
-    [ "TestCase", null, [
-      [ "arb.tests.TestMvpApi", "classarb_1_1tests_1_1TestMvpApi.html", null ]
     ] ]
 ];

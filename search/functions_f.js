@@ -1,23 +1,8 @@
 var searchData=
 [
-  ['test_5fprogress_5fendpoints_0',['test_progress_endpoints',['../classarb_1_1tests_1_1TestMvpApi.html#ab024e832e43013ad2a2fdbedae42aead',1,'arb::tests::TestMvpApi']]],
-  ['test_5fpromo_5fendpoint_5fby_5fsession_5fand_5fuser_1',['test_promo_endpoint_by_session_and_user',['../classarb_1_1tests_1_1TestMvpApi.html#a0b49e92a6023fd20934d8779625bdf88',1,'arb::tests::TestMvpApi']]],
-  ['test_5fpromocode_5fissued_5fonce_5fand_5fbound_5fon_5femail_2',['test_promocode_issued_once_and_bound_on_email',['../classarb_1_1tests_1_1TestMvpApi.html#a0acf82fa9691924902b72fdf1d80e863',1,'arb::tests::TestMvpApi']]],
-  ['test_5fsession_5fstart_3',['test_session_start',['../classarb_1_1tests_1_1TestMvpApi.html#a343cfe4d86eed3a57124e390bd2a1f19',1,'arb::tests::TestMvpApi']]],
-  ['test_5fstats_5fbest_5fasset_5fheuristic_4',['test_stats_best_asset_heuristic',['../classarb_1_1tests_1_1TestMvpApi.html#ac54f1458c3b25b62fb2b427636d8bbb7',1,'arb::tests::TestMvpApi']]],
-  ['test_5fstats_5fempty_5',['test_stats_empty',['../classarb_1_1tests_1_1TestMvpApi.html#a3145229cec8ccea6ef32b5aa94ee289f',1,'arb::tests::TestMvpApi']]],
-  ['test_5fstats_5frespects_5ftoday_5fnot_5f24h_6',['test_stats_respects_today_not_24h',['../classarb_1_1tests_1_1TestMvpApi.html#ad75316db2201414758bfd701418fd7ab',1,'arb::tests::TestMvpApi']]],
-  ['test_5fuser_5femail_5fidempotent_5flink_7',['test_user_email_idempotent_link',['../classarb_1_1tests_1_1TestMvpApi.html#a0bfa245725a5d447c977e21e5878faf7',1,'arb::tests::TestMvpApi']]],
-  ['test_5fuser_5femail_5flinks_5fand_5fupdates_5fscore_8',['test_user_email_links_and_updates_score',['../classarb_1_1tests_1_1TestMvpApi.html#a1079f184bc3353ebb658507c02fbb078',1,'arb::tests::TestMvpApi']]],
-  ['test_5fuser_5femail_5fmissing_5fparams_9',['test_user_email_missing_params',['../classarb_1_1tests_1_1TestMvpApi.html#a608f9c65c7fbe5707ee624343a00b1bf',1,'arb::tests::TestMvpApi']]],
-  ['test_5fuser_5funique_5fscoring_5facross_5fsessions_10',['test_user_unique_scoring_across_sessions',['../classarb_1_1tests_1_1TestMvpApi.html#a4f874aa2a9499ce14c9dd135076000d2',1,'arb::tests::TestMvpApi']]],
-  ['test_5fview_5fawards_5fpoints_5fand_5fpromocode_11',['test_view_awards_points_and_promocode',['../classarb_1_1tests_1_1TestMvpApi.html#a3a2032ae0133e342da1e58b746f78528',1,'arb::tests::TestMvpApi']]],
-  ['test_5fview_5fidempotent_5fpoints_5faward_12',['test_view_idempotent_points_award',['../classarb_1_1tests_1_1TestMvpApi.html#a322902e2e07a669b648c27faa53eb0f5',1,'arb::tests::TestMvpApi']]],
-  ['test_5fview_5finvalid_5fids_13',['test_view_invalid_ids',['../classarb_1_1tests_1_1TestMvpApi.html#ae1299334360bacf053590e408604c4d7',1,'arb::tests::TestMvpApi']]],
-  ['test_5fview_5fmissing_5fparams_14',['test_view_missing_params',['../classarb_1_1tests_1_1TestMvpApi.html#a028e89a591d685eb91f8680457684714',1,'arb::tests::TestMvpApi']]],
-  ['time_15',['time',['../classVideoCanvasManager.html#a7183d52e750cb8019c5406ae2ca05b1e',1,'VideoCanvasManager']]],
-  ['toframe_16',['toframe',['../classVideoCanvasManager.html#a4174d00ac12f5e21158535f0dc032e52',1,'VideoCanvasManager::toFrame()'],['../classVideoRecording.html#aa8454633a0353729ea2c3deba1b62307',1,'VideoRecording::toFrame()']]],
-  ['totime_17',['totime',['../classVideoCanvasManager.html#a665ae102438157d5b5437d3a105aff6b',1,'VideoCanvasManager::toTime()'],['../classVideoRecording.html#acbff04ed6f78e2c84285682d7e6e7170',1,'VideoRecording::toTime()']]],
-  ['tovector3_18',['toVector3',['../anchorMath_8js.html#a04e0e3a6ec8cba714a174d9c91b2556e',1,'anchorMath.js']]],
-  ['transformcameratoworld_19',['transformCameraToWorld',['../classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36',1,'CoordinateTransformer']]]
+  ['time_0',['time',['../classVideoCanvasManager.html#a7183d52e750cb8019c5406ae2ca05b1e',1,'VideoCanvasManager']]],
+  ['toframe_1',['toframe',['../classVideoCanvasManager.html#a4174d00ac12f5e21158535f0dc032e52',1,'VideoCanvasManager::toFrame()'],['../classVideoRecording.html#aa8454633a0353729ea2c3deba1b62307',1,'VideoRecording::toFrame()']]],
+  ['totime_2',['totime',['../classVideoCanvasManager.html#a665ae102438157d5b5437d3a105aff6b',1,'VideoCanvasManager::toTime()'],['../classVideoRecording.html#acbff04ed6f78e2c84285682d7e6e7170',1,'VideoRecording::toTime()']]],
+  ['tovector3_3',['toVector3',['../anchorMath_8js.html#a04e0e3a6ec8cba714a174d9c91b2556e',1,'anchorMath.js']]],
+  ['transformcameratoworld_4',['transformCameraToWorld',['../classCoordinateTransformer.html#a37c680aa9cf859e81a77be483afd2a36',1,'CoordinateTransformer']]]
 ];

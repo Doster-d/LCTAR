@@ -51,7 +51,28 @@ var namespacearb =
     [ "tasks", "namespacearb_1_1tasks.html", [
       [ "send_promocode_email", "namespacearb_1_1tasks.html#aa80bdae69cec8c8c3f210bd34ac3f890", null ]
     ] ],
-    [ "tests", "namespacearb_1_1tests.html", "namespacearb_1_1tests" ],
+    [ "tests", "namespacearb_1_1tests.html", [
+      [ "CELERY_BROKER_URL", "namespacearb_1_1tests.html#a19c3d8e107ec2db45a60f08928d89c9e", null ],
+      [ "CELERY_RESULT_BACKEND", "namespacearb_1_1tests.html#a85610b0bb007f36feedbd1cb397957f5", null ],
+      [ "DJANGO_DB_ENGINE", "namespacearb_1_1tests.html#aab01bcc25084d75c8ee4b75c0eb0cc1e", null ],
+      [ "DJANGO_DB_NAME", "namespacearb_1_1tests.html#a276209f607bff383c5f15c7bea3c283c", null ],
+      [ "DJANGO_SETTINGS_MODULE", "namespacearb_1_1tests.html#ae99561e341e8b9dca6111ab0872ac878", null ],
+      [ "env", "namespacearb_1_1tests.html#a13caf026358e9d5e21a42c68ef3a5864", null ],
+      [ "if", "namespacearb_1_1tests.html#aabb87dbe99c92785bae9929e41028b63", null ],
+      [ "jobs", "namespacearb_1_1tests.html#ae9b8794a99e5053894bb7f3903036e0f", null ],
+      [ "name", "namespacearb_1_1tests.html#a1eb8eec1a03182cb396ce057db62a54c", null ],
+      [ "on", "namespacearb_1_1tests.html#a0d0da5b71fcf32b93b72ab19c5dd5502", null ],
+      [ "paths", "namespacearb_1_1tests.html#ab42e49cb091e8b54b97aefca407c1d58", null ],
+      [ "pull_request", "namespacearb_1_1tests.html#ab62f9bcaf074b6b15b0f0a0311c31ddd", null ],
+      [ "push", "namespacearb_1_1tests.html#a4b648153b63e9ceef57b492ee8dbec5f", null ],
+      [ "PYTHONPATH", "namespacearb_1_1tests.html#a5e74b0909100edbbc99fadfd7405276b", null ],
+      [ "run", "namespacearb_1_1tests.html#a4829cd6c8433a8c7206435f08666615d", null ],
+      [ "steps", "namespacearb_1_1tests.html#ab1ea9fd61bfc1e368f0365649fec3bf2", null ],
+      [ "test", "namespacearb_1_1tests.html#afabc2abfe0243320b57e8c51479c5e2b", null ],
+      [ "uses", "namespacearb_1_1tests.html#adee1a1b8f62775423424ddc1a3549b2d", null ],
+      [ "verbosity", "namespacearb_1_1tests.html#a736455efdbe91008cef279f8f4d6175c", null ],
+      [ "with", "namespacearb_1_1tests.html#a11fe855e110c19a6484cc57363301401", null ]
+    ] ],
     [ "urls", "namespacearb_1_1urls.html", [
       [ "urlpatterns", "namespacearb_1_1urls.html#ab5845a6d0cd7d4b0215108b7df37b7e3", null ]
     ] ],
